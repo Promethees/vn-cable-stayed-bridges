@@ -48,6 +48,8 @@ export interface Cable {
   plane: number;
   /** stay on a back span (toward the unit end), for back_stay_colour */
   back: boolean;
+  /** index along the fan, 0 = nearest the pylon (used to thin dense fans for display) */
+  j: number;
   top: Vec3;
   deck: Vec3;
 }
@@ -508,7 +510,7 @@ export function buildBridgeGeometry(
                 const y = yd + H * (lo + (hi - lo) * t);
                 return [p.x, y, shapes[pi].anchorZ(plane, y)] as Vec3;
               })();
-          cablesStation.push({ pylon: pi, side, plane, top, deck: [x, yd, deckZ(plane)], back: isBackSide(p.support, side) });
+          cablesStation.push({ pylon: pi, side, plane, top, deck: [x, yd, deckZ(plane)], back: isBackSide(p.support, side), j });
         }
       }
     }
@@ -688,4 +690,26 @@ export function buildBridgeGeometry(
     derived,
     warnings,
   };
+}
+
+/**
+ * Where to draw a pylon's height dimension (station coordinates, before the plan mapping):
+ * at the station of the pylon's actual tip (custom pylons lean or curve away from their base station),
+ * offset along the bridge by a small gap so the line never reads as part of the pylon.
+ */
+export function heightDimension(g: BridgeGeometry, p: Pylon): { x: number; y0: number; y1: number } {
+  const E = g.deckElevation;
+  let tipX = p.x;
+  if (p.custom && p.sweeps.length) {
+    let best = -Infinity;
+    for (const sw of p.sweeps)
+      for (let i = 0; i < sw.positions.length; i += 3)
+        if (sw.positions[i + 1] > best) {
+          best = sw.positions[i + 1];
+          tipX = sw.positions[i];
+        }
+    // sweeps are already mapped to world; for a curved plan the x difference is negligible at a pylon
+  }
+  const gap = Math.max(8, g.deckWidth * 0.4);
+  return { x: tipX + gap, y0: p.labelRef === 'total' ? 0 : E, y1: E + p.heightAboveDeck };
 }

@@ -6,7 +6,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { CSS2DObject, CSS2DRenderer } from 'three/addons/renderers/CSS2DRenderer.js';
-import type { Box, BridgeGeometry, Member, SweepMesh } from '../lib/bridge3d';
+import { heightDimension, type Box, type BridgeGeometry, type Member, type SweepMesh } from '../lib/bridge3d';
 
 export interface EngineStrings {
   meters: (v: number) => string;
@@ -93,7 +93,7 @@ export class BridgeEngine {
   private home: [THREE.Vector3, THREE.Vector3] = [new THREE.Vector3(), new THREE.Vector3()];
   private panBox = new THREE.Box3();
   private dimSide = 1;
-  private labelEls: { el: HTMLElement; priority: number; span?: [number, number]; pylon?: number; obj?: CSS2DObject }[] = [];
+  private labelEls: { el: HTMLElement; priority: number; span?: [number, number]; pylon?: number; obj?: CSS2DObject; line?: THREE.Object3D }[] = [];
   private resizeObs: ResizeObserver;
   private disposed = false;
   private mats: Record<string, THREE.Material> = {};
@@ -152,7 +152,9 @@ export class BridgeEngine {
   }
 
   setOptions(o: Partial<EngineOptions>) {
+    const fsChanged = o.fullscreen !== undefined && o.fullscreen !== this.opts.fullscreen;
     this.opts = { ...this.opts, ...o };
+    if (fsChanged) this.buildCables();
     this.labelRenderer.domElement.style.display = this.opts.labels ? '' : 'none';
     this.dims.visible = this.opts.labels;
     this.requestRender();
@@ -204,6 +206,7 @@ export class BridgeEngine {
       cable: new THREE.LineBasicMaterial(),
       cableGhost: new THREE.LineDashedMaterial({ dashSize: 4, gapSize: 3 }),
       dim: new THREE.LineBasicMaterial({ transparent: true }),
+      dimDashed: new THREE.LineDashedMaterial({ dashSize: 3, gapSize: 2.5, transparent: true }),
       clearance: new THREE.MeshBasicMaterial({ transparent: true, opacity: 0.12, depthWrite: false, side: THREE.DoubleSide }),
       clearanceEdge: new THREE.LineDashedMaterial({ dashSize: 5, gapSize: 4, transparent: true, opacity: 0.9 }),
     };
@@ -233,10 +236,12 @@ export class BridgeEngine {
     M.cable.color.copy(c('--m3d-cable', '#0E6A87').color);
     M.cableGhost.color.copy(ghost.color);
     M.dim.color.copy(c('--m3d-dim-line', '#56666E').color);
+    (this.mats.dimDashed as THREE.LineDashedMaterial).color.copy(c('--m3d-dim-line', '#56666E').color);
     (this.mats.clearance as THREE.MeshBasicMaterial).color.copy(c('--m3d-cable', '#0E6A87').color);
     (this.mats.clearanceEdge as THREE.LineDashedMaterial).color.copy(c('--m3d-cable', '#0E6A87').color);
     const planned = this.g?.status === 'planned';
     const ghostOpacity = cssNum('--m3d-ghost-opacity', 0.12);
+    if (this.g) this.buildCables(); // picks up the theme's cable colour
     for (const mat of [M.concrete, M.steel, M.traveller, ...this.extraMats.filter((x) => x instanceof THREE.MeshLambertMaterial)]) {
       mat.transparent = planned;
       mat.opacity = planned ? ghostOpacity : 1;
@@ -260,8 +265,12 @@ export class BridgeEngine {
         if (geo) geo.dispose();
       });
     };
+    this.cableGroup.traverse((n) => (n as THREE.LineSegments).geometry?.dispose());
+    this.cableGroup.clear();
+    this.cableMats.forEach((m) => m.dispose());
+    this.cableMats = [];
     for (const child of [...this.root.children]) {
-      if (child === this.dims) continue;
+      if (child === this.dims || child === this.cableGroup) continue;
       disposeTree(child);
       this.root.remove(child);
     }
@@ -345,29 +354,55 @@ export class BridgeEngine {
     g.travellers.forEach((b) => this.box(b, M.traveller));
     void E;
 
-    // stay cables: 1px LineSegments; back-stays may have their own colour
+    this.buildCables();
+
+    this.buildDims();
+  }
+
+  private cableGroup = new THREE.Group();
+
+  /**
+   * Stay cables as 1px LineSegments; back-stays may have their own colour. In the small card viewport a dense
+   * fan (Cần Thơ: 23 per side) merges into a solid sheet, so at most CARD_MAX_PER_SIDE are drawn per side
+   * (always keeping the outermost) at slightly reduced opacity; full screen shows every stay.
+   */
+  private buildCables() {
+    const g = this.g;
+    if (!g) return;
+    this.cableGroup.traverse((n) => (n as THREE.LineSegments).geometry?.dispose());
+    this.cableGroup.clear();
+    this.cableMats.forEach((m) => m.dispose());
+    this.cableMats = [];
+    this.root.add(this.cableGroup);
+    const M = this.mats;
     const planned = g.status === 'planned';
+    const CARD_MAX_PER_SIDE = 12;
+    const thin = !this.opts.fullscreen && g.cablesPerSide > CARD_MAX_PER_SIDE;
+    const step = thin ? Math.ceil(g.cablesPerSide / CARD_MAX_PER_SIDE) : 1;
+    const shown = g.cables.filter((c) => c.j % step === 0 || c.j === g.cablesPerSide - 1);
+    const opacity = this.opts.fullscreen ? 1 : 0.8;
     const lineMat = (colour?: string) => {
-      if (planned) return M.cableGhost;
-      if (!colour) return M.cable;
-      const mat = new THREE.LineBasicMaterial({ color: mutedColour(colour) });
-      this.extraMats.push(mat);
+      const base = planned ? M.cableGhost : M.cable;
+      const mat = (base as THREE.LineBasicMaterial).clone();
+      if (colour && !planned) mat.color = mutedColour(colour);
+      mat.transparent = opacity < 1;
+      mat.opacity = opacity;
+      this.cableMats.push(mat);
       return mat;
     };
     for (const back of [false, true]) {
-      const list = g.cables.filter((c) => c.back === back);
+      const list = shown.filter((c) => c.back === back);
       if (!list.length) continue;
       const pos = new Float32Array(list.length * 6);
       list.forEach((c, i) => pos.set([...c.top, ...c.deck], i * 6));
       const cg = new THREE.BufferGeometry();
       cg.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-      const cables = new THREE.LineSegments(cg, lineMat(back ? g.colours.backStay : g.colours.stay));
-      if (planned) cables.computeLineDistances();
-      this.root.add(cables);
+      const lines = new THREE.LineSegments(cg, lineMat(back ? g.colours.backStay : g.colours.stay));
+      if (planned) lines.computeLineDistances();
+      this.cableGroup.add(lines);
     }
-
-    this.buildDims();
   }
+  private cableMats: THREE.Material[] = [];
 
   /** Dimension lines + CSS2D labels on the camera-facing side (§5). */
   private buildDims() {
@@ -400,13 +435,18 @@ export class BridgeEngine {
       void i;
     });
 
-    // pylon heights: a vertical line beside each pylon
+    // pylon heights: a dashed vertical dimension beside each pylon's tip. Each line is its own object and is
+    // shown only together with its label, so a decluttered label never leaves an orphan line (which read as
+    // a pole next to custom pylons).
     const sameHeight = new Set(g.pylons.map((p) => Math.round(p.labelHeight))).size === 1;
     g.pylons.forEach((p) => {
-      const y0 = p.labelRef === 'total' ? 0 : E;
-      const y1 = E + p.heightAboveDeck;
-      const x = p.x + Math.max(8, g.deckWidth * 0.4);
-      pts.push(...P(x, y0, z), ...P(x, y1, z), ...P(x - 3, y1, z), ...P(x + 3, y1, z), ...P(x - 3, y0, z), ...P(x + 3, y0, z));
+      const { x, y0, y1 } = heightDimension(g, p);
+      const lp = [...P(x, y0, z), ...P(x, y1, z), ...P(x - 3, y1, z), ...P(x + 3, y1, z), ...P(x - 3, y0, z), ...P(x + 3, y0, z)];
+      const lg = new THREE.BufferGeometry();
+      lg.setAttribute('position', new THREE.Float32BufferAttribute(lp, 3));
+      const line = new THREE.LineSegments(lg, this.mats.dimDashed);
+      line.computeLineDistances();
+      this.dims.add(line);
       const el = document.createElement('span');
       el.className = 'm3d-label is-height';
       el.innerHTML = `<b>${S.heightLabel(S.meters(p.labelHeight))}</b><small>${p.labelRef === 'total' ? S.total : S.aboveDeck}</small>`;
@@ -414,7 +454,7 @@ export class BridgeEngine {
       o.position.set(...P(x, (y0 + y1) / 2, z));
       o.center.set(-0.08, 0.5);
       this.dims.add(o);
-      this.labelEls.push({ el, priority: 1, pylon: sameHeight ? p.index : -1, obj: o });
+      this.labelEls.push({ el, priority: 1, pylon: sameHeight ? p.index : -1, obj: o, line });
     });
 
     // navigation clearance envelope (tĩnh không): translucent box + dashed outline + label
@@ -646,6 +686,7 @@ export class BridgeEngine {
         else shown.push(r);
       }
       l.el.style.opacity = visible ? '1' : '0';
+      if (l.line) l.line.visible = visible;
     }
   }
 }
