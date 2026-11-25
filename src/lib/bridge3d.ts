@@ -46,6 +46,8 @@ export interface Cable {
   pylon: number;
   side: -1 | 1;
   plane: number;
+  /** stay on a back span (toward the unit end), for back_stay_colour */
+  back: boolean;
   top: Vec3;
   deck: Vec3;
 }
@@ -86,6 +88,8 @@ export interface BridgeGeometry {
   deckSegments: { x0: number; x1: number }[];
   /** deck boxes in world coordinates (many short pieces when curved in plan) */
   deckPieces: Box[];
+  /** continuous deck meshes when the deck is curved in plan or cambered (used instead of the pieces) */
+  deckMeshes: SweepMesh[];
   /** form travellers at cantilever tips (under construction only) */
   travellers: Box[];
   approaches: Box[];
@@ -107,6 +111,11 @@ export interface BridgeGeometry {
   /** heading (yaw) of the deck at station x */
   yawAt: (x: number) => number;
   clearance?: Clearance;
+  /** auxiliary pier positions along the unit (station x) */
+  auxiliaryPiers: number[];
+  /** deck surface height at station x (includes the crest) */
+  deckY: (x: number) => number;
+  colours: { pylon?: string; stay?: string; backStay?: string; deck?: string };
   /** world bounds of the stay-cabled unit (no approaches) */
   bounds: { min: Vec3; max: Vec3 };
   /** values derived because the data did not give them */
@@ -294,11 +303,34 @@ export function buildBridgeGeometry(
   const isPylonSupport = new Set(supports);
 
   // reach of the stays on each side of a support (§2)
-  const reach = (support: number, side: -1 | 1) => {
-    const spanIdx = side < 0 ? support : support + 1;
-    const neighbour = side < 0 ? support - 1 : support + 1;
-    return isPylonSupport.has(neighbour) ? spans[spanIdx] / 2 : 0.95 * spans[spanIdx];
+  /** next pylon support in a direction, or undefined when the stays run to the unit end */
+  const nextPylon = (support: number, side: -1 | 1) => {
+    for (let s2 = support + side; s2 >= 0 && s2 < spans.length - 1; s2 += side) if (isPylonSupport.has(s2)) return s2;
+    return undefined;
   };
+  // stays reach mid-way to the next pylon, or 95% of the way to the unit end (across auxiliary piers)
+  const reach = (support: number, side: -1 | 1) => {
+    const x = edges[support + 1];
+    const n = nextPylon(support, side);
+    if (n !== undefined) return Math.abs(edges[n + 1] - x) / 2;
+    return 0.95 * (side < 0 ? x : totalLength - x);
+  };
+  /** true when this side of the pylon is a back span (toward the unit end, not a main span) */
+  const isBackSide = (support: number, side: -1 | 1) =>
+    nextPylon(support, side) === undefined && !main[side < 0 ? support : support + 1];
+
+  // auxiliary piers: explicit positions plus interior supports that carry no pylon
+  const auxiliaryPiers = [
+    ...new Set(
+      [
+        ...(m.auxiliary_piers_m ?? []),
+        ...edges.slice(1, -1).filter((_, s2) => !isPylonSupport.has(s2)),
+      ]
+        .filter((a) => a > 0 && a < totalLength)
+        .map((a) => Math.round(a * 1000) / 1000),
+    ),
+  ].sort((a, b) => a - b);
+  const AUX_SNAP = 4;
 
   // ---- custom pylons (pylon_custom): swept legs in the pylon-local frame ----
   const custom = m.pylon_custom;
@@ -310,17 +342,52 @@ export function buildBridgeGeometry(
     if (!custom) return null;
     const dir = custom.mirror_for_other_pylons === false && index > 0 ? towardMain(supports[0], edges[supports[0] + 1]) : towardMain(support, x);
     const toStation = ([lx, ly, lz]: Vec3): Vec3 => [x + dir * lx, E + ly, lz];
-    return custom.legs.map((leg) => {
-      const pl = polyline(catmullRom(leg.centerline.map(toStation), 12));
+    // legs whose tips meet (within 1.5 m) form a crown
+    const tips = custom.legs.map((l) => l.centerline[l.centerline.length - 1]);
+    const merging = custom.legs.map((_, i) =>
+      tips.some((t, j) => j !== i && Math.hypot(t[0] - tips[i][0], t[1] - tips[i][1], t[2] - tips[i][2]) < 1.5),
+    );
+    const crown = custom.crown ?? 'pointed';
+    const crownMembers: Member[] = [];
+    const flatCuts: Vec3[] = [];
+    const legs = custom.legs.map((leg, li) => {
+      let pts = leg.centerline.map(toStation);
+      const A = pts[pts.length - 1];
+      const P = pts[pts.length - 2];
+      let phantom: Vec3 | undefined;
+      if (merging[li] && crown === 'rounded') {
+        // rounded crown: a shoulder point just below the apex plus a horizontal end tangent
+        // (phantom mirrored across the apex) turn the meeting legs into a smooth arch
+        const dz = P[2] - A[2];
+        const r = Math.max(1.5, 0.45 * Math.abs(dz));
+        const shoulder: Vec3 = [A[0] + (P[0] - A[0]) * 0.15, A[1] - 0.35 * r, A[2] + Math.sign(dz || 1) * r];
+        pts = [...pts.slice(0, -1), shoulder, A];
+        phantom = [shoulder[0], shoulder[1], 2 * A[2] - shoulder[2]];
+      }
+      let pl = polyline(catmullRom(pts, 12, phantom));
+      if (merging[li] && crown === 'flat') {
+        // flat crown: stop the leg below the apex; a head beam joins the cut ends
+        const cutY = A[1] - 0.08 * (A[1] - pts[0][1]);
+        const sCut = arcAtY(pl, cutY);
+        const kept = pl.pts.filter((_, k) => pl.s[k] < sCut);
+        const end = pointAt(pl, sCut);
+        pl = polyline([...kept, end]);
+        flatCuts.push(end);
+      }
       const mesh = sweepRect(
         pl,
         leg.width_base_m,
         leg.width_top_m,
         leg.depth_base_m ?? leg.width_base_m,
         leg.depth_top_m ?? leg.width_top_m,
+        leg.twist_deg ?? 0,
       );
       return { pl, mesh, w0: leg.width_base_m, w1: leg.width_top_m };
     });
+    for (let k = 0; k + 1 < flatCuts.length; k++)
+      crownMembers.push({ a: flatCuts[k], b: flatCuts[k + 1], size: Math.max(1.5, legs[0].w1) });
+    const struts: Member[] = (custom.struts ?? []).map((st) => ({ a: toStation(st.a), b: toStation(st.b), size: st.width }));
+    return Object.assign(legs, { extra: [...crownMembers, ...struts] });
   };
 
   const pylons: Pylon[] = supports.map((support, i) => {
@@ -336,6 +403,7 @@ export function buildBridgeGeometry(
           const b = pointAt(legs[k + 1].pl, arcAtY(legs[k + 1].pl, E + y));
           members.push({ a, b, size: Math.max(1.5, legs[k].w1 * 0.8) });
         }
+      members.push(...legs.extra);
       return { index: i, x, support, heightAboveDeck: tip, labelHeight: tip, labelRef: 'above_deck' as const, members, sweeps: legs.map((l) => l.mesh), custom: true };
     }
     const adjMain = Math.max(main[support] ? spans[support] : 0, main[support + 1] ? spans[support + 1] : 0) || mainSpan;
@@ -362,14 +430,9 @@ export function buildBridgeGeometry(
   const shapes = pylons.map((p) => buildPylon(m.pylon_shape, p.x, hw, E, E + p.heightAboveDeck, planes));
   const legCurves = pylons.map((p, i) => customLegs(p.support, p.x, i));
 
-  // piers at abutments and non-pylon supports: box columns 0.6 × deck width across
+  // piers at the abutments and at every auxiliary pier (built in world coordinates further down)
   const pierT = clamp(mainSpan / 100, 2, 5);
-  const pierBoxes: Box[] = [];
-  for (let s = -1; s < spans.length; s++) {
-    if (isPylonSupport.has(s)) continue;
-    const h = E - deckDepth;
-    pierBoxes.push({ c: [edges[s + 1], h / 2, 0], s: [pierT, h, 0.6 * W] });
-  }
+  const pierXs = [0, ...auxiliaryPiers, totalLength];
 
   // deck: complete, or balanced cantilevers to 60% of each reach (under construction)
   let deckSegments: { x0: number; x1: number }[] = [{ x0: 0, x1: totalLength }];
@@ -431,7 +494,12 @@ export function buildBridgeGeometry(
       for (let plane = 0; plane < planes; plane++) {
         for (let j = 0; j < perSide; j++) {
           const t = perSide === 1 ? 1 : j / (perSide - 1); // 0 = nearest the pylon
-          const x = p.x + side * r * (f0 + (f1 - f0) * t);
+          let x = p.x + side * r * (f0 + (f1 - f0) * t);
+          // back-span anchors close to an auxiliary pier sit on it (the pier takes the back-stay force)
+          if (isBackSide(p.support, side)) {
+            const near = auxiliaryPiers.find((a) => Math.abs(a - x) < AUX_SNAP && Math.sign(a - p.x) === side);
+            if (near !== undefined) x = near;
+          }
           if (!onBuiltDeck(x)) continue;
           // outer stays anchor highest (no crossing); fan: all at one point
           const top: Vec3 = p.custom
@@ -440,7 +508,7 @@ export function buildBridgeGeometry(
                 const y = yd + H * (lo + (hi - lo) * t);
                 return [p.x, y, shapes[pi].anchorZ(plane, y)] as Vec3;
               })();
-          cablesStation.push({ pylon: pi, side, plane, top, deck: [x, yd, deckZ(plane)] });
+          cablesStation.push({ pylon: pi, side, plane, top, deck: [x, yd, deckZ(plane)], back: isBackSide(p.support, side) });
         }
       }
     }
@@ -465,31 +533,78 @@ export function buildBridgeGeometry(
 
   // ---- plan curvature: map straight station coordinates onto a horizontal arc ----
   const R = m.deck_plan_radius_m && m.deck_plan_radius_m > totalLength / Math.PI ? m.deck_plan_radius_m : undefined;
+  // vertical curve: the deck rises by deck_crest_m at mid-unit (parabola, 0 at the unit ends).
+  // Folded into the mapping, scaled by height so the footings stay in the water and the deck follows it.
+  const crest = m.deck_crest_m ?? 0;
+  const crestAt = (x: number) => (crest && x > 0 && x < totalLength ? crest * (1 - ((x - centre) / centre) ** 2) : 0);
+  const crestSlope = (x: number) => (crest && x > 0 && x < totalLength ? (-2 * crest * (x - centre)) / centre ** 2 : 0);
   const plan = (x: number, y: number, z: number): Vec3 => {
-    if (!R) return [x, y, z];
+    const yy = y + crestAt(x) * Math.min(1, Math.max(0, y / E));
+    if (!R) return [x, yy, z];
     const th = (x - centre) / R;
-    return [centre + (R - z) * Math.sin(th), y, R - (R - z) * Math.cos(th)];
+    return [centre + (R - z) * Math.sin(th), yy, R - (R - z) * Math.cos(th)];
   };
+  /** deck surface height at station x */
+  const deckY = (x: number) => E + crestAt(x);
   const yawAt = (x: number) => (R ? -(x - centre) / R : 0);
   const mapV = (v: Vec3) => plan(v[0], v[1], v[2]);
   const mapBox = (b: Box): Box => ({ ...b, c: mapV(b.c), yaw: (b.yaw ?? 0) + yawAt(b.c[0]) });
 
   const deckPieces: Box[] = [];
-  const pieceLen = R ? 20 : Infinity;
+  const pieceLen = R || crest ? 20 : Infinity;
   for (const seg of deckSegments) {
     const n = Math.max(1, Math.ceil((seg.x1 - seg.x0) / pieceLen));
     const L = (seg.x1 - seg.x0) / n;
     for (let k = 0; k < n; k++) {
       const x = seg.x0 + (k + 0.5) * L;
       // a hair longer than the arc piece so curved joints close
-      deckPieces.push(mapBox({ c: [x, E - deckDepth / 2, 0], s: [L + (R ? 0.3 : 0), deckDepth, W] }));
+      const piece = mapBox({ c: [x, E - deckDepth / 2, 0], s: [L + (R || crest ? 0.3 : 0), deckDepth, W] });
+      piece.c[1] = deckY(x) - deckDepth / 2;
+      if (crest) piece.pitch = Math.atan(crestSlope(x));
+      deckPieces.push(piece);
     }
   }
+  // continuous deck meshes for curved / cambered decks (box pieces would show an outline every 20 m)
+  const deckMeshes: SweepMesh[] = [];
+  if (R || crest)
+    for (const seg of deckSegments) {
+      const n = Math.max(2, Math.ceil((seg.x1 - seg.x0) / 10));
+      const positions: number[] = [];
+      const indices: number[] = [];
+      for (let k = 0; k <= n; k++) {
+        const x = seg.x0 + ((seg.x1 - seg.x0) * k) / n;
+        const yTop = deckY(x);
+        // ring: bottom-left, bottom-right, top-right, top-left (z from -hw to +hw)
+        for (const [y, z] of [
+          [yTop - deckDepth, -hw],
+          [yTop - deckDepth, hw],
+          [yTop, hw],
+          [yTop, -hw],
+        ] as const) {
+          const p = plan(x, E, z);
+          positions.push(p[0], y, p[2]);
+        }
+      }
+      for (let i = 0; i < n; i++)
+        for (let k = 0; k < 4; k++) {
+          const a0 = i * 4 + k;
+          const b0 = i * 4 + ((k + 1) % 4);
+          indices.push(a0, b0, (i + 1) * 4 + ((k + 1) % 4), a0, (i + 1) * 4 + ((k + 1) % 4), (i + 1) * 4 + k);
+        }
+      const last = n * 4;
+      indices.push(0, 2, 1, 0, 3, 2, last, last + 1, last + 2, last, last + 2, last + 3);
+      deckMeshes.push({ positions, indices });
+    }
   const pitch = Math.atan2(E - bankH, A);
   const approaches: Box[] = [
     mapBox({ c: [-A / 2, (E + bankH) / 2 - deckDepth / 2, 0], s: [Math.hypot(A, E - bankH), deckDepth, W], pitch }),
     mapBox({ c: [totalLength + A / 2, (E + bankH) / 2 - deckDepth / 2, 0], s: [Math.hypot(A, E - bankH), deckDepth, W], pitch: -pitch }),
   ];
+  const piers: Box[] = pierXs.map((px) => {
+    const h = deckY(px) - deckDepth;
+    const c = plan(px, 0, 0);
+    return { c: [c[0], h / 2, c[2]], s: [pierT, h, 0.6 * W], yaw: yawAt(px) };
+  });
   const banks: Box[] = [
     mapBox({ c: [-bankL / 2, bankH / 2, 0], s: [bankL, bankH, 3 * W] }),
     mapBox({ c: [totalLength + bankL / 2, bankH / 2, 0], s: [bankL, bankH, 3 * W] }),
@@ -510,10 +625,11 @@ export function buildBridgeGeometry(
   const cables = cablesStation.map((c) => ({ ...c, top: mapV(c.top), deck: mapV(c.deck) }));
   const clearance: Clearance | undefined = clearanceStation && {
     ...clearanceStation,
-    box: mapBox({
-      c: [(clearanceStation.x0 + clearanceStation.x1) / 2, clearanceStation.height / 2, 0],
-      s: [clearanceStation.width, clearanceStation.height, W + 20],
-    }),
+    box: (() => {
+      const mid = (clearanceStation.x0 + clearanceStation.x1) / 2;
+      const c = plan(mid, 0, 0);
+      return { c: [c[0], clearanceStation.height / 2, c[2]] as Vec3, s: [clearanceStation.width, clearanceStation.height, W + 20] as Vec3, yaw: yawAt(mid) };
+    })(),
     // mid-height inside the envelope, clear of the main-span label on the deck
     labelAt: plan((clearanceStation.x0 + clearanceStation.x1) / 2, clearanceStation.height * 0.45, 0),
   };
@@ -542,11 +658,20 @@ export function buildBridgeGeometry(
     deckWidth: W,
     deckSegments,
     deckPieces,
+    deckMeshes,
     travellers: travellerBoxes.map(mapBox),
     approaches,
     banks,
     pylons,
-    piers: pierBoxes.map(mapBox),
+    piers,
+    auxiliaryPiers,
+    deckY,
+    colours: {
+      pylon: m.pylon_colour,
+      stay: m.stay_colour,
+      backStay: m.back_stay_colour ?? m.stay_colour,
+      deck: m.deck_colour,
+    },
     cables,
     cablesPerSide: perSide,
     planes,

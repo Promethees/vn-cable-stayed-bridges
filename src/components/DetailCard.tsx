@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import type { Bridge } from '../types';
-import { visibleFields, type FieldDef } from '../lib/fields';
+import { localizedText, visibleFields, type FieldDef } from '../lib/fields';
 import { googleMapsUrl, osmUrl } from '../lib/geo';
 import { fmtClearance, fmtMeters, fmtNum, STRINGS, STRUCTURE_LABEL, type Lang } from '../lib/i18n';
 import { primaryProvince } from '../lib/provinces';
@@ -17,6 +17,7 @@ const hostOf = (url: string) => {
 };
 
 function FieldValue({ f, b, lang }: { f: FieldDef; b: Bridge; lang: Lang }) {
+  if (f.format === 'localized') return <>{localizedText(b, lang)}</>;
   const v = b[f.key];
   if (f.format === 'roadChips' && Array.isArray(v))
     return (

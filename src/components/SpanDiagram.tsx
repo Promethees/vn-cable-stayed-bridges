@@ -17,6 +17,9 @@ export function SpanDiagram({ bridge, lang, className }: { bridge: Bridge; lang:
   const { mainStart, mainEnd } = layoutSpans(spans, bridge.cable_stayed_spans ?? 1);
   const total = spans.reduce((a, b) => a + b, 0);
   const sx = (m: number) => (m / total) * VB_W;
+  // auxiliary piers (model3d.auxiliary_piers_m, measured from the unit start) when the diagram uses model3d spans
+  const usesModelSpans = !!bridge.model3d?.spans_m && bridge.model3d.spans_m.length >= 2;
+  const aux = usesModelSpans ? (bridge.model3d?.auxiliary_piers_m ?? []).filter((a) => a > 0 && a < total) : [];
   const edges = spans.reduce<number[]>((acc, s) => [...acc, acc[acc.length - 1] + s], [0]);
   const mainLen = Math.max(...spans.slice(mainStart, mainEnd + 1));
   const pylonH = Math.max(18, Math.min(DECK_Y - 4, 0.28 * mainLen * (ASSUMED_PX_W / total)));
@@ -77,6 +80,9 @@ export function SpanDiagram({ bridge, lang, className }: { bridge: Bridge; lang:
           {cables}
           {pylonIdx.map((pi) => (
             <line key={pi} x1={sx(edges[pi])} x2={sx(edges[pi])} y1={DECK_Y - pylonH} y2={H - 6} className="sd-pylon" {...ve} />
+          ))}
+          {aux.map((a) => (
+            <line key={`aux${a}`} x1={sx(a)} x2={sx(a)} y1={DECK_Y} y2={DECK_Y + 14} className="sd-pier sd-aux" {...ve} />
           ))}
           {edges.map((e, i) => (
             <line key={`p${i}`} x1={sx(e)} x2={sx(e)} y1={DECK_Y} y2={DECK_Y + 10} className="sd-pier" {...ve} />

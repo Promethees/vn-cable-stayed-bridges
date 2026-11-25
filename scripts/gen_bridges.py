@@ -625,9 +625,9 @@ PYLON = {
          "width_base_m": 6.0, "width_top_m": 4.5, "depth_base_m": 8.0, "depth_top_m": 6.0},
         # upper blades start at the merge point (legs may start above the deck)
         {"centerline": [[0.6, 65, -5.5], [0.4, 110, -5.5], [-0.6, 170, -5.5]],
-         "width_base_m": 8.5, "width_top_m": 7.5, "depth_base_m": 12.75, "depth_top_m": 10.0},
+         "width_base_m": 8.5, "width_top_m": 7.5, "depth_base_m": 12.75, "depth_top_m": 10.0, "twist_deg": 18},
         {"centerline": [[-0.6, 65, 5.5], [-0.4, 105, 5.5], [0.6, 155, 5.5]],
-         "width_base_m": 8.5, "width_top_m": 7.5, "depth_base_m": 12.75, "depth_top_m": 10.0},
+         "width_base_m": 8.5, "width_top_m": 7.5, "depth_base_m": 12.75, "depth_top_m": 10.0, "twist_deg": -18},
     ],
     "anchor_zone": [{"y_from_m": 94, "y_to_m": 167, "leg": 2}, {"y_from_m": 94, "y_to_m": 152, "leg": 3}],
     "mirror_for_other_pylons": True,
@@ -706,6 +706,39 @@ DROP_IMAGES = {
     "cau-nhat-tan": ["Cau_Nhat_Tan%2C_Ha_Noi%2C_VN_02.jpg", "Cau_Nhat_Tan,_Ha_Noi,_VN_02.jpg"],                       # shows only the roadway
 }
 
+# ---------------- PHASE 6: fields the schema could not express before (shape review "can't express yet") ----------------
+# Colours are rendered muted in 3D. Sources: research/shapes/<id>.json "colour" and model3d.notes.
+PHASE6 = {
+    "cau-bai-chay": {"stay_colour": "yellow", "deck_crest_m": 8.0},          # crest estimated from side photos
+    "cau-my-thuan": {"deck_crest_m": 6.0},                                   # vertical crest noted in the review; rise estimated
+    "cau-bach-dang": {"stay_colour": "orange"},
+    "cau-rach-mieu": {"stay_colour": "orange"},
+    "cau-tran-thi-ly": {"pylon_colour": "white", "stay_colour": "white", "back_stay_colour": "red"},
+    "cau-may-chai": {
+        "pylon_colour": "yellow", "deck_colour": "red", "stay_colour": "white",
+        "pylon_custom": {
+            # curved splayed 'wing' feet: narrow at the pier, sweeping outward below the deck, then up into the arch
+            "legs_override": {
+                0: [[-1, -30, -7], [-6, -18, -15], [0, 10, -12.5], [6, 35, -9], [11, 55, -4], [13, 64, 0]],
+                1: [[-1, -30, 7], [-6, -18, 15], [0, 10, 12.5], [6, 35, 9], [11, 55, 4], [13, 64, 0]],
+            },
+            # strut reaching out under the side-span deck from each foot (local -x = away from the main span)
+            "struts": [{"a": [-5, -20, -14], "b": [-38, -3, -9], "width": 2.0},
+                       {"a": [-5, -20, 14], "b": [-38, -3, 9], "width": 2.0}],
+        },
+    },
+    "cau-dai-ngai-1": {"stay_colour": "red"},
+    "cau-cua-hoi": {"pylon_colour": "white", "stay_colour": "red"},
+    "cau-ben-rung": {"pylon_colour": "white", "stay_colour": "red"},        # white blades, red inner face, red stays
+    "cau-hoa-son": {"pylon_colour": "white", "stay_colour": "red"},         # "red and white" render; split assumed
+    "cau-thuan-an": {"pylon_colour": "white", "stay_colour": "red"},
+    "cau-can-tho": {"auxiliary_piers_m": [40, 80, 930, 970]},                # 2×40 m end spans each side
+    "cau-rach-mieu-2": {"auxiliary_piers_m": [60, 460]},                     # ≈60 m from each end pier (estimated)
+    "cau-ba-son": {"pylon_custom": {"crown": "rounded"}},
+    "cau-cat-lai": {"pylon_custom": {"crown": "rounded"}},
+    "cau-phuoc-an": {"pylon_custom": {"crown": "rounded"}},
+}
+
 # ---------------- MERGE images + model3d into each bridge ----------------
 for b in B:
     bid = b["id"]
@@ -746,6 +779,20 @@ for b in B:
     if bid == "cau-tu-lien":
         b["pylons"] = "2 tháp chân kim cương, tách hai lưỡi xoắn phía trên, cao ≈185 m"
         b["pylons_en"] = "2 diamond-foot pylons splitting into two twisted blades, ≈185 m"
+    if bid in PHASE6:
+        ov = PHASE6[bid]
+        m = b["model3d"]
+        for k, v in ov.items():
+            if k == "pylon_custom":
+                assert "pylon_custom" in m, bid
+                for kk, vv in v.items():
+                    if kk == "legs_override":
+                        for li, cl in vv.items():
+                            m["pylon_custom"]["legs"][li]["centerline"] = cl
+                    else:
+                        m["pylon_custom"][kk] = vv
+            else:
+                m[k] = v
     for frag in DROP_IMAGES.get(bid, []):
         b["images"] = [im for im in b["images"] if frag not in im["url"] and frag not in im["source"]]
     assert b["images"], f"{bid}: no image after drop"

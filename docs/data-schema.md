@@ -32,7 +32,8 @@ interface Bridge {
   lanes?: number;
   cable_stayed_spans?: number;   // number of cable-stayed main spans (1 = classic)
   span_arrangement?: string;     // e.g. "150 + 350 + 150 m"
-  pylons?: string;               // count / shape / height
+  pylons?: string;               // count / shape / height (Vietnamese; shown in VI mode)
+  pylons_en?: string;            // English version (EN mode; each falls back to the other)
   investor?: string;
   cost?: string;
   nav_clearance?: {              // tĩnh không thông thuyền
@@ -66,6 +67,12 @@ interface Model3D {
   approach_length_m?: number;    // approaches each side, for context
   extradosed?: boolean;          // low pylons, short stays
   deck_plan_radius_m?: number;   // horizontal curve radius of the deck (omit if straight)
+  deck_crest_m?: number;         // vertical curve: deck rise at mid-unit (parabola, 0 at the unit ends)
+  auxiliary_piers_m?: number[];  // auxiliary piers, distances from the unit start (back-stays may anchor over them)
+  pylon_colour?: string;         // "#rrggbb" or a named colour: white grey red orange yellow green blue purple brown black
+  stay_colour?: string;          //   (all colours are rendered muted, study-model style)
+  back_stay_colour?: string;     // back-span stays; defaults to stay_colour
+  deck_colour?: string;
   pylon_custom?: PylonCustom;    // for curved / leaning / sculptural pylons (Ba Son, Tứ Liên, Cần Giờ...)
   confidence: "verified" | "estimated";
   notes?: string;
@@ -82,8 +89,11 @@ interface PylonCustom {
                                            // Usually starts at the footing (below deck); a leg may also start at a given
                                            // point above the deck, e.g. twin blades rising from a merge point (Tứ Liên).
     width_base_m: number; width_top_m: number; depth_base_m?: number; depth_top_m?: number;
+    twist_deg?: number;                    // rotate the section about the centreline, 0 at the start → twist_deg at the tip
   }[];
   crossbeams_y_m?: number[];               // heights of cross-beams between legs
+  crown?: "pointed" | "rounded" | "flat";  // legs whose tips meet: sharp apex (default), smooth arch, or a flat head beam
+  struts?: { a: [number, number, number]; b: [number, number, number]; width: number }[]; // extra straight members
   anchor_zone: { y_from_m: number; y_to_m: number; leg: number }[]; // where stays attach on each leg
   mirror_for_other_pylons?: boolean;       // multi-pylon bridges: reuse mirrored
   reference_images?: string[];             // URLs used to derive the shape

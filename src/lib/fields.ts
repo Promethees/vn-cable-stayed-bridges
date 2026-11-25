@@ -1,7 +1,7 @@
 import type { Bridge } from '../types';
 import type { L10n } from './i18n';
 
-export type FieldFormat = 'text' | 'meters' | 'roadChips' | 'list' | 'clearance';
+export type FieldFormat = 'text' | 'meters' | 'roadChips' | 'list' | 'clearance' | 'localized';
 
 export interface FieldDef {
   key: keyof Bridge & string;
@@ -30,7 +30,7 @@ export const FIELDS: FieldDef[] = [
     showIf: (v) => typeof v === 'number' && v > 1,
   },
   { key: 'span_arrangement', label: { vi: 'Sơ đồ nhịp', en: 'Span arrangement' } },
-  { key: 'pylons', label: { vi: 'Tháp cầu', en: 'Pylons' } },
+  { key: 'pylons', label: { vi: 'Tháp cầu', en: 'Pylons' }, format: 'localized', showIf: (_, b) => !!(b.pylons || b.pylons_en) },
   {
     key: 'nav_clearance',
     label: { vi: 'Tĩnh không thông thuyền', en: 'Navigation clearance' },
@@ -47,4 +47,9 @@ export const isPresent = (v: unknown) =>
 
 export function visibleFields(b: Bridge): FieldDef[] {
   return FIELDS.filter((f) => (f.showIf ?? isPresent)(b[f.key], b));
+}
+
+/** VI text in VI mode, the *_en variant in EN mode, each falling back to the other. */
+export function localizedText(b: { pylons?: string; pylons_en?: string }, lang: 'vi' | 'en'): string | undefined {
+  return lang === 'en' ? (b.pylons_en ?? b.pylons) : (b.pylons ?? b.pylons_en);
 }

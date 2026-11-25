@@ -56,7 +56,7 @@ describe('buildBridgeGeometry', () => {
     for (const c of g.cables) expect(set.has(key(g.totalLength - c.deck[0], c.top[1], c.deck[2]))).toBe(true);
   });
 
-  it('deck anchors stay inside the adjacent span, on the right side, before mid-span between pylons', () => {
+  it('deck anchors stay between the pylon and the next pylon / unit end, before mid-span between pylons', () => {
     const cases: Partial<Model3D>[] = [
       {},
       { cable_pattern: 'semi_fan', pylon_shape: 'inverted_Y', spans_m: [40, 150, 550, 150, 40] },
@@ -71,11 +71,16 @@ describe('buildBridgeGeometry', () => {
       for (const c of g.cables) {
         const p = g.pylons[c.pylon];
         const span = g.spans[c.side < 0 ? p.support : p.support + 1];
-        expect(c.deck[0]).toBeGreaterThanOrEqual(span.x0);
-        expect(c.deck[0]).toBeLessThanOrEqual(span.x1);
         expect(Math.sign(c.deck[0] - p.x)).toBe(c.side);
+        // stays stop at the unit ends (they may cross auxiliary piers on a back span)
+        expect(c.deck[0]).toBeGreaterThanOrEqual(0);
+        expect(c.deck[0]).toBeLessThanOrEqual(g.totalLength);
         const neighbourIsPylon = g.pylons.some((q) => q.support === p.support + c.side);
-        if (neighbourIsPylon) expect(Math.abs(c.deck[0] - p.x)).toBeLessThanOrEqual(span.length / 2 + 1e-9);
+        if (neighbourIsPylon) {
+          expect(c.deck[0]).toBeGreaterThanOrEqual(span.x0);
+          expect(c.deck[0]).toBeLessThanOrEqual(span.x1);
+          expect(Math.abs(c.deck[0] - p.x)).toBeLessThanOrEqual(span.length / 2 + 1e-9);
+        }
         expect(c.deck[1]).toBe(g.deckElevation);
         expect(Math.abs(c.deck[2])).toBeLessThanOrEqual(g.deckWidth / 2);
         expect(c.top[1]).toBeGreaterThan(g.deckElevation);
@@ -308,5 +313,136 @@ describe('choosePylonSupports: single-pylon bridges', () => {
   });
   it('puts two pylons at the ends of the main span when approach spans are listed', () => {
     expect(choosePylonSupports([40, 40, 150, 550, 150, 40, 40], 2)).toEqual([2, 3]);
+  });
+});
+
+describe('phase 6: aux piers, colours, crest, crowns, struts, twist', () => {
+  it('auxiliary piers: drawn as piers; back-span stays run to the unit end and snap onto them', () => {
+    const g = build({ spans_m: [125, 270, 125], auxiliary_piers_m: [60, 460], cables_per_side: 12 });
+    expect(g.auxiliaryPiers).toEqual([60, 460]);
+    const pierX = g.piers.map((p) => p.c[0]).sort((a, b) => a - b);
+    expect(pierX).toEqual([0, 60, 460, 520]);
+    const back = g.cables.filter((c) => c.back);
+    expect(back.length).toBeGreaterThan(0);
+    // back-stays reach past the auxiliary pier toward the end
+    expect(Math.min(...back.map((c) => c.deck[0]))).toBeLessThan(60);
+    // none lands within 4 m of a pier without sitting exactly on it
+    for (const c of back) for (const a of g.auxiliaryPiers) {
+      const d = Math.abs(c.deck[0] - a);
+      expect(d === 0 || d >= 4 - 1e-9).toBe(true);
+    }
+    // interior supports without pylons count as auxiliary piers too (Cần Thơ 40 + 40 end spans)
+    const ct = build({ spans_m: [40, 40, 150, 550, 150, 40, 40] });
+    expect(ct.auxiliaryPiers).toEqual([40, 80, 930, 970]);
+    expect(Math.min(...ct.cables.map((c) => c.deck[0]))).toBeLessThan(40);
+  });
+
+  it('back flag marks stays toward the unit end, not the main span', () => {
+    const g = build({ spans_m: [230, 120], pylon_heights_m: [120], pylon_shape: 'single', cable_planes: 1 });
+    expect(g.cables.filter((c) => c.back).every((c) => c.side === 1)).toBe(true);
+    expect(g.cables.filter((c) => !c.back).every((c) => c.side === -1)).toBe(true);
+    expect(build({}).cables.filter((c) => c.back).every((c) => c.deck[0] < 150 || c.deck[0] > 700)).toBe(true);
+  });
+
+  it('colours pass through to the geometry; back-stays default to the stay colour', () => {
+    const g = build({ pylon_colour: 'yellow', stay_colour: 'white', back_stay_colour: 'red', deck_colour: '#aa3322' });
+    expect(g.colours).toEqual({ pylon: 'yellow', stay: 'white', backStay: 'red', deck: '#aa3322' });
+    expect(build({ stay_colour: 'orange' }).colours.backStay).toBe('orange');
+  });
+
+  it('deck crest: parabolic rise at mid-unit, zero at the ends; stays and pylons follow', () => {
+    const flat = build({});
+    const g = build({ deck_crest_m: 6 });
+    expect(g.deckY(0)).toBeCloseTo(g.deckElevation);
+    expect(g.deckY(g.totalLength / 2)).toBeCloseTo(g.deckElevation + 6);
+    expect(g.deckY(150)).toBeCloseTo(g.deckElevation + 6 * (1 - (275 / 425) ** 2));
+    for (const c of g.cables) expect(c.deck[1]).toBeCloseTo(g.deckY(c.deck[0]), 6);
+    // pylon tops lifted by the crest at the pylon
+    expect(g.cables[0].top[1] - flat.cables[0].top[1]).toBeCloseTo(g.deckY(150) - g.deckElevation, 6);
+    // deck pieces are pitched and sit on the curve
+    for (const p of g.deckPieces) expect(p.c[1] + g.deckDepth / 2).toBeCloseTo(g.deckY(p.c[0]), 6);
+    expect(g.deckPieces.some((p) => Math.abs(p.pitch ?? 0) > 0)).toBe(true);
+    // continuous deck mesh follows the crest; straight decks have none
+    expect(g.deckMeshes).toHaveLength(1);
+    const pos = g.deckMeshes[0].positions;
+    const topMid = Math.max(...pos.filter((_, i) => i % 3 === 1));
+    expect(topMid).toBeCloseTo(g.deckElevation + 6, 1);
+    expect(build({}).deckMeshes).toHaveLength(0);
+  });
+
+  const arch = (crown?: 'pointed' | 'rounded' | 'flat'): Partial<Model3D> => ({
+    spans_m: [200, 115],
+    pylon_heights_m: [100],
+    pylon_shape: 'other',
+    cable_planes: 2,
+    cables_per_side: 6,
+    pylon_custom: {
+      description: 'arch',
+      crown,
+      legs: [
+        { centerline: [[0, -20, -14], [0, 40, -12], [0, 80, -6], [0, 100, 0]], width_base_m: 4, width_top_m: 2.5 },
+        { centerline: [[0, -20, 14], [0, 40, 12], [0, 80, 6], [0, 100, 0]], width_base_m: 4, width_top_m: 2.5 },
+      ],
+      anchor_zone: [
+        { y_from_m: 40, y_to_m: 90, leg: 0 },
+        { y_from_m: 40, y_to_m: 90, leg: 1 },
+      ],
+    },
+  });
+  const ringCentres = (sw: { positions: number[] }) => {
+    const out: number[][] = [];
+    for (let i = 0; i < sw.positions.length; i += 12) {
+      const c = [0, 0, 0];
+      for (let k = 0; k < 4; k++) for (let a = 0; a < 3; a++) c[a] += sw.positions[i + k * 3 + a] / 4;
+      out.push(c);
+    }
+    return out;
+  };
+
+  it('rounded crown: the legs arrive at the apex horizontally (smooth arc), pointed ones steeply', () => {
+    const slopeAtTip = (crown?: 'pointed' | 'rounded') => {
+      const c = ringCentres(build(arch(crown)).pylons[0].sweeps[0]);
+      const [a, b] = [c[c.length - 2], c[c.length - 1]];
+      return Math.abs(b[1] - a[1]) / Math.max(1e-9, Math.abs(b[2] - a[2]));
+    };
+    expect(slopeAtTip('rounded')).toBeLessThan(0.35);
+    expect(slopeAtTip('pointed')).toBeGreaterThan(0.6);
+    // apex height kept
+    expect(build(arch('rounded')).pylons[0].heightAboveDeck).toBeCloseTo(100, 0);
+  });
+
+  it('flat crown: legs stop below the apex and a head beam joins them', () => {
+    const g = build(arch('flat'));
+    const tops = g.pylons[0].sweeps.map((sw) => Math.max(...ringCentres(sw).map((c) => c[1])));
+    for (const t of tops) expect(t).toBeLessThan(g.deckElevation + 100 - 1);
+    const beam = g.pylons[0].members.find((m) => Math.abs(m.a[1] - m.b[1]) < 1e-6 && Math.abs(m.a[2] - m.b[2]) > 1);
+    expect(beam).toBeDefined();
+  });
+
+  it('struts become members in the pylon frame (mirrored toward the main span)', () => {
+    const m = arch();
+    m.pylon_custom!.struts = [{ a: [-4, -20, -13], b: [-35, -2, -10], width: 2.5 }];
+    const g = build(m);
+    const strut = g.pylons[0].members.find((mb) => mb.size === 2.5)!;
+    // main span is spans[0] (left), so local -x (away from the main span) is +station x
+    expect(strut.b[0]).toBeCloseTo(200 + 35);
+    expect(strut.b[1]).toBeCloseTo(g.deckElevation - 2);
+  });
+
+  it('twist_deg rotates the section progressively along the sweep', () => {
+    const m = arch();
+    m.pylon_custom!.legs = [
+      { centerline: [[0, 0, 0], [0, 50, 0], [0, 100, 0]], width_base_m: 6, width_top_m: 6, depth_base_m: 2, depth_top_m: 2, twist_deg: 90 },
+    ];
+    m.pylon_custom!.anchor_zone = [{ y_from_m: 40, y_to_m: 90, leg: 0 }];
+    m.cable_planes = 1;
+    const sw = build(m).pylons[0].sweeps[0];
+    const v = (i: number) => sw.positions.slice(i * 3, i * 3 + 3);
+    const n = sw.positions.length / 12;
+    // first ring: the 6 m width runs across (z); last ring: rotated 90°, so it runs along x
+    const w0 = [v(0), v(1)];
+    const w1 = [v((n - 1) * 4), v((n - 1) * 4 + 1)];
+    expect(Math.abs(w0[0][2] - w0[1][2])).toBeCloseTo(6, 3);
+    expect(Math.abs(w1[0][0] - w1[1][0])).toBeCloseTo(6, 3);
   });
 });

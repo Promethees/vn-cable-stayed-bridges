@@ -24,8 +24,14 @@ export interface PylonCustom {
     width_top_m: number;
     depth_base_m?: number;
     depth_top_m?: number;
+    /** rotation of the section about the centreline from base to tip, degrees */
+    twist_deg?: number;
   }[];
   crossbeams_y_m?: number[];
+  /** shape where legs merge at the apex */
+  crown?: 'pointed' | 'rounded' | 'flat';
+  /** extra straight members (pylon-local frame), e.g. a strut under the side span */
+  struts?: { a: [number, number, number]; b: [number, number, number]; width: number }[];
   anchor_zone: { y_from_m: number; y_to_m: number; leg: number }[];
   mirror_for_other_pylons?: boolean;
   reference_images?: string[];
@@ -53,6 +59,15 @@ export interface Model3D {
   approach_length_m?: number;
   extradosed?: boolean;
   deck_plan_radius_m?: number;
+  /** rise of the deck at mid-unit (vertical curve), metres */
+  deck_crest_m?: number;
+  /** auxiliary piers, distances from the unit start, metres */
+  auxiliary_piers_m?: number[];
+  /** colours: hex (#rrggbb) or a named colour; rendered muted */
+  pylon_colour?: string;
+  stay_colour?: string;
+  back_stay_colour?: string;
+  deck_colour?: string;
   pylon_custom?: PylonCustom;
   confidence: 'verified' | 'estimated';
   notes?: string;
@@ -86,6 +101,7 @@ export interface Bridge {
   cable_stayed_spans?: number;
   span_arrangement?: string;
   pylons?: string;
+  pylons_en?: string;
   investor?: string;
   cost?: string;
   nav_clearance?: NavClearance;

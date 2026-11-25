@@ -43,6 +43,30 @@ function cssColor(name: string, fallback: string): { color: THREE.Color; alpha: 
 const cssNum = (name: string, fallback: number) =>
   parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name)) || fallback;
 
+/** Pre-muted named colours: the study-model look keeps colours soft. */
+const NAMED: Record<string, string> = {
+  white: '#E9EAE6',
+  grey: '#A9B0B2',
+  red: '#B65A4E',
+  orange: '#C98A4B',
+  yellow: '#D6B551',
+  green: '#6E9A72',
+  blue: '#5E87A8',
+  purple: '#8A6F9E',
+  brown: '#8C6A50',
+  black: '#3A3F42',
+};
+
+/** Named colour or hex → a muted THREE.Color (saturation ≤ 0.45, lightness 0.35–0.88). */
+export function mutedColour(value: string): THREE.Color {
+  const named = NAMED[value.toLowerCase()];
+  const c = new THREE.Color(named ?? value);
+  if (named) return c;
+  const hsl = { h: 0, s: 0, l: 0 };
+  c.getHSL(hsl);
+  return c.setHSL(hsl.h, Math.min(hsl.s, 0.45), Math.min(0.88, Math.max(0.35, hsl.l)));
+}
+
 export function webglAvailable(): boolean {
   try {
     const c = document.createElement('canvas');
@@ -73,6 +97,8 @@ export class BridgeEngine {
   private resizeObs: ResizeObserver;
   private disposed = false;
   private mats: Record<string, THREE.Material> = {};
+  /** per-bridge materials for model3d colours (disposed with the model) */
+  private extraMats: THREE.Material[] = [];
   private hemi: THREE.HemisphereLight;
   private sun: THREE.DirectionalLight;
 
@@ -211,11 +237,11 @@ export class BridgeEngine {
     (this.mats.clearanceEdge as THREE.LineDashedMaterial).color.copy(c('--m3d-cable', '#0E6A87').color);
     const planned = this.g?.status === 'planned';
     const ghostOpacity = cssNum('--m3d-ghost-opacity', 0.12);
-    for (const k of ['concrete', 'steel', 'traveller'] as const) {
-      M[k].transparent = planned;
-      M[k].opacity = planned ? ghostOpacity : 1;
-      M[k].depthWrite = !planned;
-      M[k].needsUpdate = true;
+    for (const mat of [M.concrete, M.steel, M.traveller, ...this.extraMats.filter((x) => x instanceof THREE.MeshLambertMaterial)]) {
+      mat.transparent = planned;
+      mat.opacity = planned ? ghostOpacity : 1;
+      mat.depthWrite = !planned;
+      mat.needsUpdate = true;
     }
     this.requestRender();
   }
@@ -223,6 +249,8 @@ export class BridgeEngine {
   // ---------- scene building ----------
 
   private clearModel() {
+    this.extraMats.forEach((m) => m.dispose());
+    this.extraMats = [];
     this.labelEls.forEach(({ el }) => el.remove());
     this.labelEls = [];
     const disposeTree = (o: THREE.Object3D) => {
@@ -259,6 +287,14 @@ export class BridgeEngine {
     return m;
   }
 
+  /** a per-bridge clone of a base material in a muted version of the given colour */
+  private tinted(base: THREE.Material, colour: string) {
+    const mat = (base as THREE.MeshLambertMaterial).clone();
+    mat.color = mutedColour(colour);
+    this.extraMats.push(mat);
+    return mat;
+  }
+
   private sweep(sw: SweepMesh, mat: THREE.Material) {
     const geo = new THREE.BufferGeometry();
     geo.setAttribute('position', new THREE.Float32BufferAttribute(sw.positions, 3));
@@ -291,23 +327,44 @@ export class BridgeEngine {
     this.root.add(water);
     g.banks.forEach((b) => this.box(b, M.ground));
     g.approaches.forEach((b) => this.box(b, deckMat));
-    g.deckPieces.forEach((b) => this.box(b, deckMat));
+    const pylonMat = g.colours.pylon ? this.tinted(M.concrete, g.colours.pylon) : M.concrete;
+    const mainDeckMat = g.colours.deck ? this.tinted(deckMat, g.colours.deck) : deckMat;
+    if (g.deckMeshes.length) {
+      // smooth shading: flat shading would band a gently curved deck
+      const smooth = (mainDeckMat as THREE.MeshLambertMaterial).clone();
+      smooth.flatShading = false;
+      this.extraMats.push(smooth);
+      g.deckMeshes.forEach((dm) => this.sweep(dm, smooth));
+    }
+    else g.deckPieces.forEach((b) => this.box(b, mainDeckMat));
     g.piers.forEach((b) => this.box(b, M.concrete));
     g.pylons.forEach((p) => {
-      p.members.forEach((mb) => this.member(mb, M.concrete));
-      p.sweeps.forEach((sw) => this.sweep(sw, M.concrete));
+      p.members.forEach((mb) => this.member(mb, pylonMat));
+      p.sweeps.forEach((sw) => this.sweep(sw, pylonMat));
     });
     g.travellers.forEach((b) => this.box(b, M.traveller));
     void E;
 
-    // stay cables: 1px LineSegments
-    const pos = new Float32Array(g.cables.length * 6);
-    g.cables.forEach((c, i) => pos.set([...c.top, ...c.deck], i * 6));
-    const cg = new THREE.BufferGeometry();
-    cg.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-    const cables = new THREE.LineSegments(cg, g.status === 'planned' ? M.cableGhost : M.cable);
-    if (g.status === 'planned') cables.computeLineDistances();
-    this.root.add(cables);
+    // stay cables: 1px LineSegments; back-stays may have their own colour
+    const planned = g.status === 'planned';
+    const lineMat = (colour?: string) => {
+      if (planned) return M.cableGhost;
+      if (!colour) return M.cable;
+      const mat = new THREE.LineBasicMaterial({ color: mutedColour(colour) });
+      this.extraMats.push(mat);
+      return mat;
+    };
+    for (const back of [false, true]) {
+      const list = g.cables.filter((c) => c.back === back);
+      if (!list.length) continue;
+      const pos = new Float32Array(list.length * 6);
+      list.forEach((c, i) => pos.set([...c.top, ...c.deck], i * 6));
+      const cg = new THREE.BufferGeometry();
+      cg.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+      const cables = new THREE.LineSegments(cg, lineMat(back ? g.colours.backStay : g.colours.stay));
+      if (planned) cables.computeLineDistances();
+      this.root.add(cables);
+    }
 
     this.buildDims();
   }

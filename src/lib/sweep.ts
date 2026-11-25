@@ -12,10 +12,12 @@ const norm = (a: V3): V3 => {
 const cross = (a: V3, b: V3): V3 => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
 
 /** Centripetal Catmull-Rom through all control points (passes through each of them). */
-export function catmullRom(points: V3[], samplesPerSegment = 10): V3[] {
+export function catmullRom(points: V3[], samplesPerSegment = 10, endPhantom?: V3): V3[] {
   if (points.length < 2) return points.slice();
   const out: V3[] = [];
-  const P = (i: number) => points[Math.max(0, Math.min(points.length - 1, i))];
+  // endPhantom (optional) replaces the clamped point after the last one, fixing the end tangent
+  const P = (i: number) =>
+    i >= points.length && endPhantom ? endPhantom : points[Math.max(0, Math.min(points.length - 1, i))];
   for (let i = 0; i < points.length - 1; i++) {
     const p0 = P(i - 1);
     const p1 = P(i);
@@ -87,7 +89,7 @@ export interface SweepMesh {
  * Sweeps a rectangular section along a polyline. Width runs across the bridge (≈ z), depth in
  * the curve's x–y plane; both interpolate base → top by arc length.
  */
-export function sweepRect(pl: Polyline, w0: number, w1: number, d0: number, d1: number): SweepMesh {
+export function sweepRect(pl: Polyline, w0: number, w1: number, d0: number, d1: number, twistDeg = 0): SweepMesh {
   const positions: number[] = [];
   const indices: number[] = [];
   const n = pl.pts.length;
@@ -98,8 +100,14 @@ export function sweepRect(pl: Polyline, w0: number, w1: number, d0: number, d1: 
     let D = cross([0, 0, 1], T); // in the x–y plane, perpendicular to the tangent
     if (len(D) < 1e-6) D = [1, 0, 0];
     D = norm(D);
-    const Wv = norm(cross(T, D));
+    let Wv = norm(cross(T, D));
     const f = pl.length ? pl.s[i] / pl.length : 0;
+    if (twistDeg) {
+      // rotate the section about the tangent, growing linearly from base to tip
+      const th = (twistDeg * Math.PI * f) / 180;
+      const [c, sn] = [Math.cos(th), Math.sin(th)];
+      [Wv, D] = [add(mul(Wv, c), mul(D, sn)), add(mul(D, c), mul(Wv, -sn))];
+    }
     const hw = (w0 + (w1 - w0) * f) / 2;
     const hd = (d0 + (d1 - d0) * f) / 2;
     const c = pl.pts[i];

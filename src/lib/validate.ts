@@ -32,11 +32,20 @@ export function model3dProblems(v: unknown): string[] {
   if (v.confidence !== 'verified' && v.confidence !== 'estimated') p.push('confidence');
   if (!optStr(v.notes)) p.push('notes');
   if (v.deck_plan_radius_m !== undefined && !(isNum(v.deck_plan_radius_m) && v.deck_plan_radius_m > 0)) p.push('deck_plan_radius_m');
+  if (v.deck_crest_m !== undefined && !(isNum(v.deck_crest_m) && v.deck_crest_m >= 0)) p.push('deck_crest_m');
+  if (v.auxiliary_piers_m !== undefined && !(Array.isArray(v.auxiliary_piers_m) && v.auxiliary_piers_m.every((x) => isNum(x) && x > 0)))
+    p.push('auxiliary_piers_m');
+  for (const k of ['pylon_colour', 'stay_colour', 'back_stay_colour', 'deck_colour'])
+    if (v[k] !== undefined && !isColour(v[k])) p.push(k);
   if (v.pylon_custom !== undefined) p.push(...pylonCustomProblems(v.pylon_custom).map((x) => `pylon_custom.${x}`));
   return p;
 }
 
 const isVec3 = (a: unknown) => Array.isArray(a) && a.length === 3 && a.every(isNum);
+
+export const NAMED_COLOURS = ['white', 'grey', 'red', 'orange', 'yellow', 'green', 'blue', 'purple', 'brown', 'black'] as const;
+export const isColour = (v: unknown) =>
+  typeof v === 'string' && (/^#[0-9a-f]{6}$/i.test(v) || (NAMED_COLOURS as readonly string[]).includes(v.toLowerCase()));
 
 export function pylonCustomProblems(v: unknown): string[] {
   if (!isObj(v)) return ['not an object'];
@@ -52,6 +61,7 @@ export function pylonCustomProblems(v: unknown): string[] {
         if (!(isNum(l[k]) && (l[k] as number) > 0)) p.push(`legs[${i}].${k}`);
       for (const k of ['depth_base_m', 'depth_top_m'])
         if (l[k] !== undefined && !(isNum(l[k]) && (l[k] as number) > 0)) p.push(`legs[${i}].${k}`);
+      if (l.twist_deg !== undefined && !isNum(l.twist_deg)) p.push(`legs[${i}].twist_deg`);
     });
   if (v.crossbeams_y_m !== undefined && !(Array.isArray(v.crossbeams_y_m) && v.crossbeams_y_m.every(isNum))) p.push('crossbeams_y_m');
   const nLegs = Array.isArray(legs) ? legs.length : 0;
@@ -64,6 +74,12 @@ export function pylonCustomProblems(v: unknown): string[] {
   )
     p.push('anchor_zone');
   if (v.mirror_for_other_pylons !== undefined && typeof v.mirror_for_other_pylons !== 'boolean') p.push('mirror_for_other_pylons');
+  if (v.crown !== undefined && !['pointed', 'rounded', 'flat'].includes(v.crown as string)) p.push('crown');
+  if (
+    v.struts !== undefined &&
+    !(Array.isArray(v.struts) && v.struts.every((st) => isObj(st) && isVec3(st.a) && isVec3(st.b) && isNum(st.width) && (st.width as number) > 0))
+  )
+    p.push('struts');
   if (v.reference_images !== undefined && !isStrArr(v.reference_images)) p.push('reference_images');
   return p;
 }
@@ -94,7 +110,7 @@ export function bridgeProblems(v: unknown): string[] {
   if (!Array.isArray(v.images) || !v.images.every(isImage)) p.push('images');
   if (!isStrArr(v.sources)) p.push('sources');
   if (v.confidence !== 'verified' && v.confidence !== 'needs_check') p.push('confidence');
-  for (const k of ['name_en', 'crosses', 'span_arrangement', 'pylons', 'investor', 'cost', 'notes']) {
+  for (const k of ['name_en', 'crosses', 'span_arrangement', 'pylons', 'pylons_en', 'investor', 'cost', 'notes']) {
     if (!optStr(v[k])) p.push(k);
   }
   for (const k of ['construction_start', 'opened', 'total_length_m', 'width_m', 'lanes', 'cable_stayed_spans']) {

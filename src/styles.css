@@ -147,6 +147,7 @@ button { font: inherit; color: inherit; }
 .sd-main { stroke: var(--status); stroke-width: 3; stroke-linecap: round; }
 .sd-pylon { stroke: var(--c-ink); stroke-width: 2; }
 .sd-pier { stroke: var(--c-ink); stroke-width: 1; }
+.sd-aux { stroke-width: 2.5; }
 .sd-cable { stroke: var(--c-steel); stroke-width: 1; }
 .sd-water { stroke: var(--c-cable); stroke-width: 1; opacity: .6; }
 .sd-dim { stroke: var(--c-cable); stroke-width: 1; }
