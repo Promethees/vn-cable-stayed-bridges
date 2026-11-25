@@ -113,5 +113,18 @@
   "Plain H; missing the splayed lower legs and the top cross-beam position",
   "Splayed portal foot, top cross-beam ≈92 m above deck, deck width 24.5 m",
   "Good: 2 Commons photos"
- ]
+ ],
+ "checklist": {
+  "foot below deck": "pass (splayed portal legs)",
+  "legs at deck": "pass",
+  "merge height": "n/a (H)",
+  "crossbeams": "pass (top + under deck)",
+  "head": "pass",
+  "proportions": "limited (height unpublished)",
+  "stays": "pass (fan)",
+  "deck / aux piers": "pass",
+  "colour": "pass"
+ },
+ "pass2": true,
+ "compare": "research/compare/cau-vam-cong.png"
 }

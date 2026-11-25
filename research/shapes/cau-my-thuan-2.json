@@ -49,8 +49,10 @@
        -1.5
       ]
      ],
-     "width_base_m": 4.5,
-     "width_top_m": 3.5
+     "width_base_m": 6.0,
+     "width_top_m": 4.5,
+     "depth_base_m": 7.0,
+     "depth_top_m": 5.5
     },
     {
      "centerline": [
@@ -80,8 +82,10 @@
        1.5
       ]
      ],
-     "width_base_m": 4.5,
-     "width_top_m": 3.5
+     "width_base_m": 6.0,
+     "width_top_m": 4.5,
+     "depth_base_m": 7.0,
+     "depth_top_m": 5.5
     },
     {
      "centerline": [
@@ -101,8 +105,10 @@
        0
       ]
      ],
-     "width_base_m": 5.0,
-     "width_top_m": 3.5
+     "width_base_m": 7.5,
+     "width_top_m": 4.0,
+     "depth_base_m": 6.5,
+     "depth_top_m": 4.5
     }
    ],
    "crossbeams_y_m": [
@@ -129,5 +135,18 @@
   "Plain inverted-Y without the diamond foot",
   "Diamond lower legs converging to a narrow pier, merge ≈47 m above deck, single-head anchor zone",
   "Good: aerial + pylon close-up + press closure photo"
- ]
+ ],
+ "pass2": true,
+ "compare": "research/compare/cau-my-thuan-2.png",
+ "checklist": {
+  "foot below deck": "pass (diamond, footing ≈0.5× deck spread)",
+  "legs at deck": "pass (outside edges, under-deck beam)",
+  "merge height": "pass (≈47 m, ≈54%)",
+  "crossbeams": "pass (1, under deck)",
+  "head": "pass (≈45%)",
+  "proportions": "limited (pylon height unpublished, ≈87 m above deck estimated)",
+  "stays": "pass (semi-fan, 2 planes)",
+  "deck / aux piers": "pass (none visible)",
+  "colour": "pass (light grey)"
+ }
 }

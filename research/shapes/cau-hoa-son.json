@@ -17,7 +17,9 @@
   "cable_pattern": "fan",
   "deck_width_m": 21.0,
   "confidence": "estimated",
-  "notes": "550 m main span, 187 m pylons, ≈1.2 km bridge (press). Side spans, deck width and inverted-Y shape read from official renders (Báo Lâm Đồng / Người Quan Sát)."
+  "notes": "550 m main span, 187 m pylons, ≈1.2 km bridge (press). Side spans, deck width and inverted-Y shape read from official renders (Báo Lâm Đồng / Người Quan Sát).",
+  "pylon_colour": "white",
+  "stay_colour": "red"
  },
  "notes": "Official renders.",
  "colour": "red and white",
@@ -26,5 +28,18 @@
   "—",
   "Inverted-Y kept; red/white colour noted",
   "Render only"
- ]
+ ],
+ "checklist": {
+  "foot below deck": "limited (render shows no foot)",
+  "legs at deck": "pass",
+  "merge height": "limited (render too small)",
+  "crossbeams": "limited",
+  "head": "pass",
+  "proportions": "pass",
+  "stays": "pass (red, fan)",
+  "deck / aux piers": "limited",
+  "colour": "pass (white pylon, red stays)"
+ },
+ "pass2": true,
+ "compare": "scratchpad only (press/render images, licence unknown)"
 }

@@ -72,5 +72,18 @@
   "Single post OK but no below-deck shaft and no stay colour",
   "Explicit single shaft to the pier, anchor zone 55–97 m, yellow stays noted",
   "Good: 4 Commons photos"
- ]
+ ],
+ "checklist": {
+  "foot below deck": "pass (single shaft)",
+  "legs at deck": "pass (median)",
+  "merge height": "n/a",
+  "crossbeams": "n/a",
+  "head": "pass",
+  "proportions": "pass",
+  "stays": "pass (yellow, single plane)",
+  "deck / aux piers": "pass (crest)",
+  "colour": "pass"
+ },
+ "pass2": true,
+ "compare": "research/compare/cau-bai-chay.png"
 }

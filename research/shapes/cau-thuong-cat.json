@@ -27,5 +27,18 @@
   "—",
   "No change: only construction-site or no images",
   "None usable"
- ]
+ ],
+ "checklist": {
+  "foot below deck": "limited",
+  "legs at deck": "limited",
+  "merge height": "limited",
+  "crossbeams": "limited",
+  "head": "limited (no pylon reference: construction-site photos only)",
+  "proportions": "limited",
+  "stays": "limited",
+  "deck / aux piers": "limited",
+  "colour": "limited"
+ },
+ "pass2": true,
+ "compare": "scratchpad only (press/render images, licence unknown)"
 }

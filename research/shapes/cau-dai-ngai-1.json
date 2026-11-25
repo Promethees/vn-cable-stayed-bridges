@@ -18,7 +18,101 @@
   "deck_width_m": 21.5,
   "deck_type": "composite",
   "confidence": "estimated",
-  "notes": "210+450+210 m, A-shaped pylons 110 m above deck, composite steel girder (Báo Đầu tư). Fan pattern from the render. Another source gives 164 m total height."
+  "notes": "210+450+210 m, A-shaped pylons 110 m above deck, composite steel girder (Báo Đầu tư). Fan pattern from the render. Another source gives 164 m total height.",
+  "pylon_custom": {
+   "description": "Inverted Y from the render: legs straddle the deck and converge slowly, merging ≈70% up into a short head with a small 'eye' slot and a pointed tip; red stays fan in two planes from the head.",
+   "legs": [
+    {
+     "centerline": [
+      [
+       0,
+       -35,
+       -11
+      ],
+      [
+       0,
+       0,
+       -13
+      ],
+      [
+       0,
+       40,
+       -7
+      ],
+      [
+       0,
+       78,
+       -1.5
+      ]
+     ],
+     "width_base_m": 5.0,
+     "width_top_m": 3.5
+    },
+    {
+     "centerline": [
+      [
+       0,
+       -35,
+       11
+      ],
+      [
+       0,
+       0,
+       13
+      ],
+      [
+       0,
+       40,
+       7
+      ],
+      [
+       0,
+       78,
+       1.5
+      ]
+     ],
+     "width_base_m": 5.0,
+     "width_top_m": 3.5
+    },
+    {
+     "centerline": [
+      [
+       0,
+       78,
+       0
+      ],
+      [
+       0,
+       95,
+       0
+      ],
+      [
+       0,
+       110,
+       0
+      ]
+     ],
+     "width_base_m": 5.0,
+     "width_top_m": 2.0
+    }
+   ],
+   "crossbeams_y_m": [
+    -3
+   ],
+   "crown": "pointed",
+   "anchor_zone": [
+    {
+     "y_from_m": 70,
+     "y_to_m": 108,
+     "leg": 2
+    }
+   ],
+   "mirror_for_other_pylons": true,
+   "reference_images": [
+    "https://media.baodautu.vn/thumb_x470x250/Images/anhminh/2024/12/04/he-lo-nha-thau-thi-cong-sieu-cau-day-vang-dai-ngai-1-tri-gia-3900-ty-dong1733300762.jpg"
+   ]
+  },
+  "stay_colour": "red"
  },
  "notes": "Báo Đầu tư render.",
  "colour": "grey concrete; red stays (render)",
@@ -27,5 +121,18 @@
   "Shape 'A' — render shows an inverted-Y with a long single head",
   "Pylon shape → inverted_Y, merge ≈45 m above deck, head anchors; red stays",
   "Render only"
- ]
+ ],
+ "checklist": {
+  "foot below deck": "limited (render shows no foot; mild diamond assumed)",
+  "legs at deck": "pass",
+  "merge height": "fixed (≈78 m, 70%; was ≈45%)",
+  "crossbeams": "pass",
+  "head": "fixed (short head with eye slot — slot not modelled)",
+  "proportions": "pass (110 m above deck)",
+  "stays": "pass (red fan)",
+  "deck / aux piers": "limited",
+  "colour": "pass"
+ },
+ "pass2": true,
+ "compare": "scratchpad only (the CC0 Commons photo's licence is doubtful; other refs are press renders)"
 }

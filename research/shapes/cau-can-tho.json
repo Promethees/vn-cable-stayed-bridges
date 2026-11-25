@@ -1,6 +1,6 @@
 {
- "pylons_vi": "2 tháp chữ Y ngược (chân chữ A), cao 175,3 m",
- "pylons_en": "2 inverted-Y pylons (A-frame legs), 175.3 m",
+ "pylons_vi": "2 tháp chữ Y ngược, chân kim cương dưới mặt cầu, cao 175,3 m",
+ "pylons_en": "2 inverted-Y pylons with diamond feet below the deck, 175.3 m",
  "model3d": {
   "spans_m": [
    40,
@@ -23,74 +23,104 @@
   "deck_type": "steel",
   "confidence": "estimated",
   "pylon_custom": {
-   "description": "Inverted Y: two straight legs splay outward from a common footing up to the deck (A-frame, legs widest at the deck and wider still at the footing), pass outside the deck, converge to a single head about 70 m above deck; the head carries all stays. One cross-beam under the deck. No diamond: the legs keep splaying down to the pile cap.",
+   "description": "Inverted Y with a DIAMOND foot. Two straight, heavy legs come down from a long single head, splay outward and pass just outside the deck edges, where a cross-beam carries the deck. Below the deck they converge INWARD to a footing ≈0.55 × the leg spread at the deck, leaving an arched opening under the deck beam. The legs merge ≈40% of the above-deck height (≈56 m); the tapered single head (≈60%) carries a dense fan of stays in two planes.",
    "legs": [
     {
      "centerline": [
       [
        0,
-       -40,
-       -24
+       -38,
+       -8.8
+      ],
+      [
+       0,
+       -20,
+       -12.3
+      ],
+      [
+       0,
+       -3,
+       -15.6
       ],
       [
        0,
        0,
-       -16.5
+       -15.8
+      ],
+      [
+       0,
+       20,
+       -10.8
       ],
       [
        0,
        40,
-       -8
+       -5.8
       ],
       [
        0,
-       70,
-       -1.5
+       56,
+       -1.8
       ]
      ],
      "width_base_m": 7.0,
-     "width_top_m": 4.5,
-     "depth_base_m": 9.0,
-     "depth_top_m": 7.0
+     "width_top_m": 5.0,
+     "depth_base_m": 11.0,
+     "depth_top_m": 8.5
     },
     {
      "centerline": [
       [
        0,
-       -40,
-       24
+       -38,
+       8.8
+      ],
+      [
+       0,
+       -20,
+       12.3
+      ],
+      [
+       0,
+       -3,
+       15.6
       ],
       [
        0,
        0,
-       16.5
+       15.8
+      ],
+      [
+       0,
+       20,
+       10.8
       ],
       [
        0,
        40,
-       8
+       5.8
       ],
       [
        0,
-       70,
-       1.5
+       56,
+       1.8
       ]
      ],
      "width_base_m": 7.0,
-     "width_top_m": 4.5,
-     "depth_base_m": 9.0,
-     "depth_top_m": 7.0
+     "width_top_m": 5.0,
+     "depth_base_m": 11.0,
+     "depth_top_m": 8.5
     },
     {
      "centerline": [
       [
        0,
-       70,
+       56,
        0
       ],
       [
        0,
-       100,
+       95,
        0
       ],
       [
@@ -99,40 +129,63 @@
        0
       ]
      ],
-     "width_base_m": 7.5,
+     "width_base_m": 10.0,
      "width_top_m": 5.0,
-     "depth_base_m": 8.0,
-     "depth_top_m": 6.0
+     "depth_base_m": 9.0,
+     "depth_top_m": 5.5
     }
    ],
    "crossbeams_y_m": [
-    -4
+    -3
    ],
+   "crown": "pointed",
    "anchor_zone": [
     {
-     "y_from_m": 88,
-     "y_to_m": 130,
+     "y_from_m": 70,
+     "y_to_m": 132,
      "leg": 2
     }
    ],
    "mirror_for_other_pylons": true,
    "reference_images": [
-    "https://commons.wikimedia.org/wiki/File:Can_Tho_Bridge_cables.JPG",
-    "https://commons.wikimedia.org/wiki/File:Can_Tho_Bridge_tower_under_construction.jpg",
-    "https://commons.wikimedia.org/wiki/File:Can_Tho_Bridge_3.jpg",
-    "https://commons.wikimedia.org/wiki/File:Cầu_Cần_Thơ_(6321757880).jpg"
+    "https://commons.wikimedia.org/wiki/File:Can_Tho_Bridge_(32866753646).jpg",
+    "https://commons.wikimedia.org/wiki/File:Can_Tho_Bridge_(32907235505).jpg",
+    "https://commons.wikimedia.org/wiki/File:Can_Tho_Bridge_(32866755796).jpg",
+    "https://commons.wikimedia.org/wiki/File:Can_Tho_Bridge_under_construction.jpg"
    ]
   },
   "auxiliary_piers_m_from_end": [
    40,
    80
   ],
-  "notes": "Shape read from Commons photos (pylon close-up from the deck; tower under construction 2007, which shows the A-frame legs and the under-deck strut). Height 175.3 m total (mageba), of which ≈135 m above deck. Side-span auxiliary piers at 40 m spacing (2×40 m end spans). Stays fan from the single head to both deck edges. Steel box girder in the main span, concrete in the side spans."
+  "notes": "Shape read from Commons photos (pylon close-up from the deck; tower under construction 2007, which shows the A-frame legs and the under-deck strut). Height 175.3 m total (mageba), of which ≈135 m above deck. Side-span auxiliary piers at 40 m spacing (2×40 m end spans). Stays fan from the single head to both deck edges. Steel box girder in the main span, concrete in the side spans.",
+  "auxiliary_piers_m": [
+   40,
+   80,
+   850,
+   890
+  ],
+  "pylon_colour": "grey",
+  "stay_colour": "white"
  },
  "id": "cau-can-tho",
  "review": [
-  "Pylon was a generic inverted-Y with no lower legs or strut",
-  "Explicit A-frame lower legs splaying to the footing, merge at ≈70 m above deck, under-deck strut, head anchor zone 88–130 m, fan (was semi-fan), 2×40 m auxiliary-pier end spans",
-  "Good: 4 Commons photos incl. close-up and construction"
- ]
+  "Pass 1 claimed A-frame splayed feet — wrong",
+  "Diamond foot: legs ±15.8 m at the deck converging to ±11 m at the footing; merge ≈74 m above deck; aux piers fixed (unit = 930 m)",
+  "Good: client photo + 4 Commons side views showing the foot"
+ ],
+ "notes": "Pass 2 (2026-11-26): corrected from the client's sunset photo and Commons side views (Anh Khoa 32866753646 / 32907235505): below the deck the legs converge to a narrower footing (diamond), not an A-frame splay. Merge ≈56 m above deck (≈40%, measured on photos 21 and 24: head ≈57–62% of the above-deck height); head ≈79 m. Auxiliary piers at 40 and 80 m from each unit end (2 × 40 m end spans); unit length 930 m, so 850/890 from the start. Steel box main span.",
+ "pass2": true,
+ "checklist": {
+  "foot below deck": "fixed (diamond, footing ≈0.55× deck spread)",
+  "legs at deck": "pass (outside edges, cross-beam)",
+  "merge height": "fixed (≈56 m, 40%)",
+  "crossbeams": "pass (1, under deck)",
+  "head": "fixed (long, stout, tapered)",
+  "proportions": "pass (135 m above deck / 550 m span)",
+  "stays": "limited (dense fan rendered thinner than reality)",
+  "deck / aux piers": "fixed (aux piers 40/80 m from each end)",
+  "colour": "pass (grey; red night lighting not modelled)"
+ },
+ "compare": "research/compare/cau-can-tho.png"
 }

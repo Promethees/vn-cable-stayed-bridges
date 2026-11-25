@@ -103,5 +103,18 @@
   "Plain H",
   "Top cross-beam frame + under-deck beam; double-deck truss noted",
   "Render only"
- ]
+ ],
+ "checklist": {
+  "foot below deck": "limited",
+  "legs at deck": "pass",
+  "merge height": "n/a",
+  "crossbeams": "pass (top frame)",
+  "head": "pass",
+  "proportions": "pass",
+  "stays": "pass",
+  "deck / aux piers": "limited (double-deck truss as steel box)",
+  "colour": "pass"
+ },
+ "pass2": true,
+ "compare": "scratchpad only (press/render images, licence unknown)"
 }

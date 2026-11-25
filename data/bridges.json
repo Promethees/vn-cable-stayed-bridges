@@ -24,8 +24,8 @@
     "width_m": 23.1,
     "lanes": 6,
     "cable_stayed_spans": 1,
-    "pylons": "2 tháp chữ Y ngược (chân chữ A), cao 175,3 m",
-    "pylons_en": "2 inverted-Y pylons (A-frame legs), 175.3 m",
+    "pylons": "2 tháp chữ Y ngược, chân kim cương dưới mặt cầu, cao 175,3 m",
+    "pylons_en": "2 inverted-Y pylons with diamond feet below the deck, 175.3 m",
     "nav_clearance": {
       "height_m": 39,
       "reference": "for 10,000 DWT ships; reference level not stated",
@@ -53,74 +53,104 @@
       "deck_type": "steel",
       "confidence": "estimated",
       "pylon_custom": {
-        "description": "Inverted Y: two straight legs splay outward from a common footing up to the deck (A-frame, legs widest at the deck and wider still at the footing), pass outside the deck, converge to a single head about 70 m above deck; the head carries all stays. One cross-beam under the deck. No diamond: the legs keep splaying down to the pile cap.",
+        "description": "Inverted Y with a DIAMOND foot. Two straight, heavy legs come down from a long single head, splay outward and pass just outside the deck edges, where a cross-beam carries the deck. Below the deck they converge INWARD to a footing ≈0.55 × the leg spread at the deck, leaving an arched opening under the deck beam. The legs merge ≈40% of the above-deck height (≈56 m); the tapered single head (≈60%) carries a dense fan of stays in two planes.",
         "legs": [
           {
             "centerline": [
               [
                 0,
-                -40,
-                -24
+                -38,
+                -8.8
+              ],
+              [
+                0,
+                -20,
+                -12.3
+              ],
+              [
+                0,
+                -3,
+                -15.6
               ],
               [
                 0,
                 0,
-                -16.5
+                -15.8
+              ],
+              [
+                0,
+                20,
+                -10.8
               ],
               [
                 0,
                 40,
-                -8
+                -5.8
               ],
               [
                 0,
-                70,
-                -1.5
+                56,
+                -1.8
               ]
             ],
             "width_base_m": 7.0,
-            "width_top_m": 4.5,
-            "depth_base_m": 9.0,
-            "depth_top_m": 7.0
+            "width_top_m": 5.0,
+            "depth_base_m": 11.0,
+            "depth_top_m": 8.5
           },
           {
             "centerline": [
               [
                 0,
-                -40,
-                24
+                -38,
+                8.8
+              ],
+              [
+                0,
+                -20,
+                12.3
+              ],
+              [
+                0,
+                -3,
+                15.6
               ],
               [
                 0,
                 0,
-                16.5
+                15.8
+              ],
+              [
+                0,
+                20,
+                10.8
               ],
               [
                 0,
                 40,
-                8
+                5.8
               ],
               [
                 0,
-                70,
-                1.5
+                56,
+                1.8
               ]
             ],
             "width_base_m": 7.0,
-            "width_top_m": 4.5,
-            "depth_base_m": 9.0,
-            "depth_top_m": 7.0
+            "width_top_m": 5.0,
+            "depth_base_m": 11.0,
+            "depth_top_m": 8.5
           },
           {
             "centerline": [
               [
                 0,
-                70,
+                56,
                 0
               ],
               [
                 0,
-                100,
+                95,
                 0
               ],
               [
@@ -129,41 +159,44 @@
                 0
               ]
             ],
-            "width_base_m": 7.5,
+            "width_base_m": 10.0,
             "width_top_m": 5.0,
-            "depth_base_m": 8.0,
-            "depth_top_m": 6.0
+            "depth_base_m": 9.0,
+            "depth_top_m": 5.5
           }
         ],
         "crossbeams_y_m": [
-          -4
+          -3
         ],
+        "crown": "pointed",
         "anchor_zone": [
           {
-            "y_from_m": 88,
-            "y_to_m": 130,
+            "y_from_m": 70,
+            "y_to_m": 132,
             "leg": 2
           }
         ],
         "mirror_for_other_pylons": true,
         "reference_images": [
-          "https://commons.wikimedia.org/wiki/File:Can_Tho_Bridge_cables.JPG",
-          "https://commons.wikimedia.org/wiki/File:Can_Tho_Bridge_tower_under_construction.jpg",
-          "https://commons.wikimedia.org/wiki/File:Can_Tho_Bridge_3.jpg",
-          "https://commons.wikimedia.org/wiki/File:Cầu_Cần_Thơ_(6321757880).jpg"
+          "https://commons.wikimedia.org/wiki/File:Can_Tho_Bridge_(32866753646).jpg",
+          "https://commons.wikimedia.org/wiki/File:Can_Tho_Bridge_(32907235505).jpg",
+          "https://commons.wikimedia.org/wiki/File:Can_Tho_Bridge_(32866755796).jpg",
+          "https://commons.wikimedia.org/wiki/File:Can_Tho_Bridge_under_construction.jpg"
         ]
       },
       "auxiliary_piers_m_from_end": [
         40,
         80
       ],
-      "notes": "Shape read from Commons photos (pylon close-up from the deck; tower under construction 2007, which shows the A-frame legs and the under-deck strut). Height 175.3 m total (mageba), of which ≈135 m above deck. Side-span auxiliary piers at 40 m spacing (2×40 m end spans). Stays fan from the single head to both deck edges. Steel box girder in the main span, concrete in the side spans.",
+      "notes": "Shape read from Commons photos (pylon close-up from the deck; tower under construction 2007, which shows the A-frame legs and the under-deck strut). Height 175.3 m total (mageba), of which ≈135 m above deck. Side-span auxiliary piers at 40 m spacing (2×40 m end spans). Stays fan from the single head to both deck edges. Steel box girder in the main span, concrete in the side spans. Pass 2 (2026-11-26): corrected from the client's sunset photo and Commons side views (Anh Khoa 32866753646 / 32907235505): below the deck the legs converge to a narrower footing (diamond), not an A-frame splay. Merge ≈56 m above deck (≈40%, measured on photos 21 and 24: head ≈57–62% of the above-deck height); head ≈79 m. Auxiliary piers at 40 and 80 m from each unit end (2 × 40 m end spans); unit length 930 m, so 850/890 from the start. Steel box main span.",
       "auxiliary_piers_m": [
         40,
         80,
-        930,
-        970
-      ]
+        850,
+        890
+      ],
+      "pylon_colour": "grey",
+      "stay_colour": "white"
     },
     "lat": 10.0328,
     "lng": 105.8103,
@@ -462,9 +495,7 @@
         ]
       },
       "colour": "grey concrete column; yellow stay sheaths",
-      "notes": "Single column, straight from pier to top, seen in side photos; yellow stays seen at deck level. Height 150 m total (Wikipedia), ≈100 m above deck.",
-      "stay_colour": "yellow",
-      "deck_crest_m": 8.0
+      "notes": "Single column, straight from pier to top, seen in side photos; yellow stays seen at deck level. Height 150 m total (Wikipedia), ≈100 m above deck."
     },
     "lat": 20.9602,
     "lng": 107.0658,
@@ -951,8 +982,7 @@
           "https://commons.wikimedia.org/wiki/File:Cầu_Mỹ_Thuận_1_và_2.jpg"
         ]
       },
-      "notes": "From Commons side and deck-level photos: H legs, under-deck beam plus one upper beam at ≈55% of the above-deck height; ≈120 m total above high water (deck ≈38 m up, so ≈82 m above deck). 128 stays = 16 per side per plane.",
-      "deck_crest_m": 6.0
+      "notes": "From Commons side and deck-level photos: H legs, under-deck beam plus one upper beam at ≈55% of the above-deck height; ≈120 m total above high water (deck ≈38 m up, so ≈82 m above deck). 128 stays = 16 per side per plane."
     },
     "lat": 10.2775,
     "lng": 105.91,
@@ -1071,8 +1101,10 @@
                 -1.5
               ]
             ],
-            "width_base_m": 4.5,
-            "width_top_m": 3.5
+            "width_base_m": 6.0,
+            "width_top_m": 4.5,
+            "depth_base_m": 7.0,
+            "depth_top_m": 5.5
           },
           {
             "centerline": [
@@ -1102,8 +1134,10 @@
                 1.5
               ]
             ],
-            "width_base_m": 4.5,
-            "width_top_m": 3.5
+            "width_base_m": 6.0,
+            "width_top_m": 4.5,
+            "depth_base_m": 7.0,
+            "depth_top_m": 5.5
           },
           {
             "centerline": [
@@ -1123,8 +1157,10 @@
                 0
               ]
             ],
-            "width_base_m": 5.0,
-            "width_top_m": 3.5
+            "width_base_m": 7.5,
+            "width_top_m": 4.0,
+            "depth_base_m": 6.5,
+            "depth_top_m": 4.5
           }
         ],
         "crossbeams_y_m": [
@@ -1822,8 +1858,7 @@
         ]
       },
       "colour": "cream concrete; orange stay sheaths",
-      "notes": "A-frame legs, under-deck strut and orange stays clear in Commons close-ups.",
-      "stay_colour": "orange"
+      "notes": "A-frame legs, under-deck strut and orange stays clear in Commons close-ups."
     },
     "lat": 10.3443,
     "lng": 106.3423,
@@ -1992,11 +2027,7 @@
       "auxiliary_piers_m_from_end": [
         60
       ],
-      "notes": "Aerial (VnExpress, 4/2025) shows twin columns without an upper beam; the Commons side view shows an auxiliary pier in each side span (position estimated ≈60 m from the end pier).",
-      "auxiliary_piers_m": [
-        60,
-        460
-      ]
+      "notes": "Aerial (VnExpress, 4/2025) shows twin columns without an upper beam; the Commons side view shows an auxiliary pier in each side span (position estimated ≈60 m from the end pier)."
     },
     "lat": 10.3368,
     "lng": 106.3074,
@@ -2087,7 +2118,7 @@
               [
                 0,
                 -30,
-                -14
+                -13.5
               ],
               [
                 0,
@@ -2096,29 +2127,31 @@
               ],
               [
                 0,
-                40,
-                -7
+                30,
+                -9.0
               ],
               [
                 0,
-                62,
-                -4.5
+                54,
+                -5.5
               ],
               [
                 0,
                 72,
-                -4
+                -4.0
               ]
             ],
-            "width_base_m": 4.0,
-            "width_top_m": 1.0
+            "width_base_m": 5.0,
+            "width_top_m": 1.5,
+            "depth_base_m": 5.5,
+            "depth_top_m": 2.5
           },
           {
             "centerline": [
               [
                 0,
                 -30,
-                14
+                13.5
               ],
               [
                 0,
@@ -2127,37 +2160,39 @@
               ],
               [
                 0,
-                40,
-                7
+                30,
+                9.0
               ],
               [
                 0,
-                62,
-                4.5
+                54,
+                5.5
               ],
               [
                 0,
                 72,
-                4
+                4.0
               ]
             ],
-            "width_base_m": 4.0,
-            "width_top_m": 1.0
+            "width_base_m": 5.0,
+            "width_top_m": 1.5,
+            "depth_base_m": 5.5,
+            "depth_top_m": 2.5
           }
         ],
         "crossbeams_y_m": [
           -2,
-          60
+          54
         ],
         "anchor_zone": [
           {
-            "y_from_m": 42,
-            "y_to_m": 62,
+            "y_from_m": 36,
+            "y_to_m": 56,
             "leg": 0
           },
           {
-            "y_from_m": 42,
-            "y_to_m": 62,
+            "y_from_m": 36,
+            "y_to_m": 56,
             "leg": 1
           }
         ],
@@ -2319,8 +2354,7 @@
       },
       "colour": "grey concrete; orange stay sheaths",
       "image_issue": "The VOV image (media.vov.vn ... vov_cau_bach_dang_7_KXCD.jpg) resolves to the VOV logo, not the bridge. Remove it.",
-      "notes": "Deck-level Commons photo shows the upper cross-beam; the Báo Lâm Đồng aerial shows orange stays and 3 pylons.",
-      "stay_colour": "orange"
+      "notes": "Deck-level Commons photo shows the upper cross-beam; the Báo Lâm Đồng aerial shows orange stays and 3 pylons."
     },
     "lat": 20.8478,
     "lng": 106.7655,
@@ -2436,10 +2470,7 @@
           "https://commons.wikimedia.org/wiki/File:Trần_Thị_Lý_Bridge_at_daytime.jpg",
           "https://commons.wikimedia.org/wiki/File:Trần_Thị_Lý_Bridge,_Da_Nang.jpg"
         ]
-      },
-      "pylon_colour": "white",
-      "stay_colour": "white",
-      "back_stay_colour": "red"
+      }
     },
     "lat": 16.0504,
     "lng": 108.23,
@@ -2698,10 +2729,10 @@
                 0
               ]
             ],
-            "width_base_m": 5.0,
-            "width_top_m": 2.5,
-            "depth_base_m": 4.0,
-            "depth_top_m": 2.5
+            "width_base_m": 6.5,
+            "width_top_m": 3.5,
+            "depth_base_m": 5.0,
+            "depth_top_m": 3.0
           },
           {
             "centerline": [
@@ -2736,10 +2767,10 @@
                 0
               ]
             ],
-            "width_base_m": 5.0,
-            "width_top_m": 2.5,
-            "depth_base_m": 4.0,
-            "depth_top_m": 2.5
+            "width_base_m": 6.5,
+            "width_top_m": 3.5,
+            "depth_base_m": 5.0,
+            "depth_top_m": 3.0
           }
         ],
         "anchor_zone": [
@@ -2763,7 +2794,8 @@
           "https://commons.wikimedia.org/wiki/File:Thu_Thiem_2_Bridge_construction.png"
         ],
         "crown": "rounded"
-      }
+      },
+      "pylon_colour": "white"
     },
     "lat": 10.7808,
     "lng": 106.7088,
@@ -2926,9 +2958,7 @@
         "reference_images": [
           "https://cdn-i.vtcnews.vn/resize/1200x900//upload/2024/07/16/cau-ben-rung-truoc-ngay-thong-cau-5-10294993.jpg"
         ]
-      },
-      "pylon_colour": "white",
-      "stay_colour": "red"
+      }
     },
     "lat": 20.9728,
     "lng": 106.7703,
@@ -2998,9 +3028,7 @@
       "deck_type": "concrete",
       "extradosed": true,
       "confidence": "estimated",
-      "notes": "Extradosed 86+153+86 m (infra.global). Low red pylons; one central plane assumed from press aerials. Pylon height estimated. Colour: white mast; red stays. Aerial shows two low central masts with red single-plane stays.",
-      "pylon_colour": "white",
-      "stay_colour": "red"
+      "notes": "Extradosed 86+153+86 m (infra.global). Low red pylons; one central plane assumed from press aerials. Pylon height estimated. Colour: white mast; red stays. Aerial shows two low central masts with red single-plane stays."
     },
     "lat": 18.751,
     "lng": 105.7469,
@@ -3061,9 +3089,7 @@
       "deck_type": "concrete",
       "extradosed": true,
       "confidence": "estimated",
-      "notes": "Extradosed main span 218 m; A-topped red pylons 32 m above deck (72 m from water) per Người Quan Sát. Side spans and the single central cable plane estimated from photos. Number of extradosed spans unclear. Colour: white pylon; red stays. Báo Lâm Đồng photo (7/2026).",
-      "pylon_colour": "white",
-      "stay_colour": "red"
+      "notes": "Extradosed main span 218 m; A-topped red pylons 32 m above deck (72 m from water) per Người Quan Sát. Side spans and the single central cable plane estimated from photos. Number of extradosed spans unclear. Colour: white pylon; red stays. Báo Lâm Đồng photo (7/2026)."
     },
     "lat": 16.5687,
     "lng": 107.6234,
@@ -3410,6 +3436,99 @@
       "deck_type": "composite",
       "confidence": "estimated",
       "notes": "210+450+210 m, A-shaped pylons 110 m above deck, composite steel girder (Báo Đầu tư). Fan pattern from the render. Another source gives 164 m total height. Colour: grey concrete; red stays (render). Báo Đầu tư render.",
+      "pylon_custom": {
+        "description": "Inverted Y from the render: legs straddle the deck and converge slowly, merging ≈70% up into a short head with a small 'eye' slot and a pointed tip; red stays fan in two planes from the head.",
+        "legs": [
+          {
+            "centerline": [
+              [
+                0,
+                -35,
+                -11
+              ],
+              [
+                0,
+                0,
+                -13
+              ],
+              [
+                0,
+                40,
+                -7
+              ],
+              [
+                0,
+                78,
+                -1.5
+              ]
+            ],
+            "width_base_m": 5.0,
+            "width_top_m": 3.5
+          },
+          {
+            "centerline": [
+              [
+                0,
+                -35,
+                11
+              ],
+              [
+                0,
+                0,
+                13
+              ],
+              [
+                0,
+                40,
+                7
+              ],
+              [
+                0,
+                78,
+                1.5
+              ]
+            ],
+            "width_base_m": 5.0,
+            "width_top_m": 3.5
+          },
+          {
+            "centerline": [
+              [
+                0,
+                78,
+                0
+              ],
+              [
+                0,
+                95,
+                0
+              ],
+              [
+                0,
+                110,
+                0
+              ]
+            ],
+            "width_base_m": 5.0,
+            "width_top_m": 2.0
+          }
+        ],
+        "crossbeams_y_m": [
+          -3
+        ],
+        "crown": "pointed",
+        "anchor_zone": [
+          {
+            "y_from_m": 70,
+            "y_to_m": 108,
+            "leg": 2
+          }
+        ],
+        "mirror_for_other_pylons": true,
+        "reference_images": [
+          "https://media.baodautu.vn/thumb_x470x250/Images/anhminh/2024/12/04/he-lo-nha-thau-thi-cong-sieu-cau-day-vang-dai-ngai-1-tri-gia-3900-ty-dong1733300762.jpg"
+        ]
+      },
       "stay_colour": "red"
     },
     "lat": 9.7069,
@@ -3497,69 +3616,99 @@
       "confidence": "estimated",
       "notes": "Spans 190–450–190 m and a ≥230 × 55 m navigation clearance (cafeland.vn). Two cable planes (press). Pylon height and deck width (8 lanes) estimated. Inverted-Y pylons read from the VnExpress render (1/2026). VnExpress render (1/2026).",
       "pylon_custom": {
-        "description": "Two near-parallel legs straddle the deck and curve together into a rounded arch crown (tuning-fork / inverted U), short spire on top; stays in two planes from the upper legs.",
+        "description": "Pylon stands in the MEDIAN (inside the deck): two legs rise ±9.5 m apart (central lanes pass between them) at deck level, close to touch ≈44 m up, open again into a tall 'eye' (≈7 m) and close in a rounded crown at ≈116 m. Two stay planes fan from the eye section out to the deck edges.",
         "legs": [
           {
             "centerline": [
               [
                 0,
                 -40,
-                -19
+                -7.0
               ],
               [
                 0,
                 0,
-                -19
+                -9.5
               ],
               [
                 0,
-                70,
-                -17
+                25,
+                -5.5
               ],
               [
                 0,
-                105,
-                -9
+                46,
+                -2.0
               ],
               [
                 0,
-                118,
+                62,
+                -4.6
+              ],
+              [
+                0,
+                96,
+                -4.6
+              ],
+              [
+                0,
+                110,
+                -2.6
+              ],
+              [
+                0,
+                117,
                 0
               ]
             ],
-            "width_base_m": 5.0,
-            "width_top_m": 3.5
+            "width_base_m": 4.0,
+            "width_top_m": 2.6
           },
           {
             "centerline": [
               [
                 0,
                 -40,
-                19
+                7.0
               ],
               [
                 0,
                 0,
-                19
+                9.5
               ],
               [
                 0,
-                70,
-                17
+                25,
+                5.5
               ],
               [
                 0,
-                105,
-                9
+                46,
+                2.0
               ],
               [
                 0,
-                118,
+                62,
+                4.6
+              ],
+              [
+                0,
+                96,
+                4.6
+              ],
+              [
+                0,
+                110,
+                2.6
+              ],
+              [
+                0,
+                117,
                 0
               ]
             ],
-            "width_base_m": 5.0,
-            "width_top_m": 3.5
+            "width_base_m": 4.0,
+            "width_top_m": 2.6
           }
         ],
         "crossbeams_y_m": [
@@ -3567,12 +3716,12 @@
         ],
         "anchor_zone": [
           {
-            "y_from_m": 60,
+            "y_from_m": 62,
             "y_to_m": 110,
             "leg": 0
           },
           {
-            "y_from_m": 60,
+            "y_from_m": 62,
             "y_to_m": 110,
             "leg": 1
           }
@@ -3582,7 +3731,8 @@
           "https://i1-vnexpress.vnecdn.net/2026/01/29/gen-h-z7480267955959-ba79feb88a7a279aae8ce8175156fea7-1769679191-1769686927-1769696745.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=AcNEih9NX7kBNJoD0LwqfQ"
         ],
         "crown": "rounded"
-      }
+      },
+      "pylon_colour": "white"
     },
     "lat": 10.7547,
     "lng": 106.79,
@@ -4086,8 +4236,7 @@
         "mirror_for_other_pylons": true,
         "reference_images": [
           "https://nqs.1cdn.vn/thumbs/1200x630/2026/08/01/7031_cau-phuoc-an3.jpg"
-        ],
-        "crown": "rounded"
+        ]
       }
     },
     "lat": 10.6285,
@@ -4235,7 +4384,7 @@
       "confidence": "estimated",
       "notes": "200 m main span, 89 m pylons, 48 stays (24 per pylon, so 6 per side per plane assuming 2 planes), steel deck 21 m (CafeF). Side spans not published (estimated 90 m). Pylon form read from the CafeF and VTC photos (7/2025). Colour: yellow pylons, red steel deck edge girders, white stays. Photos show curved splayed 'wing' feet under the deck and a curved strut under the side span; the current legs start straight. Engineer: add the curved feet (leg polyline can be extended below the deck with outward curvature).",
       "pylon_custom": {
-        "description": "Each pylon is a yellow arch: two legs straddle the red steel deck and curve together at the top, the arch bowing forward toward the main span. Below the deck each leg sweeps outward in a curved yellow 'wing' foot to the pier; a curved strut also reaches out under the side-span deck. Two planes of stays fan to the deck edges on both sides.",
+        "description": "Each pylon is a yellow arch: two legs straddle the red steel deck and curve together at the top, the arch bowing forward toward the main span. Below the deck each leg sweeps outward in a curved yellow 'wing' foot to the pier; a curved strut also reaches out under the side-span deck. Two planes of stays fan to the deck edges on both sides. Below the deck the two legs converge onto a narrow pile cap; from the foot a curved yellow arm reaches toward the side span under the deck (modelled as a straight strut).",
         "legs": [
           {
             "centerline": [
@@ -4245,9 +4394,9 @@
                 -7
               ],
               [
-                -6,
-                -18,
-                -15
+                -1,
+                -14,
+                -10.5
               ],
               [
                 0,
@@ -4281,9 +4430,9 @@
                 7
               ],
               [
-                -6,
-                -18,
-                15
+                -1,
+                -14,
+                10.5
               ],
               [
                 0,
@@ -4330,31 +4479,32 @@
         "struts": [
           {
             "a": [
-              -5,
-              -20,
-              -14
+              -1,
+              -24,
+              -8.5
             ],
             "b": [
               -38,
               -3,
               -9
             ],
-            "width": 2.0
+            "width": 2.2
           },
           {
             "a": [
-              -5,
-              -20,
-              14
+              -1,
+              -24,
+              8.5
             ],
             "b": [
               -38,
               -3,
               9
             ],
-            "width": 2.0
+            "width": 2.2
           }
-        ]
+        ],
+        "crown": "rounded"
       },
       "pylon_colour": "yellow",
       "deck_colour": "red",

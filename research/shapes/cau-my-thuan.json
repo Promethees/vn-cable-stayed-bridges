@@ -109,5 +109,18 @@
   "H pylon had no cross-beam heights and no below-deck leg",
   "Added legs to the footing, 2 cross-beams (under deck and ≈42 m above deck), anchor zone 48–80 m, vertical deck crest noted",
   "Good: 3–4 Commons photos"
- ]
+ ],
+ "checklist": {
+  "foot below deck": "pass (straight legs to pile cap)",
+  "legs at deck": "pass (outside edges)",
+  "merge height": "pass (no merge, H)",
+  "crossbeams": "pass (under deck + ≈42 m)",
+  "head": "pass",
+  "proportions": "pass",
+  "stays": "pass (semi-fan)",
+  "deck / aux piers": "pass (vertical crest)",
+  "colour": "pass"
+ },
+ "pass2": true,
+ "compare": "research/compare/cau-my-thuan.png"
 }

@@ -107,5 +107,18 @@
   "No cross-beam positions; one gallery image is the VOV logo",
   "Upper beam ≈38 m above deck + under-deck beam; orange stays; remove the VOV image",
   "Medium: 1 Commons + 1 press aerial"
- ]
+ ],
+ "checklist": {
+  "foot below deck": "pass (straight)",
+  "legs at deck": "pass",
+  "merge height": "n/a (H)",
+  "crossbeams": "pass",
+  "head": "pass",
+  "proportions": "pass",
+  "stays": "pass (orange)",
+  "deck / aux piers": "pass",
+  "colour": "pass"
+ },
+ "pass2": true,
+ "compare": "research/compare/cau-bach-dang.png"
 }

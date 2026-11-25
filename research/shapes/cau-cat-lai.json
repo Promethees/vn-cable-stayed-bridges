@@ -20,69 +20,99 @@
   "confidence": "estimated",
   "notes": "Spans 190–450–190 m and a ≥230 × 55 m navigation clearance (cafeland.vn). Two cable planes (press). Pylon height and deck width (8 lanes) estimated. Inverted-Y pylons read from the VnExpress render (1/2026).",
   "pylon_custom": {
-   "description": "Two near-parallel legs straddle the deck and curve together into a rounded arch crown (tuning-fork / inverted U), short spire on top; stays in two planes from the upper legs.",
+   "description": "Pylon stands in the MEDIAN (inside the deck): two legs rise ±9.5 m apart (central lanes pass between them) at deck level, close to touch ≈44 m up, open again into a tall 'eye' (≈7 m) and close in a rounded crown at ≈116 m. Two stay planes fan from the eye section out to the deck edges.",
    "legs": [
     {
      "centerline": [
       [
        0,
        -40,
-       -19
+       -7.0
       ],
       [
        0,
        0,
-       -19
+       -9.5
       ],
       [
        0,
-       70,
-       -17
+       25,
+       -5.5
       ],
       [
        0,
-       105,
-       -9
+       46,
+       -2.0
       ],
       [
        0,
-       118,
+       62,
+       -4.6
+      ],
+      [
+       0,
+       96,
+       -4.6
+      ],
+      [
+       0,
+       110,
+       -2.6
+      ],
+      [
+       0,
+       117,
        0
       ]
      ],
-     "width_base_m": 5.0,
-     "width_top_m": 3.5
+     "width_base_m": 4.0,
+     "width_top_m": 2.6
     },
     {
      "centerline": [
       [
        0,
        -40,
-       19
+       7.0
       ],
       [
        0,
        0,
-       19
+       9.5
       ],
       [
        0,
-       70,
-       17
+       25,
+       5.5
       ],
       [
        0,
-       105,
-       9
+       46,
+       2.0
       ],
       [
        0,
-       118,
+       62,
+       4.6
+      ],
+      [
+       0,
+       96,
+       4.6
+      ],
+      [
+       0,
+       110,
+       2.6
+      ],
+      [
+       0,
+       117,
        0
       ]
      ],
-     "width_base_m": 5.0,
-     "width_top_m": 3.5
+     "width_base_m": 4.0,
+     "width_top_m": 2.6
     }
    ],
    "crossbeams_y_m": [
@@ -90,12 +120,12 @@
    ],
    "anchor_zone": [
     {
-     "y_from_m": 60,
+     "y_from_m": 62,
      "y_to_m": 110,
      "leg": 0
     },
     {
-     "y_from_m": 60,
+     "y_from_m": 62,
      "y_to_m": 110,
      "leg": 1
     }
@@ -103,8 +133,10 @@
    "mirror_for_other_pylons": true,
    "reference_images": [
     "https://i1-vnexpress.vnecdn.net/2026/01/29/gen-h-z7480267955959-ba79feb88a7a279aae8ce8175156fea7-1769679191-1769686927-1769696745.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=AcNEih9NX7kBNJoD0LwqfQ"
-   ]
-  }
+   ],
+   "crown": "rounded"
+  },
+  "pylon_colour": "white"
  },
  "notes": "VnExpress render (1/2026).",
  "id": "cau-cat-lai",
@@ -112,5 +144,18 @@
   "Inverted-Y — render shows parallel legs closing in a rounded arch",
   "Custom arch-top pylon (Ba Son-like but vertical)",
   "Render only"
- ]
+ ],
+ "checklist": {
+  "foot below deck": "limited (render shows no foot)",
+  "legs at deck": "fixed (in the median, not outside the deck edges)",
+  "merge height": "fixed (legs touch ≈44 m, eye 60–108 m, crown ≈116 m)",
+  "crossbeams": "pass (under deck)",
+  "head": "fixed (slotted eye + rounded crown)",
+  "proportions": "pass",
+  "stays": "pass",
+  "deck / aux piers": "limited",
+  "colour": "pass (white)"
+ },
+ "pass2": true,
+ "compare": "scratchpad only (press/render images, licence unknown)"
 }

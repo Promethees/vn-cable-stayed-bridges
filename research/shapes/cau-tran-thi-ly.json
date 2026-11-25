@@ -69,5 +69,18 @@
   "Stay colours not captured",
   "Kept single 12° mast; added white front / red back-stay colours",
   "Good: 4 Commons photos"
- ]
+ ],
+ "checklist": {
+  "foot below deck": "pass (single mast)",
+  "legs at deck": "pass (median)",
+  "merge height": "n/a",
+  "crossbeams": "n/a",
+  "head": "pass (12° lean)",
+  "proportions": "pass",
+  "stays": "pass (white front, red back)",
+  "deck / aux piers": "pass",
+  "colour": "limited (purple lighting not modelled)"
+ },
+ "pass2": true,
+ "compare": "research/compare/cau-tran-thi-ly.png"
 }

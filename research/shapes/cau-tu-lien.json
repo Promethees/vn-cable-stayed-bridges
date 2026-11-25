@@ -1,0 +1,22 @@
+{
+ "id": "cau-tu-lien",
+ "pass2": true,
+ "review_only": true,
+ "checklist": {
+  "foot below deck": "pass (diamond, engineer's model)",
+  "legs at deck": "pass (outside edges)",
+  "merge height": "pass (≈38%)",
+  "crossbeams": "pass (none)",
+  "head": "fixed (blades thickened to ≈8.5 × 12.75 m; slot 2.5 m)",
+  "proportions": "pass",
+  "stays": "pass (semi-fan, 2 planes)",
+  "deck / aux piers": "limited",
+  "colour": "pass"
+ },
+ "compare": "scratchpad only (press/render images, licence unknown)",
+ "review": [
+  "Blades looked like sticks",
+  "Blades thickened (0.05 × / 0.075 × the above-deck height)",
+  "Official render + construction photo"
+ ]
+}

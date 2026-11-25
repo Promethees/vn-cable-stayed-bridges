@@ -779,7 +779,7 @@ for b in B:
     if bid == "cau-tu-lien":
         b["pylons"] = "2 tháp chân kim cương, tách hai lưỡi xoắn phía trên, cao ≈185 m"
         b["pylons_en"] = "2 diamond-foot pylons splitting into two twisted blades, ≈185 m"
-    if bid in PHASE6:
+    if bid in PHASE6 and not SHAPES.get(bid, {}).get("pass2"):   # pass-2 shape files are authoritative
         ov = PHASE6[bid]
         m = b["model3d"]
         for k, v in ov.items():

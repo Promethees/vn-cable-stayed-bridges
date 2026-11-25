@@ -26,7 +26,7 @@
       [
        0,
        -30,
-       -14
+       -13.5
       ],
       [
        0,
@@ -35,29 +35,31 @@
       ],
       [
        0,
-       40,
-       -7
+       30,
+       -9.0
       ],
       [
        0,
-       62,
-       -4.5
+       54,
+       -5.5
       ],
       [
        0,
        72,
-       -4
+       -4.0
       ]
      ],
-     "width_base_m": 4.0,
-     "width_top_m": 1.0
+     "width_base_m": 5.0,
+     "width_top_m": 1.5,
+     "depth_base_m": 5.5,
+     "depth_top_m": 2.5
     },
     {
      "centerline": [
       [
        0,
        -30,
-       14
+       13.5
       ],
       [
        0,
@@ -66,37 +68,39 @@
       ],
       [
        0,
-       40,
-       7
+       30,
+       9.0
       ],
       [
        0,
-       62,
-       4.5
+       54,
+       5.5
       ],
       [
        0,
        72,
-       4
+       4.0
       ]
      ],
-     "width_base_m": 4.0,
-     "width_top_m": 1.0
+     "width_base_m": 5.0,
+     "width_top_m": 1.5,
+     "depth_base_m": 5.5,
+     "depth_top_m": 2.5
     }
    ],
    "crossbeams_y_m": [
     -2,
-    60
+    54
    ],
    "anchor_zone": [
     {
-     "y_from_m": 42,
-     "y_to_m": 62,
+     "y_from_m": 36,
+     "y_to_m": 56,
      "leg": 0
     },
     {
-     "y_from_m": 42,
-     "y_to_m": 62,
+     "y_from_m": 36,
+     "y_to_m": 56,
      "leg": 1
     }
    ],
@@ -112,5 +116,18 @@
   "Modelled as inverted-Y; the legs actually stay apart with a top beam and pointed tips",
   "Truncated A with beam ≈60 m above deck and pointed tips",
   "Weak: 1 Commons photo"
- ]
+ ],
+ "checklist": {
+  "foot below deck": "limited (no photo below deck; straight assumed)",
+  "legs at deck": "pass (outside edges)",
+  "merge height": "pass (legs never merge)",
+  "crossbeams": "fixed (upper beam ≈54 m, 75%)",
+  "head": "fixed (pointed tips above the beam)",
+  "proportions": "pass",
+  "stays": "pass (fan, 2 planes)",
+  "deck / aux piers": "limited",
+  "colour": "pass (light grey)"
+ },
+ "pass2": true,
+ "compare": "research/compare/cau-binh.png"
 }

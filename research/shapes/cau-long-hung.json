@@ -104,5 +104,18 @@
   "Single mast without the Y foot",
   "Short Y foot noted (legs splay just above the deck into the mast)",
   "Render only"
- ]
+ ],
+ "checklist": {
+  "foot below deck": "pass (Y foot into single pier)",
+  "legs at deck": "pass (median)",
+  "merge height": "pass",
+  "crossbeams": "n/a",
+  "head": "pass",
+  "proportions": "pass",
+  "stays": "pass (single plane)",
+  "deck / aux piers": "limited",
+  "colour": "pass"
+ },
+ "pass2": true,
+ "compare": "scratchpad only (press/render images, licence unknown)"
 }

@@ -124,5 +124,18 @@
   "—",
   "Kept; render confirms root legs splitting from one trunk",
   "Render only"
- ]
+ ],
+ "checklist": {
+  "foot below deck": "pass (root legs)",
+  "legs at deck": "pass",
+  "merge height": "pass",
+  "crossbeams": "n/a",
+  "head": "pass",
+  "proportions": "pass",
+  "stays": "pass",
+  "deck / aux piers": "limited",
+  "colour": "pass"
+ },
+ "pass2": true,
+ "compare": "scratchpad only (press/render images, licence unknown)"
 }

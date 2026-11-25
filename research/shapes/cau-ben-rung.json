@@ -97,5 +97,18 @@
   "—",
   "No geometry change; red stays and white/red blades confirmed",
   "Good: 2 press photos"
- ]
+ ],
+ "checklist": {
+  "foot below deck": "pass (blades on the deck edge)",
+  "legs at deck": "pass",
+  "merge height": "n/a",
+  "crossbeams": "n/a",
+  "head": "pass",
+  "proportions": "pass",
+  "stays": "pass (red)",
+  "deck / aux piers": "pass",
+  "colour": "pass"
+ },
+ "pass2": true,
+ "compare": "scratchpad only (press/render images, licence unknown)"
 }

@@ -53,10 +53,10 @@
        0
       ]
      ],
-     "width_base_m": 5.0,
-     "width_top_m": 2.5,
-     "depth_base_m": 4.0,
-     "depth_top_m": 2.5
+     "width_base_m": 6.5,
+     "width_top_m": 3.5,
+     "depth_base_m": 5.0,
+     "depth_top_m": 3.0
     },
     {
      "centerline": [
@@ -91,10 +91,10 @@
        0
       ]
      ],
-     "width_base_m": 5.0,
-     "width_top_m": 2.5,
-     "depth_base_m": 4.0,
-     "depth_top_m": 2.5
+     "width_base_m": 6.5,
+     "width_top_m": 3.5,
+     "depth_base_m": 5.0,
+     "depth_top_m": 3.0
     }
    ],
    "anchor_zone": [
@@ -116,8 +116,10 @@
     "https://wsp.com/en-ca/projects/thu-thiem-2-cable-stayed-bridge",
     "https://commons.wikimedia.org/wiki/File:ThapCauThuThiem2.jpg",
     "https://commons.wikimedia.org/wiki/File:Thu_Thiem_2_Bridge_construction.png"
-   ]
-  }
+   ],
+   "crown": "rounded"
+  },
+  "pylon_colour": "white"
  },
  "notes": "Re-checked on 5 photos: crown is rounded (a smooth arch, not a pointed apex), back-stays fan into the back span. Engineer: smooth the apex.",
  "id": "cau-ba-son",
@@ -125,5 +127,18 @@
   "Apex drawn pointed",
   "Rounded crown noted; back-stay fan confirmed; geometry otherwise unchanged",
   "Good: 5 photos"
- ]
+ ],
+ "checklist": {
+  "foot below deck": "limited (no clear photo below deck; legs to a single pier block)",
+  "legs at deck": "pass (just outside the 27.5 m deck)",
+  "merge height": "pass (arch, rounded crown)",
+  "crossbeams": "pass (none)",
+  "head": "pass",
+  "proportions": "pass (≈100 m above deck / 200 m span)",
+  "stays": "pass (main fan + back-stay fan)",
+  "deck / aux piers": "pass",
+  "colour": "pass (white)"
+ },
+ "pass2": true,
+ "compare": "research/compare/cau-ba-son.png"
 }

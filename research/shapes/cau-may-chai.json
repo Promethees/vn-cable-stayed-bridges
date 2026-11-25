@@ -21,14 +21,19 @@
   "confidence": "estimated",
   "notes": "200 m main span, 89 m pylons, 48 stays (24 per pylon, so 6 per side per plane assuming 2 planes), steel deck 21 m (CafeF). Side spans not published (estimated 90 m). Pylon form read from the CafeF and VTC photos (7/2025).",
   "pylon_custom": {
-   "description": "Each pylon is a yellow arch: two legs straddle the red steel deck and curve together at the top, the arch bowing forward toward the main span. Below the deck each leg sweeps outward in a curved yellow 'wing' foot to the pier; a curved strut also reaches out under the side-span deck. Two planes of stays fan to the deck edges on both sides.",
+   "description": "Each pylon is a yellow arch: two legs straddle the red steel deck and curve together at the top, the arch bowing forward toward the main span. Below the deck each leg sweeps outward in a curved yellow 'wing' foot to the pier; a curved strut also reaches out under the side-span deck. Two planes of stays fan to the deck edges on both sides. Below the deck the two legs converge onto a narrow pile cap; from the foot a curved yellow arm reaches toward the side span under the deck (modelled as a straight strut).",
    "legs": [
     {
      "centerline": [
       [
-       -4,
-       -20,
-       -13
+       -1,
+       -30,
+       -7
+      ],
+      [
+       -1,
+       -14,
+       -10.5
       ],
       [
        0,
@@ -57,9 +62,14 @@
     {
      "centerline": [
       [
-       -4,
-       -20,
-       13
+       -1,
+       -30,
+       7
+      ],
+      [
+       -1,
+       -14,
+       10.5
       ],
       [
        0,
@@ -102,8 +112,40 @@
    "reference_images": [
     "https://cafefcdn.com/thumb_w/640/203337114487263232/2026/7/30/avatar1785383768277-1785383768904592996991.png",
     "https://cdn-i.vtcnews.vn/resize/1200x900/upload/2025/07/13/anh-2-18403346.jpg"
-   ]
-  }
+   ],
+   "struts": [
+    {
+     "a": [
+      -1,
+      -24,
+      -8.5
+     ],
+     "b": [
+      -38,
+      -3,
+      -9
+     ],
+     "width": 2.2
+    },
+    {
+     "a": [
+      -1,
+      -24,
+      8.5
+     ],
+     "b": [
+      -38,
+      -3,
+      9
+     ],
+     "width": 2.2
+    }
+   ],
+   "crown": "rounded"
+  },
+  "pylon_colour": "yellow",
+  "deck_colour": "red",
+  "stay_colour": "white"
  },
  "colour": "yellow pylons, red steel deck edge girders, white stays",
  "notes": "Photos show curved splayed 'wing' feet under the deck and a curved strut under the side span; the current legs start straight. Engineer: add the curved feet (leg polyline can be extended below the deck with outward curvature).",
@@ -112,5 +154,18 @@
   "Below-deck feet were straight; colours missing",
   "Curved splayed yellow feet and side-span strut described; yellow/red colours",
   "Medium: 2 press photos"
- ]
+ ],
+ "checklist": {
+  "foot below deck": "fixed (legs converge to a narrow pile cap; no z-splay)",
+  "legs at deck": "pass",
+  "merge height": "pass (arch, rounded crown)",
+  "crossbeams": "pass (none)",
+  "head": "pass",
+  "proportions": "pass",
+  "stays": "pass",
+  "deck / aux piers": "limited (curved wing arm drawn as a straight strut)",
+  "colour": "pass (yellow/red)"
+ },
+ "pass2": true,
+ "compare": "scratchpad only (press/render images, licence unknown)"
 }

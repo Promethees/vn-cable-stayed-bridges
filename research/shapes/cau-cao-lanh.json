@@ -107,5 +107,18 @@
   "Height 120 m (press says 123.4 m); no cross-beam positions",
   "Height 123.4 m, beams under deck and ≈38 m above deck, anchor zone",
   "Medium: 1 Commons photo"
- ]
+ ],
+ "checklist": {
+  "foot below deck": "pass (straight)",
+  "legs at deck": "pass",
+  "merge height": "n/a (H)",
+  "crossbeams": "pass (under deck + ≈38 m)",
+  "head": "pass",
+  "proportions": "pass (123.4 m)",
+  "stays": "pass",
+  "deck / aux piers": "pass",
+  "colour": "limited (magenta night lighting not modelled)"
+ },
+ "pass2": true,
+ "compare": "research/compare/cau-cao-lanh.png"
 }

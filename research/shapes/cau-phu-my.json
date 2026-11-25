@@ -108,5 +108,18 @@
   "Plain H with no cross-beam heights",
   "Under-deck beam plus high beam ≈70 m above deck, anchor zone 72–98 m",
   "Good: 3 Commons photos"
- ]
+ ],
+ "checklist": {
+  "foot below deck": "pass (straight)",
+  "legs at deck": "pass",
+  "merge height": "n/a (H)",
+  "crossbeams": "pass (under deck + high beam)",
+  "head": "pass",
+  "proportions": "pass",
+  "stays": "pass",
+  "deck / aux piers": "pass",
+  "colour": "pass"
+ },
+ "pass2": true,
+ "compare": "research/compare/cau-phu-my.png"
 }

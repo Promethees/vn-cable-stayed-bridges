@@ -131,5 +131,18 @@
   "Generic inverted-Y; no below-deck legs, stay colour or strut",
   "A-frame legs to splayed footings, merge ≈58 m above deck, under-deck strut, orange stays",
   "Good: 4 Commons photos"
- ]
+ ],
+ "checklist": {
+  "foot below deck": "pass (A-frame: legs splay straight down to a wide footing — confirmed on img2)",
+  "legs at deck": "pass (outside the 12 m deck, strut under deck)",
+  "merge height": "pass (≈58 m)",
+  "crossbeams": "pass (1, under deck)",
+  "head": "pass (short head)",
+  "proportions": "pass",
+  "stays": "pass (fan, orange)",
+  "deck / aux piers": "pass",
+  "colour": "pass (cream, orange stays)"
+ },
+ "pass2": true,
+ "compare": "research/compare/cau-rach-mieu.png"
 }

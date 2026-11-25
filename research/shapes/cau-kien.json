@@ -102,5 +102,18 @@
   "Plain H, no beams",
   "Inward-tapering legs, 2 upper beams (≈22 m, ≈38 m above deck), harp",
   "Weak: 1 Commons photo"
- ]
+ ],
+ "checklist": {
+  "foot below deck": "limited (no photo below deck)",
+  "legs at deck": "pass",
+  "merge height": "n/a",
+  "crossbeams": "pass (2 upper beams)",
+  "head": "pass",
+  "proportions": "limited",
+  "stays": "pass",
+  "deck / aux piers": "limited",
+  "colour": "pass"
+ },
+ "pass2": true,
+ "compare": "research/compare/cau-kien.png"
 }

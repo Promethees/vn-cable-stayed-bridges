@@ -105,5 +105,18 @@
   "H with an implied upper beam; no auxiliary piers",
   "Twin columns with no upper beam, under-deck beam only; auxiliary pier in each side span",
   "Medium: 1 Commons + 2 press aerials"
- ]
+ ],
+ "checklist": {
+  "foot below deck": "pass (straight)",
+  "legs at deck": "pass",
+  "merge height": "n/a (twin columns)",
+  "crossbeams": "pass (under deck only)",
+  "head": "pass",
+  "proportions": "pass",
+  "stays": "pass",
+  "deck / aux piers": "pass (aux piers)",
+  "colour": "pass"
+ },
+ "pass2": true,
+ "compare": "research/compare/cau-rach-mieu-2.png"
 }

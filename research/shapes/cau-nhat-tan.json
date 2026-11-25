@@ -129,5 +129,18 @@
   "Legs started at deck level (no diamond foot); one gallery image shows no bridge",
   "Legs now converge below deck into one pier (diamond), apex ≈80 m above deck; flag image VN 02 for replacement",
   "Good: 2 clear Commons views"
- ]
+ ],
+ "checklist": {
+  "foot below deck": "pass (legs converge into one pier — diamond)",
+  "legs at deck": "pass (outside edges)",
+  "merge height": "pass (pointed apex)",
+  "crossbeams": "pass (under deck only)",
+  "head": "pass",
+  "proportions": "limited (110 m total from Wikipedia)",
+  "stays": "pass (fan)",
+  "deck / aux piers": "pass",
+  "colour": "limited (night lighting not modelled)"
+ },
+ "pass2": true,
+ "compare": "research/compare/cau-nhat-tan.png"
 }

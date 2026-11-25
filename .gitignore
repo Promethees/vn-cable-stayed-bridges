@@ -13,3 +13,4 @@ shots/
 test-results/
 playwright-report/
 *.tsbuildinfo
+research/compare/

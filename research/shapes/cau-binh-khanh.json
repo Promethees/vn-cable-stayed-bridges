@@ -102,5 +102,18 @@
   "Plain H, no beams",
   "Twin vertical legs, under-deck beam + beam near the top (≈90 m above deck)",
   "Medium: 1 press aerial + 1 Commons construction photo"
- ]
+ ],
+ "checklist": {
+  "foot below deck": "limited (no photo below deck)",
+  "legs at deck": "pass",
+  "merge height": "n/a",
+  "crossbeams": "pass (top beam)",
+  "head": "pass",
+  "proportions": "pass",
+  "stays": "pass",
+  "deck / aux piers": "limited",
+  "colour": "pass"
+ },
+ "pass2": true,
+ "compare": "research/compare/cau-binh-khanh.png"
 }

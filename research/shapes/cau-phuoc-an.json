@@ -110,5 +110,18 @@
   "Apex pointed",
   "Crown described as rounded",
   "Render only"
- ]
+ ],
+ "checklist": {
+  "foot below deck": "pass (arch legs onto one round pier)",
+  "legs at deck": "pass",
+  "merge height": "pass (rounded crown)",
+  "crossbeams": "n/a",
+  "head": "pass",
+  "proportions": "pass",
+  "stays": "pass",
+  "deck / aux piers": "limited",
+  "colour": "pass"
+ },
+ "pass2": true,
+ "compare": "scratchpad only (press/render images, licence unknown)"
 }
