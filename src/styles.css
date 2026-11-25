@@ -1,0 +1,89 @@
+/* Neutral phase-1 styling. All colors/fonts are custom properties so design tokens can override them. */
+:root {
+  --color-status-completed: #2e7d32;
+  --color-status-under-construction: #b7791f;
+  --color-status-planned: #c62828;
+  --color-bg: #f6f6f4;
+  --color-surface: #ffffff;
+  --color-text: #1d1d1b;
+  --color-muted: #66665f;
+  --color-border: #d6d6d0;
+  --color-accent: #1d4ed8;
+  --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', sans-serif;
+  --font-heading: var(--font-body);
+  --radius: 8px;
+  --shadow: 0 2px 12px rgb(0 0 0 / 0.15);
+}
+
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; margin: 0; }
+body { font-family: var(--font-body); color: var(--color-text); background: var(--color-bg); }
+h1, h2, h3 { font-family: var(--font-heading); }
+a { color: var(--color-accent); }
+.muted { color: var(--color-muted); }
+:focus-visible { outline: 3px solid var(--color-accent); outline-offset: 2px; }
+
+.app { display: flex; flex-direction: column; height: 100%; }
+.app-header { display: flex; align-items: baseline; gap: 12px; padding: 8px 16px; background: var(--color-surface); border-bottom: 1px solid var(--color-border); }
+.app-header h1 { font-size: 1.1rem; margin: 0; }
+.app-header p { margin: 0; font-size: .875rem; }
+.map-wrap { position: relative; flex: 1; min-height: 0; }
+.map { position: absolute; inset: 0; }
+
+/* status helpers */
+[data-status='completed'] { --status-color: var(--color-status-completed); }
+[data-status='under_construction'] { --status-color: var(--color-status-under-construction); }
+[data-status='planned'] { --status-color: var(--color-status-planned); }
+.status-icon { display: inline-flex; width: 1em; height: 1em; color: var(--status-color); }
+.status-icon svg { width: 100%; height: 100%; }
+.status-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border: 2px solid var(--status-color); border-radius: 999px; font-size: .8rem; font-weight: 600; }
+.status-badge[data-status='planned'] { border-style: dashed; }
+.needs-check-badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: .8rem; background: #fff3cd; color: #6b4e00; border: 1px solid #e0c36a; }
+
+/* markers */
+.bridge-marker { background: none; border: none; }
+.bridge-marker-inner { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; border-radius: 50%; background: var(--color-surface); border: 3px solid var(--status-color); color: var(--status-color); box-shadow: var(--shadow); }
+.bridge-marker-inner[data-status='planned'] { border-style: dashed; }
+.bridge-marker-inner svg { width: 60%; height: 60%; }
+.bridge-marker.is-selected .bridge-marker-inner { outline: 3px solid var(--color-text); outline-offset: 1px; }
+.province-marker { display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--color-text); color: var(--color-surface); font-weight: 700; font-size: .85rem; border: 2px solid var(--color-surface); box-shadow: var(--shadow); }
+.leaflet-marker-icon:focus-visible { outline: 3px solid var(--color-accent); outline-offset: 2px; }
+.island-label { pointer-events: none; }
+.island-label span { display: inline-block; transform: translate(-50%, -50%); white-space: nowrap; padding: 2px 6px; font-size: .75rem; font-weight: 600; font-style: italic; color: var(--color-text); background: rgb(255 255 255 / .85); border-radius: 4px; }
+.reset-button { width: 30px; height: 30px; padding: 6px; border: 0; background: #fff; cursor: pointer; color: var(--color-text); }
+.reset-button svg { width: 100%; height: 100%; }
+
+/* legend */
+.legend { position: absolute; z-index: 1000; left: 10px; bottom: 24px; margin: 0; padding: 8px 12px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius); box-shadow: var(--shadow); font-size: .875rem; }
+.legend legend { font-weight: 700; padding: 0; float: left; width: 100%; margin-bottom: 4px; }
+.legend-item { display: flex; align-items: center; gap: 6px; padding: 2px 0; cursor: pointer; clear: both; }
+.legend-swatch { display: inline-flex; padding: 2px; border: 2px solid var(--status-color); border-radius: 50%; }
+.legend-swatch[data-status='planned'] { border-style: dashed; }
+.sample-note { margin: 4px 0 0; font-size: .75rem; color: var(--color-muted); }
+
+/* detail card: side panel desktop */
+.detail-card { position: fixed; z-index: 1100; top: 0; right: 0; bottom: 0; width: min(400px, 100%); overflow-y: auto; padding: 16px; background: var(--color-surface); border-left: 6px solid var(--status-color); box-shadow: var(--shadow); }
+.card-header { display: flex; justify-content: space-between; gap: 8px; }
+.card-header h2 { margin: 0; font-size: 1.3rem; }
+.name-en { margin: 2px 0 8px; color: var(--color-muted); }
+.badges { display: flex; flex-wrap: wrap; gap: 6px; }
+.icon-button { flex: none; width: 36px; height: 36px; font-size: 1.5rem; line-height: 1; border: 1px solid var(--color-border); border-radius: var(--radius); background: var(--color-surface); cursor: pointer; }
+.fields { margin: 16px 0; }
+.field-row { display: grid; grid-template-columns: 9.5em 1fr; gap: 8px; padding: 4px 0; border-bottom: 1px solid var(--color-border); }
+.field-row dt { color: var(--color-muted); }
+.field-row dd { margin: 0; }
+.card-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.button { display: inline-block; padding: 8px 12px; border: 1px solid var(--color-border); border-radius: var(--radius); text-decoration: none; color: var(--color-text); background: var(--color-bg); }
+.card-section h3 { font-size: 1rem; margin: 16px 0 8px; }
+.gallery { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.gallery figure { margin: 0; }
+.gallery img { width: 100%; height: auto; border-radius: var(--radius); display: block; }
+.gallery figcaption { font-size: .75rem; color: var(--color-muted); }
+.sources { padding-left: 1.4em; margin: 0; font-size: .875rem; }
+
+/* bottom sheet on mobile */
+@media (max-width: 720px) {
+  .detail-card { top: auto; left: 0; width: 100%; max-height: 60vh; border-left: 0; border-top: 6px solid var(--status-color); border-radius: 12px 12px 0 0; }
+  .app.has-card .legend { display: none; }
+  .field-row { grid-template-columns: 8em 1fr; }
+}
