@@ -1,0 +1,29 @@
+{
+ "pylons_vi": "2 tháp chữ H, cao ≈126 m",
+ "pylons_en": "2 H-shaped pylons, ≈126 m",
+ "model3d": {
+  "spans_m": [
+   165,
+   350,
+   165
+  ],
+  "pylon_shape": "H",
+  "pylon_heights_m": [
+   126,
+   126
+  ],
+  "pylon_height_ref": "total",
+  "cable_planes": 2,
+  "cable_pattern": "semi_fan",
+  "deck_width_m": 33.0,
+  "confidence": "estimated",
+  "notes": "Main river bridge ≈680 m with a 350 m span, so side spans are derived. H-shaped pylons ≈126 m (press). Deck 32.3–38.3 m by source."
+ },
+ "notes": "No render or pylon photo found; geometry unchanged.",
+ "id": "cau-ngoc-hoi",
+ "review": [
+  "—",
+  "No change: only construction-site or no images",
+  "None usable"
+ ]
+}

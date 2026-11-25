@@ -1,0 +1,112 @@
+{
+ "pylons_vi": "2 tháp chữ H, dầm ngang gần đỉnh, cao 145 m",
+ "pylons_en": "2 H-shaped pylons with a cross-beam near the top, 145 m",
+ "model3d": {
+  "spans_m": [
+   162.5,
+   380,
+   162.5
+  ],
+  "pylon_shape": "H",
+  "pylon_heights_m": [
+   145,
+   145
+  ],
+  "pylon_height_ref": "total",
+  "cable_planes": 2,
+  "cable_pattern": "semi_fan",
+  "deck_width_m": 27.0,
+  "deck_type": "concrete",
+  "confidence": "estimated",
+  "pylon_custom": {
+   "description": "H pylon: two vertical rectangular legs, straight to the pile cap; one cross-beam under the deck and one high cross-beam at ≈70% of the above-deck height; stays in a semi-fan from the leg tops. White/light-grey concrete.",
+   "legs": [
+    {
+     "centerline": [
+      [
+       0,
+       -45,
+       -15
+      ],
+      [
+       0,
+       0,
+       -15
+      ],
+      [
+       0,
+       50.0,
+       -15.0
+      ],
+      [
+       0,
+       100,
+       -15
+      ]
+     ],
+     "width_base_m": 5.0,
+     "width_top_m": 3.5,
+     "depth_base_m": 7.0,
+     "depth_top_m": 5.0
+    },
+    {
+     "centerline": [
+      [
+       0,
+       -45,
+       15
+      ],
+      [
+       0,
+       0,
+       15
+      ],
+      [
+       0,
+       50.0,
+       15.0
+      ],
+      [
+       0,
+       100,
+       15
+      ]
+     ],
+     "width_base_m": 5.0,
+     "width_top_m": 3.5,
+     "depth_base_m": 7.0,
+     "depth_top_m": 5.0
+    }
+   ],
+   "crossbeams_y_m": [
+    -3,
+    70
+   ],
+   "anchor_zone": [
+    {
+     "y_from_m": 72,
+     "y_to_m": 98,
+     "leg": 0
+    },
+    {
+     "y_from_m": 72,
+     "y_to_m": 98,
+     "leg": 1
+    }
+   ],
+   "mirror_for_other_pylons": true,
+   "reference_images": [
+    "https://commons.wikimedia.org/wiki/File:Phu_My_Bruecke2.jpg",
+    "https://commons.wikimedia.org/wiki/File:Phú_Mỹ_Bridge.JPG",
+    "https://commons.wikimedia.org/wiki/File:Cablestay_bridge_in_Saigon.jpg"
+   ]
+  },
+  "notes": "High cross-beam visible in the Commons side photo. 145 m total (Wikipedia), ≈100 m above deck."
+ },
+ "id": "cau-phu-my",
+ "review": [
+  "Plain H with no cross-beam heights",
+  "Under-deck beam plus high beam ≈70 m above deck, anchor zone 72–98 m",
+  "Good: 3 Commons photos"
+ ]
+}

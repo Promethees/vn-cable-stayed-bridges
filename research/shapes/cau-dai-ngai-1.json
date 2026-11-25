@@ -1,0 +1,31 @@
+{
+ "pylons_vi": "2 tháp chữ Y ngược, đầu cao, dây văng đỏ (phối cảnh), cao 110 m trên mặt cầu",
+ "pylons_en": "2 inverted-Y pylons with tall heads, red stays (render), 110 m above deck",
+ "model3d": {
+  "spans_m": [
+   210,
+   450,
+   210
+  ],
+  "pylon_shape": "inverted_Y",
+  "pylon_heights_m": [
+   110,
+   110
+  ],
+  "pylon_height_ref": "above_deck",
+  "cable_planes": 2,
+  "cable_pattern": "fan",
+  "deck_width_m": 21.5,
+  "deck_type": "composite",
+  "confidence": "estimated",
+  "notes": "210+450+210 m, A-shaped pylons 110 m above deck, composite steel girder (Báo Đầu tư). Fan pattern from the render. Another source gives 164 m total height."
+ },
+ "notes": "Báo Đầu tư render.",
+ "colour": "grey concrete; red stays (render)",
+ "id": "cau-dai-ngai-1",
+ "review": [
+  "Shape 'A' — render shows an inverted-Y with a long single head",
+  "Pylon shape → inverted_Y, merge ≈45 m above deck, head anchors; red stays",
+  "Render only"
+ ]
+}

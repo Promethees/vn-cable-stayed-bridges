@@ -1,0 +1,29 @@
+{
+ "pylons_vi": "Chưa có hình dạng tháp",
+ "pylons_en": "Pylon form not yet published",
+ "model3d": {
+  "spans_m": [
+   280,
+   360,
+   280
+  ],
+  "pylon_shape": "other",
+  "pylon_heights_m": [
+   130,
+   130
+  ],
+  "pylon_height_ref": "total",
+  "cable_planes": 2,
+  "cable_pattern": "semi_fan",
+  "deck_width_m": 14.0,
+  "confidence": "estimated",
+  "notes": "920 m cable-stayed bridge with a 360 m span (24hMoney). Side spans derived. Pylon shape/height and deck width (double-track) unknown; placeholder values."
+ },
+ "notes": "No render or pylon photo found; geometry unchanged.",
+ "id": "cau-duong-sat-can-gio",
+ "review": [
+  "—",
+  "No change: only construction-site or no images",
+  "None usable"
+ ]
+}

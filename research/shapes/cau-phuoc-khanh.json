@@ -1,0 +1,106 @@
+{
+ "pylons_vi": "2 tháp chữ H, dầm ngang đỉnh, cao ≈155 m",
+ "pylons_en": "2 H-shaped pylons with a top cross-beam, ≈155 m",
+ "model3d": {
+  "spans_m": [
+   150,
+   300,
+   150
+  ],
+  "pylon_shape": "H",
+  "pylon_heights_m": [
+   155,
+   155
+  ],
+  "pylon_height_ref": "total",
+  "cable_planes": 2,
+  "cable_pattern": "fan",
+  "deck_width_m": 21.75,
+  "confidence": "estimated",
+  "notes": "Side spans not published (estimated 150). H pylons from press photos (CafeF 9/2026). Height 155 m per press (Wikipedia gives 135 m). 48 stays reported.",
+  "pylon_custom": {
+   "description": "Two vertical legs outside the deck, cross-beam at the top and under the deck.",
+   "legs": [
+    {
+     "centerline": [
+      [
+       0,
+       -38,
+       -12
+      ],
+      [
+       0,
+       0,
+       -12
+      ],
+      [
+       0,
+       55.0,
+       -12
+      ],
+      [
+       0,
+       110,
+       -12
+      ]
+     ],
+     "width_base_m": 5.0,
+     "width_top_m": 3.5
+    },
+    {
+     "centerline": [
+      [
+       0,
+       -38,
+       12
+      ],
+      [
+       0,
+       0,
+       12
+      ],
+      [
+       0,
+       55.0,
+       12
+      ],
+      [
+       0,
+       110,
+       12
+      ]
+     ],
+     "width_base_m": 5.0,
+     "width_top_m": 3.5
+    }
+   ],
+   "crossbeams_y_m": [
+    -3,
+    104
+   ],
+   "anchor_zone": [
+    {
+     "y_from_m": 60,
+     "y_to_m": 106,
+     "leg": 0
+    },
+    {
+     "y_from_m": 60,
+     "y_to_m": 106,
+     "leg": 1
+    }
+   ],
+   "mirror_for_other_pylons": true,
+   "reference_images": [
+    "https://commons.wikimedia.org/wiki/File:Cầu_Phước_Khánh_2017.jpg"
+   ]
+  }
+ },
+ "notes": "Construction photo (2017) shows twin legs and a top frame; press aerial shows the completed span.",
+ "id": "cau-phuoc-khanh",
+ "review": [
+  "Plain H, no beams",
+  "Twin vertical legs, under-deck beam + top beam",
+  "Medium: Commons construction photo + press aerial"
+ ]
+}

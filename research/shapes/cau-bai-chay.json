@@ -1,0 +1,76 @@
+{
+ "pylons_vi": "2 tháp một cột (một mặt phẳng dây), cao ≈150 m; dây văng bọc vàng",
+ "pylons_en": "2 single-column pylons (one cable plane), ≈150 m; yellow stay sheaths",
+ "model3d": {
+  "spans_m": [
+   129,
+   435,
+   129
+  ],
+  "pylon_shape": "single",
+  "pylon_heights_m": [
+   150,
+   150
+  ],
+  "pylon_height_ref": "total",
+  "cable_planes": 1,
+  "cable_pattern": "semi_fan",
+  "deck_width_m": 25.0,
+  "deck_type": "concrete",
+  "confidence": "estimated",
+  "pylon_custom": {
+   "description": "Single slender rectangular column on the deck centreline, continuing straight and uniform below the deck into the pier (no split, no diamond). One central plane of yellow-sheathed stays in a semi-fan from the upper ~45% of the column. Prestressed-concrete box girder; deck has a gentle vertical crest.",
+   "legs": [
+    {
+     "centerline": [
+      [
+       0,
+       -50,
+       0
+      ],
+      [
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       50,
+       0
+      ],
+      [
+       0,
+       100,
+       0
+      ]
+     ],
+     "width_base_m": 5.5,
+     "width_top_m": 4.0,
+     "depth_base_m": 7.0,
+     "depth_top_m": 5.0
+    }
+   ],
+   "anchor_zone": [
+    {
+     "y_from_m": 55,
+     "y_to_m": 97,
+     "leg": 0
+    }
+   ],
+   "mirror_for_other_pylons": true,
+   "reference_images": [
+    "https://commons.wikimedia.org/wiki/File:Bai_Chay_Bridge_(49357435003).jpg",
+    "https://commons.wikimedia.org/wiki/File:Bãi_Cháy_Bridge,_Hạ_Long_City,_Việt_Nam.jpg",
+    "https://commons.wikimedia.org/wiki/File:VietnamBaiChayBridge.jpg"
+   ]
+  },
+  "colour": "grey concrete column; yellow stay sheaths",
+  "notes": "Single column, straight from pier to top, seen in side photos; yellow stays seen at deck level. Height 150 m total (Wikipedia), ≈100 m above deck."
+ },
+ "id": "cau-bai-chay",
+ "review": [
+  "Single post OK but no below-deck shaft and no stay colour",
+  "Explicit single shaft to the pier, anchor zone 55–97 m, yellow stays noted",
+  "Good: 4 Commons photos"
+ ]
+}

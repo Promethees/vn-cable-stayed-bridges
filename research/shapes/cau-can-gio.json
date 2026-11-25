@@ -1,0 +1,128 @@
+{
+ "pylons_vi": "2 tháp hình cây đước (chân rễ choãi), cao ≈100 m",
+ "pylons_en": "2 mangrove-tree pylons with splayed root legs, ≈100 m",
+ "model3d": {
+  "spans_m": [
+   150,
+   350,
+   150
+  ],
+  "pylon_shape": "other",
+  "pylon_heights_m": [
+   100,
+   100
+  ],
+  "pylon_height_ref": "total",
+  "cable_planes": 2,
+  "cable_pattern": "fan",
+  "deck_width_m": 30.0,
+  "confidence": "estimated",
+  "notes": "350 m span (2019 approval). The design changed from one 230 m pylon to two 'mangrove' (cây đước) pylons ≈100 m (press). Side spans and deck width (6 lanes) estimated. Pylon shape per Tuổi Trẻ render (1/2026).",
+  "pylon_custom": {
+   "description": "Current two-pylon 'mangrove tree' (cây đước) design per the 1/2026 render: each pylon has two splayed 'root' legs that rise from the water outside the deck, curve inward under/through the deck and join into one trunk about a third of the way up; the trunk continues as a single mast carrying fan stays in two planes.",
+   "legs": [
+    {
+     "centerline": [
+      [
+       0,
+       -40,
+       -20
+      ],
+      [
+       0,
+       -15,
+       -17
+      ],
+      [
+       0,
+       10,
+       -10
+      ],
+      [
+       0,
+       30,
+       -2
+      ],
+      [
+       0,
+       40,
+       0
+      ]
+     ],
+     "width_base_m": 5.0,
+     "width_top_m": 4.0
+    },
+    {
+     "centerline": [
+      [
+       0,
+       -40,
+       20
+      ],
+      [
+       0,
+       -15,
+       17
+      ],
+      [
+       0,
+       10,
+       10
+      ],
+      [
+       0,
+       30,
+       2
+      ],
+      [
+       0,
+       40,
+       0
+      ]
+     ],
+     "width_base_m": 5.0,
+     "width_top_m": 4.0
+    },
+    {
+     "centerline": [
+      [
+       0,
+       40,
+       0
+      ],
+      [
+       0,
+       65,
+       0
+      ],
+      [
+       0,
+       90,
+       0
+      ]
+     ],
+     "width_base_m": 6.0,
+     "width_top_m": 3.0
+    }
+   ],
+   "anchor_zone": [
+    {
+     "y_from_m": 50,
+     "y_to_m": 88,
+     "leg": 2
+    }
+   ],
+   "mirror_for_other_pylons": true,
+   "reference_images": [
+    "https://cdn2.tuoitre.vn/zoom/1200_630/471584752817336320/2026/1/14/anh-9-17683527812281318384555-89-20-838-1451-crop-176842964739965225266.jpg"
+   ]
+  }
+ },
+ "notes": "Tuổi Trẻ render (1/2026).",
+ "id": "cau-can-gio",
+ "review": [
+  "—",
+  "Kept; render confirms root legs splitting from one trunk",
+  "Render only"
+ ]
+}

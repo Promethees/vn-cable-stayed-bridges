@@ -1,0 +1,116 @@
+{
+ "pylons_vi": "2 tháp hai chân khép vòm tròn ở đỉnh, cao ≈170 m",
+ "pylons_en": "2 twin-leg pylons closing in a rounded arch at the top, ≈170 m",
+ "model3d": {
+  "spans_m": [
+   190,
+   450,
+   190
+  ],
+  "pylon_shape": "other",
+  "pylon_heights_m": [
+   170,
+   170
+  ],
+  "pylon_height_ref": "total",
+  "cable_planes": 2,
+  "cable_pattern": "fan",
+  "deck_width_m": 38.0,
+  "deck_type": "composite",
+  "confidence": "estimated",
+  "notes": "Spans 190–450–190 m and a ≥230 × 55 m navigation clearance (cafeland.vn). Two cable planes (press). Pylon height and deck width (8 lanes) estimated. Inverted-Y pylons read from the VnExpress render (1/2026).",
+  "pylon_custom": {
+   "description": "Two near-parallel legs straddle the deck and curve together into a rounded arch crown (tuning-fork / inverted U), short spire on top; stays in two planes from the upper legs.",
+   "legs": [
+    {
+     "centerline": [
+      [
+       0,
+       -40,
+       -19
+      ],
+      [
+       0,
+       0,
+       -19
+      ],
+      [
+       0,
+       70,
+       -17
+      ],
+      [
+       0,
+       105,
+       -9
+      ],
+      [
+       0,
+       118,
+       0
+      ]
+     ],
+     "width_base_m": 5.0,
+     "width_top_m": 3.5
+    },
+    {
+     "centerline": [
+      [
+       0,
+       -40,
+       19
+      ],
+      [
+       0,
+       0,
+       19
+      ],
+      [
+       0,
+       70,
+       17
+      ],
+      [
+       0,
+       105,
+       9
+      ],
+      [
+       0,
+       118,
+       0
+      ]
+     ],
+     "width_base_m": 5.0,
+     "width_top_m": 3.5
+    }
+   ],
+   "crossbeams_y_m": [
+    -3
+   ],
+   "anchor_zone": [
+    {
+     "y_from_m": 60,
+     "y_to_m": 110,
+     "leg": 0
+    },
+    {
+     "y_from_m": 60,
+     "y_to_m": 110,
+     "leg": 1
+    }
+   ],
+   "mirror_for_other_pylons": true,
+   "reference_images": [
+    "https://i1-vnexpress.vnecdn.net/2026/01/29/gen-h-z7480267955959-ba79feb88a7a279aae8ce8175156fea7-1769679191-1769686927-1769696745.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=AcNEih9NX7kBNJoD0LwqfQ"
+   ]
+  }
+ },
+ "notes": "VnExpress render (1/2026).",
+ "id": "cau-cat-lai",
+ "review": [
+  "Inverted-Y — render shows parallel legs closing in a rounded arch",
+  "Custom arch-top pylon (Ba Son-like but vertical)",
+  "Render only"
+ ]
+}

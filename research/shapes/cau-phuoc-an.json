@@ -1,0 +1,114 @@
+{
+ "pylons_vi": "2 tháp vòm đỉnh tròn (extradosed)",
+ "pylons_en": "2 rounded-arch pylons (extradosed)",
+ "model3d": {
+  "spans_m": [
+   145,
+   250,
+   145
+  ],
+  "pylon_shape": "other",
+  "pylon_heights_m": [
+   35,
+   35
+  ],
+  "pylon_height_ref": "above_deck",
+  "cable_planes": 2,
+  "cable_pattern": "harp",
+  "deck_width_m": 27.0,
+  "deck_type": "concrete",
+  "extradosed": true,
+  "confidence": "estimated",
+  "notes": "Extradosed 250 m main span, 27 m deck (press). Pylons are arch-shaped in the Người Quan Sát photo (8/2026). Side spans and pylon height estimated.",
+  "pylon_custom": {
+   "description": "Pointed-arch pylons (two legs straddling the deck, curving inward to a tip) at both main piers; extradosed stays fan from the upper arch to the deck. Shape per the Người Quan Sát image (8/2026); proportions from the 250 m span and 27 m deck.",
+   "legs": [
+    {
+     "centerline": [
+      [
+       0,
+       -10,
+       -15
+      ],
+      [
+       0,
+       12,
+       -13.5
+      ],
+      [
+       0,
+       30,
+       -8
+      ],
+      [
+       0,
+       40,
+       -3
+      ],
+      [
+       0,
+       44,
+       0
+      ]
+     ],
+     "width_base_m": 3.5,
+     "width_top_m": 2.0
+    },
+    {
+     "centerline": [
+      [
+       0,
+       -10,
+       15
+      ],
+      [
+       0,
+       12,
+       13.5
+      ],
+      [
+       0,
+       30,
+       8
+      ],
+      [
+       0,
+       40,
+       3
+      ],
+      [
+       0,
+       44,
+       0
+      ]
+     ],
+     "width_base_m": 3.5,
+     "width_top_m": 2.0
+    }
+   ],
+   "anchor_zone": [
+    {
+     "y_from_m": 18,
+     "y_to_m": 40,
+     "leg": 0
+    },
+    {
+     "y_from_m": 18,
+     "y_to_m": 40,
+     "leg": 1
+    }
+   ],
+   "mirror_for_other_pylons": true,
+   "reference_images": [
+    "https://nqs.1cdn.vn/thumbs/1200x630/2026/08/01/7031_cau-phuoc-an3.jpg"
+   ]
+  }
+ },
+ "notes": "Người Quan Sát image shows a rounded crown.",
+ "id": "cau-phuoc-an",
+ "review": [
+  "Apex pointed",
+  "Crown described as rounded",
+  "Render only"
+ ]
+}

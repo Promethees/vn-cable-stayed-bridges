@@ -24,7 +24,8 @@
     "width_m": 23.1,
     "lanes": 6,
     "cable_stayed_spans": 1,
-    "pylons": "2 pylons, 175.3 m",
+    "pylons": "2 tháp chữ Y ngược (chân chữ A), cao 175,3 m",
+    "pylons_en": "2 inverted-Y pylons (A-frame legs), 175.3 m",
     "nav_clearance": {
       "height_m": 39,
       "reference": "for 10,000 DWT ships; reference level not stated",
@@ -47,11 +48,116 @@
       ],
       "pylon_height_ref": "total",
       "cable_planes": 2,
-      "cable_pattern": "semi_fan",
+      "cable_pattern": "fan",
       "deck_width_m": 26.0,
       "deck_type": "steel",
       "confidence": "estimated",
-      "notes": "Spans and 175.3 m pylon height from the mageba reference sheet. Inverted-Y pylons and fan stays confirmed on Commons photos (one press site wrongly says 'H'). Deck: steel box girder in the 550 m span (210 m central part in steel), concrete in the side spans; deck width 23.1–26 m by source."
+      "pylon_custom": {
+        "description": "Inverted Y: two straight legs splay outward from a common footing up to the deck (A-frame, legs widest at the deck and wider still at the footing), pass outside the deck, converge to a single head about 70 m above deck; the head carries all stays. One cross-beam under the deck. No diamond: the legs keep splaying down to the pile cap.",
+        "legs": [
+          {
+            "centerline": [
+              [
+                0,
+                -40,
+                -24
+              ],
+              [
+                0,
+                0,
+                -16.5
+              ],
+              [
+                0,
+                40,
+                -8
+              ],
+              [
+                0,
+                70,
+                -1.5
+              ]
+            ],
+            "width_base_m": 7.0,
+            "width_top_m": 4.5,
+            "depth_base_m": 9.0,
+            "depth_top_m": 7.0
+          },
+          {
+            "centerline": [
+              [
+                0,
+                -40,
+                24
+              ],
+              [
+                0,
+                0,
+                16.5
+              ],
+              [
+                0,
+                40,
+                8
+              ],
+              [
+                0,
+                70,
+                1.5
+              ]
+            ],
+            "width_base_m": 7.0,
+            "width_top_m": 4.5,
+            "depth_base_m": 9.0,
+            "depth_top_m": 7.0
+          },
+          {
+            "centerline": [
+              [
+                0,
+                70,
+                0
+              ],
+              [
+                0,
+                100,
+                0
+              ],
+              [
+                0,
+                135,
+                0
+              ]
+            ],
+            "width_base_m": 7.5,
+            "width_top_m": 5.0,
+            "depth_base_m": 8.0,
+            "depth_top_m": 6.0
+          }
+        ],
+        "crossbeams_y_m": [
+          -4
+        ],
+        "anchor_zone": [
+          {
+            "y_from_m": 88,
+            "y_to_m": 130,
+            "leg": 2
+          }
+        ],
+        "mirror_for_other_pylons": true,
+        "reference_images": [
+          "https://commons.wikimedia.org/wiki/File:Can_Tho_Bridge_cables.JPG",
+          "https://commons.wikimedia.org/wiki/File:Can_Tho_Bridge_tower_under_construction.jpg",
+          "https://commons.wikimedia.org/wiki/File:Can_Tho_Bridge_3.jpg",
+          "https://commons.wikimedia.org/wiki/File:Cầu_Cần_Thơ_(6321757880).jpg"
+        ]
+      },
+      "auxiliary_piers_m_from_end": [
+        40,
+        80
+      ],
+      "notes": "Shape read from Commons photos (pylon close-up from the deck; tower under construction 2007, which shows the A-frame legs and the under-deck strut). Height 175.3 m total (mageba), of which ≈135 m above deck. Side-span auxiliary piers at 40 m spacing (2×40 m end spans). Stays fan from the single head to both deck edges. Steel box girder in the main span, concrete in the side spans."
     },
     "lat": 10.0328,
     "lng": 105.8103,
@@ -114,6 +220,8 @@
     "width_m": 21.6,
     "lanes": 6,
     "cable_stayed_spans": 1,
+    "pylons": "2 tháp chữ H, chân choãi rộng dưới mặt cầu, cao ≈140 m",
+    "pylons_en": "2 H-shaped pylons with splayed lower legs, ≈140 m",
     "cost": "5,700 tỷ VND",
     "nav_clearance": {
       "height_m": 37.5,
@@ -133,10 +241,98 @@
       "pylon_height_ref": "total",
       "cable_planes": 2,
       "cable_pattern": "fan",
-      "deck_width_m": 21.6,
+      "deck_width_m": 24.5,
       "deck_type": "composite",
       "confidence": "estimated",
-      "notes": "Main bridge ≈870 m, so side spans are derived as (870 − 450)/2 = 210. H (portal) pylons and fan stays per PLO and Commons photos. Composite steel–concrete girder per the Korean design paper (KoreaScience). Pylon height not published (estimated ≈140 m)."
+      "pylon_custom": {
+        "description": "H above the deck: two near-vertical legs with one cross-beam just below the top, anchors in the upper legs. Below the deck the legs splay strongly outward (portal 'A' foot) to two widely spaced footings, with a cross-beam under the deck.",
+        "legs": [
+          {
+            "centerline": [
+              [
+                0,
+                -38,
+                -26
+              ],
+              [
+                0,
+                -15,
+                -19
+              ],
+              [
+                0,
+                0,
+                -14
+              ],
+              [
+                0,
+                50,
+                -13
+              ],
+              [
+                0,
+                100,
+                -12
+              ]
+            ],
+            "width_base_m": 6.0,
+            "width_top_m": 3.5
+          },
+          {
+            "centerline": [
+              [
+                0,
+                -38,
+                26
+              ],
+              [
+                0,
+                -15,
+                19
+              ],
+              [
+                0,
+                0,
+                14
+              ],
+              [
+                0,
+                50,
+                13
+              ],
+              [
+                0,
+                100,
+                12
+              ]
+            ],
+            "width_base_m": 6.0,
+            "width_top_m": 3.5
+          }
+        ],
+        "crossbeams_y_m": [
+          -3,
+          92
+        ],
+        "anchor_zone": [
+          {
+            "y_from_m": 55,
+            "y_to_m": 98,
+            "leg": 0
+          },
+          {
+            "y_from_m": 55,
+            "y_to_m": 98,
+            "leg": 1
+          }
+        ],
+        "mirror_for_other_pylons": true,
+        "reference_images": [
+          "https://commons.wikimedia.org/wiki/File:Vam_Cong_Bridge.jpg",
+          "https://commons.wikimedia.org/wiki/File:Cầu_Vàm_Cống_trong_chiều.png"
+        ]
+      },
+      "notes": "Splayed lower legs and top cross-beam visible in both Commons night photos. Height not published (≈140 m total estimated; ≈100 m above deck). Deck 24.5 m per VnBusiness (was 21.6 m from Wikipedia)."
     },
     "lat": 10.317,
     "lng": 105.5043,
@@ -193,7 +389,8 @@
     "lanes": 4,
     "cable_stayed_spans": 1,
     "span_arrangement": "5 spans",
-    "pylons": "2 single pylons (single cable plane)",
+    "pylons": "2 tháp một cột (một mặt phẳng dây), cao ≈150 m; dây văng bọc vàng",
+    "pylons_en": "2 single-column pylons (one cable plane), ≈150 m; yellow stay sheaths",
     "cost": "≈1,046 tỷ VND",
     "model3d": {
       "spans_m": [
@@ -212,7 +409,54 @@
       "deck_width_m": 25.0,
       "deck_type": "concrete",
       "confidence": "estimated",
-      "notes": "Single-plane prestressed-concrete box girder (sources). Side spans 129 m from engineering literature memory, not a fetched source. Pylon height uses the Wikipedia infobox 'Height 150 m'."
+      "pylon_custom": {
+        "description": "Single slender rectangular column on the deck centreline, continuing straight and uniform below the deck into the pier (no split, no diamond). One central plane of yellow-sheathed stays in a semi-fan from the upper ~45% of the column. Prestressed-concrete box girder; deck has a gentle vertical crest.",
+        "legs": [
+          {
+            "centerline": [
+              [
+                0,
+                -50,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                50,
+                0
+              ],
+              [
+                0,
+                100,
+                0
+              ]
+            ],
+            "width_base_m": 5.5,
+            "width_top_m": 4.0,
+            "depth_base_m": 7.0,
+            "depth_top_m": 5.0
+          }
+        ],
+        "anchor_zone": [
+          {
+            "y_from_m": 55,
+            "y_to_m": 97,
+            "leg": 0
+          }
+        ],
+        "mirror_for_other_pylons": true,
+        "reference_images": [
+          "https://commons.wikimedia.org/wiki/File:Bai_Chay_Bridge_(49357435003).jpg",
+          "https://commons.wikimedia.org/wiki/File:Bãi_Cháy_Bridge,_Hạ_Long_City,_Việt_Nam.jpg",
+          "https://commons.wikimedia.org/wiki/File:VietnamBaiChayBridge.jpg"
+        ]
+      },
+      "colour": "grey concrete column; yellow stay sheaths",
+      "notes": "Single column, straight from pier to top, seen in side photos; yellow stays seen at deck level. Height 150 m total (Wikipedia), ≈100 m above deck."
     },
     "lat": 20.9602,
     "lng": 107.0658,
@@ -273,7 +517,8 @@
     "width_m": 27,
     "lanes": 6,
     "cable_stayed_spans": 1,
-    "pylons": "2 H-shaped pylons, 145 m",
+    "pylons": "2 tháp chữ H, dầm ngang gần đỉnh, cao 145 m",
+    "pylons_en": "2 H-shaped pylons with a cross-beam near the top, 145 m",
     "nav_clearance": {
       "height_m": 45,
       "width_m": 200,
@@ -297,7 +542,90 @@
       "deck_width_m": 27.0,
       "deck_type": "concrete",
       "confidence": "estimated",
-      "notes": "162.5+380+162.5 = 705 m (Wikipedia list / JPCI). H pylons per press. Height 145 m per Wikipedia (Người Quan Sát says 162.5 m, which is probably the side span confused with height)."
+      "pylon_custom": {
+        "description": "H pylon: two vertical rectangular legs, straight to the pile cap; one cross-beam under the deck and one high cross-beam at ≈70% of the above-deck height; stays in a semi-fan from the leg tops. White/light-grey concrete.",
+        "legs": [
+          {
+            "centerline": [
+              [
+                0,
+                -45,
+                -15
+              ],
+              [
+                0,
+                0,
+                -15
+              ],
+              [
+                0,
+                50.0,
+                -15.0
+              ],
+              [
+                0,
+                100,
+                -15
+              ]
+            ],
+            "width_base_m": 5.0,
+            "width_top_m": 3.5,
+            "depth_base_m": 7.0,
+            "depth_top_m": 5.0
+          },
+          {
+            "centerline": [
+              [
+                0,
+                -45,
+                15
+              ],
+              [
+                0,
+                0,
+                15
+              ],
+              [
+                0,
+                50.0,
+                15.0
+              ],
+              [
+                0,
+                100,
+                15
+              ]
+            ],
+            "width_base_m": 5.0,
+            "width_top_m": 3.5,
+            "depth_base_m": 7.0,
+            "depth_top_m": 5.0
+          }
+        ],
+        "crossbeams_y_m": [
+          -3,
+          70
+        ],
+        "anchor_zone": [
+          {
+            "y_from_m": 72,
+            "y_to_m": 98,
+            "leg": 0
+          },
+          {
+            "y_from_m": 72,
+            "y_to_m": 98,
+            "leg": 1
+          }
+        ],
+        "mirror_for_other_pylons": true,
+        "reference_images": [
+          "https://commons.wikimedia.org/wiki/File:Phu_My_Bruecke2.jpg",
+          "https://commons.wikimedia.org/wiki/File:Phú_Mỹ_Bridge.JPG",
+          "https://commons.wikimedia.org/wiki/File:Cablestay_bridge_in_Saigon.jpg"
+        ]
+      },
+      "notes": "High cross-beam visible in the Commons side photo. 145 m total (Wikipedia), ≈100 m above deck."
     },
     "lat": 10.745,
     "lng": 106.7445,
@@ -353,6 +681,8 @@
     "width_m": 21.75,
     "lanes": 4,
     "cable_stayed_spans": 1,
+    "pylons": "2 tháp chữ H, dầm ngang đỉnh, cao 135 m",
+    "pylons_en": "2 H-shaped pylons with a top cross-beam, 135 m",
     "nav_clearance": {
       "height_m": 55,
       "reference": "for 30,000–50,000 DWT ships",
@@ -374,7 +704,84 @@
       "cable_pattern": "fan",
       "deck_width_m": 21.75,
       "confidence": "estimated",
-      "notes": "Main section 763 m (press), so side spans are derived as (763 − 375)/2 ≈ 194. H pylons 135 m (most sources; one says 155 m). Fan stays per press."
+      "notes": "Main section 763 m (press), so side spans are derived as (763 − 375)/2 ≈ 194. H pylons 135 m (most sources; one says 155 m). Fan stays per press. Press aerial (Sài Gòn Times 7/2025) shows twin legs joined near the top.",
+      "pylon_custom": {
+        "description": "Two vertical legs outside the deck, joined by a cross-beam close to the top and one under the deck; legs straight to the footing.",
+        "legs": [
+          {
+            "centerline": [
+              [
+                0,
+                -38,
+                -12
+              ],
+              [
+                0,
+                0,
+                -12
+              ],
+              [
+                0,
+                49.0,
+                -12
+              ],
+              [
+                0,
+                98,
+                -12
+              ]
+            ],
+            "width_base_m": 5.0,
+            "width_top_m": 3.5
+          },
+          {
+            "centerline": [
+              [
+                0,
+                -38,
+                12
+              ],
+              [
+                0,
+                0,
+                12
+              ],
+              [
+                0,
+                49.0,
+                12
+              ],
+              [
+                0,
+                98,
+                12
+              ]
+            ],
+            "width_base_m": 5.0,
+            "width_top_m": 3.5
+          }
+        ],
+        "crossbeams_y_m": [
+          -3,
+          90
+        ],
+        "anchor_zone": [
+          {
+            "y_from_m": 55,
+            "y_to_m": 96,
+            "leg": 0
+          },
+          {
+            "y_from_m": 55,
+            "y_to_m": 96,
+            "leg": 1
+          }
+        ],
+        "mirror_for_other_pylons": true,
+        "reference_images": [
+          "https://cdn2.tuoitre.vn/thesaigontimes/uploads/2025/07/DJI_20250710151804_0781_D-1.jpg"
+        ]
+      }
     },
     "lat": 10.6598,
     "lng": 106.7388,
@@ -427,7 +834,8 @@
     "lanes": 4,
     "cable_stayed_spans": 1,
     "span_arrangement": "150 + 350 + 150 m",
-    "pylons": "2 H-shaped pylons, 120 m above high water",
+    "pylons": "2 tháp chữ H, 2 dầm ngang, cao ≈120 m trên mực nước",
+    "pylons_en": "2 H-shaped pylons with 2 cross-beams, ≈120 m above water",
     "cost": "≈A$91 million",
     "nav_clearance": {
       "height_m": 37.5,
@@ -452,7 +860,90 @@
       "deck_width_m": 23.66,
       "deck_type": "concrete",
       "confidence": "estimated",
-      "notes": "150+350+150 m; H pylons ≈120 m above high water (Wikipedia; counted here as total). 128 stays in total, so 16 per pylon side per plane. Concrete deck."
+      "pylon_custom": {
+        "description": "H pylon: two slender, slightly tapered, near-vertical legs standing just outside the deck edges, straight down to the pile cap (no diamond). One cross-beam under the deck and one upper cross-beam about mid-height above the deck; the stays anchor in the leg tops above the upper beam. Deck has a strong vertical crest curve.",
+        "legs": [
+          {
+            "centerline": [
+              [
+                0,
+                -40,
+                -14
+              ],
+              [
+                0,
+                0,
+                -13.5
+              ],
+              [
+                0,
+                45,
+                -12.8
+              ],
+              [
+                0,
+                82,
+                -12.3
+              ]
+            ],
+            "width_base_m": 4.5,
+            "width_top_m": 3.0,
+            "depth_base_m": 6.0,
+            "depth_top_m": 4.0
+          },
+          {
+            "centerline": [
+              [
+                0,
+                -40,
+                14
+              ],
+              [
+                0,
+                0,
+                13.5
+              ],
+              [
+                0,
+                45,
+                12.8
+              ],
+              [
+                0,
+                82,
+                12.3
+              ]
+            ],
+            "width_base_m": 4.5,
+            "width_top_m": 3.0,
+            "depth_base_m": 6.0,
+            "depth_top_m": 4.0
+          }
+        ],
+        "crossbeams_y_m": [
+          -3,
+          42
+        ],
+        "anchor_zone": [
+          {
+            "y_from_m": 48,
+            "y_to_m": 80,
+            "leg": 0
+          },
+          {
+            "y_from_m": 48,
+            "y_to_m": 80,
+            "leg": 1
+          }
+        ],
+        "mirror_for_other_pylons": true,
+        "reference_images": [
+          "https://commons.wikimedia.org/wiki/File:Cầu_Mỹ_Thuận,_Vĩnh_Long,_2013.JPG",
+          "https://commons.wikimedia.org/wiki/File:My_Thuan_Bridge_cables.jpg",
+          "https://commons.wikimedia.org/wiki/File:Cầu_Mỹ_Thuận_1_và_2.jpg"
+        ]
+      },
+      "notes": "From Commons side and deck-level photos: H legs, under-deck beam plus one upper beam at ≈55% of the above-deck height; ≈120 m total above high water (deck ≈38 m up, so ≈82 m above deck). 128 stays = 16 per side per plane."
     },
     "lat": 10.2775,
     "lng": 105.91,
@@ -516,6 +1007,8 @@
     "lanes": 6,
     "cable_stayed_spans": 1,
     "span_arrangement": "150 + 350 + 150 m (cable-stayed unit 650 m)",
+    "pylons": "2 tháp chữ Y ngược, chân kim cương dưới mặt cầu, cao ≈125 m",
+    "pylons_en": "2 inverted-Y pylons with diamond-shaped lower legs, ≈125 m",
     "cost": "5,003 tỷ VND",
     "nav_clearance": {
       "height_m": 37.5,
@@ -538,7 +1031,111 @@
       "deck_width_m": 28.0,
       "deck_type": "concrete",
       "confidence": "estimated",
-      "notes": "Spans 150+350+150 (Wikipedia list; press '650 m' = whole unit). Inverted-Y pylons read from press photos (SGGP 2023). Pylon height not published (estimated). Deck 25–28 m by source."
+      "pylon_custom": {
+        "description": "Inverted Y with a diamond foot: two legs rise from a single narrow pier, splay outward to their widest at deck level (outside the deck), then converge above the deck to merge ≈45 m up into a single head carrying the stays. Below the deck the legs converge again to the footing, giving a diamond.",
+        "legs": [
+          {
+            "centerline": [
+              [
+                0,
+                -38,
+                -5
+              ],
+              [
+                0,
+                -15,
+                -12
+              ],
+              [
+                0,
+                0,
+                -15.5
+              ],
+              [
+                0,
+                25,
+                -9
+              ],
+              [
+                0,
+                47,
+                -1.5
+              ]
+            ],
+            "width_base_m": 4.5,
+            "width_top_m": 3.5
+          },
+          {
+            "centerline": [
+              [
+                0,
+                -38,
+                5
+              ],
+              [
+                0,
+                -15,
+                12
+              ],
+              [
+                0,
+                0,
+                15.5
+              ],
+              [
+                0,
+                25,
+                9
+              ],
+              [
+                0,
+                47,
+                1.5
+              ]
+            ],
+            "width_base_m": 4.5,
+            "width_top_m": 3.5
+          },
+          {
+            "centerline": [
+              [
+                0,
+                47,
+                0
+              ],
+              [
+                0,
+                70,
+                0
+              ],
+              [
+                0,
+                87,
+                0
+              ]
+            ],
+            "width_base_m": 5.0,
+            "width_top_m": 3.5
+          }
+        ],
+        "crossbeams_y_m": [
+          -3
+        ],
+        "anchor_zone": [
+          {
+            "y_from_m": 55,
+            "y_to_m": 85,
+            "leg": 2
+          }
+        ],
+        "mirror_for_other_pylons": true,
+        "reference_images": [
+          "https://commons.wikimedia.org/wiki/File:Cầu_Mỹ_Thuận_1_và_2.jpg",
+          "https://commons.wikimedia.org/wiki/File:Cao_tốc_mỹ_thuận_cần_thơ.jpg",
+          "https://image.sggp.org.vn/1200x630/Uploaded/2026/cdjwzdjwp/2023_10_14/cong-trinh-giao-thong-cau-my-thuan-2-sung-sung-noi-doi-bo-song-tien-9597.jpg.webp"
+        ]
+      },
+      "notes": "Diamond foot clearly visible in the SGGP closure photo and the Commons aerial (legs narrow toward the pile cap). Height not published; ≈125 m total estimated (≈87 m above deck)."
     },
     "lat": 10.2755,
     "lng": 105.9067,
@@ -602,7 +1199,8 @@
     "lanes": 4,
     "cable_stayed_spans": 1,
     "span_arrangement": "150 + 350 + 150 m",
-    "pylons": "2 H-shaped pylons, 120 m",
+    "pylons": "2 tháp chữ H, 1 dầm ngang giữa, cao 123,4 m",
+    "pylons_en": "2 H-shaped pylons with one mid cross-beam, 123.4 m",
     "nav_clearance": {
       "height_m": 37.5,
       "source": "https://vtcnews.vn/thong-xe-cay-cau-lon-thu-2-o-mien-tay-d401815.html"
@@ -615,16 +1213,98 @@
       ],
       "pylon_shape": "H",
       "pylon_heights_m": [
-        120,
-        120
+        123.4,
+        123.4
       ],
       "pylon_height_ref": "total",
       "cable_planes": 2,
       "cable_pattern": "semi_fan",
       "deck_width_m": 24.5,
       "deck_type": "concrete",
-      "confidence": "verified",
-      "notes": "Spans, H-shaped 120 m towers and deck width per Wikipedia. Cable pattern (semi-fan) from photos."
+      "confidence": "estimated",
+      "pylon_custom": {
+        "description": "H pylon like Mỹ Thuận: two near-vertical legs just outside the deck, straight to the footing; cross-beams under the deck and at ≈45% of the above-deck height; stays anchor in the leg tops. Pylons lit magenta at night.",
+        "legs": [
+          {
+            "centerline": [
+              [
+                0,
+                -38,
+                -13.8
+              ],
+              [
+                0,
+                0,
+                -13.8
+              ],
+              [
+                0,
+                42.0,
+                -13.5
+              ],
+              [
+                0,
+                84,
+                -13.2
+              ]
+            ],
+            "width_base_m": 4.5,
+            "width_top_m": 3.0,
+            "depth_base_m": 6.0,
+            "depth_top_m": 4.0
+          },
+          {
+            "centerline": [
+              [
+                0,
+                -38,
+                13.8
+              ],
+              [
+                0,
+                0,
+                13.8
+              ],
+              [
+                0,
+                42.0,
+                13.5
+              ],
+              [
+                0,
+                84,
+                13.2
+              ]
+            ],
+            "width_base_m": 4.5,
+            "width_top_m": 3.0,
+            "depth_base_m": 6.0,
+            "depth_top_m": 4.0
+          }
+        ],
+        "crossbeams_y_m": [
+          -3,
+          38
+        ],
+        "anchor_zone": [
+          {
+            "y_from_m": 45,
+            "y_to_m": 82,
+            "leg": 0
+          },
+          {
+            "y_from_m": 45,
+            "y_to_m": 82,
+            "leg": 1
+          }
+        ],
+        "mirror_for_other_pylons": true,
+        "reference_images": [
+          "https://commons.wikimedia.org/wiki/File:Cầu_Cao_Lãnh.jpg"
+        ]
+      },
+      "colour": "concrete; magenta night lighting",
+      "notes": "Pylon height 123.4 m (press; was 120 m). One Commons photo; form matches Mỹ Thuận (same Australian-funded family)."
     },
     "lat": 10.4126,
     "lng": 105.6518,
@@ -670,7 +1350,8 @@
     "lanes": 6,
     "cable_stayed_spans": 4,
     "span_arrangement": "150 + 4 × 300 + 150 m",
-    "pylons": "5 A-shaped pylons, ≈110 m",
+    "pylons": "5 tháp hình vòm nhọn (chữ A cong), chân kim cương, cao ≈110 m",
+    "pylons_en": "5 pointed-arch (curved A) pylons with diamond feet, ≈110 m",
     "cost": "≈13,600 tỷ VND",
     "model3d": {
       "spans_m": [
@@ -695,72 +1376,84 @@
       "deck_width_m": 33.2,
       "deck_type": "composite",
       "confidence": "estimated",
-      "notes": "150+4×300+150 m, five A-shaped pylons ≈110 m (Wikipedia). Steel–concrete composite girder. Fan pattern from photos.",
       "pylon_custom": {
-        "description": "Five identical pointed-arch ('gothic A') pylons: two legs straddle the deck and curve inward to meet at a single tip, with no visible cross-beam above the deck. Fan stays run from the upper third of each leg to the deck edges.",
+        "description": "Pointed arch above the deck: two slightly curved legs straddle the 33 m deck and meet in a sharp apex, with no cross-beam above the deck. Below the deck the legs converge again into a single pier (diamond overall). Stays fan from the upper third of each leg to the deck edges. Pylons are lit at night in changing colours.",
         "legs": [
           {
             "centerline": [
               [
                 0,
-                -12,
-                -19
+                -25,
+                -3
               ],
               [
                 0,
-                20,
-                -17
-              ],
-              [
-                0,
-                50,
+                -10,
                 -12
               ],
               [
                 0,
-                72,
-                -5
+                0,
+                -18.5
               ],
               [
                 0,
-                82,
+                30,
+                -14
+              ],
+              [
+                0,
+                60,
+                -6
+              ],
+              [
+                0,
+                80,
                 0
               ]
             ],
-            "width_base_m": 4.5,
+            "width_base_m": 4.0,
             "width_top_m": 2.5
           },
           {
             "centerline": [
               [
                 0,
-                -12,
-                19
+                -25,
+                3
               ],
               [
                 0,
-                20,
-                17
-              ],
-              [
-                0,
-                50,
+                -10,
                 12
               ],
               [
                 0,
-                72,
-                5
+                0,
+                18.5
               ],
               [
                 0,
-                82,
+                30,
+                14
+              ],
+              [
+                0,
+                60,
+                6
+              ],
+              [
+                0,
+                80,
                 0
               ]
             ],
-            "width_base_m": 4.5,
+            "width_base_m": 4.0,
             "width_top_m": 2.5
           }
+        ],
+        "crossbeams_y_m": [
+          -2
         ],
         "anchor_zone": [
           {
@@ -777,9 +1470,11 @@
         "mirror_for_other_pylons": true,
         "reference_images": [
           "https://commons.wikimedia.org/wiki/File:4am_view_of_Nhat_Tan_Bridge_in_Hanoi.jpg",
-          "https://commons.wikimedia.org/wiki/File:Cau_Nhat_Tan,_Ha_Noi,_VN_02.jpg"
+          "https://commons.wikimedia.org/wiki/File:Nhat_Tan_Bridge_at_night_2016.jpg"
         ]
-      }
+      },
+      "colour": "grey concrete; colour-changing night lighting on the pylons",
+      "notes": "Diamond foot seen in the 4am Commons view (legs converge below deck into one pier). Image 'Cau Nhat Tan, Ha Noi, VN 02' shows only the roadway; suggest replacing it."
     },
     "lat": 21.0928,
     "lng": 105.8207,
@@ -789,12 +1484,6 @@
         "credit": "cloud.shepherd",
         "license": "CC BY 2.0",
         "source": "https://commons.wikimedia.org/wiki/File:4am_view_of_Nhat_Tan_Bridge_in_Hanoi.jpg"
-      },
-      {
-        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Cau_Nhat_Tan%2C_Ha_Noi%2C_VN_02.jpg/1280px-Cau_Nhat_Tan%2C_Ha_Noi%2C_VN_02.jpg",
-        "credit": "Ltn12345",
-        "license": "CC BY-SA 4.0",
-        "source": "https://commons.wikimedia.org/wiki/File:Cau_Nhat_Tan,_Ha_Noi,_VN_02.jpg"
       },
       {
         "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Nhat_Tan_Bridge_at_night_2016.jpg/1280px-Nhat_Tan_Bridge_at_night_2016.jpg",
@@ -841,7 +1530,8 @@
     "width_m": 21.75,
     "lanes": 4,
     "cable_stayed_spans": 1,
-    "pylons": "2 pylons, ≈135 m",
+    "pylons": "2 tháp chữ H, dầm ngang đỉnh, cao ≈155 m",
+    "pylons_en": "2 H-shaped pylons with a top cross-beam, ≈155 m",
     "nav_clearance": {
       "height_m": 55,
       "source": "https://tuoitre.vn/cao-toc-ben-luc-long-thanh.html"
@@ -862,7 +1552,84 @@
       "cable_pattern": "fan",
       "deck_width_m": 21.75,
       "confidence": "estimated",
-      "notes": "Side spans not published (estimated 150). H pylons from press photos (CafeF 9/2026). Height 155 m per press (Wikipedia gives 135 m). 48 stays reported."
+      "notes": "Side spans not published (estimated 150). H pylons from press photos (CafeF 9/2026). Height 155 m per press (Wikipedia gives 135 m). 48 stays reported. Construction photo (2017) shows twin legs and a top frame; press aerial shows the completed span.",
+      "pylon_custom": {
+        "description": "Two vertical legs outside the deck, cross-beam at the top and under the deck.",
+        "legs": [
+          {
+            "centerline": [
+              [
+                0,
+                -38,
+                -12
+              ],
+              [
+                0,
+                0,
+                -12
+              ],
+              [
+                0,
+                55.0,
+                -12
+              ],
+              [
+                0,
+                110,
+                -12
+              ]
+            ],
+            "width_base_m": 5.0,
+            "width_top_m": 3.5
+          },
+          {
+            "centerline": [
+              [
+                0,
+                -38,
+                12
+              ],
+              [
+                0,
+                0,
+                12
+              ],
+              [
+                0,
+                55.0,
+                12
+              ],
+              [
+                0,
+                110,
+                12
+              ]
+            ],
+            "width_base_m": 5.0,
+            "width_top_m": 3.5
+          }
+        ],
+        "crossbeams_y_m": [
+          -3,
+          104
+        ],
+        "anchor_zone": [
+          {
+            "y_from_m": 60,
+            "y_to_m": 106,
+            "leg": 0
+          },
+          {
+            "y_from_m": 60,
+            "y_to_m": 106,
+            "leg": 1
+          }
+        ],
+        "mirror_for_other_pylons": true,
+        "reference_images": [
+          "https://commons.wikimedia.org/wiki/File:Cầu_Phước_Khánh_2017.jpg"
+        ]
+      }
     },
     "lat": 10.6659,
     "lng": 106.7988,
@@ -915,6 +1682,8 @@
     "lanes": 2,
     "cable_stayed_spans": 1,
     "span_arrangement": "117 + 270 + 117 m",
+    "pylons": "2 tháp chữ A (Y ngược), chân choãi, dây văng màu cam, cao ≈110 m",
+    "pylons_en": "2 A-frame (inverted-Y) pylons with splayed feet, orange stays, ≈110 m",
     "cost": "1,400 tỷ VND",
     "nav_clearance": {
       "height_m": 37.5,
@@ -938,7 +1707,113 @@
       "deck_width_m": 12.0,
       "deck_type": "concrete",
       "confidence": "estimated",
-      "notes": "Spans 117+270+117 (Wikipedia). Inverted-Y (A with single head) pylons and fan stays read from Commons photos. Pylon height estimated; the Wikipedia 'height 117 m' looks like the side span."
+      "pylon_custom": {
+        "description": "A-frame: two straight legs from widely spaced footings converge through the deck level (deck passes between them) to a short single head; under-deck strut. Fan of orange-sheathed stays from the head to the deck edges. Narrow 2-lane deck.",
+        "legs": [
+          {
+            "centerline": [
+              [
+                0,
+                -30,
+                -14
+              ],
+              [
+                0,
+                0,
+                -9
+              ],
+              [
+                0,
+                40,
+                -3
+              ],
+              [
+                0,
+                58,
+                0
+              ]
+            ],
+            "width_base_m": 3.5,
+            "width_top_m": 2.5
+          },
+          {
+            "centerline": [
+              [
+                0,
+                -30,
+                14
+              ],
+              [
+                0,
+                0,
+                9
+              ],
+              [
+                0,
+                40,
+                3
+              ],
+              [
+                0,
+                58,
+                0
+              ]
+            ],
+            "width_base_m": 3.5,
+            "width_top_m": 2.5
+          },
+          {
+            "centerline": [
+              [
+                0,
+                58,
+                0
+              ],
+              [
+                0,
+                66,
+                0
+              ],
+              [
+                0,
+                75,
+                0
+              ]
+            ],
+            "width_base_m": 3.5,
+            "width_top_m": 2.8
+          }
+        ],
+        "crossbeams_y_m": [
+          -3
+        ],
+        "anchor_zone": [
+          {
+            "y_from_m": 55,
+            "y_to_m": 74,
+            "leg": 2
+          },
+          {
+            "y_from_m": 40,
+            "y_to_m": 57,
+            "leg": 0
+          },
+          {
+            "y_from_m": 40,
+            "y_to_m": 57,
+            "leg": 1
+          }
+        ],
+        "mirror_for_other_pylons": true,
+        "reference_images": [
+          "https://commons.wikimedia.org/wiki/File:Cầu_dây_văng_Rạch_Miễu.jpg",
+          "https://commons.wikimedia.org/wiki/File:Rach_Mieu_Bridge_pylon.jpg",
+          "https://commons.wikimedia.org/wiki/File:Rạch_Miễu_bridge._(14451567804).jpg",
+          "https://commons.wikimedia.org/wiki/File:Rach_Mieu_Bridge_under_construction.jpg"
+        ]
+      },
+      "colour": "cream concrete; orange stay sheaths",
+      "notes": "A-frame legs, under-deck strut and orange stays clear in Commons close-ups."
     },
     "lat": 10.3443,
     "lng": 106.3423,
@@ -1001,7 +1876,8 @@
     "width_m": 17.5,
     "lanes": 4,
     "cable_stayed_spans": 1,
-    "pylons": "2 pylons, ≈113 m",
+    "pylons": "2 tháp hai cột (chữ H), cao 113 m",
+    "pylons_en": "2 twin-column (H) pylons, 113 m",
     "cost": "6,810 tỷ VND (whole project)",
     "nav_clearance": {
       "height_m": 37.5,
@@ -1026,7 +1902,87 @@
       "deck_width_m": 17.5,
       "deck_type": "concrete",
       "confidence": "estimated",
-      "notes": "Side spans not published (estimated). H pylons from VnExpress hợp long photo (4/2025). Pylon height 113 m per press."
+      "pylon_custom": {
+        "description": "Two tall, slim, near-vertical columns at the deck edges joined only below/at deck level (no visible upper cross-beam in the aerial); semi-fan stays in two planes from the upper ~40%. Side spans have an intermediate auxiliary pier.",
+        "legs": [
+          {
+            "centerline": [
+              [
+                0,
+                -38,
+                -10.5
+              ],
+              [
+                0,
+                0,
+                -10.5
+              ],
+              [
+                0,
+                40,
+                -10.2
+              ],
+              [
+                0,
+                75,
+                -10
+              ]
+            ],
+            "width_base_m": 3.5,
+            "width_top_m": 2.5
+          },
+          {
+            "centerline": [
+              [
+                0,
+                -38,
+                10.5
+              ],
+              [
+                0,
+                0,
+                10.5
+              ],
+              [
+                0,
+                40,
+                10.2
+              ],
+              [
+                0,
+                75,
+                10
+              ]
+            ],
+            "width_base_m": 3.5,
+            "width_top_m": 2.5
+          }
+        ],
+        "crossbeams_y_m": [
+          -3
+        ],
+        "anchor_zone": [
+          {
+            "y_from_m": 42,
+            "y_to_m": 73,
+            "leg": 0
+          },
+          {
+            "y_from_m": 42,
+            "y_to_m": 73,
+            "leg": 1
+          }
+        ],
+        "mirror_for_other_pylons": true,
+        "reference_images": [
+          "https://commons.wikimedia.org/wiki/File:(VNM-Dong_Thap)_Rach_Mieu_2_Bridge_2025-10-05.jpg",
+          "https://i2-vnexpress.vnecdn.net/2025/04/19/DJI-20250420075438-0019-D-copy-1745029263.jpg?w=1200&h=675&q=100&dpr=1&fit=crop&s=e6x9QcBbyTU8zxJQt7zodA"
+        ]
+      },
+      "auxiliary_piers_m_from_end": [
+        60
+      ],
+      "notes": "Aerial (VnExpress, 4/2025) shows twin columns without an upper beam; the Commons side view shows an auxiliary pier in each side span (position estimated ≈60 m from the end pier)."
     },
     "lat": 10.3368,
     "lng": 106.3074,
@@ -1084,7 +2040,8 @@
     "width_m": 22.5,
     "lanes": 6,
     "cable_stayed_spans": 1,
-    "pylons": "2 pylons, 102 m",
+    "pylons": "2 tháp chữ A cụt (đầu nhọn như mỏ hạc), dầm ngang trên, cao 101,6 m",
+    "pylons_en": "2 truncated-A pylons with pointed tips and an upper cross-beam, 101.6 m",
     "cost": "≈943 tỷ VND (JBIC loan)",
     "nav_clearance": {
       "height_m": 25,
@@ -1097,7 +2054,7 @@
         260,
         100
       ],
-      "pylon_shape": "inverted_Y",
+      "pylon_shape": "other",
       "pylon_heights_m": [
         101.6,
         101.6
@@ -1108,7 +2065,94 @@
       "deck_width_m": 22.5,
       "deck_type": "composite",
       "confidence": "estimated",
-      "notes": "260 m main span; side spans estimated. Pylon height 101.6 m and composite steel–concrete girder per press. Pylon shape read from photos."
+      "pylon_custom": {
+        "description": "Two legs lean inward from the deck edges (A-like) but do not meet: a cross-beam joins them at ≈85% height and each leg continues above it as a pointed tip ('crane beak'). Fan stays in two planes anchored just below and at the beam.",
+        "legs": [
+          {
+            "centerline": [
+              [
+                0,
+                -30,
+                -14
+              ],
+              [
+                0,
+                0,
+                -12.5
+              ],
+              [
+                0,
+                40,
+                -7
+              ],
+              [
+                0,
+                62,
+                -4.5
+              ],
+              [
+                0,
+                72,
+                -4
+              ]
+            ],
+            "width_base_m": 4.0,
+            "width_top_m": 1.0
+          },
+          {
+            "centerline": [
+              [
+                0,
+                -30,
+                14
+              ],
+              [
+                0,
+                0,
+                12.5
+              ],
+              [
+                0,
+                40,
+                7
+              ],
+              [
+                0,
+                62,
+                4.5
+              ],
+              [
+                0,
+                72,
+                4
+              ]
+            ],
+            "width_base_m": 4.0,
+            "width_top_m": 1.0
+          }
+        ],
+        "crossbeams_y_m": [
+          -2,
+          60
+        ],
+        "anchor_zone": [
+          {
+            "y_from_m": 42,
+            "y_to_m": 62,
+            "leg": 0
+          },
+          {
+            "y_from_m": 42,
+            "y_to_m": 62,
+            "leg": 1
+          }
+        ],
+        "mirror_for_other_pylons": true,
+        "reference_images": [
+          "https://commons.wikimedia.org/wiki/File:Bridge_in_Haiphong.jpg"
+        ]
+      },
+      "notes": "Shape from the single Commons deck-level photo. Was modelled as inverted-Y; the legs never merge."
     },
     "lat": 20.8755,
     "lng": 106.6678,
@@ -1154,7 +2198,8 @@
     "lanes": 4,
     "cable_stayed_spans": 2,
     "span_arrangement": "110 + 240 + 240 + 110 m (cable-stayed unit ≈700 m)",
-    "pylons": "3 pylons: centre ≈99.7 m, sides ≈94.5 m",
+    "pylons": "3 tháp chữ H, 1 dầm ngang trên; dây văng màu cam; giữa ≈99,7 m, hai bên 94,5 m",
+    "pylons_en": "3 H-shaped pylons with one upper cross-beam; orange stays; centre ≈99.7 m, sides 94.5 m",
     "cost": "≈7,300–7,600 tỷ VND",
     "nav_clearance": {
       "height_m": 48.4,
@@ -1180,7 +2225,87 @@
       "deck_width_m": 25.0,
       "deck_type": "concrete",
       "confidence": "estimated",
-      "notes": "110+240+240+110 per Thanh Tra / VSL ≈700 m unit (240 m client-confirmed). Pylon heights per Báo Lâm Đồng (centre ≈99.7 m, sides 94.5 m). H shape per Wikipedia. Cable planes/pattern and deck type estimated."
+      "pylon_custom": {
+        "description": "H pylons: two square vertical legs just outside the deck, a steel-looking cross-beam at ≈60% of the above-deck height, an under-deck beam, legs straight to the pile cap. Two planes of orange-sheathed stays in a semi-fan from the leg tops above the upper beam.",
+        "legs": [
+          {
+            "centerline": [
+              [
+                0,
+                -40,
+                -14
+              ],
+              [
+                0,
+                0,
+                -14
+              ],
+              [
+                0,
+                30,
+                -14
+              ],
+              [
+                0,
+                62,
+                -14
+              ]
+            ],
+            "width_base_m": 4.5,
+            "width_top_m": 3.5
+          },
+          {
+            "centerline": [
+              [
+                0,
+                -40,
+                14
+              ],
+              [
+                0,
+                0,
+                14
+              ],
+              [
+                0,
+                30,
+                14
+              ],
+              [
+                0,
+                62,
+                14
+              ]
+            ],
+            "width_base_m": 4.5,
+            "width_top_m": 3.5
+          }
+        ],
+        "crossbeams_y_m": [
+          -3,
+          38
+        ],
+        "anchor_zone": [
+          {
+            "y_from_m": 40,
+            "y_to_m": 60,
+            "leg": 0
+          },
+          {
+            "y_from_m": 40,
+            "y_to_m": 60,
+            "leg": 1
+          }
+        ],
+        "mirror_for_other_pylons": true,
+        "reference_images": [
+          "https://commons.wikimedia.org/wiki/File:Bạch_Đằng_Bridge_(49534690148).jpg",
+          "https://daknong.1cdn.vn/thumbs/1200x630/2026/07/19/img_93285243.jpg"
+        ]
+      },
+      "colour": "grey concrete; orange stay sheaths",
+      "image_issue": "The VOV image (media.vov.vn ... vov_cau_bach_dang_7_KXCD.jpg) resolves to the VOV logo, not the bridge. Remove it.",
+      "notes": "Deck-level Commons photo shows the upper cross-beam; the Báo Lâm Đồng aerial shows orange stays and 3 pylons."
     },
     "lat": 20.8478,
     "lng": 106.7655,
@@ -1190,12 +2315,6 @@
         "credit": "Not So Dusty",
         "license": "CC BY 2.0",
         "source": "https://commons.wikimedia.org/wiki/File:B%E1%BA%A1ch_%C4%90%E1%BA%B1ng_Bridge_(49534690148).jpg"
-      },
-      {
-        "url": "https://media.vov.vn/sites/default/files/styles/og_image/public/images/vov_cau_bach_dang_7_KXCD.jpg",
-        "credit": "VOV",
-        "license": "unknown",
-        "source": "https://vov.vn/tin-24h/nhung-hinh-anh-thi-cong-cuoi-cung-tren-cau-bach-dang-805863.vov"
       },
       {
         "url": "https://daknong.1cdn.vn/thumbs/1200x630/2026/07/19/img_93285243.jpg",
@@ -1240,7 +2359,8 @@
     "total_length_m": 731,
     "width_m": 35.5,
     "cable_stayed_spans": 1,
-    "pylons": "1 inclined pylon, 145 m, leaning 12°",
+    "pylons": "1 tháp nghiêng 12°, cao 145 m; dây văng neo sau màu đỏ",
+    "pylons_en": "1 pylon leaning 12°, 145 m; red back-stays",
     "cost": "497.7 tỷ VND (Wikipedia) / 1,709 tỷ VND (press, whole project)",
     "model3d": {
       "spans_m": [
@@ -1257,9 +2377,9 @@
       "deck_width_m": 35.5,
       "deck_type": "concrete",
       "confidence": "estimated",
-      "notes": "Single 145 m pylon leaning 12° (press). The 230 m cable-stayed span is from the press; the back span (120 m) is estimated. Single central cable plane read from photos.",
+      "notes": "Single 145 m pylon leaning 12° (press). The 230 m cable-stayed span is from the press; the back span (120 m) is estimated. Single central cable plane read from photos. Colour: white mast; white main-span stays, red back-stays; purple night lighting. Confirmed on 4 Commons photos: single plane, back-stays red. Geometry unchanged except colour data.",
       "pylon_custom": {
-        "description": "Single straight concrete mast leaning ~12° back, away from the 230 m cable-stayed span ('sail' shape). One central cable plane fans from the upper mast to the deck centreline on the main-span side; red back-stays run from the same zone down to the back span / ground anchorage.",
+        "description": "Single straight concrete mast on the deck centreline, leaning ≈12° back (away from the 230 m span) like a sail. One central plane of white stays fans from the upper mast to the main span; a denser fan of RED back-stays runs from the same zone down to the back span. Mast lit purple/magenta at night.",
         "legs": [
           {
             "centerline": [
@@ -1362,6 +2482,8 @@
     "main_span_m": 200,
     "total_length_m": 1186,
     "cable_stayed_spans": 1,
+    "pylons": "2 tháp chữ H thu hẹp lên đỉnh, 2 dầm ngang",
+    "pylons_en": "2 H pylons tapering inward, 2 cross-beams",
     "model3d": {
       "spans_m": [
         85,
@@ -1378,7 +2500,85 @@
       "cable_pattern": "harp",
       "deck_width_m": 16.0,
       "confidence": "estimated",
-      "notes": "200 m main span; harp stays per Wikipedia. Side spans, pylon shape/height and deck width estimated from photos."
+      "pylon_custom": {
+        "description": "Slender H whose legs lean slightly inward toward the top (trapezoid), with two cross-beams above the deck (≈40% and ≈70% of the above-deck height); harp-like stays in two planes.",
+        "legs": [
+          {
+            "centerline": [
+              [
+                0,
+                -25,
+                -10
+              ],
+              [
+                0,
+                0,
+                -9.5
+              ],
+              [
+                0,
+                30,
+                -7.5
+              ],
+              [
+                0,
+                55,
+                -6
+              ]
+            ],
+            "width_base_m": 3.0,
+            "width_top_m": 2.2
+          },
+          {
+            "centerline": [
+              [
+                0,
+                -25,
+                10
+              ],
+              [
+                0,
+                0,
+                9.5
+              ],
+              [
+                0,
+                30,
+                7.5
+              ],
+              [
+                0,
+                55,
+                6
+              ]
+            ],
+            "width_base_m": 3.0,
+            "width_top_m": 2.2
+          }
+        ],
+        "crossbeams_y_m": [
+          -2,
+          22,
+          38
+        ],
+        "anchor_zone": [
+          {
+            "y_from_m": 20,
+            "y_to_m": 54,
+            "leg": 0
+          },
+          {
+            "y_from_m": 20,
+            "y_to_m": 54,
+            "leg": 1
+          }
+        ],
+        "mirror_for_other_pylons": true,
+        "reference_images": [
+          "https://commons.wikimedia.org/wiki/File:Kien_Bridge.jpg"
+        ]
+      },
+      "notes": "One Commons deck-level photo shows two upper beams and inward-tapering legs. Heights estimated."
     },
     "lat": 20.9134,
     "lng": 106.6236,
@@ -1422,7 +2622,8 @@
     "total_length_m": 885.7,
     "lanes": 6,
     "cable_stayed_spans": 1,
-    "pylons": "1 inclined pylon, 113 m",
+    "pylons": "1 tháp vòm nghiêng về phía Thủ Thiêm, đỉnh bo tròn, cao 113 m",
+    "pylons_en": "1 arch pylon leaning back toward Thủ Thiêm, rounded crown, 113 m",
     "nav_clearance": {
       "height_m": 11,
       "source": "https://en.wikipedia.org/wiki/Ba_Son_Bridge"
@@ -1442,9 +2643,9 @@
       "deck_width_m": 27.5,
       "deck_type": "composite",
       "confidence": "estimated",
-      "notes": "Asymmetric: 200 m main span (steel–concrete composite) + 115 m concrete back span; deck 27–28 m; pylon 110 m (WSP) / 113 m (Freyssinet, press). WSP calls it a 'backward sloping and curved pylon'. Pylon form, lean and stay layout measured off Commons photos; see pylon_custom.",
+      "notes": "Asymmetric: 200 m main span (steel–concrete composite) + 115 m concrete back span; deck 27–28 m; pylon 110 m (WSP) / 113 m (Freyssinet, press). WSP calls it a 'backward sloping and curved pylon'. Pylon form, lean and stay layout measured off Commons photos; see pylon_custom. Re-checked on 5 photos: crown is rounded (a smooth arch, not a pointed apex), back-stays fan into the back span. Engineer: smooth the apex.",
       "pylon_custom": {
-        "description": "Single pointed-arch pylon (two legs straddling the deck, curving inward and meeting at the tip, like an inverted 'U'/dragon spine). The whole arch is curved in elevation and leans BACK, away from the 200 m main span, toward the Thủ Thiêm back span. The main-span stays fan from the upper arch to both deck edges; a smaller set of back-stays anchors in the 115 m back span.",
+        "description": "Single white arch pylon with a ROUNDED crown: two legs straddle the deck and curve together at the top; the whole arch curves in elevation and leans back away from the 200 m main span. Main-span stays fan from both legs to both deck edges; a second fan of back-stays runs to the 115 m back span. Below the deck the legs continue to a single pier block.",
         "legs": [
           {
             "centerline": [
@@ -1539,7 +2740,9 @@
           "https://commons.wikimedia.org/wiki/File:Cầu_Ba_Son,_TP.HCM,_042022.jpg",
           "https://commons.wikimedia.org/wiki/File:ThapCauThuThiem2(Left).jpg",
           "https://commons.wikimedia.org/wiki/File:Ba_Son_Bridge,_Saigon_(20230705_1516).jpg",
-          "https://wsp.com/en-ca/projects/thu-thiem-2-cable-stayed-bridge"
+          "https://wsp.com/en-ca/projects/thu-thiem-2-cable-stayed-bridge",
+          "https://commons.wikimedia.org/wiki/File:ThapCauThuThiem2.jpg",
+          "https://commons.wikimedia.org/wiki/File:Thu_Thiem_2_Bridge_construction.png"
         ]
       }
     },
@@ -1608,7 +2811,8 @@
     "width_m": 21.5,
     "cable_stayed_spans": 2,
     "span_arrangement": "90 + 2 × 160 + 90 m",
-    "pylons": "3 V-shaped pylons",
+    "pylons": "3 cặp tháp lưỡi chữ V (extradosed), dây văng đỏ",
+    "pylons_en": "3 pairs of V-blade pylons (extradosed), red stays",
     "cost": "1,941 tỷ VND",
     "nav_clearance": {
       "height_m": 11,
@@ -1636,7 +2840,7 @@
       "deck_type": "concrete",
       "extradosed": true,
       "confidence": "estimated",
-      "notes": "Extradosed 90+2×160+90 m (press). Three pairs of red V-shaped low pylons ('V – Victory'). Pylon height above deck estimated from photos (≈18 m).",
+      "notes": "Extradosed 90+2×160+90 m (press). Three pairs of red V-shaped low pylons ('V – Victory'). Pylon height above deck estimated from photos (≈18 m). Colour: white blades with red inner face; red stays. Confirmed by the VTC aerial.",
       "pylon_custom": {
         "description": "At each of the 3 pylon piers, two separate flat 'blade' posts stand at the deck edges and lean OUTWARD, forming a V in cross-section (the 'V – Victory' motif), white with a red inner face. Short extradosed stays (red) in two planes run from each blade to the deck edge.",
         "legs": [
@@ -1753,13 +2957,15 @@
     "main_span_m": 153,
     "width_m": 18.5,
     "span_arrangement": "86 + 153 + 86 m",
+    "pylons": "2 tháp thấp một cột giữa (extradosed), dây văng đỏ",
+    "pylons_en": "2 low single-column pylons (extradosed), red stays",
     "model3d": {
       "spans_m": [
         86,
         153,
         86
       ],
-      "pylon_shape": "other",
+      "pylon_shape": "single",
       "pylon_heights_m": [
         18,
         18
@@ -1771,7 +2977,7 @@
       "deck_type": "concrete",
       "extradosed": true,
       "confidence": "estimated",
-      "notes": "Extradosed 86+153+86 m (infra.global). Low red pylons; one central plane assumed from press aerials. Pylon height estimated."
+      "notes": "Extradosed 86+153+86 m (infra.global). Low red pylons; one central plane assumed from press aerials. Pylon height estimated. Colour: white mast; red stays. Aerial shows two low central masts with red single-plane stays."
     },
     "lat": 18.751,
     "lng": 105.7469,
@@ -1812,7 +3018,8 @@
     "main_span_m": 218,
     "total_length_m": 2360,
     "width_m": 20,
-    "pylons": "A-shaped red pylons, ≈40 m",
+    "pylons": "2 tháp thấp chữ A giữa cầu (extradosed), dây văng đỏ, cao 32 m trên mặt cầu",
+    "pylons_en": "2 low A-topped central pylons (extradosed), red stays, 32 m above deck",
     "model3d": {
       "spans_m": [
         120,
@@ -1831,7 +3038,7 @@
       "deck_type": "concrete",
       "extradosed": true,
       "confidence": "estimated",
-      "notes": "Extradosed main span 218 m; A-topped red pylons 32 m above deck (72 m from water) per Người Quan Sát. Side spans and the single central cable plane estimated from photos. Number of extradosed spans unclear."
+      "notes": "Extradosed main span 218 m; A-topped red pylons 32 m above deck (72 m from water) per Người Quan Sát. Side spans and the single central cable plane estimated from photos. Number of extradosed spans unclear. Colour: white pylon; red stays. Báo Lâm Đồng photo (7/2026)."
     },
     "lat": 16.5687,
     "lng": 107.6234,
@@ -1873,7 +3080,8 @@
     "main_span_m": 550,
     "total_length_m": 1200,
     "cable_stayed_spans": 1,
-    "pylons": "2 pylons, 187 m",
+    "pylons": "2 tháp chữ Y ngược màu đỏ trắng, cao 187 m",
+    "pylons_en": "2 red-and-white inverted-Y pylons, 187 m",
     "investor": "Ban QLDA khu vực Hòa Bình",
     "model3d": {
       "spans_m": [
@@ -1891,7 +3099,7 @@
       "cable_pattern": "fan",
       "deck_width_m": 21.0,
       "confidence": "estimated",
-      "notes": "550 m main span, 187 m pylons, ≈1.2 km bridge (press). Side spans, deck width and inverted-Y shape read from official renders (Báo Lâm Đồng / Người Quan Sát)."
+      "notes": "550 m main span, 187 m pylons, ≈1.2 km bridge (press). Side spans, deck width and inverted-Y shape read from official renders (Báo Lâm Đồng / Người Quan Sát). Colour: red and white. Official renders."
     },
     "lat": 20.78,
     "lng": 105.21,
@@ -1938,7 +3146,8 @@
     "total_length_m": 1000,
     "width_m": 43,
     "cable_stayed_spans": 1,
-    "pylons": "2 pylons, ≈185 m",
+    "pylons": "2 tháp chân kim cương, tách hai lưỡi xoắn phía trên, cao ≈185 m",
+    "pylons_en": "2 diamond-foot pylons splitting into two twisted blades, ≈185 m",
     "investor": "Liên danh Vingroup (BT)",
     "cost": "≈20,100 tỷ VND",
     "model3d": {
@@ -1961,7 +3170,7 @@
       "confidence": "estimated",
       "notes": "1,000 m main bridge, 500 m span, 185 m pylons, 43 m steel deck (press). Side spans derived. Pylon form per the official render (client feedback 11/2026): diamond foot below the deck, legs merge ~38% up, then two separated, slightly twisted blades with staggered tops carrying a dense semi-fan in two planes. Modelled with pylon_custom (tip ≈ 170 m above deck).",
       "pylon_custom": {
-        "description": "Diamond-foot pylon: legs splay from the footing to just outside the deck edges, lean in and merge at ~38% of the height (no crossbeam), then split into two slender, slightly twisted blades separated by a ~2.5 m slot, with staggered tops (≈170 m and ≈155 m above deck). Dense semi-fan stays in two planes anchor along the blades (top ~45%).",
+        "description": "Diamond-foot pylon: legs splay from the footing to just outside the deck edges, lean in and merge at ~38% of the height (no crossbeam), then split into two thick, slightly twisted blades (≈8.5 m wide × ≈12.75 m deep, ≈0.05 × / 0.075 × the above-deck height) separated by a ~2.5 m slot, with staggered tops (≈170 m and ≈155 m above deck). Dense semi-fan stays in two planes anchor along the blades (top ~45%).",
         "legs": [
           {
             "centerline": [
@@ -1993,7 +3202,7 @@
               [
                 0,
                 65,
-                -2.25
+                -5.5
               ]
             ],
             "width_base_m": 6.0,
@@ -2031,7 +3240,7 @@
               [
                 0,
                 65,
-                2.25
+                5.5
               ]
             ],
             "width_base_m": 6.0,
@@ -2044,46 +3253,46 @@
               [
                 0.6,
                 65,
-                -2.25
+                -5.5
               ],
               [
                 0.4,
                 110,
-                -2.25
+                -5.5
               ],
               [
                 -0.6,
                 170,
-                -2.25
+                -5.5
               ]
             ],
-            "width_base_m": 2.0,
-            "width_top_m": 2.0,
-            "depth_base_m": 7.0,
-            "depth_top_m": 4.0
+            "width_base_m": 8.5,
+            "width_top_m": 7.5,
+            "depth_base_m": 12.75,
+            "depth_top_m": 10.0
           },
           {
             "centerline": [
               [
                 -0.6,
                 65,
-                2.25
+                5.5
               ],
               [
                 -0.4,
                 105,
-                2.25
+                5.5
               ],
               [
                 0.6,
                 155,
-                2.25
+                5.5
               ]
             ],
-            "width_base_m": 2.0,
-            "width_top_m": 2.0,
-            "depth_base_m": 7.0,
-            "depth_top_m": 4.0
+            "width_base_m": 8.5,
+            "width_top_m": 7.5,
+            "depth_base_m": 12.75,
+            "depth_top_m": 10.0
           }
         ],
         "anchor_zone": [
@@ -2150,7 +3359,8 @@
     "opened": 2028,
     "main_span_m": 450,
     "cable_stayed_spans": 1,
-    "pylons": "2 A-shaped pylons (110 m or 164 m per source)",
+    "pylons": "2 tháp chữ Y ngược, đầu cao, dây văng đỏ (phối cảnh), cao 110 m trên mặt cầu",
+    "pylons_en": "2 inverted-Y pylons with tall heads, red stays (render), 110 m above deck",
     "investor": "Bộ Xây dựng (Ban QLDA 85); contractor Đèo Cả",
     "cost": "≈3,900 tỷ VND (package)",
     "model3d": {
@@ -2159,7 +3369,7 @@
         450,
         210
       ],
-      "pylon_shape": "A",
+      "pylon_shape": "inverted_Y",
       "pylon_heights_m": [
         110,
         110
@@ -2170,7 +3380,7 @@
       "deck_width_m": 21.5,
       "deck_type": "composite",
       "confidence": "estimated",
-      "notes": "210+450+210 m, A-shaped pylons 110 m above deck, composite steel girder (Báo Đầu tư). Fan pattern from the render. Another source gives 164 m total height."
+      "notes": "210+450+210 m, A-shaped pylons 110 m above deck, composite steel girder (Báo Đầu tư). Fan pattern from the render. Another source gives 164 m total height. Colour: grey concrete; red stays (render). Báo Đầu tư render."
     },
     "lat": 9.7069,
     "lng": 106.1506,
@@ -2228,7 +3438,8 @@
     "total_length_m": 11600,
     "lanes": 8,
     "cable_stayed_spans": 1,
-    "pylons": "2 pylons (two cable planes)",
+    "pylons": "2 tháp hai chân khép vòm tròn ở đỉnh, cao ≈170 m",
+    "pylons_en": "2 twin-leg pylons closing in a rounded arch at the top, ≈170 m",
     "investor": "Liên danh do CC1 dẫn đầu (PPP-BT)",
     "cost": "≈20,600–24,000 tỷ VND",
     "nav_clearance": {
@@ -2243,7 +3454,7 @@
         450,
         190
       ],
-      "pylon_shape": "inverted_Y",
+      "pylon_shape": "other",
       "pylon_heights_m": [
         170,
         170
@@ -2254,7 +3465,93 @@
       "deck_width_m": 38.0,
       "deck_type": "composite",
       "confidence": "estimated",
-      "notes": "Spans 190–450–190 m and a ≥230 × 55 m navigation clearance (cafeland.vn). Two cable planes (press). Pylon height and deck width (8 lanes) estimated. Inverted-Y pylons read from the VnExpress render (1/2026)."
+      "notes": "Spans 190–450–190 m and a ≥230 × 55 m navigation clearance (cafeland.vn). Two cable planes (press). Pylon height and deck width (8 lanes) estimated. Inverted-Y pylons read from the VnExpress render (1/2026). VnExpress render (1/2026).",
+      "pylon_custom": {
+        "description": "Two near-parallel legs straddle the deck and curve together into a rounded arch crown (tuning-fork / inverted U), short spire on top; stays in two planes from the upper legs.",
+        "legs": [
+          {
+            "centerline": [
+              [
+                0,
+                -40,
+                -19
+              ],
+              [
+                0,
+                0,
+                -19
+              ],
+              [
+                0,
+                70,
+                -17
+              ],
+              [
+                0,
+                105,
+                -9
+              ],
+              [
+                0,
+                118,
+                0
+              ]
+            ],
+            "width_base_m": 5.0,
+            "width_top_m": 3.5
+          },
+          {
+            "centerline": [
+              [
+                0,
+                -40,
+                19
+              ],
+              [
+                0,
+                0,
+                19
+              ],
+              [
+                0,
+                70,
+                17
+              ],
+              [
+                0,
+                105,
+                9
+              ],
+              [
+                0,
+                118,
+                0
+              ]
+            ],
+            "width_base_m": 5.0,
+            "width_top_m": 3.5
+          }
+        ],
+        "crossbeams_y_m": [
+          -3
+        ],
+        "anchor_zone": [
+          {
+            "y_from_m": 60,
+            "y_to_m": 110,
+            "leg": 0
+          },
+          {
+            "y_from_m": 60,
+            "y_to_m": 110,
+            "leg": 1
+          }
+        ],
+        "mirror_for_other_pylons": true,
+        "reference_images": [
+          "https://i1-vnexpress.vnecdn.net/2026/01/29/gen-h-z7480267955959-ba79feb88a7a279aae8ce8175156fea7-1769679191-1769686927-1769696745.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=AcNEih9NX7kBNJoD0LwqfQ"
+        ]
+      }
     },
     "lat": 10.7547,
     "lng": 106.79,
@@ -2299,7 +3596,8 @@
     "width_m": 33,
     "lanes": 8,
     "cable_stayed_spans": 1,
-    "pylons": "2 H-shaped pylons, ≈126 m",
+    "pylons": "2 tháp chữ H, cao ≈126 m",
+    "pylons_en": "2 H-shaped pylons, ≈126 m",
     "cost": "≈11,770–11,844 tỷ VND",
     "model3d": {
       "spans_m": [
@@ -2317,7 +3615,7 @@
       "cable_pattern": "semi_fan",
       "deck_width_m": 33.0,
       "confidence": "estimated",
-      "notes": "Main river bridge ≈680 m with a 350 m span, so side spans are derived. H-shaped pylons ≈126 m (press). Deck 32.3–38.3 m by source."
+      "notes": "Main river bridge ≈680 m with a 350 m span, so side spans are derived. H-shaped pylons ≈126 m (press). Deck 32.3–38.3 m by source. No render or pylon photo found; geometry unchanged."
     },
     "lat": 20.96,
     "lng": 105.895,
@@ -2365,7 +3663,8 @@
     "total_length_m": 9800,
     "lanes": 8,
     "cable_stayed_spans": 1,
-    "pylons": "single cable plane; pylon 175 m",
+    "pylons": "2 tháp một cột, chân chữ Y ngắn trên mặt cầu, cao 175 m",
+    "pylons_en": "2 single-mast pylons with a short Y foot above the deck, 175 m",
     "investor": "PPP (CC1 consortium)",
     "cost": "≈12,700 tỷ VND",
     "model3d": {
@@ -2384,7 +3683,86 @@
       "cable_pattern": "fan",
       "deck_width_m": 38.0,
       "confidence": "estimated",
-      "notes": "350 m span, single cable plane, 175 m pylons (VietnamNet EN). Side spans and deck width (8 lanes) estimated. Single-mast pylons from renders."
+      "notes": "350 m span, single cable plane, 175 m pylons (VietnamNet EN). Side spans and deck width (8 lanes) estimated. Single-mast pylons from renders. VietnamNet render (9/2026).",
+      "pylon_custom": {
+        "description": "Tall single mast on the deck centreline; just above the deck it splits into a short inverted-Y foot straddling the median; one central cable plane.",
+        "legs": [
+          {
+            "centerline": [
+              [
+                0,
+                -30,
+                -4
+              ],
+              [
+                0,
+                0,
+                -3.5
+              ],
+              [
+                0,
+                15,
+                0
+              ]
+            ],
+            "width_base_m": 4.0,
+            "width_top_m": 5.0
+          },
+          {
+            "centerline": [
+              [
+                0,
+                -30,
+                4
+              ],
+              [
+                0,
+                0,
+                3.5
+              ],
+              [
+                0,
+                15,
+                0
+              ]
+            ],
+            "width_base_m": 4.0,
+            "width_top_m": 5.0
+          },
+          {
+            "centerline": [
+              [
+                0,
+                15,
+                0
+              ],
+              [
+                0,
+                70,
+                0
+              ],
+              [
+                0,
+                135,
+                0
+              ]
+            ],
+            "width_base_m": 6.0,
+            "width_top_m": 2.5
+          }
+        ],
+        "anchor_zone": [
+          {
+            "y_from_m": 60,
+            "y_to_m": 130,
+            "leg": 2
+          }
+        ],
+        "mirror_for_other_pylons": true,
+        "reference_images": [
+          "https://static-images.vnncdn.net/vps_images_publish/000001/00000Q/2026/9/30/vietnam-breaks-ground-on-14-billion-bridges-linking-hcmc-dong-nai-0357762bb0234c268c395c13c735948d-1011.jpg?width=0&s=-bm-9gfs17Ugs-fpazsM4A"
+        ]
+      }
     },
     "lat": 10.826,
     "lng": 106.888,
@@ -2433,7 +3811,8 @@
     "width_m": 26.5,
     "cable_stayed_spans": 1,
     "span_arrangement": "125 + 300 + 125 m",
-    "pylons": "2 pylons, 111 m",
+    "pylons": "2 tháp, cao 111 m",
+    "pylons_en": "2 pylons, 111 m",
     "cost": "≈6,200–6,300 tỷ VND",
     "nav_clearance": {
       "height_m": 25,
@@ -2457,7 +3836,7 @@
       "cable_pattern": "semi_fan",
       "deck_width_m": 26.5,
       "confidence": "estimated",
-      "notes": "125+300+125 m, pylons 111 m, deck 26.5 m (press). Pylon shape and cable pattern not published (placeholder 'H')."
+      "notes": "125+300+125 m, pylons 111 m, deck 26.5 m (press). Pylon shape and cable pattern not published (placeholder 'H'). No render or pylon photo found; geometry unchanged."
     },
     "lat": 20.8707,
     "lng": 106.694,
@@ -2501,6 +3880,8 @@
     "main_span_m": 360,
     "total_length_m": 920,
     "cable_stayed_spans": 1,
+    "pylons": "Chưa có hình dạng tháp",
+    "pylons_en": "Pylon form not yet published",
     "investor": "VinSpeed (BOO)",
     "nav_clearance": {
       "height_m": 55,
@@ -2523,7 +3904,7 @@
       "cable_pattern": "semi_fan",
       "deck_width_m": 14.0,
       "confidence": "estimated",
-      "notes": "920 m cable-stayed bridge with a 360 m span (24hMoney). Side spans derived. Pylon shape/height and deck width (double-track) unknown; placeholder values."
+      "notes": "920 m cable-stayed bridge with a 360 m span (24hMoney). Side spans derived. Pylon shape/height and deck width (double-track) unknown; placeholder values. No render or pylon photo found; geometry unchanged."
     },
     "lat": 10.669,
     "lng": 106.766,
@@ -2565,6 +3946,8 @@
     "width_m": 27,
     "lanes": 6,
     "cable_stayed_spans": 1,
+    "pylons": "2 tháp vòm đỉnh tròn (extradosed)",
+    "pylons_en": "2 rounded-arch pylons (extradosed)",
     "cost": "≈4,900 tỷ VND",
     "nav_clearance": {
       "height_m": 55,
@@ -2590,7 +3973,7 @@
       "deck_type": "concrete",
       "extradosed": true,
       "confidence": "estimated",
-      "notes": "Extradosed 250 m main span, 27 m deck (press). Pylons are arch-shaped in the Người Quan Sát photo (8/2026). Side spans and pylon height estimated.",
+      "notes": "Extradosed 250 m main span, 27 m deck (press). Pylons are arch-shaped in the Người Quan Sát photo (8/2026). Side spans and pylon height estimated. Người Quan Sát image shows a rounded crown.",
       "pylon_custom": {
         "description": "Pointed-arch pylons (two legs straddling the deck, curving inward to a tip) at both main piers; extradosed stays fan from the upper arch to the deck. Shape per the Người Quan Sát image (8/2026); proportions from the 250 m span and 27 m deck.",
         "legs": [
@@ -2719,6 +4102,7 @@
     "cable_stayed_spans": 4,
     "span_arrangement": "4 × 195 m",
     "pylons": "3 tháp dây văng",
+    "pylons_en": "3 cable-stayed pylons",
     "cost": "≈7,300 tỷ VND",
     "model3d": {
       "spans_m": [
@@ -2738,7 +4122,7 @@
       "cable_pattern": "semi_fan",
       "deck_width_m": 36.0,
       "confidence": "estimated",
-      "notes": "4×195 m and 3 pylons (client-confirmed 2026-11-25). Pylon shape/height and deck width (8 lanes) estimated; no render found."
+      "notes": "4×195 m and 3 pylons (client-confirmed 2026-11-25). Pylon shape/height and deck width (8 lanes) estimated; no render found. No render or pylon photo found; geometry unchanged."
     },
     "lat": 21.103,
     "lng": 105.7455,
@@ -2790,7 +4174,8 @@
     "width_m": 21,
     "lanes": 4,
     "cable_stayed_spans": 1,
-    "pylons": "2 yellow arch-shaped pylons (two curved legs each), 89 m, leaning toward the river; 24 stays per pylon",
+    "pylons": "2 tháp vòm màu vàng nghiêng về phía sông, cao 89 m; dầm thép đỏ",
+    "pylons_en": "2 yellow arch pylons leaning toward the river, 89 m; red steel deck",
     "investor": "Vingroup",
     "cost": "≈2,300 tỷ VND",
     "nav_clearance": {
@@ -2816,9 +4201,9 @@
       "deck_width_m": 21.0,
       "deck_type": "steel",
       "confidence": "estimated",
-      "notes": "200 m main span, 89 m pylons, 48 stays (24 per pylon, so 6 per side per plane assuming 2 planes), steel deck 21 m (CafeF). Side spans not published (estimated 90 m). Pylon form read from the CafeF and VTC photos (7/2025).",
+      "notes": "200 m main span, 89 m pylons, 48 stays (24 per pylon, so 6 per side per plane assuming 2 planes), steel deck 21 m (CafeF). Side spans not published (estimated 90 m). Pylon form read from the CafeF and VTC photos (7/2025). Colour: yellow pylons, red steel deck edge girders, white stays. Photos show curved splayed 'wing' feet under the deck and a curved strut under the side span; the current legs start straight. Engineer: add the curved feet (leg polyline can be extended below the deck with outward curvature).",
       "pylon_custom": {
-        "description": "Each pylon is a yellow arch: two curved legs straddle the deck, lean forward toward the river (main span) and curve inward to meet at the tip, like a bent wing ('Cửa Thế Giới' concept). Stays in two planes fan to the deck edges on both sides.",
+        "description": "Each pylon is a yellow arch: two legs straddle the red steel deck and curve together at the top, the arch bowing forward toward the main span. Below the deck each leg sweeps outward in a curved yellow 'wing' foot to the pier; a curved strut also reaches out under the side-span deck. Two planes of stays fan to the deck edges on both sides.",
         "legs": [
           {
             "centerline": [
@@ -2950,6 +4335,8 @@
     "total_length_m": 1500,
     "lanes": 4,
     "cable_stayed_spans": 1,
+    "pylons": "Chưa có hình dạng tháp (giả định chữ H)",
+    "pylons_en": "Pylon form not published (H assumed)",
     "investor": "Bộ Quốc phòng (Binh đoàn 12 thi công)",
     "model3d": {
       "spans_m": [
@@ -2967,7 +4354,7 @@
       "cable_pattern": "semi_fan",
       "deck_width_m": 20.0,
       "confidence": "estimated",
-      "notes": "Placeholder geometry: 250 m main span (client); side spans assumed 110 m within the ≈1.5 km bridge; pylon shape, height and deck width (4-lane expressway) assumed, since no render was found."
+      "notes": "Placeholder geometry: 250 m main span (client); side spans assumed 110 m within the ≈1.5 km bridge; pylon shape, height and deck width (4-lane expressway) assumed, since no render was found. No render or pylon photo found; geometry unchanged."
     },
     "lat": 8.7546,
     "lng": 104.9906,
@@ -3013,7 +4400,8 @@
     "total_length_m": 6300,
     "lanes": 6,
     "cable_stayed_spans": 1,
-    "pylons": "2 pylons, ≈100 m",
+    "pylons": "2 tháp hình cây đước (chân rễ choãi), cao ≈100 m",
+    "pylons_en": "2 mangrove-tree pylons with splayed root legs, ≈100 m",
     "investor": "Masterise Group (PPP-BT)",
     "cost": "≈13,200 tỷ VND",
     "nav_clearance": {
@@ -3036,7 +4424,7 @@
       "cable_pattern": "fan",
       "deck_width_m": 30.0,
       "confidence": "estimated",
-      "notes": "350 m span (2019 approval). The design changed from one 230 m pylon to two 'mangrove' (cây đước) pylons ≈100 m (press). Side spans and deck width (6 lanes) estimated. Pylon shape per Tuổi Trẻ render (1/2026).",
+      "notes": "350 m span (2019 approval). The design changed from one 230 m pylon to two 'mangrove' (cây đước) pylons ≈100 m (press). Side spans and deck width (6 lanes) estimated. Pylon shape per Tuổi Trẻ render (1/2026). Tuổi Trẻ render (1/2026).",
       "pylon_custom": {
         "description": "Current two-pylon 'mangrove tree' (cây đước) design per the 1/2026 render: each pylon has two splayed 'root' legs that rise from the water outside the deck, curve inward under/through the deck and join into one trunk about a third of the way up; the trunk continues as a single mast carrying fan stays in two planes.",
         "legs": [
@@ -3192,6 +4580,8 @@
     "lanes": 6,
     "cable_stayed_spans": 1,
     "span_arrangement": "210 + 450 + 210 m",
+    "pylons": "2 tháp chữ H khung chữ nhật, cầu 2 tầng dàn thép",
+    "pylons_en": "2 H-frame pylons; double-deck steel truss",
     "investor": "Bộ Xây dựng (Ban QLDA Mỹ Thuận)",
     "cost": "≈27,050 tỷ VND (preliminary)",
     "nav_clearance": {
@@ -3217,7 +4607,84 @@
       "deck_width_m": 30.5,
       "deck_type": "steel",
       "confidence": "estimated",
-      "notes": "210+450+210 m, 30.5 m deck, double-deck road-over-rail (CafeF). H-like pylons and steel truss girder read from the CafeF render. Pylon height estimated."
+      "notes": "210+450+210 m, 30.5 m deck, double-deck road-over-rail (CafeF). H-like pylons and steel truss girder read from the CafeF render. Pylon height estimated. CafeF render.",
+      "pylon_custom": {
+        "description": "Two vertical legs with a rectangular top frame (beam near the top) and a beam under the double-deck steel truss.",
+        "legs": [
+          {
+            "centerline": [
+              [
+                0,
+                -45,
+                -17
+              ],
+              [
+                0,
+                0,
+                -17
+              ],
+              [
+                0,
+                57.5,
+                -17
+              ],
+              [
+                0,
+                115,
+                -17
+              ]
+            ],
+            "width_base_m": 5.0,
+            "width_top_m": 3.5
+          },
+          {
+            "centerline": [
+              [
+                0,
+                -45,
+                17
+              ],
+              [
+                0,
+                0,
+                17
+              ],
+              [
+                0,
+                57.5,
+                17
+              ],
+              [
+                0,
+                115,
+                17
+              ]
+            ],
+            "width_base_m": 5.0,
+            "width_top_m": 3.5
+          }
+        ],
+        "crossbeams_y_m": [
+          -12,
+          108
+        ],
+        "anchor_zone": [
+          {
+            "y_from_m": 60,
+            "y_to_m": 112,
+            "leg": 0
+          },
+          {
+            "y_from_m": 60,
+            "y_to_m": 112,
+            "leg": 1
+          }
+        ],
+        "mirror_for_other_pylons": true,
+        "reference_images": [
+          "https://cafefcdn.com/thumb_w/1200/203337114487263232/2026/10/8/avatar1791451772173-1791451772671916968314.webp"
+        ]
+      }
     },
     "lat": 9.9992,
     "lng": 105.8338,
@@ -3260,7 +4727,8 @@
     "main_span_m": 350,
     "total_length_m": 1166.8,
     "cable_stayed_spans": 1,
-    "pylons": "single cable plane",
+    "pylons": "Tháp một cột, một mặt phẳng dây",
+    "pylons_en": "Single-mast pylon, one cable plane",
     "investor": "Ban QLDA ĐTXD số 3 (Lâm Đồng)",
     "cost": "2,850 tỷ VND (whole 8.87 km road)",
     "model3d": {
@@ -3279,7 +4747,7 @@
       "cable_pattern": "fan",
       "deck_width_m": 20.0,
       "confidence": "estimated",
-      "notes": "350 m span, single cable plane, ≈1,167 m bridge (press). Side spans, pylon height and deck width estimated from the Người Quan Sát render."
+      "notes": "350 m span, single cable plane, ≈1,167 m bridge (press). Side spans, pylon height and deck width estimated from the Người Quan Sát render. No render or pylon photo found; geometry unchanged."
     },
     "lat": 11.9,
     "lng": 107.72,

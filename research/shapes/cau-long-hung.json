@@ -1,0 +1,108 @@
+{
+ "pylons_vi": "2 tháp một cột, chân chữ Y ngắn trên mặt cầu, cao 175 m",
+ "pylons_en": "2 single-mast pylons with a short Y foot above the deck, 175 m",
+ "model3d": {
+  "spans_m": [
+   175,
+   350,
+   175
+  ],
+  "pylon_shape": "single",
+  "pylon_heights_m": [
+   175,
+   175
+  ],
+  "pylon_height_ref": "total",
+  "cable_planes": 1,
+  "cable_pattern": "fan",
+  "deck_width_m": 38.0,
+  "confidence": "estimated",
+  "notes": "350 m span, single cable plane, 175 m pylons (VietnamNet EN). Side spans and deck width (8 lanes) estimated. Single-mast pylons from renders.",
+  "pylon_custom": {
+   "description": "Tall single mast on the deck centreline; just above the deck it splits into a short inverted-Y foot straddling the median; one central cable plane.",
+   "legs": [
+    {
+     "centerline": [
+      [
+       0,
+       -30,
+       -4
+      ],
+      [
+       0,
+       0,
+       -3.5
+      ],
+      [
+       0,
+       15,
+       0
+      ]
+     ],
+     "width_base_m": 4.0,
+     "width_top_m": 5.0
+    },
+    {
+     "centerline": [
+      [
+       0,
+       -30,
+       4
+      ],
+      [
+       0,
+       0,
+       3.5
+      ],
+      [
+       0,
+       15,
+       0
+      ]
+     ],
+     "width_base_m": 4.0,
+     "width_top_m": 5.0
+    },
+    {
+     "centerline": [
+      [
+       0,
+       15,
+       0
+      ],
+      [
+       0,
+       70,
+       0
+      ],
+      [
+       0,
+       135,
+       0
+      ]
+     ],
+     "width_base_m": 6.0,
+     "width_top_m": 2.5
+    }
+   ],
+   "anchor_zone": [
+    {
+     "y_from_m": 60,
+     "y_to_m": 130,
+     "leg": 2
+    }
+   ],
+   "mirror_for_other_pylons": true,
+   "reference_images": [
+    "https://static-images.vnncdn.net/vps_images_publish/000001/00000Q/2026/9/30/vietnam-breaks-ground-on-14-billion-bridges-linking-hcmc-dong-nai-0357762bb0234c268c395c13c735948d-1011.jpg?width=0&s=-bm-9gfs17Ugs-fpazsM4A"
+   ]
+  }
+ },
+ "notes": "VietnamNet render (9/2026).",
+ "id": "cau-long-hung",
+ "review": [
+  "Single mast without the Y foot",
+  "Short Y foot noted (legs splay just above the deck into the mast)",
+  "Render only"
+ ]
+}

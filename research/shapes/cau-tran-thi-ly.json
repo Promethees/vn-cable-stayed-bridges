@@ -1,0 +1,73 @@
+{
+ "pylons_vi": "1 tháp nghiêng 12°, cao 145 m; dây văng neo sau màu đỏ",
+ "pylons_en": "1 pylon leaning 12°, 145 m; red back-stays",
+ "model3d": {
+  "spans_m": [
+   230,
+   120
+  ],
+  "pylon_shape": "single",
+  "pylon_heights_m": [
+   145
+  ],
+  "pylon_height_ref": "total",
+  "cable_planes": 1,
+  "cable_pattern": "fan",
+  "deck_width_m": 35.5,
+  "deck_type": "concrete",
+  "confidence": "estimated",
+  "notes": "Single 145 m pylon leaning 12° (press). The 230 m cable-stayed span is from the press; the back span (120 m) is estimated. Single central cable plane read from photos.",
+  "pylon_custom": {
+   "description": "Single straight concrete mast on the deck centreline, leaning ≈12° back (away from the 230 m span) like a sail. One central plane of white stays fans from the upper mast to the main span; a denser fan of RED back-stays runs from the same zone down to the back span. Mast lit purple/magenta at night.",
+   "legs": [
+    {
+     "centerline": [
+      [
+       0,
+       -8,
+       0
+      ],
+      [
+       -10,
+       40,
+       0
+      ],
+      [
+       -20,
+       88,
+       0
+      ],
+      [
+       -27,
+       120,
+       0
+      ]
+     ],
+     "width_base_m": 6.0,
+     "width_top_m": 2.5,
+     "depth_base_m": 5.0,
+     "depth_top_m": 2.0
+    }
+   ],
+   "anchor_zone": [
+    {
+     "y_from_m": 55,
+     "y_to_m": 118,
+     "leg": 0
+    }
+   ],
+   "reference_images": [
+    "https://commons.wikimedia.org/wiki/File:Trần_Thị_Lý_Bridge_at_daytime.jpg",
+    "https://commons.wikimedia.org/wiki/File:Trần_Thị_Lý_Bridge,_Da_Nang.jpg"
+   ]
+  }
+ },
+ "colour": "white mast; white main-span stays, red back-stays; purple night lighting",
+ "notes": "Confirmed on 4 Commons photos: single plane, back-stays red. Geometry unchanged except colour data.",
+ "id": "cau-tran-thi-ly",
+ "review": [
+  "Stay colours not captured",
+  "Kept single 12° mast; added white front / red back-stay colours",
+  "Good: 4 Commons photos"
+ ]
+}

@@ -1,0 +1,101 @@
+{
+ "pylons_vi": "3 cặp tháp lưỡi chữ V (extradosed), dây văng đỏ",
+ "pylons_en": "3 pairs of V-blade pylons (extradosed), red stays",
+ "model3d": {
+  "spans_m": [
+   90,
+   160,
+   160,
+   90
+  ],
+  "pylon_shape": "other",
+  "pylon_heights_m": [
+   18,
+   18,
+   18
+  ],
+  "pylon_height_ref": "above_deck",
+  "cable_planes": 2,
+  "cable_pattern": "harp",
+  "deck_width_m": 21.5,
+  "deck_type": "concrete",
+  "extradosed": true,
+  "confidence": "estimated",
+  "notes": "Extradosed 90+2×160+90 m (press). Three pairs of red V-shaped low pylons ('V – Victory'). Pylon height above deck estimated from photos (≈18 m).",
+  "pylon_custom": {
+   "description": "At each of the 3 pylon piers, two separate flat 'blade' posts stand at the deck edges and lean OUTWARD, forming a V in cross-section (the 'V – Victory' motif), white with a red inner face. Short extradosed stays (red) in two planes run from each blade to the deck edge.",
+   "legs": [
+    {
+     "centerline": [
+      [
+       0,
+       -2,
+       -10.5
+      ],
+      [
+       0,
+       8,
+       -12.5
+      ],
+      [
+       0,
+       18,
+       -15
+      ]
+     ],
+     "width_base_m": 2.0,
+     "width_top_m": 3.5,
+     "depth_base_m": 2.0,
+     "depth_top_m": 1.2
+    },
+    {
+     "centerline": [
+      [
+       0,
+       -2,
+       10.5
+      ],
+      [
+       0,
+       8,
+       12.5
+      ],
+      [
+       0,
+       18,
+       15
+      ]
+     ],
+     "width_base_m": 2.0,
+     "width_top_m": 3.5,
+     "depth_base_m": 2.0,
+     "depth_top_m": 1.2
+    }
+   ],
+   "anchor_zone": [
+    {
+     "y_from_m": 6,
+     "y_to_m": 17,
+     "leg": 0
+    },
+    {
+     "y_from_m": 6,
+     "y_to_m": 17,
+     "leg": 1
+    }
+   ],
+   "mirror_for_other_pylons": true,
+   "reference_images": [
+    "https://cdn-i.vtcnews.vn/resize/1200x900//upload/2024/07/16/cau-ben-rung-truoc-ngay-thong-cau-5-10294993.jpg"
+   ]
+  }
+ },
+ "notes": "Confirmed by the VTC aerial.",
+ "colour": "white blades with red inner face; red stays",
+ "id": "cau-ben-rung",
+ "review": [
+  "—",
+  "No geometry change; red stays and white/red blades confirmed",
+  "Good: 2 press photos"
+ ]
+}

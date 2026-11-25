@@ -1,0 +1,133 @@
+{
+ "pylons_vi": "2 tháp chữ Y ngược, chân kim cương dưới mặt cầu, cao ≈125 m",
+ "pylons_en": "2 inverted-Y pylons with diamond-shaped lower legs, ≈125 m",
+ "model3d": {
+  "spans_m": [
+   150,
+   350,
+   150
+  ],
+  "pylon_shape": "inverted_Y",
+  "pylon_heights_m": [
+   125,
+   125
+  ],
+  "pylon_height_ref": "total",
+  "cable_planes": 2,
+  "cable_pattern": "semi_fan",
+  "deck_width_m": 28.0,
+  "deck_type": "concrete",
+  "confidence": "estimated",
+  "pylon_custom": {
+   "description": "Inverted Y with a diamond foot: two legs rise from a single narrow pier, splay outward to their widest at deck level (outside the deck), then converge above the deck to merge ≈45 m up into a single head carrying the stays. Below the deck the legs converge again to the footing, giving a diamond.",
+   "legs": [
+    {
+     "centerline": [
+      [
+       0,
+       -38,
+       -5
+      ],
+      [
+       0,
+       -15,
+       -12
+      ],
+      [
+       0,
+       0,
+       -15.5
+      ],
+      [
+       0,
+       25,
+       -9
+      ],
+      [
+       0,
+       47,
+       -1.5
+      ]
+     ],
+     "width_base_m": 4.5,
+     "width_top_m": 3.5
+    },
+    {
+     "centerline": [
+      [
+       0,
+       -38,
+       5
+      ],
+      [
+       0,
+       -15,
+       12
+      ],
+      [
+       0,
+       0,
+       15.5
+      ],
+      [
+       0,
+       25,
+       9
+      ],
+      [
+       0,
+       47,
+       1.5
+      ]
+     ],
+     "width_base_m": 4.5,
+     "width_top_m": 3.5
+    },
+    {
+     "centerline": [
+      [
+       0,
+       47,
+       0
+      ],
+      [
+       0,
+       70,
+       0
+      ],
+      [
+       0,
+       87,
+       0
+      ]
+     ],
+     "width_base_m": 5.0,
+     "width_top_m": 3.5
+    }
+   ],
+   "crossbeams_y_m": [
+    -3
+   ],
+   "anchor_zone": [
+    {
+     "y_from_m": 55,
+     "y_to_m": 85,
+     "leg": 2
+    }
+   ],
+   "mirror_for_other_pylons": true,
+   "reference_images": [
+    "https://commons.wikimedia.org/wiki/File:Cầu_Mỹ_Thuận_1_và_2.jpg",
+    "https://commons.wikimedia.org/wiki/File:Cao_tốc_mỹ_thuận_cần_thơ.jpg",
+    "https://image.sggp.org.vn/1200x630/Uploaded/2026/cdjwzdjwp/2023_10_14/cong-trinh-giao-thong-cau-my-thuan-2-sung-sung-noi-doi-bo-song-tien-9597.jpg.webp"
+   ]
+  },
+  "notes": "Diamond foot clearly visible in the SGGP closure photo and the Commons aerial (legs narrow toward the pile cap). Height not published; ≈125 m total estimated (≈87 m above deck)."
+ },
+ "id": "cau-my-thuan-2",
+ "review": [
+  "Plain inverted-Y without the diamond foot",
+  "Diamond lower legs converging to a narrow pier, merge ≈47 m above deck, single-head anchor zone",
+  "Good: aerial + pylon close-up + press closure photo"
+ ]
+}

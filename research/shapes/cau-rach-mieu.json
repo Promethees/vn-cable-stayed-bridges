@@ -1,0 +1,135 @@
+{
+ "pylons_vi": "2 tháp chữ A (Y ngược), chân choãi, dây văng màu cam, cao ≈110 m",
+ "pylons_en": "2 A-frame (inverted-Y) pylons with splayed feet, orange stays, ≈110 m",
+ "model3d": {
+  "spans_m": [
+   117,
+   270,
+   117
+  ],
+  "pylon_shape": "inverted_Y",
+  "pylon_heights_m": [
+   110,
+   110
+  ],
+  "pylon_height_ref": "total",
+  "cable_planes": 2,
+  "cable_pattern": "fan",
+  "deck_width_m": 12.0,
+  "deck_type": "concrete",
+  "confidence": "estimated",
+  "pylon_custom": {
+   "description": "A-frame: two straight legs from widely spaced footings converge through the deck level (deck passes between them) to a short single head; under-deck strut. Fan of orange-sheathed stays from the head to the deck edges. Narrow 2-lane deck.",
+   "legs": [
+    {
+     "centerline": [
+      [
+       0,
+       -30,
+       -14
+      ],
+      [
+       0,
+       0,
+       -9
+      ],
+      [
+       0,
+       40,
+       -3
+      ],
+      [
+       0,
+       58,
+       0
+      ]
+     ],
+     "width_base_m": 3.5,
+     "width_top_m": 2.5
+    },
+    {
+     "centerline": [
+      [
+       0,
+       -30,
+       14
+      ],
+      [
+       0,
+       0,
+       9
+      ],
+      [
+       0,
+       40,
+       3
+      ],
+      [
+       0,
+       58,
+       0
+      ]
+     ],
+     "width_base_m": 3.5,
+     "width_top_m": 2.5
+    },
+    {
+     "centerline": [
+      [
+       0,
+       58,
+       0
+      ],
+      [
+       0,
+       66,
+       0
+      ],
+      [
+       0,
+       75,
+       0
+      ]
+     ],
+     "width_base_m": 3.5,
+     "width_top_m": 2.8
+    }
+   ],
+   "crossbeams_y_m": [
+    -3
+   ],
+   "anchor_zone": [
+    {
+     "y_from_m": 55,
+     "y_to_m": 74,
+     "leg": 2
+    },
+    {
+     "y_from_m": 40,
+     "y_to_m": 57,
+     "leg": 0
+    },
+    {
+     "y_from_m": 40,
+     "y_to_m": 57,
+     "leg": 1
+    }
+   ],
+   "mirror_for_other_pylons": true,
+   "reference_images": [
+    "https://commons.wikimedia.org/wiki/File:Cầu_dây_văng_Rạch_Miễu.jpg",
+    "https://commons.wikimedia.org/wiki/File:Rach_Mieu_Bridge_pylon.jpg",
+    "https://commons.wikimedia.org/wiki/File:Rạch_Miễu_bridge._(14451567804).jpg",
+    "https://commons.wikimedia.org/wiki/File:Rach_Mieu_Bridge_under_construction.jpg"
+   ]
+  },
+  "colour": "cream concrete; orange stay sheaths",
+  "notes": "A-frame legs, under-deck strut and orange stays clear in Commons close-ups."
+ },
+ "id": "cau-rach-mieu",
+ "review": [
+  "Generic inverted-Y; no below-deck legs, stay colour or strut",
+  "A-frame legs to splayed footings, merge ≈58 m above deck, under-deck strut, orange stays",
+  "Good: 4 Commons photos"
+ ]
+}

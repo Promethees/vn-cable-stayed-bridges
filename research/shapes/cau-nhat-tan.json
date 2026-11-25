@@ -1,0 +1,133 @@
+{
+ "pylons_vi": "5 tháp hình vòm nhọn (chữ A cong), chân kim cương, cao ≈110 m",
+ "pylons_en": "5 pointed-arch (curved A) pylons with diamond feet, ≈110 m",
+ "model3d": {
+  "spans_m": [
+   150,
+   300,
+   300,
+   300,
+   300,
+   150
+  ],
+  "pylon_shape": "A",
+  "pylon_heights_m": [
+   110,
+   110,
+   110,
+   110,
+   110
+  ],
+  "pylon_height_ref": "total",
+  "cable_planes": 2,
+  "cable_pattern": "fan",
+  "deck_width_m": 33.2,
+  "deck_type": "composite",
+  "confidence": "estimated",
+  "pylon_custom": {
+   "description": "Pointed arch above the deck: two slightly curved legs straddle the 33 m deck and meet in a sharp apex, with no cross-beam above the deck. Below the deck the legs converge again into a single pier (diamond overall). Stays fan from the upper third of each leg to the deck edges. Pylons are lit at night in changing colours.",
+   "legs": [
+    {
+     "centerline": [
+      [
+       0,
+       -25,
+       -3
+      ],
+      [
+       0,
+       -10,
+       -12
+      ],
+      [
+       0,
+       0,
+       -18.5
+      ],
+      [
+       0,
+       30,
+       -14
+      ],
+      [
+       0,
+       60,
+       -6
+      ],
+      [
+       0,
+       80,
+       0
+      ]
+     ],
+     "width_base_m": 4.0,
+     "width_top_m": 2.5
+    },
+    {
+     "centerline": [
+      [
+       0,
+       -25,
+       3
+      ],
+      [
+       0,
+       -10,
+       12
+      ],
+      [
+       0,
+       0,
+       18.5
+      ],
+      [
+       0,
+       30,
+       14
+      ],
+      [
+       0,
+       60,
+       6
+      ],
+      [
+       0,
+       80,
+       0
+      ]
+     ],
+     "width_base_m": 4.0,
+     "width_top_m": 2.5
+    }
+   ],
+   "crossbeams_y_m": [
+    -2
+   ],
+   "anchor_zone": [
+    {
+     "y_from_m": 45,
+     "y_to_m": 78,
+     "leg": 0
+    },
+    {
+     "y_from_m": 45,
+     "y_to_m": 78,
+     "leg": 1
+    }
+   ],
+   "mirror_for_other_pylons": true,
+   "reference_images": [
+    "https://commons.wikimedia.org/wiki/File:4am_view_of_Nhat_Tan_Bridge_in_Hanoi.jpg",
+    "https://commons.wikimedia.org/wiki/File:Nhat_Tan_Bridge_at_night_2016.jpg"
+   ]
+  },
+  "colour": "grey concrete; colour-changing night lighting on the pylons",
+  "notes": "Diamond foot seen in the 4am Commons view (legs converge below deck into one pier). Image 'Cau Nhat Tan, Ha Noi, VN 02' shows only the roadway; suggest replacing it."
+ },
+ "id": "cau-nhat-tan",
+ "review": [
+  "Legs started at deck level (no diamond foot); one gallery image shows no bridge",
+  "Legs now converge below deck into one pier (diamond), apex ≈80 m above deck; flag image VN 02 for replacement",
+  "Good: 2 clear Commons views"
+ ]
+}

@@ -1,0 +1,29 @@
+{
+ "pylons_vi": "2 tháp, cao 111 m",
+ "pylons_en": "2 pylons, 111 m",
+ "model3d": {
+  "spans_m": [
+   125,
+   300,
+   125
+  ],
+  "pylon_shape": "H",
+  "pylon_heights_m": [
+   111,
+   111
+  ],
+  "pylon_height_ref": "total",
+  "cable_planes": 2,
+  "cable_pattern": "semi_fan",
+  "deck_width_m": 26.5,
+  "confidence": "estimated",
+  "notes": "125+300+125 m, pylons 111 m, deck 26.5 m (press). Pylon shape and cable pattern not published (placeholder 'H')."
+ },
+ "notes": "No render or pylon photo found; geometry unchanged.",
+ "id": "cau-nguyen-trai",
+ "review": [
+  "—",
+  "No change: only construction-site or no images",
+  "None usable"
+ ]
+}

@@ -617,17 +617,17 @@ PYLON = {
     #    outside the deck edges at deck level; 2) above deck: legs lean in and merge at ~38% of the height,
     #    no crossbeam; 3) above the merge: two slender blades with a clear ~2.5 m slot, slightly twisted
     #    (opposite x-offsets) and with staggered flat tops (170 m vs 155 m); 4) dense semi-fan from the blades.
-    "description": "Diamond-foot pylon: legs splay from the footing to just outside the deck edges, lean in and merge at ~38% of the height (no crossbeam), then split into two slender, slightly twisted blades separated by a ~2.5 m slot, with staggered tops (≈170 m and ≈155 m above deck). Dense semi-fan stays in two planes anchor along the blades (top ~45%).",
+    "description": "Diamond-foot pylon: legs splay from the footing to just outside the deck edges, lean in and merge at ~38% of the height (no crossbeam), then split into two thick, slightly twisted blades (≈8.5 m wide × ≈12.75 m deep, ≈0.05 × / 0.075 × the above-deck height) separated by a ~2.5 m slot, with staggered tops (≈170 m and ≈155 m above deck). Dense semi-fan stays in two planes anchor along the blades (top ~45%).",
     "legs": [
-        {"centerline": [[0, -45, -9.7], [0, -25, -17.5], [0, -3, -24.8], [0, 3, -24.5], [0, 35, -11], [0, 65, -2.25]],
+        {"centerline": [[0, -45, -9.7], [0, -25, -17.5], [0, -3, -24.8], [0, 3, -24.5], [0, 35, -11], [0, 65, -5.5]],
          "width_base_m": 6.0, "width_top_m": 4.5, "depth_base_m": 8.0, "depth_top_m": 6.0},
-        {"centerline": [[0, -45, 9.7], [0, -25, 17.5], [0, -3, 24.8], [0, 3, 24.5], [0, 35, 11], [0, 65, 2.25]],
+        {"centerline": [[0, -45, 9.7], [0, -25, 17.5], [0, -3, 24.8], [0, 3, 24.5], [0, 35, 11], [0, 65, 5.5]],
          "width_base_m": 6.0, "width_top_m": 4.5, "depth_base_m": 8.0, "depth_top_m": 6.0},
         # upper blades start at the merge point (legs may start above the deck)
-        {"centerline": [[0.6, 65, -2.25], [0.4, 110, -2.25], [-0.6, 170, -2.25]],
-         "width_base_m": 2.0, "width_top_m": 2.0, "depth_base_m": 7.0, "depth_top_m": 4.0},
-        {"centerline": [[-0.6, 65, 2.25], [-0.4, 105, 2.25], [0.6, 155, 2.25]],
-         "width_base_m": 2.0, "width_top_m": 2.0, "depth_base_m": 7.0, "depth_top_m": 4.0},
+        {"centerline": [[0.6, 65, -5.5], [0.4, 110, -5.5], [-0.6, 170, -5.5]],
+         "width_base_m": 8.5, "width_top_m": 7.5, "depth_base_m": 12.75, "depth_top_m": 10.0},
+        {"centerline": [[-0.6, 65, 5.5], [-0.4, 105, 5.5], [0.6, 155, 5.5]],
+         "width_base_m": 8.5, "width_top_m": 7.5, "depth_base_m": 12.75, "depth_top_m": 10.0},
     ],
     "anchor_zone": [{"y_from_m": 94, "y_to_m": 167, "leg": 2}, {"y_from_m": 94, "y_to_m": 152, "leg": 3}],
     "mirror_for_other_pylons": True,
@@ -691,6 +691,21 @@ M3D["cau-cua-lon"] = m3d([110, 250, 110], "H", [100, 100], "total", 2, "semi_fan
     notes="Placeholder geometry: 250 m main span (client); side spans assumed 110 m within the ≈1.5 km bridge; pylon shape, height and deck width (4-lane expressway) assumed, since no render was found.")
 PRESS["cau-cua-lon"] = [press("https://nqs.1cdn.vn/thumbs/1200x630/2026/06/09/5B30_ca-mau-1-17809802873171473761074-0-0-625-1000-crop-178098039885440981610.jpg", "Người Quan Sát", "https://nguoiquansat.vn/cao-toc-59-000-ty-cua-dbscl-se-so-huu-nhieu-cau-vuot-song-quy-mo-va-ket-noi-den-cau-vuot-bien-dai-nhat-viet-nam-296881.html", "expressway article image (not the bridge itself)")]
 
+
+# ---------------- SHAPE REVIEW (research/shapes/<id>.json, photo/render review 2026-11-26) ----------------
+# Each proposal replaces model3d (incl. pylon_custom) and sets pylons (VI) / pylons_en. Colour, auxiliary piers
+# and image issues are kept in model3d.notes (not yet in the schema).
+import os, glob as _glob
+SHAPES = {}
+_sd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "research", "shapes")
+for _f in sorted(_glob.glob(os.path.join(_sd, "*.json"))):
+    _p = json.load(open(_f, encoding="utf-8"))
+    SHAPES[_p["id"]] = _p
+DROP_IMAGES = {
+    "cau-bach-dang": ["media.vov.vn/sites/default/files/styles/og_image/public/images/vov_cau_bach_dang_7_KXCD.jpg"],   # resolves to the VOV logo
+    "cau-nhat-tan": ["Cau_Nhat_Tan%2C_Ha_Noi%2C_VN_02.jpg", "Cau_Nhat_Tan,_Ha_Noi,_VN_02.jpg"],                       # shows only the roadway
+}
+
 # ---------------- MERGE images + model3d into each bridge ----------------
 for b in B:
     bid = b["id"]
@@ -711,6 +726,29 @@ for b in B:
             assert 0 <= az["leg"] < len(pc["legs"]) and az["y_from_m"] < az["y_to_m"], bid
         b["model3d"]["pylon_custom"] = pc
         b["model3d"]["confidence"] = "estimated"
+    if bid in SHAPES and bid != "cau-tu-lien":
+        sp = SHAPES[bid]
+        m = dict(sp["model3d"])
+        extra_notes = []
+        if sp.get("colour"): extra_notes.append("Colour: " + sp["colour"] + ".")
+        if sp.get("auxiliary_piers_m_from_end"): extra_notes.append("Auxiliary piers in each side span at ≈" + ", ".join(str(x) for x in sp["auxiliary_piers_m_from_end"]) + " m from the end pier.")
+        if sp.get("notes"): extra_notes.append(sp["notes"])
+        m["notes"] = " ".join(x for x in [m.get("notes", "")] + extra_notes if x).strip()
+        if "pylon_custom" in m:
+            for leg in m["pylon_custom"]["legs"]:
+                assert len(leg["centerline"]) >= 3, bid
+            for az in m["pylon_custom"]["anchor_zone"]:
+                assert 0 <= az["leg"] < len(m["pylon_custom"]["legs"]) and az["y_from_m"] < az["y_to_m"], bid
+        m["confidence"] = "estimated"
+        b["model3d"] = m
+        b["pylons"] = sp["pylons_vi"]
+        b["pylons_en"] = sp["pylons_en"]
+    if bid == "cau-tu-lien":
+        b["pylons"] = "2 tháp chân kim cương, tách hai lưỡi xoắn phía trên, cao ≈185 m"
+        b["pylons_en"] = "2 diamond-foot pylons splitting into two twisted blades, ≈185 m"
+    for frag in DROP_IMAGES.get(bid, []):
+        b["images"] = [im for im in b["images"] if frag not in im["url"] and frag not in im["source"]]
+    assert b["images"], f"{bid}: no image after drop"
     if bid in DECK_RADIUS:
         b["model3d"]["deck_plan_radius_m"] = DECK_RADIUS[bid]
     if NAV.get(bid):
@@ -732,7 +770,7 @@ ids = [b["id"] for b in B]
 assert len(ids) == len(set(ids))
 order = ["id","name_vi","name_en","status","structure_type","usage","province","province_former","crosses","roads","railways",
          "construction_start","opened","main_span_m","total_length_m","width_m","lanes","cable_stayed_spans","span_arrangement",
-         "pylons","investor","cost","nav_clearance","model3d","lat","lng","images","sources","confidence","notes"]
+         "pylons","pylons_en","investor","cost","nav_clearance","model3d","lat","lng","images","sources","confidence","notes"]
 out = [{k: b[k] for k in order if k in b} for b in B]
 json.dump(out, open(sys.argv[1], "w"), ensure_ascii=False, indent=2)
 from collections import Counter

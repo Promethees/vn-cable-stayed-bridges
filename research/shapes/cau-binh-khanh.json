@@ -1,0 +1,106 @@
+{
+ "pylons_vi": "2 tháp chữ H, dầm ngang đỉnh, cao 135 m",
+ "pylons_en": "2 H-shaped pylons with a top cross-beam, 135 m",
+ "model3d": {
+  "spans_m": [
+   194,
+   375,
+   194
+  ],
+  "pylon_shape": "H",
+  "pylon_heights_m": [
+   135,
+   135
+  ],
+  "pylon_height_ref": "total",
+  "cable_planes": 2,
+  "cable_pattern": "fan",
+  "deck_width_m": 21.75,
+  "confidence": "estimated",
+  "notes": "Main section 763 m (press), so side spans are derived as (763 − 375)/2 ≈ 194. H pylons 135 m (most sources; one says 155 m). Fan stays per press.",
+  "pylon_custom": {
+   "description": "Two vertical legs outside the deck, joined by a cross-beam close to the top and one under the deck; legs straight to the footing.",
+   "legs": [
+    {
+     "centerline": [
+      [
+       0,
+       -38,
+       -12
+      ],
+      [
+       0,
+       0,
+       -12
+      ],
+      [
+       0,
+       49.0,
+       -12
+      ],
+      [
+       0,
+       98,
+       -12
+      ]
+     ],
+     "width_base_m": 5.0,
+     "width_top_m": 3.5
+    },
+    {
+     "centerline": [
+      [
+       0,
+       -38,
+       12
+      ],
+      [
+       0,
+       0,
+       12
+      ],
+      [
+       0,
+       49.0,
+       12
+      ],
+      [
+       0,
+       98,
+       12
+      ]
+     ],
+     "width_base_m": 5.0,
+     "width_top_m": 3.5
+    }
+   ],
+   "crossbeams_y_m": [
+    -3,
+    90
+   ],
+   "anchor_zone": [
+    {
+     "y_from_m": 55,
+     "y_to_m": 96,
+     "leg": 0
+    },
+    {
+     "y_from_m": 55,
+     "y_to_m": 96,
+     "leg": 1
+    }
+   ],
+   "mirror_for_other_pylons": true,
+   "reference_images": [
+    "https://cdn2.tuoitre.vn/thesaigontimes/uploads/2025/07/DJI_20250710151804_0781_D-1.jpg"
+   ]
+  }
+ },
+ "notes": "Press aerial (Sài Gòn Times 7/2025) shows twin legs joined near the top.",
+ "id": "cau-binh-khanh",
+ "review": [
+  "Plain H, no beams",
+  "Twin vertical legs, under-deck beam + beam near the top (≈90 m above deck)",
+  "Medium: 1 press aerial + 1 Commons construction photo"
+ ]
+}

@@ -1,0 +1,129 @@
+{
+ "pylons_vi": "1 tháp vòm nghiêng về phía Thủ Thiêm, đỉnh bo tròn, cao 113 m",
+ "pylons_en": "1 arch pylon leaning back toward Thủ Thiêm, rounded crown, 113 m",
+ "model3d": {
+  "spans_m": [
+   200,
+   115
+  ],
+  "pylon_shape": "other",
+  "pylon_heights_m": [
+   113
+  ],
+  "pylon_height_ref": "total",
+  "cable_planes": 2,
+  "cable_pattern": "fan",
+  "deck_width_m": 27.5,
+  "deck_type": "composite",
+  "confidence": "estimated",
+  "notes": "Asymmetric: 200 m main span (steel–concrete composite) + 115 m concrete back span; deck 27–28 m; pylon 110 m (WSP) / 113 m (Freyssinet, press). WSP calls it a 'backward sloping and curved pylon'. Pylon form, lean and stay layout measured off Commons photos; see pylon_custom.",
+  "pylon_custom": {
+   "description": "Single white arch pylon with a ROUNDED crown: two legs straddle the deck and curve together at the top; the whole arch curves in elevation and leans back away from the 200 m main span. Main-span stays fan from both legs to both deck edges; a second fan of back-stays runs to the 115 m back span. Below the deck the legs continue to a single pier block.",
+   "legs": [
+    {
+     "centerline": [
+      [
+       0,
+       -11,
+       -15.5
+      ],
+      [
+       -2,
+       15,
+       -14.5
+      ],
+      [
+       -7,
+       45,
+       -11
+      ],
+      [
+       -14,
+       75,
+       -6
+      ],
+      [
+       -21,
+       92,
+       -2
+      ],
+      [
+       -24,
+       101,
+       0
+      ]
+     ],
+     "width_base_m": 5.0,
+     "width_top_m": 2.5,
+     "depth_base_m": 4.0,
+     "depth_top_m": 2.5
+    },
+    {
+     "centerline": [
+      [
+       0,
+       -11,
+       15.5
+      ],
+      [
+       -2,
+       15,
+       14.5
+      ],
+      [
+       -7,
+       45,
+       11
+      ],
+      [
+       -14,
+       75,
+       6
+      ],
+      [
+       -21,
+       92,
+       2
+      ],
+      [
+       -24,
+       101,
+       0
+      ]
+     ],
+     "width_base_m": 5.0,
+     "width_top_m": 2.5,
+     "depth_base_m": 4.0,
+     "depth_top_m": 2.5
+    }
+   ],
+   "anchor_zone": [
+    {
+     "y_from_m": 40,
+     "y_to_m": 96,
+     "leg": 0
+    },
+    {
+     "y_from_m": 40,
+     "y_to_m": 96,
+     "leg": 1
+    }
+   ],
+   "reference_images": [
+    "https://commons.wikimedia.org/wiki/File:Cầu_Ba_Son,_TP.HCM,_042022.jpg",
+    "https://commons.wikimedia.org/wiki/File:ThapCauThuThiem2(Left).jpg",
+    "https://commons.wikimedia.org/wiki/File:Ba_Son_Bridge,_Saigon_(20230705_1516).jpg",
+    "https://wsp.com/en-ca/projects/thu-thiem-2-cable-stayed-bridge",
+    "https://commons.wikimedia.org/wiki/File:ThapCauThuThiem2.jpg",
+    "https://commons.wikimedia.org/wiki/File:Thu_Thiem_2_Bridge_construction.png"
+   ]
+  }
+ },
+ "notes": "Re-checked on 5 photos: crown is rounded (a smooth arch, not a pointed apex), back-stays fan into the back span. Engineer: smooth the apex.",
+ "id": "cau-ba-son",
+ "review": [
+  "Apex drawn pointed",
+  "Rounded crown noted; back-stay fan confirmed; geometry otherwise unchanged",
+  "Good: 5 photos"
+ ]
+}

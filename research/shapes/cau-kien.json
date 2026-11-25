@@ -1,0 +1,106 @@
+{
+ "pylons_vi": "2 tháp chữ H thu hẹp lên đỉnh, 2 dầm ngang",
+ "pylons_en": "2 H pylons tapering inward, 2 cross-beams",
+ "model3d": {
+  "spans_m": [
+   85,
+   200,
+   85
+  ],
+  "pylon_shape": "H",
+  "pylon_heights_m": [
+   80,
+   80
+  ],
+  "pylon_height_ref": "total",
+  "cable_planes": 2,
+  "cable_pattern": "harp",
+  "deck_width_m": 16.0,
+  "confidence": "estimated",
+  "pylon_custom": {
+   "description": "Slender H whose legs lean slightly inward toward the top (trapezoid), with two cross-beams above the deck (≈40% and ≈70% of the above-deck height); harp-like stays in two planes.",
+   "legs": [
+    {
+     "centerline": [
+      [
+       0,
+       -25,
+       -10
+      ],
+      [
+       0,
+       0,
+       -9.5
+      ],
+      [
+       0,
+       30,
+       -7.5
+      ],
+      [
+       0,
+       55,
+       -6
+      ]
+     ],
+     "width_base_m": 3.0,
+     "width_top_m": 2.2
+    },
+    {
+     "centerline": [
+      [
+       0,
+       -25,
+       10
+      ],
+      [
+       0,
+       0,
+       9.5
+      ],
+      [
+       0,
+       30,
+       7.5
+      ],
+      [
+       0,
+       55,
+       6
+      ]
+     ],
+     "width_base_m": 3.0,
+     "width_top_m": 2.2
+    }
+   ],
+   "crossbeams_y_m": [
+    -2,
+    22,
+    38
+   ],
+   "anchor_zone": [
+    {
+     "y_from_m": 20,
+     "y_to_m": 54,
+     "leg": 0
+    },
+    {
+     "y_from_m": 20,
+     "y_to_m": 54,
+     "leg": 1
+    }
+   ],
+   "mirror_for_other_pylons": true,
+   "reference_images": [
+    "https://commons.wikimedia.org/wiki/File:Kien_Bridge.jpg"
+   ]
+  },
+  "notes": "One Commons deck-level photo shows two upper beams and inward-tapering legs. Heights estimated."
+ },
+ "id": "cau-kien",
+ "review": [
+  "Plain H, no beams",
+  "Inward-tapering legs, 2 upper beams (≈22 m, ≈38 m above deck), harp",
+  "Weak: 1 Commons photo"
+ ]
+}

@@ -1,0 +1,29 @@
+{
+ "pylons_vi": "Tháp một cột, một mặt phẳng dây",
+ "pylons_en": "Single-mast pylon, one cable plane",
+ "model3d": {
+  "spans_m": [
+   175,
+   350,
+   175
+  ],
+  "pylon_shape": "single",
+  "pylon_heights_m": [
+   150,
+   150
+  ],
+  "pylon_height_ref": "total",
+  "cable_planes": 1,
+  "cable_pattern": "fan",
+  "deck_width_m": 20.0,
+  "confidence": "estimated",
+  "notes": "350 m span, single cable plane, ≈1,167 m bridge (press). Side spans, pylon height and deck width estimated from the Người Quan Sát render."
+ },
+ "notes": "No render or pylon photo found; geometry unchanged.",
+ "id": "cau-dong-nai-gia-nghia-bao-lam",
+ "review": [
+  "—",
+  "No change: only construction-site or no images",
+  "None usable"
+ ]
+}

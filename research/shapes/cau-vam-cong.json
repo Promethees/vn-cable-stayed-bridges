@@ -1,0 +1,117 @@
+{
+ "pylons_vi": "2 tháp chữ H, chân choãi rộng dưới mặt cầu, cao ≈140 m",
+ "pylons_en": "2 H-shaped pylons with splayed lower legs, ≈140 m",
+ "model3d": {
+  "spans_m": [
+   210,
+   450,
+   210
+  ],
+  "pylon_shape": "H",
+  "pylon_heights_m": [
+   140,
+   140
+  ],
+  "pylon_height_ref": "total",
+  "cable_planes": 2,
+  "cable_pattern": "fan",
+  "deck_width_m": 24.5,
+  "deck_type": "composite",
+  "confidence": "estimated",
+  "pylon_custom": {
+   "description": "H above the deck: two near-vertical legs with one cross-beam just below the top, anchors in the upper legs. Below the deck the legs splay strongly outward (portal 'A' foot) to two widely spaced footings, with a cross-beam under the deck.",
+   "legs": [
+    {
+     "centerline": [
+      [
+       0,
+       -38,
+       -26
+      ],
+      [
+       0,
+       -15,
+       -19
+      ],
+      [
+       0,
+       0,
+       -14
+      ],
+      [
+       0,
+       50,
+       -13
+      ],
+      [
+       0,
+       100,
+       -12
+      ]
+     ],
+     "width_base_m": 6.0,
+     "width_top_m": 3.5
+    },
+    {
+     "centerline": [
+      [
+       0,
+       -38,
+       26
+      ],
+      [
+       0,
+       -15,
+       19
+      ],
+      [
+       0,
+       0,
+       14
+      ],
+      [
+       0,
+       50,
+       13
+      ],
+      [
+       0,
+       100,
+       12
+      ]
+     ],
+     "width_base_m": 6.0,
+     "width_top_m": 3.5
+    }
+   ],
+   "crossbeams_y_m": [
+    -3,
+    92
+   ],
+   "anchor_zone": [
+    {
+     "y_from_m": 55,
+     "y_to_m": 98,
+     "leg": 0
+    },
+    {
+     "y_from_m": 55,
+     "y_to_m": 98,
+     "leg": 1
+    }
+   ],
+   "mirror_for_other_pylons": true,
+   "reference_images": [
+    "https://commons.wikimedia.org/wiki/File:Vam_Cong_Bridge.jpg",
+    "https://commons.wikimedia.org/wiki/File:Cầu_Vàm_Cống_trong_chiều.png"
+   ]
+  },
+  "notes": "Splayed lower legs and top cross-beam visible in both Commons night photos. Height not published (≈140 m total estimated; ≈100 m above deck). Deck 24.5 m per VnBusiness (was 21.6 m from Wikipedia)."
+ },
+ "id": "cau-vam-cong",
+ "review": [
+  "Plain H; missing the splayed lower legs and the top cross-beam position",
+  "Splayed portal foot, top cross-beam ≈92 m above deck, deck width 24.5 m",
+  "Good: 2 Commons photos"
+ ]
+}

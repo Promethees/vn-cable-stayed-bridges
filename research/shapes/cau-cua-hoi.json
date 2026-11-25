@@ -1,0 +1,32 @@
+{
+ "pylons_vi": "2 tháp thấp một cột giữa (extradosed), dây văng đỏ",
+ "pylons_en": "2 low single-column pylons (extradosed), red stays",
+ "model3d": {
+  "spans_m": [
+   86,
+   153,
+   86
+  ],
+  "pylon_shape": "single",
+  "pylon_heights_m": [
+   18,
+   18
+  ],
+  "pylon_height_ref": "above_deck",
+  "cable_planes": 1,
+  "cable_pattern": "harp",
+  "deck_width_m": 18.5,
+  "deck_type": "concrete",
+  "extradosed": true,
+  "confidence": "estimated",
+  "notes": "Extradosed 86+153+86 m (infra.global). Low red pylons; one central plane assumed from press aerials. Pylon height estimated."
+ },
+ "notes": "Aerial shows two low central masts with red single-plane stays.",
+ "colour": "white mast; red stays",
+ "id": "cau-cua-hoi",
+ "review": [
+  "Pylon type 'other' with no detail",
+  "Single low central column, single plane, red stays",
+  "Weak: 1 aerial photo"
+ ]
+}

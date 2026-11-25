@@ -1,0 +1,31 @@
+{
+ "pylons_vi": "3 tháp dây văng",
+ "pylons_en": "3 cable-stayed pylons",
+ "model3d": {
+  "spans_m": [
+   195,
+   195,
+   195,
+   195
+  ],
+  "pylon_shape": "H",
+  "pylon_heights_m": [
+   60,
+   65,
+   60
+  ],
+  "pylon_height_ref": "above_deck",
+  "cable_planes": 2,
+  "cable_pattern": "semi_fan",
+  "deck_width_m": 36.0,
+  "confidence": "estimated",
+  "notes": "4×195 m and 3 pylons (client-confirmed 2026-11-25). Pylon shape/height and deck width (8 lanes) estimated; no render found."
+ },
+ "notes": "No render or pylon photo found; geometry unchanged.",
+ "id": "cau-thuong-cat",
+ "review": [
+  "—",
+  "No change: only construction-site or no images",
+  "None usable"
+ ]
+}

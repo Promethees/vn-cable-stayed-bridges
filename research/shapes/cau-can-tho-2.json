@@ -1,0 +1,107 @@
+{
+ "pylons_vi": "2 tháp chữ H khung chữ nhật, cầu 2 tầng dàn thép",
+ "pylons_en": "2 H-frame pylons; double-deck steel truss",
+ "model3d": {
+  "spans_m": [
+   210,
+   450,
+   210
+  ],
+  "pylon_shape": "H",
+  "pylon_heights_m": [
+   160,
+   160
+  ],
+  "pylon_height_ref": "total",
+  "cable_planes": 2,
+  "cable_pattern": "semi_fan",
+  "deck_width_m": 30.5,
+  "deck_type": "steel",
+  "confidence": "estimated",
+  "notes": "210+450+210 m, 30.5 m deck, double-deck road-over-rail (CafeF). H-like pylons and steel truss girder read from the CafeF render. Pylon height estimated.",
+  "pylon_custom": {
+   "description": "Two vertical legs with a rectangular top frame (beam near the top) and a beam under the double-deck steel truss.",
+   "legs": [
+    {
+     "centerline": [
+      [
+       0,
+       -45,
+       -17
+      ],
+      [
+       0,
+       0,
+       -17
+      ],
+      [
+       0,
+       57.5,
+       -17
+      ],
+      [
+       0,
+       115,
+       -17
+      ]
+     ],
+     "width_base_m": 5.0,
+     "width_top_m": 3.5
+    },
+    {
+     "centerline": [
+      [
+       0,
+       -45,
+       17
+      ],
+      [
+       0,
+       0,
+       17
+      ],
+      [
+       0,
+       57.5,
+       17
+      ],
+      [
+       0,
+       115,
+       17
+      ]
+     ],
+     "width_base_m": 5.0,
+     "width_top_m": 3.5
+    }
+   ],
+   "crossbeams_y_m": [
+    -12,
+    108
+   ],
+   "anchor_zone": [
+    {
+     "y_from_m": 60,
+     "y_to_m": 112,
+     "leg": 0
+    },
+    {
+     "y_from_m": 60,
+     "y_to_m": 112,
+     "leg": 1
+    }
+   ],
+   "mirror_for_other_pylons": true,
+   "reference_images": [
+    "https://cafefcdn.com/thumb_w/1200/203337114487263232/2026/10/8/avatar1791451772173-1791451772671916968314.webp"
+   ]
+  }
+ },
+ "notes": "CafeF render.",
+ "id": "cau-can-tho-2",
+ "review": [
+  "Plain H",
+  "Top cross-beam frame + under-deck beam; double-deck truss noted",
+  "Render only"
+ ]
+}

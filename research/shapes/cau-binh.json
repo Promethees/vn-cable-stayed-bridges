@@ -1,0 +1,116 @@
+{
+ "pylons_vi": "2 tháp chữ A cụt (đầu nhọn như mỏ hạc), dầm ngang trên, cao 101,6 m",
+ "pylons_en": "2 truncated-A pylons with pointed tips and an upper cross-beam, 101.6 m",
+ "model3d": {
+  "spans_m": [
+   100,
+   260,
+   100
+  ],
+  "pylon_shape": "other",
+  "pylon_heights_m": [
+   101.6,
+   101.6
+  ],
+  "pylon_height_ref": "total",
+  "cable_planes": 2,
+  "cable_pattern": "fan",
+  "deck_width_m": 22.5,
+  "deck_type": "composite",
+  "confidence": "estimated",
+  "pylon_custom": {
+   "description": "Two legs lean inward from the deck edges (A-like) but do not meet: a cross-beam joins them at ≈85% height and each leg continues above it as a pointed tip ('crane beak'). Fan stays in two planes anchored just below and at the beam.",
+   "legs": [
+    {
+     "centerline": [
+      [
+       0,
+       -30,
+       -14
+      ],
+      [
+       0,
+       0,
+       -12.5
+      ],
+      [
+       0,
+       40,
+       -7
+      ],
+      [
+       0,
+       62,
+       -4.5
+      ],
+      [
+       0,
+       72,
+       -4
+      ]
+     ],
+     "width_base_m": 4.0,
+     "width_top_m": 1.0
+    },
+    {
+     "centerline": [
+      [
+       0,
+       -30,
+       14
+      ],
+      [
+       0,
+       0,
+       12.5
+      ],
+      [
+       0,
+       40,
+       7
+      ],
+      [
+       0,
+       62,
+       4.5
+      ],
+      [
+       0,
+       72,
+       4
+      ]
+     ],
+     "width_base_m": 4.0,
+     "width_top_m": 1.0
+    }
+   ],
+   "crossbeams_y_m": [
+    -2,
+    60
+   ],
+   "anchor_zone": [
+    {
+     "y_from_m": 42,
+     "y_to_m": 62,
+     "leg": 0
+    },
+    {
+     "y_from_m": 42,
+     "y_to_m": 62,
+     "leg": 1
+    }
+   ],
+   "mirror_for_other_pylons": true,
+   "reference_images": [
+    "https://commons.wikimedia.org/wiki/File:Bridge_in_Haiphong.jpg"
+   ]
+  },
+  "notes": "Shape from the single Commons deck-level photo. Was modelled as inverted-Y; the legs never merge."
+ },
+ "id": "cau-binh",
+ "review": [
+  "Modelled as inverted-Y; the legs actually stay apart with a top beam and pointed tips",
+  "Truncated A with beam ≈60 m above deck and pointed tips",
+  "Weak: 1 Commons photo"
+ ]
+}

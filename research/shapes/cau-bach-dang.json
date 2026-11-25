@@ -1,0 +1,111 @@
+{
+ "pylons_vi": "3 tháp chữ H, 1 dầm ngang trên; dây văng màu cam; giữa ≈99,7 m, hai bên 94,5 m",
+ "pylons_en": "3 H-shaped pylons with one upper cross-beam; orange stays; centre ≈99.7 m, sides 94.5 m",
+ "model3d": {
+  "spans_m": [
+   110,
+   240,
+   240,
+   110
+  ],
+  "pylon_shape": "H",
+  "pylon_heights_m": [
+   94.5,
+   99.74,
+   94.5
+  ],
+  "pylon_height_ref": "total",
+  "cable_planes": 2,
+  "cable_pattern": "semi_fan",
+  "deck_width_m": 25.0,
+  "deck_type": "concrete",
+  "confidence": "estimated",
+  "pylon_custom": {
+   "description": "H pylons: two square vertical legs just outside the deck, a steel-looking cross-beam at ≈60% of the above-deck height, an under-deck beam, legs straight to the pile cap. Two planes of orange-sheathed stays in a semi-fan from the leg tops above the upper beam.",
+   "legs": [
+    {
+     "centerline": [
+      [
+       0,
+       -40,
+       -14
+      ],
+      [
+       0,
+       0,
+       -14
+      ],
+      [
+       0,
+       30,
+       -14
+      ],
+      [
+       0,
+       62,
+       -14
+      ]
+     ],
+     "width_base_m": 4.5,
+     "width_top_m": 3.5
+    },
+    {
+     "centerline": [
+      [
+       0,
+       -40,
+       14
+      ],
+      [
+       0,
+       0,
+       14
+      ],
+      [
+       0,
+       30,
+       14
+      ],
+      [
+       0,
+       62,
+       14
+      ]
+     ],
+     "width_base_m": 4.5,
+     "width_top_m": 3.5
+    }
+   ],
+   "crossbeams_y_m": [
+    -3,
+    38
+   ],
+   "anchor_zone": [
+    {
+     "y_from_m": 40,
+     "y_to_m": 60,
+     "leg": 0
+    },
+    {
+     "y_from_m": 40,
+     "y_to_m": 60,
+     "leg": 1
+    }
+   ],
+   "mirror_for_other_pylons": true,
+   "reference_images": [
+    "https://commons.wikimedia.org/wiki/File:Bạch_Đằng_Bridge_(49534690148).jpg",
+    "https://daknong.1cdn.vn/thumbs/1200x630/2026/07/19/img_93285243.jpg"
+   ]
+  },
+  "colour": "grey concrete; orange stay sheaths",
+  "image_issue": "The VOV image (media.vov.vn ... vov_cau_bach_dang_7_KXCD.jpg) resolves to the VOV logo, not the bridge. Remove it.",
+  "notes": "Deck-level Commons photo shows the upper cross-beam; the Báo Lâm Đồng aerial shows orange stays and 3 pylons."
+ },
+ "id": "cau-bach-dang",
+ "review": [
+  "No cross-beam positions; one gallery image is the VOV logo",
+  "Upper beam ≈38 m above deck + under-deck beam; orange stays; remove the VOV image",
+  "Medium: 1 Commons + 1 press aerial"
+ ]
+}

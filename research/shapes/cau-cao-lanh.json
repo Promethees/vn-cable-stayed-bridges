@@ -1,0 +1,111 @@
+{
+ "pylons_vi": "2 tháp chữ H, 1 dầm ngang giữa, cao 123,4 m",
+ "pylons_en": "2 H-shaped pylons with one mid cross-beam, 123.4 m",
+ "model3d": {
+  "spans_m": [
+   150,
+   350,
+   150
+  ],
+  "pylon_shape": "H",
+  "pylon_heights_m": [
+   123.4,
+   123.4
+  ],
+  "pylon_height_ref": "total",
+  "cable_planes": 2,
+  "cable_pattern": "semi_fan",
+  "deck_width_m": 24.5,
+  "deck_type": "concrete",
+  "confidence": "estimated",
+  "pylon_custom": {
+   "description": "H pylon like Mỹ Thuận: two near-vertical legs just outside the deck, straight to the footing; cross-beams under the deck and at ≈45% of the above-deck height; stays anchor in the leg tops. Pylons lit magenta at night.",
+   "legs": [
+    {
+     "centerline": [
+      [
+       0,
+       -38,
+       -13.8
+      ],
+      [
+       0,
+       0,
+       -13.8
+      ],
+      [
+       0,
+       42.0,
+       -13.5
+      ],
+      [
+       0,
+       84,
+       -13.2
+      ]
+     ],
+     "width_base_m": 4.5,
+     "width_top_m": 3.0,
+     "depth_base_m": 6.0,
+     "depth_top_m": 4.0
+    },
+    {
+     "centerline": [
+      [
+       0,
+       -38,
+       13.8
+      ],
+      [
+       0,
+       0,
+       13.8
+      ],
+      [
+       0,
+       42.0,
+       13.5
+      ],
+      [
+       0,
+       84,
+       13.2
+      ]
+     ],
+     "width_base_m": 4.5,
+     "width_top_m": 3.0,
+     "depth_base_m": 6.0,
+     "depth_top_m": 4.0
+    }
+   ],
+   "crossbeams_y_m": [
+    -3,
+    38
+   ],
+   "anchor_zone": [
+    {
+     "y_from_m": 45,
+     "y_to_m": 82,
+     "leg": 0
+    },
+    {
+     "y_from_m": 45,
+     "y_to_m": 82,
+     "leg": 1
+    }
+   ],
+   "mirror_for_other_pylons": true,
+   "reference_images": [
+    "https://commons.wikimedia.org/wiki/File:Cầu_Cao_Lãnh.jpg"
+   ]
+  },
+  "colour": "concrete; magenta night lighting",
+  "notes": "Pylon height 123.4 m (press; was 120 m). One Commons photo; form matches Mỹ Thuận (same Australian-funded family)."
+ },
+ "id": "cau-cao-lanh",
+ "review": [
+  "Height 120 m (press says 123.4 m); no cross-beam positions",
+  "Height 123.4 m, beams under deck and ≈38 m above deck, anchor zone",
+  "Medium: 1 Commons photo"
+ ]
+}

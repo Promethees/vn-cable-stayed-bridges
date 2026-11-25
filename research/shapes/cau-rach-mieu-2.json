@@ -1,0 +1,109 @@
+{
+ "pylons_vi": "2 tháp hai cột (chữ H), cao 113 m",
+ "pylons_en": "2 twin-column (H) pylons, 113 m",
+ "model3d": {
+  "spans_m": [
+   125,
+   270,
+   125
+  ],
+  "pylon_shape": "H",
+  "pylon_heights_m": [
+   113,
+   113
+  ],
+  "pylon_height_ref": "total",
+  "cable_planes": 2,
+  "cable_pattern": "semi_fan",
+  "deck_width_m": 17.5,
+  "deck_type": "concrete",
+  "confidence": "estimated",
+  "pylon_custom": {
+   "description": "Two tall, slim, near-vertical columns at the deck edges joined only below/at deck level (no visible upper cross-beam in the aerial); semi-fan stays in two planes from the upper ~40%. Side spans have an intermediate auxiliary pier.",
+   "legs": [
+    {
+     "centerline": [
+      [
+       0,
+       -38,
+       -10.5
+      ],
+      [
+       0,
+       0,
+       -10.5
+      ],
+      [
+       0,
+       40,
+       -10.2
+      ],
+      [
+       0,
+       75,
+       -10
+      ]
+     ],
+     "width_base_m": 3.5,
+     "width_top_m": 2.5
+    },
+    {
+     "centerline": [
+      [
+       0,
+       -38,
+       10.5
+      ],
+      [
+       0,
+       0,
+       10.5
+      ],
+      [
+       0,
+       40,
+       10.2
+      ],
+      [
+       0,
+       75,
+       10
+      ]
+     ],
+     "width_base_m": 3.5,
+     "width_top_m": 2.5
+    }
+   ],
+   "crossbeams_y_m": [
+    -3
+   ],
+   "anchor_zone": [
+    {
+     "y_from_m": 42,
+     "y_to_m": 73,
+     "leg": 0
+    },
+    {
+     "y_from_m": 42,
+     "y_to_m": 73,
+     "leg": 1
+    }
+   ],
+   "mirror_for_other_pylons": true,
+   "reference_images": [
+    "https://commons.wikimedia.org/wiki/File:(VNM-Dong_Thap)_Rach_Mieu_2_Bridge_2025-10-05.jpg",
+    "https://i2-vnexpress.vnecdn.net/2025/04/19/DJI-20250420075438-0019-D-copy-1745029263.jpg?w=1200&h=675&q=100&dpr=1&fit=crop&s=e6x9QcBbyTU8zxJQt7zodA"
+   ]
+  },
+  "auxiliary_piers_m_from_end": [
+   60
+  ],
+  "notes": "Aerial (VnExpress, 4/2025) shows twin columns without an upper beam; the Commons side view shows an auxiliary pier in each side span (position estimated ≈60 m from the end pier)."
+ },
+ "id": "cau-rach-mieu-2",
+ "review": [
+  "H with an implied upper beam; no auxiliary piers",
+  "Twin columns with no upper beam, under-deck beam only; auxiliary pier in each side span",
+  "Medium: 1 Commons + 2 press aerials"
+ ]
+}

@@ -1,0 +1,30 @@
+{
+ "pylons_vi": "2 tháp chữ Y ngược màu đỏ trắng, cao 187 m",
+ "pylons_en": "2 red-and-white inverted-Y pylons, 187 m",
+ "model3d": {
+  "spans_m": [
+   220,
+   550,
+   220
+  ],
+  "pylon_shape": "inverted_Y",
+  "pylon_heights_m": [
+   187,
+   187
+  ],
+  "pylon_height_ref": "total",
+  "cable_planes": 2,
+  "cable_pattern": "fan",
+  "deck_width_m": 21.0,
+  "confidence": "estimated",
+  "notes": "550 m main span, 187 m pylons, ≈1.2 km bridge (press). Side spans, deck width and inverted-Y shape read from official renders (Báo Lâm Đồng / Người Quan Sát)."
+ },
+ "notes": "Official renders.",
+ "colour": "red and white",
+ "id": "cau-hoa-son",
+ "review": [
+  "—",
+  "Inverted-Y kept; red/white colour noted",
+  "Render only"
+ ]
+}

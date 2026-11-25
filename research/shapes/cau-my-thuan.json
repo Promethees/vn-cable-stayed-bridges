@@ -1,0 +1,113 @@
+{
+ "pylons_vi": "2 tháp chữ H, 2 dầm ngang, cao ≈120 m trên mực nước",
+ "pylons_en": "2 H-shaped pylons with 2 cross-beams, ≈120 m above water",
+ "model3d": {
+  "spans_m": [
+   150,
+   350,
+   150
+  ],
+  "pylon_shape": "H",
+  "pylon_heights_m": [
+   120,
+   120
+  ],
+  "pylon_height_ref": "total",
+  "cable_planes": 2,
+  "cable_pattern": "semi_fan",
+  "cables_per_side": 16,
+  "deck_width_m": 23.66,
+  "deck_type": "concrete",
+  "confidence": "estimated",
+  "pylon_custom": {
+   "description": "H pylon: two slender, slightly tapered, near-vertical legs standing just outside the deck edges, straight down to the pile cap (no diamond). One cross-beam under the deck and one upper cross-beam about mid-height above the deck; the stays anchor in the leg tops above the upper beam. Deck has a strong vertical crest curve.",
+   "legs": [
+    {
+     "centerline": [
+      [
+       0,
+       -40,
+       -14
+      ],
+      [
+       0,
+       0,
+       -13.5
+      ],
+      [
+       0,
+       45,
+       -12.8
+      ],
+      [
+       0,
+       82,
+       -12.3
+      ]
+     ],
+     "width_base_m": 4.5,
+     "width_top_m": 3.0,
+     "depth_base_m": 6.0,
+     "depth_top_m": 4.0
+    },
+    {
+     "centerline": [
+      [
+       0,
+       -40,
+       14
+      ],
+      [
+       0,
+       0,
+       13.5
+      ],
+      [
+       0,
+       45,
+       12.8
+      ],
+      [
+       0,
+       82,
+       12.3
+      ]
+     ],
+     "width_base_m": 4.5,
+     "width_top_m": 3.0,
+     "depth_base_m": 6.0,
+     "depth_top_m": 4.0
+    }
+   ],
+   "crossbeams_y_m": [
+    -3,
+    42
+   ],
+   "anchor_zone": [
+    {
+     "y_from_m": 48,
+     "y_to_m": 80,
+     "leg": 0
+    },
+    {
+     "y_from_m": 48,
+     "y_to_m": 80,
+     "leg": 1
+    }
+   ],
+   "mirror_for_other_pylons": true,
+   "reference_images": [
+    "https://commons.wikimedia.org/wiki/File:Cầu_Mỹ_Thuận,_Vĩnh_Long,_2013.JPG",
+    "https://commons.wikimedia.org/wiki/File:My_Thuan_Bridge_cables.jpg",
+    "https://commons.wikimedia.org/wiki/File:Cầu_Mỹ_Thuận_1_và_2.jpg"
+   ]
+  },
+  "notes": "From Commons side and deck-level photos: H legs, under-deck beam plus one upper beam at ≈55% of the above-deck height; ≈120 m total above high water (deck ≈38 m up, so ≈82 m above deck). 128 stays = 16 per side per plane."
+ },
+ "id": "cau-my-thuan",
+ "review": [
+  "H pylon had no cross-beam heights and no below-deck leg",
+  "Added legs to the footing, 2 cross-beams (under deck and ≈42 m above deck), anchor zone 48–80 m, vertical deck crest noted",
+  "Good: 3–4 Commons photos"
+ ]
+}

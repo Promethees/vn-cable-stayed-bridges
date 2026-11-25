@@ -1,0 +1,32 @@
+{
+ "pylons_vi": "2 tháp thấp chữ A giữa cầu (extradosed), dây văng đỏ, cao 32 m trên mặt cầu",
+ "pylons_en": "2 low A-topped central pylons (extradosed), red stays, 32 m above deck",
+ "model3d": {
+  "spans_m": [
+   120,
+   218,
+   120
+  ],
+  "pylon_shape": "A",
+  "pylon_heights_m": [
+   32,
+   32
+  ],
+  "pylon_height_ref": "above_deck",
+  "cable_planes": 1,
+  "cable_pattern": "harp",
+  "deck_width_m": 23.5,
+  "deck_type": "concrete",
+  "extradosed": true,
+  "confidence": "estimated",
+  "notes": "Extradosed main span 218 m; A-topped red pylons 32 m above deck (72 m from water) per Người Quan Sát. Side spans and the single central cable plane estimated from photos. Number of extradosed spans unclear."
+ },
+ "notes": "Báo Lâm Đồng photo (7/2026).",
+ "colour": "white pylon; red stays",
+ "id": "cau-thuan-an",
+ "review": [
+  "—",
+  "Single central plane and red stays confirmed",
+  "Medium: 1 press photo"
+ ]
+}
