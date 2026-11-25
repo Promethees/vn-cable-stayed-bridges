@@ -1,6 +1,8 @@
 import { describe, expect, it, vi } from 'vitest';
 import type { Bridge, Status, Usage } from '../types';
-import { countByUsage, filterBridges, filterByStatus, groupByProvince } from './grouping';
+import { countByStatus, countByUsage, filterBridges, filterByStatus, groupByProvince } from './grouping';
+import { PROVINCES, primaryProvince, splitProvinces } from './provinces';
+import { spreadCircles } from './spread';
 import { parseBridges } from './validate';
 
 const mk = (
@@ -37,25 +39,68 @@ const all = new Set<Status>(['completed', 'under_construction', 'planned']);
 const allUsage = new Set<Usage>(['road', 'rail', 'metro']);
 
 describe('groupByProvince', () => {
-  it('groups by province with count, status split, centroid and bounds, sorted north to south', () => {
+  it('groups by province with count, status split, fixed anchor and bounds, sorted north to south', () => {
     const groups = groupByProvince(data);
     expect(groups.map((g) => [g.province, g.count])).toEqual([
       ['Hà Nội', 1],
+      ['TP. Hồ Chí Minh', 1],
       ['Cần Thơ', 2],
-      ['Hồ Chí Minh', 1],
     ]);
-    const ct = groups[1];
+    const ct = groups[2];
     expect(ct.slug).toBe('can-tho');
     expect(ct.byStatus).toEqual({ completed: 1, under_construction: 0, planned: 1 });
-    expect(ct.lat).toBeCloseTo(11);
-    expect(ct.lng).toBeCloseTo(106);
+    // anchor comes from the provinces table, not the bridges' centroid
+    expect([ct.lat, ct.lng]).toEqual([9.75, 105.85]);
     expect(ct.bounds).toEqual([
       [10, 105],
       [12, 107],
     ]);
+    // "Hồ Chí Minh" resolves to the canonical "TP. Hồ Chí Minh"
+    expect(groups[1].slug).toBe('ho-chi-minh');
+  });
+  it('counts a boundary bridge "A – B" in every listed province, once each', () => {
+    const bs = [
+      mk('x', 'Đồng Tháp – Vĩnh Long', 'completed', 10.3, 106.3),
+      mk('y', 'Vĩnh Long', 'planned', 10.1, 106.4),
+      mk('z', 'TP. Hồ Chí Minh – Đồng Nai', 'completed', 10.8, 106.8),
+    ];
+    const groups = groupByProvince(bs);
+    const by = Object.fromEntries(groups.map((g) => [g.slug, g.bridges.map((b) => b.id)]));
+    expect(by).toEqual({ 'dong-nai': ['z'], 'ho-chi-minh': ['z'], 'dong-thap': ['x'], 'vinh-long': ['x', 'y'] });
+    // legend counts unique bridges
+    expect(countByStatus(bs)).toEqual({ completed: 2, under_construction: 0, planned: 1 });
+  });
+  it('falls back to the centroid for unknown provinces', () => {
+    const [g] = groupByProvince([mk('u', 'Nowhere', 'completed', 10, 100), mk('v', 'Nowhere', 'completed', 12, 102)]);
+    expect([g.lat, g.lng]).toEqual([11, 101]);
   });
   it('returns empty for no bridges', () => {
     expect(groupByProvince([])).toEqual([]);
+  });
+});
+
+describe('provinces', () => {
+  it('splits boundary values and picks the primary province', () => {
+    expect(splitProvinces('Đồng Tháp – Vĩnh Long')).toEqual(['Đồng Tháp', 'Vĩnh Long']);
+    expect(primaryProvince('TP. Hồ Chí Minh – Đồng Nai')).toBe('TP. Hồ Chí Minh');
+    expect(PROVINCES).toHaveLength(34);
+    expect(new Set(PROVINCES.map((p) => p.slug)).size).toBe(34);
+  });
+});
+
+describe('spreadCircles', () => {
+  it('separates overlapping circles to at least r1 + r2 + gap and leaves distant ones alone', () => {
+    const c = [
+      { x: 0, y: 0, r: 20 },
+      { x: 5, y: 0, r: 20 },
+      { x: 5, y: 0, r: 20 },
+      { x: 500, y: 500, r: 20 },
+    ];
+    const off = spreadCircles(c, 2);
+    const p = c.map((ci, i) => ({ x: ci.x + off[i].dx, y: ci.y + off[i].dy }));
+    for (let i = 0; i < 3; i++)
+      for (let j = i + 1; j < 3; j++) expect(Math.hypot(p[i].x - p[j].x, p[i].y - p[j].y)).toBeGreaterThanOrEqual(41.9);
+    expect(off[3]).toEqual({ dx: 0, dy: 0 });
   });
 });
 

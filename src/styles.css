@@ -78,15 +78,23 @@ button { font: inherit; color: inherit; }
 .map-plate > span { position: absolute; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; white-space: nowrap; padding: 4px 8px; background: var(--map-plate-bg); border: 1px solid var(--map-plate-border); border-radius: var(--r-control); color: var(--map-label-ink); line-height: 1.3; }
 .plate-l1 { font-size: var(--fs-sm); font-weight: var(--fw-semi); font-style: italic; }
 .plate-l2 { font-size: var(--fs-xs); }
+.map-plate.is-small > span { padding: 2px 6px; }
+.map-plate.is-small .plate-l1 { font-size: var(--fs-xs); }
 .map-sea-label > span { position: absolute; transform: translate(-50%, -50%); white-space: nowrap; font-size: var(--fs-base); font-weight: var(--fw-medium); font-style: italic; letter-spacing: .04em; color: color-mix(in srgb, var(--c-cable) 70%, transparent); text-shadow: 0 0 2px var(--map-label-halo), 0 0 4px var(--map-label-halo); }
 .is-satellite .map-sea-label > span { color: #fff; text-shadow: 0 0 3px #000, 0 0 6px #000; }
 .archipelago-ring { stroke: var(--c-ink); }
 .is-satellite .archipelago-ring { stroke: #fff; }
 
+/* ---------- neighbour mask: dims foreign land, never the sea or the archipelagos ---------- */
+.leaflet-neighborMask-pane path { fill: var(--c-mist); fill-opacity: .65; stroke: none; }
+
 /* ---------- province dots ---------- */
+.province-leader { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; }
+.province-leader line { stroke: var(--c-ink); stroke-width: 1.5; }
+.province-leader circle { fill: var(--c-ink); stroke: var(--c-raised); stroke-width: 1; }
 .province-hit, .bridge-hit { display: flex; align-items: center; justify-content: center; background: none; border: 0; }
 .province-hit:focus-visible, .bridge-hit:focus-visible { box-shadow: none; }
-.province-dot { display: flex; padding: var(--dot-ring); border-radius: 50%; box-shadow: var(--shadow-marker), 0 0 0 1px rgb(18 48 61 / .5); transition: transform var(--dur-fast) var(--ease-out); }
+.province-dot { position: relative; z-index: 1; display: flex; padding: var(--dot-ring); border-radius: 50%; box-shadow: var(--shadow-marker), 0 0 0 1px rgb(18 48 61 / .5); transition: transform var(--dur-fast) var(--ease-out); }
 .province-num { flex: 1; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--dot-fill); color: var(--dot-numeral); font-family: var(--font-display); font-size: 16px; font-weight: var(--fw-semi); }
 .province-name { position: absolute; left: calc(100% - 2px); top: 50%; transform: translateY(-50%); white-space: nowrap; font-size: var(--fs-xs); font-weight: var(--fw-medium); color: var(--map-label-ink); text-shadow: 0 0 2px var(--map-label-halo), 0 0 2px var(--map-label-halo), 0 0 4px var(--map-label-halo); display: none; }
 .show-province-labels .province-name { display: block; }

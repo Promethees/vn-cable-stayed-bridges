@@ -3,6 +3,7 @@ import type { Bridge } from '../types';
 import { visibleFields, type FieldDef } from '../lib/fields';
 import { googleMapsUrl, osmUrl } from '../lib/geo';
 import { fmtMeters, fmtNum, STRINGS, STRUCTURE_LABEL, type Lang } from '../lib/i18n';
+import { primaryProvince } from '../lib/provinces';
 import { Chevron, ExternalIcon, StatusChip, UsageTag } from './Glyph';
 import { SpanDiagram } from './SpanDiagram';
 import { Gallery } from './Gallery';
@@ -53,7 +54,7 @@ export function DetailCard({ bridge, lang, onClose, onBackToProvince }: Props) {
     <article className="card">
       <div className="card-topbar">
         <button type="button" className="btn btn-ghost" onClick={onBackToProvince}>
-          <Chevron /> {bridge.province}
+          <Chevron /> {primaryProvince(bridge.province)}
         </button>
         <button type="button" className="btn btn-icon" onClick={onClose} aria-label={`${t.close} (Esc)`}>
           <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">

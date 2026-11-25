@@ -3,7 +3,8 @@ import { FILTER_USAGES, STATUSES, type Bridge, type Status, type Usage } from '.
 import { isSampleData, loadBridges } from './lib/data';
 import { countByStatus, countByUsage, filterBridges, groupByProvince, type ProvinceGroup } from './lib/grouping';
 import { readStoredLang, storeLang, STRINGS, type Lang } from './lib/i18n';
-import { buildSearch, parseSearch, sameView, slugify, type View } from './lib/url';
+import { buildSearch, parseSearch, sameView, type View } from './lib/url';
+import { primaryProvince, provinceSlug } from './lib/provinces';
 import { BRIDGE_FOCUS_ZOOM, BRIDGE_ZOOM_THRESHOLD, DEEP_LINK_ZOOM } from './lib/geo';
 import { readStored, useDarkTheme, useMediaQuery, writeStored } from './lib/hooks';
 import { MapView, type BaseLayerId, type FlyRequest, type FlyTarget } from './components/MapView';
@@ -15,6 +16,7 @@ import { Header, Legend, Toast } from './components/Chrome';
 type DataState = { status: 'loading' } | { status: 'error' } | { status: 'ready'; bridges: Bridge[] };
 
 const PANEL_W = 400;
+const primarySlug = (province: string) => provinceSlug(primaryProvince(province));
 const SHEET_PX: Record<SheetSnap, () => number> = {
   peek: () => 148,
   half: () => window.innerHeight * 0.52,
@@ -44,19 +46,15 @@ export default function App() {
 
   const bridges = useMemo(() => (data.status === 'ready' ? data.bridges : []), [data]);
   const byId = useMemo(() => new Map(bridges.map((b) => [b.id, b])), [bridges]);
-  const provinceBySlug = useMemo(() => {
-    const m = new Map<string, string>();
-    for (const b of bridges) m.set(slugify(b.province), b.province);
-    return m;
-  }, [bridges]);
 
   const selected = view.kind === 'bridge' ? (byId.get(view.id) ?? null) : null;
-  const provinceName =
-    view.kind === 'province' ? (provinceBySlug.get(view.slug) ?? null) : selected ? selected.province : null;
 
   const filtered = useMemo(() => filterBridges(bridges, active, activeUsage), [bridges, active, activeUsage]);
   const groups = useMemo(() => groupByProvince(filtered), [filtered]);
   const allGroups = useMemo(() => groupByProvince(bridges), [bridges]);
+  const currentGroup = view.kind === 'province' ? allGroups.find((g) => g.slug === view.slug) : undefined;
+  // breadcrumb: province view → that province; bridge view → first listed province
+  const provinceName = currentGroup ? currentGroup.province : selected ? primaryProvince(selected.province) : null;
   const counts = useMemo(() => countByStatus(bridges), [bridges]);
   const usageCounts = useMemo(() => countByUsage(bridges), [bridges]);
   // the selected bridge stays visible even if filtered out
@@ -177,7 +175,7 @@ export default function App() {
     const { view: v, byId: ids } = st.current;
     if (v.kind !== 'bridge') return;
     const b = ids.get(v.id);
-    navigate(b ? { kind: 'province', slug: slugify(b.province) } : { kind: 'country' }, { fly: false });
+    navigate(b ? { kind: 'province', slug: primarySlug(b.province) } : { kind: 'country' }, { fly: false });
     focusMarker(`bridge:${v.id}`);
   }, [navigate]);
 
@@ -199,10 +197,15 @@ export default function App() {
     [navigate],
   );
 
+  const prevZoom = useRef<number | null>(null);
   const onZoom = useCallback(
     (z: number) => {
       setZoom(z);
-      if (z < BRIDGE_ZOOM_THRESHOLD && st.current.view.kind === 'province') navigate({ kind: 'country' }, { fly: false });
+      const prev = prevZoom.current;
+      prevZoom.current = z;
+      // only when the user zooms out across the threshold (not the initial zoom report on load)
+      if (prev !== null && prev >= BRIDGE_ZOOM_THRESHOLD && z < BRIDGE_ZOOM_THRESHOLD && st.current.view.kind === 'province')
+        navigate({ kind: 'country' }, { fly: false });
     },
     [navigate],
   );
@@ -250,8 +253,8 @@ export default function App() {
       ? ''
       : selected
         ? t.viewBridge(selected.name_vi)
-        : view.kind === 'province' && provinceName
-          ? t.viewProvince(provinceName, bridges.filter((b) => b.province === provinceName).length)
+        : currentGroup
+          ? t.viewProvince(currentGroup.province, currentGroup.count)
           : t.viewCountry(bridges.length);
 
   const panelContent = listOpen ? (
@@ -261,7 +264,7 @@ export default function App() {
       bridge={selected}
       lang={lang}
       onClose={closeCard}
-      onBackToProvince={() => navigate({ kind: 'province', slug: slugify(selected.province) })}
+      onBackToProvince={() => navigate({ kind: 'province', slug: primarySlug(selected.province) })}
     />
   ) : null;
 

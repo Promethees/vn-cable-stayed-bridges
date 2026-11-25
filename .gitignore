@@ -6,3 +6,9 @@ dist
 .vercel
 coverage
 *.log
+# screenshots / visual-check output
+screenshots/
+shots/
+*.screenshot.png
+test-results/
+playwright-report/

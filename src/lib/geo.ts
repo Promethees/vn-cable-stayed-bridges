@@ -19,6 +19,8 @@ export const DEEP_LINK_ZOOM = 14;
 export const PROVINCE_LABEL_ZOOM = 6.5;
 export const BRIDGE_LABEL_ZOOM = 12;
 export const ISLAND_LABEL_MAX_ZOOM = 9;
+/** Max zoom while the map centre is over an archipelago (plates only cover tile labels up to here). */
+export const ARCHIPELAGO_MAX_ZOOM = 9;
 
 export interface MapLabel {
   id: string;
@@ -28,6 +30,8 @@ export interface MapLabel {
   plate: boolean;
   /** only shown at or above this zoom */
   minZoom?: number;
+  /** compact one-line plate (sub-groups / islands) */
+  small?: boolean;
 }
 
 // Anchors nudged (visual check on OSM standard, zoom 5–9) to sit on top of the tile's own archipelago labels:
@@ -56,6 +60,22 @@ export const MAP_LABELS: MapLabel[] = [
     line2: { vi: '(Việt Nam)', en: '(Viet Nam)' },
     plate: true,
   },
+  // Zoom >= 8.75: sub-group / island plates. The first four sit on the raster tile's own feature labels
+  // (OSM standard, measured at z9); the rest name the main Vietnamese-held islands of Trường Sa.
+  ...(
+    [
+      ['an-vinh', [16.98, 112.27], 'Nhóm An Vĩnh', 'Amphitrite Group (An Vĩnh)'],
+      ['luoi-liem', [16.46, 111.74], 'Nhóm Lưỡi Liềm', 'Crescent Group (Lưỡi Liềm)'],
+      ['xu-bi', [10.91, 114.07], 'Đá Xu Bi', 'Xu Bi Reef'],
+      ['thi-tu', [11.055, 114.28], 'Đảo Thị Tứ', 'Thi Tu Island'],
+      ['song-tu-tay', [11.43, 114.33], 'Đảo Song Tử Tây', 'Song Tu Tay Island'],
+      ['nam-yet', [10.18, 114.36], 'Đảo Nam Yết', 'Nam Yet Island'],
+      ['sinh-ton', [9.88, 114.33], 'Đảo Sinh Tồn', 'Sinh Ton Island'],
+      ['dao-truong-sa', [8.645, 111.92], 'Đảo Trường Sa', 'Truong Sa Island'],
+    ] as [string, LatLngTuple, string, string][]
+  ).map(
+    ([id, position, vi, en]): MapLabel => ({ id, position, line1: { vi, en }, plate: true, small: true, minZoom: 8.75 }),
+  ),
   { id: 'bien-dong', position: [13.2, 112.8], line1: { vi: 'Biển Đông', en: 'East Sea (Biển Đông)' }, plate: false },
 ];
 

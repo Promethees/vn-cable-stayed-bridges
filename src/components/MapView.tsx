@@ -1,8 +1,10 @@
-import { useEffect, useMemo, useRef, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import type { FeatureCollection } from 'geojson';
 import L from 'leaflet';
 import {
   LayersControl,
   MapContainer,
+  GeoJSON,
   Marker,
   Pane,
   Polygon,
@@ -14,10 +16,12 @@ import {
 } from 'react-leaflet';
 import type { Bridge, Status } from '../types';
 import type { ProvinceGroup } from '../lib/grouping';
+import { spreadCircles } from '../lib/spread';
 import { pylonSvg } from '../lib/status';
 import { fmtMeters, STATUS_LABEL, STRINGS, type Lang } from '../lib/i18n';
 import {
   ARCHIPELAGO_BOUNDS,
+  ARCHIPELAGO_MAX_ZOOM,
   BRIDGE_LABEL_ZOOM,
   ellipse,
   ISLAND_LABEL_MAX_ZOOM,
@@ -113,13 +117,15 @@ export function MapView(p: Props) {
         }}
       />
       <FlyController fly={p.fly} />
+      <NeighborMask />
+      <ArchipelagoZoomCap />
 
       {p.zoom <= ISLAND_LABEL_MAX_ZOOM && <SovereigntyLabels lang={p.lang} zoom={p.zoom} />}
 
       {p.showBridges ? (
         <BridgeMarkers bridges={p.bridges} selectedId={p.selectedId} zoom={p.zoom} lang={p.lang} onBridge={p.onBridge} />
       ) : (
-        <ProvinceDots groups={p.groups} lang={p.lang} onProvince={p.onProvince} />
+        <ProvinceDots groups={p.groups} lang={p.lang} zoom={p.zoom} onProvince={p.onProvince} />
       )}
     </MapContainer>
   );
@@ -145,8 +151,8 @@ function MapSetup({
     baselayerchange: (e) => onBaseLayer(e.name),
   });
   useEffect(() => {
-    // test hook for headless screenshots: ?debug exposes the map instance
-    if (new URLSearchParams(window.location.search).has('debug')) (window as unknown as { __map: L.Map }).__map = map;
+    // dev-only test hook for headless screenshots (stripped from production builds)
+    if (import.meta.env.DEV) (window as unknown as { __map: L.Map }).__map = map;
     map.setMinZoom(map.getZoom());
     onZoom(map.getZoom());
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -191,12 +197,50 @@ function FlyController({ fly }: { fly: FlyRequest | null }) {
   return null;
 }
 
+/** Dims the land of every foreign country (Natural Earth admin-0, see scripts/build_neighbors.sh). */
+function NeighborMask() {
+  const [data, setData] = useState<FeatureCollection | null>(null);
+  useEffect(() => {
+    let alive = true;
+    import('../assets/neighbors.geo.json')
+      .then((m) => alive && setData(m.default as unknown as FeatureCollection))
+      .catch((e) => console.warn('[map] neighbour mask failed to load', e));
+    return () => {
+      alive = false;
+    };
+  }, []);
+  if (!data) return null;
+  return (
+    <Pane name="neighborMask" style={{ zIndex: 250, pointerEvents: 'none' }}>
+      <GeoJSON data={data} pane="neighborMask" interactive={false} style={{ stroke: false, fillOpacity: 1 }} />
+    </Pane>
+  );
+}
+
+/** Limits zoom over the archipelagos so raster tile labels there stay covered by our plates. */
+function ArchipelagoZoomCap() {
+  const map = useMap();
+  useEffect(() => {
+    const boxes = ARCHIPELAGO_BOUNDS.map((b) => L.latLngBounds(b).pad(0.15));
+    const update = () => {
+      const inside = boxes.some((b) => b.contains(map.getCenter()));
+      map.setMaxZoom(inside ? ARCHIPELAGO_MAX_ZOOM : MAX_ZOOM);
+    };
+    update();
+    map.on('moveend', update);
+    return () => {
+      map.off('moveend', update);
+    };
+  }, [map]);
+  return null;
+}
+
 function SovereigntyLabels({ lang, zoom }: { lang: Lang; zoom: number }) {
   const icons = useMemo(
     () =>
       MAP_LABELS.map((l) =>
         L.divIcon({
-          className: l.plate ? 'map-plate' : 'map-sea-label',
+          className: l.plate ? `map-plate${l.small ? ' is-small' : ''}` : 'map-sea-label',
           html: `<span><span class="plate-l1">${esc(l.line1[lang])}</span>${
             l.line2 ? `<span class="plate-l2">${esc(l.line2[lang])}</span>` : ''
           }</span>`,
@@ -318,15 +362,24 @@ function ringGradient(by: Record<Status, number>, total: number): string {
   return `conic-gradient(${stops.join(', ')})`;
 }
 
-function provinceIcon(g: ProvinceGroup) {
-  const d = Math.round(Math.min(48, Math.max(32, 28 + 6 * Math.sqrt(g.count))));
+const dotDiameter = (count: number) => Math.round(Math.min(48, Math.max(32, 28 + 6 * Math.sqrt(count))));
+
+function provinceIcon(g: ProvinceGroup, dx: number, dy: number) {
+  const d = dotDiameter(g.count);
   const hit = Math.max(44, d);
   const ring = ringGradient(g.byStatus, g.count);
-  return cached(`p|${g.province}|${g.count}|${ring}`, () =>
+  const c = hit / 2;
+  // leader line from the displaced dot back to the province anchor
+  const leader =
+    Math.hypot(dx, dy) > d / 2 + 4
+      ? `<svg class="province-leader" width="${hit}" height="${hit}" aria-hidden="true"><line x1="${c}" y1="${c}" x2="${c - dx}" y2="${c - dy}"/><circle cx="${c - dx}" cy="${c - dy}" r="2.5"/></svg>`
+      : '';
+  return cached(`p|${g.province}|${g.count}|${ring}|${dx}|${dy}`, () =>
     L.divIcon({
       className: 'province-hit',
       iconSize: [hit, hit],
-      html: `<span class="province-dot" style="width:${d}px;height:${d}px;background:${ring}"><span class="province-num">${g.count}</span></span><span class="province-name">${esc(g.province)}</span>`,
+      iconAnchor: [c - dx, c - dy],
+      html: `${leader}<span class="province-dot" style="width:${d}px;height:${d}px;background:${ring}"><span class="province-num">${g.count}</span></span><span class="province-name">${esc(g.province)}</span>`,
     }),
   );
 }
@@ -334,25 +387,38 @@ function provinceIcon(g: ProvinceGroup) {
 function ProvinceDots({
   groups,
   lang,
+  zoom,
   onProvince,
 }: {
   groups: ProvinceGroup[];
   lang: Lang;
+  zoom: number;
   onProvince: (g: ProvinceGroup) => void;
 }) {
   const t = STRINGS[lang];
+  const map = useMap();
+  const offsets = useMemo(() => {
+    const z = map.getZoom();
+    const circles = groups.map((g) => {
+      const p = map.project([g.lat, g.lng], z);
+      return { x: p.x, y: p.y, r: Math.max(44, dotDiameter(g.count)) / 2 };
+    });
+    return spreadCircles(circles, 2).map(({ dx, dy }) => ({ dx: Math.round(dx), dy: Math.round(dy) }));
+    // zoom is the trigger: offsets are recomputed at each zoom level
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [groups, map, zoom]);
   return (
     <>
-      {groups.map((g) => (
+      {groups.map((g, i) => (
         <A11yMarker
           key={g.slug}
           position={[g.lat, g.lng]}
-          icon={provinceIcon(g)}
+          icon={provinceIcon(g, offsets[i].dx, offsets[i].dy)}
           label={t.provinceAria(g.province, g.count, g.byStatus.completed, g.byStatus.under_construction, g.byStatus.planned)}
           dataId={`province:${g.slug}`}
           onActivate={() => onProvince(g)}
         >
-          <Tooltip direction="top" offset={[0, -18]}>
+          <Tooltip direction="top" offset={[offsets[i].dx, offsets[i].dy - 18]}>
             {t.provinceTooltip(g.count)}
           </Tooltip>
         </A11yMarker>
