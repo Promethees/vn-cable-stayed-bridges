@@ -150,6 +150,29 @@ describe('buildBridgeGeometry', () => {
   });
 });
 
+describe('pylon feet', () => {
+  it('inverted_Y and diamond legs converge toward the footing and pass outside the deck edges', () => {
+    for (const shape of ['inverted_Y', 'diamond'] as const) {
+      const g = build({ pylon_shape: shape });
+      const E = g.deckElevation;
+      const legs = g.pylons[0].members.filter((mb) => mb.a[1] === 0); // members starting at the footing
+      expect(legs.length).toBe(2);
+      for (const mb of legs) {
+        expect(mb.b[1]).toBeCloseTo(E); // lower leg ends at deck level
+        expect(Math.abs(mb.a[2])).toBeLessThan(Math.abs(mb.b[2])); // narrower at the footing
+        expect(Math.abs(mb.b[2])).toBeGreaterThan(g.deckWidth / 2); // just outside the deck edge
+      }
+    }
+  });
+  it('A legs pass outside the deck edges at deck level', () => {
+    const g = build({ pylon_shape: 'A' });
+    const E = g.deckElevation;
+    const [l] = g.pylons[0].members;
+    const zAtDeck = l.a[2] + ((l.b[2] - l.a[2]) * (E - l.a[1])) / (l.b[1] - l.a[1]);
+    expect(Math.abs(zAtDeck)).toBeGreaterThan(g.deckWidth / 2);
+  });
+});
+
 describe('pylon_custom, plan curve and clearance', () => {
   const baSonLike: Partial<Model3D> = {
     spans_m: [200, 115],

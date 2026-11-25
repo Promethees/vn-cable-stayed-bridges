@@ -78,7 +78,9 @@ interface Model3D {
 interface PylonCustom {
   description: string;                     // plain words, e.g. "single curved leg leaning back 10°, top bends toward main span"
   legs: {                                  // one entry per leg (1 for single, 2 for H/A/...)
-    centerline: [number, number, number][];// polyline from base (below deck) to tip; >= 3 points, smooth curve drawn through them
+    centerline: [number, number, number][];// polyline from start to tip; >= 3 points, smooth curve drawn through them.
+                                           // Usually starts at the footing (below deck); a leg may also start at a given
+                                           // point above the deck, e.g. twin blades rising from a merge point (Tứ Liên).
     width_base_m: number; width_top_m: number; depth_base_m?: number; depth_top_m?: number;
   }[];
   crossbeams_y_m?: number[];               // heights of cross-beams between legs

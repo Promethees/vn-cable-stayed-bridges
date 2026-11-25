@@ -12,3 +12,4 @@ shots/
 *.screenshot.png
 test-results/
 playwright-report/
+*.tsbuildinfo

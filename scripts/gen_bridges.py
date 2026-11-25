@@ -370,8 +370,8 @@ M3D = {
     notes="Extradosed main span 218 m; A-topped red pylons 32 m above deck (72 m from water) per Người Quan Sát. Side spans and the single central cable plane estimated from photos. Number of extradosed spans unclear."),
  "cau-hoa-son": m3d([220, 550, 220], "inverted_Y", [187, 187], "total", 2, "fan", 21.0,
     notes="550 m main span, 187 m pylons, ≈1.2 km bridge (press). Side spans, deck width and inverted-Y shape read from official renders (Báo Lâm Đồng / Người Quan Sát)."),
- "cau-tu-lien": m3d([250, 500, 250], "other", [185, 185], "total", 2, "fan", 43.0, "steel",
-    notes="1,000 m main bridge, 500 m span, 185 m pylons, 43 m steel deck (press). Side spans derived. Pylons are a twisted 'dragon' form with crossed stay planes (render); modelled as 'other'."),
+ "cau-tu-lien": m3d([250, 500, 250], "other", [185, 185], "total", 2, "semi_fan", 43.0, "steel", cps=18,
+    notes="1,000 m main bridge, 500 m span, 185 m pylons, 43 m steel deck (press). Side spans derived. Pylon form per the official render (client feedback 11/2026): diamond foot below the deck, legs merge ~38% up, then two separated, slightly twisted blades with staggered tops carrying a dense semi-fan in two planes. Modelled with pylon_custom (tip ≈ 170 m above deck)."),
  "cau-dai-ngai-1": m3d([210, 450, 210], "A", [110, 110], "above_deck", 2, "fan", 21.5, "composite",
     notes="210+450+210 m, A-shaped pylons 110 m above deck, composite steel girder (Báo Đầu tư). Fan pattern from the render. Another source gives 164 m total height."),
  "cau-cat-lai": m3d([190, 450, 190], "inverted_Y", [170, 170], "total", 2, "fan", 38.0, "composite",
@@ -611,12 +611,25 @@ PYLON = {
     "reference_images": [CW + "Trần_Thị_Lý_Bridge_at_daytime.jpg", CW + "Trần_Thị_Lý_Bridge,_Da_Nang.jpg"],
  },
  "cau-tu-lien": {
-    "description": "Two 'dragon' pylons from the official render: two legs rise from outside the deck edges, cross over each other (twisted) above the deck and merge into a single spire; the stay planes appear crossed. The twist is modelled as the legs swapping x-offset (one leans forward, one back) while converging in z.",
+    # Client feedback on the official render (11/2026). Pylon-local frame: x along the bridge (+ toward the
+    # main span), y up from deck (water ≈ -45 m), z across (deck edges at ±21.5 m).
+    # 1) below deck: diamond foot - legs start ~0.45 × deck width apart at the footing and splay out to just
+    #    outside the deck edges at deck level; 2) above deck: legs lean in and merge at ~38% of the height,
+    #    no crossbeam; 3) above the merge: two slender blades with a clear ~2.5 m slot, slightly twisted
+    #    (opposite x-offsets) and with staggered flat tops (170 m vs 155 m); 4) dense semi-fan from the blades.
+    "description": "Diamond-foot pylon: legs splay from the footing to just outside the deck edges, lean in and merge at ~38% of the height (no crossbeam), then split into two slender, slightly twisted blades separated by a ~2.5 m slot, with staggered tops (≈170 m and ≈155 m above deck). Dense semi-fan stays in two planes anchor along the blades (top ~45%).",
     "legs": [
-        {"centerline": [[6, -15, -24], [4, 30, -18], [0, 80, -6], [-3, 125, 0], [-2, 170, 0]], "width_base_m": 6.0, "width_top_m": 2.5},
-        {"centerline": [[-6, -15, 24], [-4, 30, 18], [0, 80, 6], [3, 125, 0], [2, 170, 0]], "width_base_m": 6.0, "width_top_m": 2.5},
+        {"centerline": [[0, -45, -9.7], [0, -25, -17.5], [0, -3, -24.8], [0, 3, -24.5], [0, 35, -11], [0, 65, -2.25]],
+         "width_base_m": 6.0, "width_top_m": 4.5, "depth_base_m": 8.0, "depth_top_m": 6.0},
+        {"centerline": [[0, -45, 9.7], [0, -25, 17.5], [0, -3, 24.8], [0, 3, 24.5], [0, 35, 11], [0, 65, 2.25]],
+         "width_base_m": 6.0, "width_top_m": 4.5, "depth_base_m": 8.0, "depth_top_m": 6.0},
+        # upper blades start at the merge point (legs may start above the deck)
+        {"centerline": [[0.6, 65, -2.25], [0.4, 110, -2.25], [-0.6, 170, -2.25]],
+         "width_base_m": 2.0, "width_top_m": 2.0, "depth_base_m": 7.0, "depth_top_m": 4.0},
+        {"centerline": [[-0.6, 65, 2.25], [-0.4, 105, 2.25], [0.6, 155, 2.25]],
+         "width_base_m": 2.0, "width_top_m": 2.0, "depth_base_m": 7.0, "depth_top_m": 4.0},
     ],
-    "anchor_zone": [{"y_from_m": 95, "y_to_m": 165, "leg": 0}, {"y_from_m": 95, "y_to_m": 165, "leg": 1}],
+    "anchor_zone": [{"y_from_m": 94, "y_to_m": 167, "leg": 2}, {"y_from_m": 94, "y_to_m": 152, "leg": 3}],
     "mirror_for_other_pylons": True,
     "reference_images": ["https://daknong.1cdn.vn/thumbs/1200x630/2026/07/23/img_afa3cf01.jpg"],
  },

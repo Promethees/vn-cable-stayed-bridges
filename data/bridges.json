@@ -1954,87 +1954,148 @@
       ],
       "pylon_height_ref": "total",
       "cable_planes": 2,
-      "cable_pattern": "fan",
+      "cable_pattern": "semi_fan",
+      "cables_per_side": 18,
       "deck_width_m": 43.0,
       "deck_type": "steel",
       "confidence": "estimated",
-      "notes": "1,000 m main bridge, 500 m span, 185 m pylons, 43 m steel deck (press). Side spans derived. Pylons are a twisted 'dragon' form with crossed stay planes (render); modelled as 'other'.",
+      "notes": "1,000 m main bridge, 500 m span, 185 m pylons, 43 m steel deck (press). Side spans derived. Pylon form per the official render (client feedback 11/2026): diamond foot below the deck, legs merge ~38% up, then two separated, slightly twisted blades with staggered tops carrying a dense semi-fan in two planes. Modelled with pylon_custom (tip ≈ 170 m above deck).",
       "pylon_custom": {
-        "description": "Two 'dragon' pylons from the official render: two legs rise from outside the deck edges, cross over each other (twisted) above the deck and merge into a single spire; the stay planes appear crossed. The twist is modelled as the legs swapping x-offset (one leans forward, one back) while converging in z.",
+        "description": "Diamond-foot pylon: legs splay from the footing to just outside the deck edges, lean in and merge at ~38% of the height (no crossbeam), then split into two slender, slightly twisted blades separated by a ~2.5 m slot, with staggered tops (≈170 m and ≈155 m above deck). Dense semi-fan stays in two planes anchor along the blades (top ~45%).",
         "legs": [
           {
             "centerline": [
               [
-                6,
-                -15,
-                -24
-              ],
-              [
-                4,
-                30,
-                -18
+                0,
+                -45,
+                -9.7
               ],
               [
                 0,
-                80,
-                -6
+                -25,
+                -17.5
               ],
               [
+                0,
                 -3,
-                125,
-                0
+                -24.8
               ],
               [
-                -2,
-                170,
-                0
+                0,
+                3,
+                -24.5
+              ],
+              [
+                0,
+                35,
+                -11
+              ],
+              [
+                0,
+                65,
+                -2.25
               ]
             ],
             "width_base_m": 6.0,
-            "width_top_m": 2.5
+            "width_top_m": 4.5,
+            "depth_base_m": 8.0,
+            "depth_top_m": 6.0
           },
           {
             "centerline": [
               [
-                -6,
-                -15,
-                24
-              ],
-              [
-                -4,
-                30,
-                18
+                0,
+                -45,
+                9.7
               ],
               [
                 0,
-                80,
-                6
+                -25,
+                17.5
               ],
               [
+                0,
+                -3,
+                24.8
+              ],
+              [
+                0,
                 3,
-                125,
-                0
+                24.5
               ],
               [
-                2,
-                170,
-                0
+                0,
+                35,
+                11
+              ],
+              [
+                0,
+                65,
+                2.25
               ]
             ],
             "width_base_m": 6.0,
-            "width_top_m": 2.5
+            "width_top_m": 4.5,
+            "depth_base_m": 8.0,
+            "depth_top_m": 6.0
+          },
+          {
+            "centerline": [
+              [
+                0.6,
+                65,
+                -2.25
+              ],
+              [
+                0.4,
+                110,
+                -2.25
+              ],
+              [
+                -0.6,
+                170,
+                -2.25
+              ]
+            ],
+            "width_base_m": 2.0,
+            "width_top_m": 2.0,
+            "depth_base_m": 7.0,
+            "depth_top_m": 4.0
+          },
+          {
+            "centerline": [
+              [
+                -0.6,
+                65,
+                2.25
+              ],
+              [
+                -0.4,
+                105,
+                2.25
+              ],
+              [
+                0.6,
+                155,
+                2.25
+              ]
+            ],
+            "width_base_m": 2.0,
+            "width_top_m": 2.0,
+            "depth_base_m": 7.0,
+            "depth_top_m": 4.0
           }
         ],
         "anchor_zone": [
           {
-            "y_from_m": 95,
-            "y_to_m": 165,
-            "leg": 0
+            "y_from_m": 94,
+            "y_to_m": 167,
+            "leg": 2
           },
           {
-            "y_from_m": 95,
-            "y_to_m": 165,
-            "leg": 1
+            "y_from_m": 94,
+            "y_to_m": 152,
+            "leg": 3
           }
         ],
         "mirror_for_other_pylons": true,

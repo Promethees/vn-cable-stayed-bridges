@@ -174,24 +174,43 @@ function buildPylon(shape: PylonShape, x: number, hw: number, yd: number, yt: nu
       return { members: [m(P(0, 0), P(yt, 0), leg * 1.3)], anchorZ: () => 0 };
     case 'A':
     case 'inverted_V': {
-      const ms = [m(P(0, -hw), P(yt, 0)), m(P(0, hw), P(yt, 0))];
+      // straight legs to the apex, passing just outside the deck edges at deck level
+      const zf = (hw + leg / 2) / (1 - yd / yt);
+      const ms = [m(P(0, -zf), P(yt, 0)), m(P(0, zf), P(yt, 0))];
       if (shape === 'A') {
-        const z = lerpZ(under, 0, hw, yt, 0);
+        const z = lerpZ(under, 0, zf, yt, 0);
         ms.push(m(P(under, -z), P(under, z), leg * 0.8));
       }
-      return { members: ms, anchorZ: (pl, y) => sideZ(pl, Math.max(leg * 0.4, lerpZ(y, 0, hw, yt, 0))) };
+      return { members: ms, anchorZ: (pl, y) => sideZ(pl, Math.max(leg * 0.4, lerpZ(y, 0, zf, yt, 0))) };
     }
     case 'inverted_Y': {
-      const yj = yd + 0.6 * (yt - yd); // legs meet at 60% of the height above deck
+      // diamond foot: legs start close together at the footing, splay out to just outside the deck
+      // edges at deck level, then lean in to meet at 60% of the height above deck (single mast above)
+      const zFoot = 0.45 * hw;
+      const zDeck = hw + leg / 2;
+      const yj = yd + 0.6 * (yt - yd);
       return {
-        members: [m(P(0, -hw), P(yj, 0)), m(P(0, hw), P(yj, 0)), m(P(yj, 0), P(yt, 0), leg * 1.2)],
-        anchorZ: (pl, y) => (y >= yj ? sideZ(pl, leg * 0.4) : sideZ(pl, lerpZ(y, 0, hw, yj, 0))),
+        members: [
+          m(P(0, -zFoot), P(yd, -zDeck)),
+          m(P(0, zFoot), P(yd, zDeck)),
+          m(P(yd, -zDeck), P(yj, 0)),
+          m(P(yd, zDeck), P(yj, 0)),
+          m(P(yj, 0), P(yt, 0), leg * 1.2),
+        ],
+        anchorZ: (pl, y) => (y >= yj ? sideZ(pl, leg * 0.4) : sideZ(pl, lerpZ(y, yd, zDeck, yj, 0))),
       };
     }
     case 'diamond': {
-      // splay out from the footing to the deck edges, then converge to the apex
-      const ms = [m(P(0, 0), P(yd, -hw)), m(P(0, 0), P(yd, hw)), m(P(yd, -hw), P(yt, 0)), m(P(yd, hw), P(yt, 0))];
-      return { members: ms, anchorZ: (pl, y) => sideZ(pl, Math.max(leg * 0.4, lerpZ(y, yd, hw, yt, 0))) };
+      // lower half converges toward the footing; widest just outside the deck edges; upper half to the apex
+      const zFoot = 0.25 * hw;
+      const zDeck = hw + leg / 2;
+      const ms = [
+        m(P(0, -zFoot), P(yd, -zDeck)),
+        m(P(0, zFoot), P(yd, zDeck)),
+        m(P(yd, -zDeck), P(yt, 0)),
+        m(P(yd, zDeck), P(yt, 0)),
+      ];
+      return { members: ms, anchorZ: (pl, y) => sideZ(pl, Math.max(leg * 0.4, lerpZ(y, yd, zDeck, yt, 0))) };
     }
     case 'other': {
       // unknown / bespoke form (arch, V, twisted …): a neutral tapered shape, never a crash.
