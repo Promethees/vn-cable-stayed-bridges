@@ -51,6 +51,8 @@ const vi = {
   diagramAria: (arr: string, main: string) => `Sơ đồ nhịp: ${arr}, nhịp chính ${main}`,
   bridgesCount: (n: number) => `${n} cầu`,
   langLabel: 'Ngôn ngữ',
+  clearance3d: (h?: string, w?: string) => (h ? `Tĩnh không ${h}` : `Luồng B ${w}`),
+  customPylon: 'dạng đặc biệt',
   tabPhotos: 'Ảnh',
   tab3d: '3D',
   tabDiagram: 'Sơ đồ',
@@ -137,6 +139,8 @@ const en: Dict = {
   diagramAria: (arr, main) => `Span arrangement: ${arr}, main span ${main}`,
   bridgesCount: (n) => `${n} ${n === 1 ? 'bridge' : 'bridges'}`,
   langLabel: 'Language',
+  clearance3d: (h, w) => (h ? `Clearance ${h}` : `Channel B ${w}`),
+  customPylon: 'custom-shaped',
   tabPhotos: 'Photos',
   tab3d: '3D',
   tabDiagram: 'Elevation',
@@ -213,4 +217,11 @@ export function storeLang(l: Lang) {
   } catch {
     /* ignore */
   }
+}
+
+/** "H 45 m × B 250 m" (whichever values are present). */
+export function fmtClearance(c: { height_m?: number; width_m?: number }, lang: Lang): string {
+  return [c.height_m ? `H ${fmtMeters(c.height_m, lang)}` : '', c.width_m ? `B ${fmtMeters(c.width_m, lang)}` : '']
+    .filter(Boolean)
+    .join(' × ');
 }

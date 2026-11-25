@@ -15,6 +15,30 @@ export type PylonShape = 'H' | 'A' | 'inverted_Y' | 'diamond' | 'single' | 'inve
 export const PYLON_SHAPES: readonly PylonShape[] = ['H', 'A', 'inverted_Y', 'diamond', 'single', 'inverted_V', 'other'];
 export type CablePattern = 'fan' | 'semi_fan' | 'harp';
 
+/** Custom pylon geometry (metres, pylon-local frame: x along the bridge toward the main span, y up from deck, z across). */
+export interface PylonCustom {
+  description: string;
+  legs: {
+    centerline: [number, number, number][];
+    width_base_m: number;
+    width_top_m: number;
+    depth_base_m?: number;
+    depth_top_m?: number;
+  }[];
+  crossbeams_y_m?: number[];
+  anchor_zone: { y_from_m: number; y_to_m: number; leg: number }[];
+  mirror_for_other_pylons?: boolean;
+  reference_images?: string[];
+}
+
+/** Tĩnh không thông thuyền. */
+export interface NavClearance {
+  height_m?: number;
+  width_m?: number;
+  reference?: string;
+  source?: string;
+}
+
 /** Schematic 3D model parameters (approximate; drawn procedurally, not a survey model). */
 export interface Model3D {
   spans_m: number[];
@@ -28,6 +52,8 @@ export interface Model3D {
   deck_type?: 'concrete' | 'steel' | 'composite';
   approach_length_m?: number;
   extradosed?: boolean;
+  deck_plan_radius_m?: number;
+  pylon_custom?: PylonCustom;
   confidence: 'verified' | 'estimated';
   notes?: string;
 }
@@ -62,6 +88,7 @@ export interface Bridge {
   pylons?: string;
   investor?: string;
   cost?: string;
+  nav_clearance?: NavClearance;
   model3d?: Model3D;
   lat: number;
   lng: number;

@@ -1,7 +1,7 @@
 import type { Bridge } from '../types';
 import type { L10n } from './i18n';
 
-export type FieldFormat = 'text' | 'meters' | 'roadChips' | 'list';
+export type FieldFormat = 'text' | 'meters' | 'roadChips' | 'list' | 'clearance';
 
 export interface FieldDef {
   key: keyof Bridge & string;
@@ -31,6 +31,12 @@ export const FIELDS: FieldDef[] = [
   },
   { key: 'span_arrangement', label: { vi: 'Sơ đồ nhịp', en: 'Span arrangement' } },
   { key: 'pylons', label: { vi: 'Tháp cầu', en: 'Pylons' } },
+  {
+    key: 'nav_clearance',
+    label: { vi: 'Tĩnh không thông thuyền', en: 'Navigation clearance' },
+    format: 'clearance',
+    showIf: (v) => !!v && typeof v === 'object' && !!((v as { height_m?: number }).height_m || (v as { width_m?: number }).width_m),
+  },
   { key: 'province_former', label: { vi: 'Tỉnh cũ (trước 2025)', en: 'Former province(s)' }, format: 'list' },
   { key: 'investor', label: { vi: 'Chủ đầu tư', en: 'Investor' } },
   { key: 'cost', label: { vi: 'Tổng mức đầu tư', en: 'Cost' } },

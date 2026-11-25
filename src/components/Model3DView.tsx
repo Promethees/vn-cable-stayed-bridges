@@ -33,8 +33,8 @@ export function Model3DView({ bridge, lang }: { bridge: Bridge; lang: Lang }) {
   const reduced = useMediaQuery('(prefers-reduced-motion: reduce)');
   const coarse = useMediaQuery('(pointer: coarse)');
   const geometry = useMemo(
-    () => (bridge.model3d ? buildBridgeGeometry(bridge.model3d, bridge.status) : null),
-    [bridge.model3d, bridge.status],
+    () => (bridge.model3d ? buildBridgeGeometry(bridge.model3d, bridge.status, { navClearance: bridge.nav_clearance }) : null),
+    [bridge.model3d, bridge.status, bridge.nav_clearance],
   );
   const description = geometry ? describeModel(bridge, geometry, lang) : '';
   const descId = useId();
@@ -57,6 +57,8 @@ export function Model3DView({ bridge, lang }: { bridge: Bridge; lang: Lang }) {
   const strings = useMemo(
     () => ({
       meters: (v: number) => fmtMeters(Math.round(v), lang),
+      clearance: (h?: number, w?: number) =>
+        t.clearance3d(h ? fmtMeters(Math.round(h), lang) : undefined, w ? fmtMeters(Math.round(w), lang) : undefined),
       heightLabel: t.heightLabel,
       aboveDeck: t.aboveDeck,
       total: t.totalHeight,

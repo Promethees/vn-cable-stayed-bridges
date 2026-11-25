@@ -31,6 +31,48 @@ export function model3dProblems(v: unknown): string[] {
   if (v.extradosed !== undefined && typeof v.extradosed !== 'boolean') p.push('extradosed');
   if (v.confidence !== 'verified' && v.confidence !== 'estimated') p.push('confidence');
   if (!optStr(v.notes)) p.push('notes');
+  if (v.deck_plan_radius_m !== undefined && !(isNum(v.deck_plan_radius_m) && v.deck_plan_radius_m > 0)) p.push('deck_plan_radius_m');
+  if (v.pylon_custom !== undefined) p.push(...pylonCustomProblems(v.pylon_custom).map((x) => `pylon_custom.${x}`));
+  return p;
+}
+
+const isVec3 = (a: unknown) => Array.isArray(a) && a.length === 3 && a.every(isNum);
+
+export function pylonCustomProblems(v: unknown): string[] {
+  if (!isObj(v)) return ['not an object'];
+  const p: string[] = [];
+  if (typeof v.description !== 'string') p.push('description');
+  const legs = v.legs;
+  if (!Array.isArray(legs) || legs.length < 1) p.push('legs');
+  else
+    legs.forEach((l, i) => {
+      if (!isObj(l)) return p.push(`legs[${i}]`);
+      if (!Array.isArray(l.centerline) || l.centerline.length < 3 || !l.centerline.every(isVec3)) p.push(`legs[${i}].centerline`);
+      for (const k of ['width_base_m', 'width_top_m'])
+        if (!(isNum(l[k]) && (l[k] as number) > 0)) p.push(`legs[${i}].${k}`);
+      for (const k of ['depth_base_m', 'depth_top_m'])
+        if (l[k] !== undefined && !(isNum(l[k]) && (l[k] as number) > 0)) p.push(`legs[${i}].${k}`);
+    });
+  if (v.crossbeams_y_m !== undefined && !(Array.isArray(v.crossbeams_y_m) && v.crossbeams_y_m.every(isNum))) p.push('crossbeams_y_m');
+  const nLegs = Array.isArray(legs) ? legs.length : 0;
+  if (
+    !Array.isArray(v.anchor_zone) ||
+    v.anchor_zone.length < 1 ||
+    !v.anchor_zone.every(
+      (z) => isObj(z) && isNum(z.y_from_m) && isNum(z.y_to_m) && Number.isInteger(z.leg) && (z.leg as number) >= 0 && (z.leg as number) < nLegs,
+    )
+  )
+    p.push('anchor_zone');
+  if (v.mirror_for_other_pylons !== undefined && typeof v.mirror_for_other_pylons !== 'boolean') p.push('mirror_for_other_pylons');
+  if (v.reference_images !== undefined && !isStrArr(v.reference_images)) p.push('reference_images');
+  return p;
+}
+
+function navClearanceProblems(v: unknown): string[] {
+  if (!isObj(v)) return ['not an object'];
+  const p: string[] = [];
+  for (const k of ['height_m', 'width_m']) if (v[k] !== undefined && !(isNum(v[k]) && (v[k] as number) > 0)) p.push(k);
+  for (const k of ['reference', 'source']) if (!optStr(v[k])) p.push(k);
   return p;
 }
 
@@ -71,6 +113,13 @@ function withDefaults(v: unknown, warn: (...a: unknown[]) => void): unknown {
   if (out.structure_type === undefined) {
     warn(`[bridges] "${String(v.id)}": missing structure_type, assuming "cable_stayed"`);
     out.structure_type = 'cable_stayed';
+  }
+  if (out.nav_clearance !== undefined) {
+    const problems = navClearanceProblems(out.nav_clearance);
+    if (problems.length) {
+      warn(`[bridges] "${String(v.id)}": dropping invalid nav_clearance (${problems.join(', ')})`);
+      delete out.nav_clearance;
+    }
   }
   if (out.model3d !== undefined) {
     const problems = model3dProblems(out.model3d);

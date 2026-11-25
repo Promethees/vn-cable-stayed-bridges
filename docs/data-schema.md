@@ -35,6 +35,12 @@ interface Bridge {
   pylons?: string;               // count / shape / height
   investor?: string;
   cost?: string;
+  nav_clearance?: {              // tĩnh không thông thuyền
+    height_m?: number;           // vertical clearance (H) above design high water
+    width_m?: number;            // channel width (B)
+    reference?: string;          // e.g. "above H5%" / "mực nước cao thiết kế"
+    source?: string;
+  };
   model3d?: Model3D;             // parameters for the schematic 3D model (see below)
   lat: number;
   lng: number;
@@ -59,8 +65,26 @@ interface Model3D {
   deck_type?: "concrete" | "steel" | "composite";
   approach_length_m?: number;    // approaches each side, for context
   extradosed?: boolean;          // low pylons, short stays
+  deck_plan_radius_m?: number;   // horizontal curve radius of the deck (omit if straight)
+  pylon_custom?: PylonCustom;    // for curved / leaning / sculptural pylons (Ba Son, Tứ Liên, Cần Giờ...)
   confidence: "verified" | "estimated";
   notes?: string;
+}
+```
+
+```ts
+// Custom pylon geometry, in metres, in the pylon's local frame:
+// x = along bridge axis (+ toward main span), y = up from deck, z = across bridge.
+interface PylonCustom {
+  description: string;                     // plain words, e.g. "single curved leg leaning back 10°, top bends toward main span"
+  legs: {                                  // one entry per leg (1 for single, 2 for H/A/...)
+    centerline: [number, number, number][];// polyline from base (below deck) to tip; >= 3 points, smooth curve drawn through them
+    width_base_m: number; width_top_m: number; depth_base_m?: number; depth_top_m?: number;
+  }[];
+  crossbeams_y_m?: number[];               // heights of cross-beams between legs
+  anchor_zone: { y_from_m: number; y_to_m: number; leg: number }[]; // where stays attach on each leg
+  mirror_for_other_pylons?: boolean;       // multi-pylon bridges: reuse mirrored
+  reference_images?: string[];             // URLs used to derive the shape
 }
 ```
 

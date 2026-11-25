@@ -1,6 +1,6 @@
 import type { Bridge, PylonShape } from '../types';
 import type { BridgeGeometry } from './bridge3d';
-import { fmtNum, STATUS_LABEL, type Lang } from './i18n';
+import { fmtNum, STATUS_LABEL, STRINGS, type Lang } from './i18n';
 
 const SHAPE: Record<PylonShape, { vi: string; en: string }> = {
   H: { vi: 'chữ H', en: 'H-shaped' },
@@ -31,10 +31,12 @@ export function describeModel(b: Bridge, g: BridgeGeometry, lang: Lang): string 
   const kind = g.extradosed ? { vi: 'Cầu extradosed', en: 'Extradosed bridge' } : { vi: 'Cầu dây văng', en: 'Cable-stayed bridge' };
   const deckType = g.deckType ? DECK[g.deckType][lang] : '';
   const approx = b.model3d?.confidence === 'estimated';
+  const custom = g.pylons[0].custom ? b.model3d?.pylon_custom?.description : undefined;
+  const shapeName = (l: Lang) => (custom ? `${STRINGS[l].customPylon} (${custom})` : SHAPE[g.shape][l]);
   if (lang === 'vi') {
     return [
       `${kind.vi} ${g.spans.length} nhịp ${spans} m.`,
-      `${g.pylons.length} tháp ${SHAPE[g.shape].vi}, cao ${heights.map(n).join(' / ')} m ${ref === 'total' ? 'tổng' : 'trên mặt cầu'}.`,
+      `${g.pylons.length} tháp ${shapeName('vi')}, cao ${heights.map(n).join(' / ')} m ${ref === 'total' ? 'tổng' : 'trên mặt cầu'}.`,
       `${g.planes} mặt phẳng dây, ${PATTERN[g.pattern].vi}, ${g.cablesPerSide} dây mỗi bên.`,
       `Mặt cầu${deckType ? ` ${deckType}` : ''} rộng ${n(g.deckWidth)} m.`,
       `Trạng thái: ${STATUS_LABEL[b.status].vi.toLowerCase()}.`,
@@ -45,7 +47,7 @@ export function describeModel(b: Bridge, g: BridgeGeometry, lang: Lang): string 
   }
   return [
     `${kind.en}, ${g.spans.length} spans of ${spans} m.`,
-    `${g.pylons.length} ${SHAPE[g.shape].en} pylon${g.pylons.length > 1 ? 's' : ''}, ${heights.map(n).join(' / ')} m ${ref === 'total' ? 'tall in total' : 'above the deck'}.`,
+    `${g.pylons.length} ${shapeName('en')} pylon${g.pylons.length > 1 ? 's' : ''}, ${heights.map(n).join(' / ')} m ${ref === 'total' ? 'tall in total' : 'above the deck'}.`,
     `${g.planes} cable plane${g.planes > 1 ? 's' : ''}, ${PATTERN[g.pattern].en} pattern, ${g.cablesPerSide} stays per side.`,
     `${deckType ? `${deckType[0].toUpperCase()}${deckType.slice(1)} deck` : 'Deck'} ${n(g.deckWidth)} m wide.`,
     `Status: ${STATUS_LABEL[b.status].en.toLowerCase()}.`,

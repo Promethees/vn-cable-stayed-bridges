@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import type { Bridge } from '../types';
 import { visibleFields, type FieldDef } from '../lib/fields';
 import { googleMapsUrl, osmUrl } from '../lib/geo';
-import { fmtMeters, fmtNum, STRINGS, STRUCTURE_LABEL, type Lang } from '../lib/i18n';
+import { fmtClearance, fmtMeters, fmtNum, STRINGS, STRUCTURE_LABEL, type Lang } from '../lib/i18n';
 import { primaryProvince } from '../lib/provinces';
 import { Chevron, ExternalIcon, StatusChip, UsageTag } from './Glyph';
 import { CardHero } from './CardHero';
@@ -27,6 +27,13 @@ function FieldValue({ f, b, lang }: { f: FieldDef; b: Bridge; lang: Lang }) {
       </ul>
     );
   if (f.format === 'meters' && typeof v === 'number') return <>{fmtMeters(v, lang)}</>;
+  if (f.format === 'clearance' && b.nav_clearance)
+    return (
+      <>
+        {fmtClearance(b.nav_clearance, lang)}
+        {b.nav_clearance.reference && <small className="spec-ref">{b.nav_clearance.reference}</small>}
+      </>
+    );
   if (Array.isArray(v)) return <>{v.join(' – ')}</>;
   if (typeof v === 'number' && !f.key.endsWith('start') && f.key !== 'opened') return <>{fmtNum(v, lang)}</>;
   return <>{String(v)}</>;

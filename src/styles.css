@@ -148,6 +148,9 @@ button { font: inherit; color: inherit; }
 .sd-pylon { stroke: var(--c-ink); stroke-width: 2; }
 .sd-pier { stroke: var(--c-ink); stroke-width: 1; }
 .sd-cable { stroke: var(--c-steel); stroke-width: 1; }
+.sd-water { stroke: var(--c-cable); stroke-width: 1; opacity: .6; }
+.sd-dim { stroke: var(--c-cable); stroke-width: 1; }
+.sd-clearance-label { position: absolute; top: calc(var(--sp-2) + 70px); transform: translateY(-50%); margin-left: 6px; padding: 0 4px; border-radius: 4px; background: var(--c-raised); font-size: 11px; font-weight: var(--fw-semi); color: var(--c-cable); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .sd-labels { position: absolute; left: var(--sp-2); right: var(--sp-2); bottom: 4px; height: 16px; font-size: var(--fs-xs); font-variant-numeric: tabular-nums; color: var(--c-steel); }
 .sd-labels span { position: absolute; transform: translateX(-50%); }
 
@@ -158,6 +161,8 @@ button { font: inherit; color: inherit; }
 .spec-row { display: grid; grid-template-columns: 40% 1fr; gap: var(--sp-3); padding: var(--sp-2) 0; border-bottom: 1px solid var(--c-line); }
 .spec-row dt { font-size: var(--fs-sm); font-weight: var(--fw-medium); color: var(--c-steel); }
 .spec-row dd { margin: 0; font-variant-numeric: tabular-nums; }
+.spec-ref { display: block; font-size: var(--fs-xs); color: var(--c-steel); }
+.m3d-label.is-clearance { background: color-mix(in srgb, var(--m3d-label-bg) 85%, transparent); color: var(--c-cable); border: 1px dashed var(--c-cable); }
 .road-chips { display: flex; flex-wrap: wrap; gap: var(--sp-1); list-style: none; margin: 0; padding: 0; }
 .road-chips li { padding: 0 var(--sp-2); border: 1px solid var(--c-line); border-radius: var(--r-chip); font-size: var(--fs-xs); font-weight: var(--fw-semi); background: var(--c-raised); }
 

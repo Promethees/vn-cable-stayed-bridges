@@ -6,10 +6,11 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { CSS2DObject, CSS2DRenderer } from 'three/addons/renderers/CSS2DRenderer.js';
-import type { BridgeGeometry, Member, Vec3 } from '../lib/bridge3d';
+import type { Box, BridgeGeometry, Member, SweepMesh } from '../lib/bridge3d';
 
 export interface EngineStrings {
   meters: (v: number) => string;
+  clearance: (h?: number, w?: number) => string;
   heightLabel: (v: string) => string;
   aboveDeck: string;
   total: string;
@@ -164,7 +165,8 @@ export class BridgeEngine {
   // ---------- materials / theme ----------
 
   private makeMaterials() {
-    const lambert = () => new THREE.MeshLambertMaterial({ flatShading: true });
+    // double-sided so swept custom pylons never show back-face holes
+    const lambert = () => new THREE.MeshLambertMaterial({ flatShading: true, side: THREE.DoubleSide });
     this.mats = {
       water: new THREE.MeshLambertMaterial(),
       ground: lambert(),
@@ -176,6 +178,8 @@ export class BridgeEngine {
       cable: new THREE.LineBasicMaterial(),
       cableGhost: new THREE.LineDashedMaterial({ dashSize: 4, gapSize: 3 }),
       dim: new THREE.LineBasicMaterial({ transparent: true }),
+      clearance: new THREE.MeshBasicMaterial({ transparent: true, opacity: 0.12, depthWrite: false, side: THREE.DoubleSide }),
+      clearanceEdge: new THREE.LineDashedMaterial({ dashSize: 5, gapSize: 4, transparent: true, opacity: 0.9 }),
     };
   }
 
@@ -203,6 +207,8 @@ export class BridgeEngine {
     M.cable.color.copy(c('--m3d-cable', '#0E6A87').color);
     M.cableGhost.color.copy(ghost.color);
     M.dim.color.copy(c('--m3d-dim-line', '#56666E').color);
+    (this.mats.clearance as THREE.MeshBasicMaterial).color.copy(c('--m3d-cable', '#0E6A87').color);
+    (this.mats.clearanceEdge as THREE.LineDashedMaterial).color.copy(c('--m3d-cable', '#0E6A87').color);
     const planned = this.g?.status === 'planned';
     const ghostOpacity = cssNum('--m3d-ghost-opacity', 0.12);
     for (const k of ['concrete', 'steel', 'traveller'] as const) {
@@ -245,10 +251,20 @@ export class BridgeEngine {
     return mesh;
   }
 
-  private box(c: Vec3, s: Vec3, mat: THREE.Material) {
-    const m = this.addMesh(new THREE.BoxGeometry(s[0], s[1], s[2]), mat);
-    m.position.set(...c);
+  private box(b: Box, mat: THREE.Material, parent: THREE.Object3D = this.root) {
+    const m = this.addMesh(new THREE.BoxGeometry(b.s[0], b.s[1], b.s[2]), mat, parent);
+    m.position.set(...b.c);
+    // Euler XYZ applies z (pitch) first, then y (yaw)
+    m.rotation.set(0, b.yaw ?? 0, b.pitch ?? 0);
     return m;
+  }
+
+  private sweep(sw: SweepMesh, mat: THREE.Material) {
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(sw.positions, 3));
+    geo.setIndex(sw.indices);
+    geo.computeVertexNormals();
+    this.addMesh(geo, mat);
   }
 
   private member(mb: Member, mat: THREE.Material) {
@@ -262,7 +278,8 @@ export class BridgeEngine {
 
   private build(g: BridgeGeometry) {
     const M = this.mats;
-    this.root.position.set(-g.totalLength / 2, 0, 0);
+    // centre the unit's plan bounds on the origin
+    this.root.position.set(-(g.bounds.min[0] + g.bounds.max[0]) / 2, 0, -(g.bounds.min[2] + g.bounds.max[2]) / 2);
     const deckMat = g.deckType === 'steel' || g.deckType === 'composite' ? M.steel : M.concrete;
     const E = g.deckElevation;
 
@@ -270,24 +287,18 @@ export class BridgeEngine {
     const size = 3 * Math.max(g.totalLength, 400);
     const water = new THREE.Mesh(new THREE.PlaneGeometry(size, size), M.water);
     water.rotation.x = -Math.PI / 2;
-    water.position.set(g.totalLength / 2, 0, 0);
+    water.position.set((g.bounds.min[0] + g.bounds.max[0]) / 2, 0, (g.bounds.min[2] + g.bounds.max[2]) / 2);
     this.root.add(water);
-    g.banks.forEach((b) => this.addMesh(new THREE.BoxGeometry(...b.s), M.ground).position.set(...b.c));
-
-    // approach slabs
-    for (const s of g.approaches) {
-      const dx = s.x1 - s.x0;
-      const dy = s.y1 - s.y0;
-      const m = this.addMesh(new THREE.BoxGeometry(Math.hypot(dx, dy), g.deckDepth, g.deckWidth), deckMat);
-      m.position.set((s.x0 + s.x1) / 2, (s.y0 + s.y1) / 2 - g.deckDepth / 2, 0);
-      m.rotation.z = Math.atan2(dy, dx);
-    }
-    // deck
-    for (const s of g.deckSegments)
-      this.box([(s.x0 + s.x1) / 2, E - g.deckDepth / 2, 0], [s.x1 - s.x0, g.deckDepth, g.deckWidth], deckMat);
-    g.piers.forEach((p) => this.box(p.c, p.s, M.concrete));
-    g.pylons.forEach((p) => p.members.forEach((mb) => this.member(mb, M.concrete)));
-    g.travellers.forEach((t) => this.box(t.c, t.s, M.traveller));
+    g.banks.forEach((b) => this.box(b, M.ground));
+    g.approaches.forEach((b) => this.box(b, deckMat));
+    g.deckPieces.forEach((b) => this.box(b, deckMat));
+    g.piers.forEach((b) => this.box(b, M.concrete));
+    g.pylons.forEach((p) => {
+      p.members.forEach((mb) => this.member(mb, M.concrete));
+      p.sweeps.forEach((sw) => this.sweep(sw, M.concrete));
+    });
+    g.travellers.forEach((b) => this.box(b, M.traveller));
+    void E;
 
     // stay cables: 1px LineSegments
     const pos = new Float32Array(g.cables.length * 6);
@@ -312,16 +323,21 @@ export class BridgeEngine {
     const S = this.opts.strings;
     const E = g.deckElevation;
     const z = this.dimSide * (g.deckWidth / 2 + 10);
-    const pts: number[] = [0, E, z, g.totalLength, E, z];
-    for (const s of g.spans) pts.push(s.x0, E, z - 3, s.x0, E, z + 3);
-    pts.push(g.totalLength, E, z - 3, g.totalLength, E, z + 3);
+    const P = (x: number, y: number, zz: number) => g.plan(x, y, zz);
+    const pts: number[] = [];
+    // dimension line along the deck (follows the plan curve)
+    const steps = g.planRadius ? 40 : 1;
+    for (let i = 0; i < steps; i++)
+      pts.push(...P((g.totalLength * i) / steps, E, z), ...P((g.totalLength * (i + 1)) / steps, E, z));
+    for (const s of g.spans) pts.push(...P(s.x0, E, z - 3), ...P(s.x0, E, z + 3));
+    pts.push(...P(g.totalLength, E, z - 3), ...P(g.totalLength, E, z + 3));
 
     g.spans.forEach((s, i) => {
       const el = document.createElement('span');
       el.className = `m3d-label${s.main ? ' is-main' : ''}`;
       el.textContent = S.meters(s.length);
       const o = new CSS2DObject(el);
-      o.position.set((s.x0 + s.x1) / 2, E, z);
+      o.position.set(...P((s.x0 + s.x1) / 2, E, z));
       this.dims.add(o);
       this.labelEls.push({ el, priority: s.main ? 0 : 2, span: [s.x0, s.x1] });
       void i;
@@ -333,16 +349,36 @@ export class BridgeEngine {
       const y0 = p.labelRef === 'total' ? 0 : E;
       const y1 = E + p.heightAboveDeck;
       const x = p.x + Math.max(8, g.deckWidth * 0.4);
-      pts.push(x, y0, z, x, y1, z, x - 3, y1, z, x + 3, y1, z, x - 3, y0, z, x + 3, y0, z);
+      pts.push(...P(x, y0, z), ...P(x, y1, z), ...P(x - 3, y1, z), ...P(x + 3, y1, z), ...P(x - 3, y0, z), ...P(x + 3, y0, z));
       const el = document.createElement('span');
       el.className = 'm3d-label is-height';
       el.innerHTML = `<b>${S.heightLabel(S.meters(p.labelHeight))}</b><small>${p.labelRef === 'total' ? S.total : S.aboveDeck}</small>`;
       const o = new CSS2DObject(el);
-      o.position.set(x, (y0 + y1) / 2, z);
+      o.position.set(...P(x, (y0 + y1) / 2, z));
       o.center.set(-0.08, 0.5);
       this.dims.add(o);
       this.labelEls.push({ el, priority: 1, pylon: sameHeight ? p.index : -1, obj: o });
     });
+
+    // navigation clearance envelope (tĩnh không): translucent box + dashed outline + label
+    if (g.clearance) {
+      const c = g.clearance;
+      const box = this.box(c.box, this.mats.clearance, this.dims);
+      const edges = box.children[0] as THREE.LineSegments;
+      edges.material = this.mats.clearanceEdge;
+      edges.computeLineDistances();
+      if (c.givenHeight || c.givenWidth) {
+        const el = document.createElement('span');
+        el.className = 'm3d-label is-clearance';
+        el.textContent = S.clearance(c.givenHeight, c.givenWidth);
+        const o = new CSS2DObject(el);
+        // at the waterline on the camera-facing edge of the envelope, clear of the deck labels
+        o.position.set(...g.plan((c.x0 + c.x1) / 2, 0, this.dimSide * (g.deckWidth / 2 + 10)));
+        o.center.set(0.5, -0.15);
+        this.dims.add(o);
+        this.labelEls.push({ el, priority: 0.5 });
+      }
+    }
 
     const geo = new THREE.BufferGeometry();
     geo.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
@@ -372,11 +408,13 @@ export class BridgeEngine {
     const az = 35 * DEG;
     const el = 20 * DEG;
     const dir = new THREE.Vector3(Math.sin(az) * Math.cos(el), Math.sin(el), Math.cos(az) * Math.cos(el));
-    // corners of the unit (+10% margin), centred like the scene root
-    const L = (g.totalLength * 1.1) / 2;
-    const hw = g.deckWidth / 2 + 10;
+    // real extreme points of the stayed unit (deck ends at both edges, pylon tops), centred like the root
+    const off = this.root.position;
+    const E = g.deckElevation;
+    const hw = g.deckWidth / 2;
     const corners: THREE.Vector3[] = [];
-    for (const x of [-L, L]) for (const y of [0, top]) for (const z of [-hw, hw]) corners.push(new THREE.Vector3(x, y, z));
+    for (const x of [0, g.totalLength]) for (const z of [-hw, hw]) corners.push(new THREE.Vector3(...g.plan(x, E, z)).add(off));
+    for (const p of g.pylons) corners.push(new THREE.Vector3(...g.plan(p.x, E + p.heightAboveDeck, 0)).add(off));
     // find the distance at which every corner projects inside the viewport (binary search)
     const probe = this.camera.clone();
     probe.near = 0.1;
@@ -388,7 +426,8 @@ export class BridgeEngine {
       probe.updateMatrixWorld();
       return corners.every((c) => {
         const p = c.clone().project(probe);
-        return Math.abs(p.x) <= 0.96 && Math.abs(p.y) <= 0.92 && p.z > -1 && p.z < 1;
+        // the unit fills ~85% of the viewport width (design feedback: model looked small)
+        return Math.abs(p.x) <= 0.85 && Math.abs(p.y) <= 0.8 && p.z > -1 && p.z < 1;
       });
     };
     let lo = 10;
@@ -514,12 +553,13 @@ export class BridgeEngine {
     const w = this.host.clientWidth;
     const E = this.g.deckElevation;
     const z = this.dimSide * (this.g.deckWidth / 2 + 10);
-    const proj = (x: number) => new THREE.Vector3(x - this.g!.totalLength / 2, E, z).project(this.camera);
+    const g = this.g;
+    const proj = (x: number) => new THREE.Vector3(...g.plan(x, E, z)).add(this.root.position).project(this.camera);
     // nearest pylon to the camera (for "same height → label one")
     let nearest = -1;
     let best = Infinity;
     this.g.pylons.forEach((p) => {
-      const d = this.camera.position.distanceTo(new THREE.Vector3(p.x - this.g!.totalLength / 2, E, 0));
+      const d = this.camera.position.distanceTo(new THREE.Vector3(...g.plan(p.x, E, 0)).add(this.root.position));
       if (d < best) {
         best = d;
         nearest = p.index;

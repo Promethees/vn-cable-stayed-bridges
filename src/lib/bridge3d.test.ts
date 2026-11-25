@@ -149,3 +149,131 @@ describe('buildBridgeGeometry', () => {
     expect(buildBridgeGeometry({ ...base, spans_m: [300] })).toBeNull();
   });
 });
+
+describe('pylon_custom, plan curve and clearance', () => {
+  const baSonLike: Partial<Model3D> = {
+    spans_m: [200, 115],
+    pylon_heights_m: [113],
+    pylon_shape: 'other',
+    cable_planes: 1,
+    cables_per_side: 8,
+    pylon_custom: {
+      description: 'single leg curving back, tip bending toward the main span',
+      legs: [
+        {
+          centerline: [
+            [0, -20, 0],
+            [-10, 30, 0],
+            [-8, 80, 0],
+            [6, 110, 0],
+          ],
+          width_base_m: 8,
+          width_top_m: 3,
+          depth_base_m: 6,
+          depth_top_m: 2.5,
+        },
+      ],
+      anchor_zone: [{ y_from_m: 45, y_to_m: 105, leg: 0 }],
+    },
+  };
+
+  it('sweeps a valid, non-degenerate mesh', () => {
+    const g = build(baSonLike);
+    const sw = g.pylons[0].sweeps[0];
+    expect(g.pylons[0].custom).toBe(true);
+    expect(sw.positions.length % 3).toBe(0);
+    expect(sw.positions.every(Number.isFinite)).toBe(true);
+    expect(Math.max(...sw.indices)).toBeLessThan(sw.positions.length / 3);
+    const v = (i: number) => sw.positions.slice(i * 3, i * 3 + 3);
+    let degenerate = 0;
+    for (let i = 0; i < sw.indices.length; i += 3) {
+      const [a, b, c] = [v(sw.indices[i]), v(sw.indices[i + 1]), v(sw.indices[i + 2])];
+      const ab = [b[0] - a[0], b[1] - a[1], b[2] - a[2]];
+      const ac = [c[0] - a[0], c[1] - a[1], c[2] - a[2]];
+      const cr = [ab[1] * ac[2] - ab[2] * ac[1], ab[2] * ac[0] - ab[0] * ac[2], ab[0] * ac[1] - ab[1] * ac[0]];
+      if (Math.hypot(...cr) / 2 < 1e-6) degenerate++;
+    }
+    expect(degenerate).toBe(0);
+    // tapers: the first ring is wider than the last
+    const ring = (i: number) => Math.hypot(v(i * 4)[2] - v(i * 4 + 2)[2], v(i * 4)[0] - v(i * 4 + 2)[0]);
+    expect(ring(0)).toBeGreaterThan(ring(sw.positions.length / 12 - 1));
+    // tip height comes from the centerline (local y 110 above deck)
+    expect(g.pylons[0].heightAboveDeck).toBeCloseTo(110, 0);
+  });
+
+  it('stays attach along the curve inside the anchor zone, not on a vertical line, with stays on both sides', () => {
+    const g = build(baSonLike);
+    const sw = g.pylons[0].sweeps[0];
+    // centre of each ring = mean of its 4 corners; anchors must be within a ring's half-size of the swept centreline
+    const centres: number[][] = [];
+    for (let i = 0; i < sw.positions.length; i += 12) {
+      const c = [0, 0, 0];
+      for (let k = 0; k < 4; k++) for (let a = 0; a < 3; a++) c[a] += sw.positions[i + k * 3 + a] / 4;
+      centres.push(c);
+    }
+    for (const c of g.cables) {
+      const d = Math.min(...centres.map((p) => Math.hypot(p[0] - c.top[0], p[1] - c.top[1], p[2] - c.top[2])));
+      expect(d).toBeLessThan(3);
+      expect(c.top[1] - g.deckElevation).toBeGreaterThanOrEqual(45 - 1e-6);
+      expect(c.top[1] - g.deckElevation).toBeLessThanOrEqual(105 + 1e-6);
+    }
+    expect(new Set(g.cables.map((c) => c.top[0].toFixed(2))).size).toBeGreaterThan(3); // follows the curve in x
+    expect(g.cables.filter((c) => c.side < 0)).toHaveLength(8);
+    expect(g.cables.filter((c) => c.side > 0)).toHaveLength(8);
+    // main span is on the left (spans[0]); local +x points to it, so the tip bends toward smaller x
+    expect(g.pylons[0].x).toBe(200);
+  });
+
+  it('mirror_for_other_pylons: pylons face their own main span', () => {
+    const g = build({
+      ...baSonLike,
+      spans_m: [150, 550, 150],
+      cable_planes: 2,
+      pylon_heights_m: [125, 125],
+      pylon_custom: { ...baSonLike.pylon_custom!, mirror_for_other_pylons: true },
+    });
+    const meanX = (i: number) => {
+      const p = g.pylons[i].sweeps[0].positions;
+      let s = 0;
+      for (let k = 0; k < p.length; k += 3) s += p[k];
+      return s / (p.length / 3) - g.pylons[i].x;
+    };
+    // the leg leans back (away from the main span): left pylon leans to -x, right pylon to +x
+    expect(meanX(0)).toBeLessThan(0);
+    expect(meanX(1)).toBeGreaterThan(0);
+    expect(meanX(0)).toBeCloseTo(-meanX(1), 6);
+  });
+
+  it('a horizontally curved deck keeps the arc length and puts deck anchors on the curve', () => {
+    const R = 800;
+    const g = build({ deck_plan_radius_m: R });
+    const arc = g.deckPieces.reduce((s, p) => s + p.s[0] - 0.3, 0);
+    expect(arc).toBeCloseTo(g.totalLength, 6);
+    // all deck pieces lie within the chord span and on the circle
+    const cx = g.totalLength / 2;
+    for (const p of g.deckPieces) {
+      expect(p.c[0]).toBeGreaterThanOrEqual(-1e-9);
+      expect(p.c[0]).toBeLessThanOrEqual(g.totalLength + 1e-9);
+      expect(Math.hypot(p.c[0] - cx, p.c[2] - R)).toBeCloseTo(R, 6);
+    }
+    for (const c of g.cables) {
+      const r = Math.hypot(c.deck[0] - cx, c.deck[2] - R);
+      expect(Math.abs(r - R)).toBeLessThanOrEqual(g.deckWidth / 2 + 1e-6);
+    }
+    expect(g.bounds.max[2] - g.bounds.min[2]).toBeGreaterThan(g.deckWidth); // visibly curved
+  });
+
+  it('navigation clearance: envelope under the main span, deck raised above it', () => {
+    const g = buildBridgeGeometry({ ...base }, 'completed', { navClearance: { height_m: 50, width_m: 250 } })!;
+    expect(g.clearance).toBeDefined();
+    expect(g.clearance!.width).toBe(250);
+    expect(g.clearance!.height).toBe(50);
+    expect(g.clearance!.x0).toBeCloseTo(425 - 125);
+    expect(g.deckElevation).toBeGreaterThanOrEqual(50 + g.deckDepth);
+    expect(buildBridgeGeometry(base)!.clearance).toBeUndefined();
+    // width only: drawn under the deck, height derived
+    const w = buildBridgeGeometry({ ...base }, 'completed', { navClearance: { width_m: 300 } })!;
+    expect(w.clearance!.givenHeight).toBeUndefined();
+    expect(w.clearance!.height).toBeLessThan(w.deckElevation);
+  });
+});

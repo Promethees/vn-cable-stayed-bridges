@@ -6,6 +6,7 @@ import { fmtMeters, fmtNum, STRINGS, type Lang } from '../lib/i18n';
 const VB_W = 1000;
 const H = 84;
 const DECK_Y = 60;
+const WATER_Y = 78;
 const ASSUMED_PX_W = 368; // approximate rendered width inside a 400px panel
 
 /** To-scale (horizontally) elevation drawing built from span_arrangement (design.md §6.2). */
@@ -49,6 +50,9 @@ export function SpanDiagram({ bridge, lang, className }: { bridge: Bridge; lang:
     }
   }
 
+  // navigation clearance: vertical dimension (schematic, not to scale) at the main span's centre
+  const navH = bridge.nav_clearance?.height_m;
+  const navX = sx((edges[mainStart] + edges[mainEnd + 1]) / 2) + 14;
   const arrText = spans.map((s) => fmtNum(s, lang)).join(' + ') + ' m';
   return (
     <figure
@@ -77,7 +81,20 @@ export function SpanDiagram({ bridge, lang, className }: { bridge: Bridge; lang:
           strokeDasharray={mainDash}
           {...ve}
         />
+        {navH && (
+          <g className="sd-clearance">
+            <line x1={0} x2={VB_W} y1={WATER_Y} y2={WATER_Y} className="sd-water" strokeDasharray="6 4" {...ve} />
+            <line x1={navX} x2={navX} y1={WATER_Y} y2={DECK_Y + 2} className="sd-dim" {...ve} />
+            <line x1={navX - 6} x2={navX + 6} y1={WATER_Y} y2={WATER_Y} className="sd-dim" {...ve} />
+            <line x1={navX - 6} x2={navX + 6} y1={DECK_Y + 2} y2={DECK_Y + 2} className="sd-dim" {...ve} />
+          </g>
+        )}
       </svg>
+      {navH && (
+        <span className="sd-clearance-label" style={{ left: `${(navX / VB_W) * 100}%` }}>
+          H {fmtMeters(navH, lang)}
+        </span>
+      )}
       <div className="sd-labels" aria-hidden="true">
         {spans.map((s, i) =>
           s / total >= 0.08 ? (

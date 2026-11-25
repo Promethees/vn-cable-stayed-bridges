@@ -60,6 +60,11 @@
       "approach_length_m": 300,
       "confidence": "estimated",
       "notes": "SAMPLE — H pylon, fan, 2 planes (Cần Thơ-like)."
+    },
+    "nav_clearance": {
+      "height_m": 39,
+      "width_m": 210,
+      "reference": "SAMPLE — rough value"
     }
   },
   {
@@ -235,27 +240,72 @@
     "main_span_m": 200,
     "total_length_m": 1500,
     "width_m": 24.5,
-    "span_arrangement": "200 + 100 m",
+    "span_arrangement": "200 + 115 m",
     "lat": 10.7835,
     "lng": 106.7108,
     "model3d": {
       "spans_m": [
         200,
-        100
+        115
       ],
-      "pylon_shape": "single",
+      "pylon_shape": "other",
       "pylon_heights_m": [
-        113
+        110
       ],
-      "pylon_height_ref": "total",
+      "pylon_height_ref": "above_deck",
       "cable_planes": 1,
       "cable_pattern": "semi_fan",
-      "cables_per_side": 12,
+      "cables_per_side": 10,
       "deck_width_m": 24.5,
       "deck_type": "steel",
       "approach_length_m": 250,
       "confidence": "estimated",
-      "notes": "SAMPLE — single pylon, 1 plane, asymmetric."
+      "notes": "SAMPLE — Ba Son-like single curved leg (pylon_custom), 1 plane.",
+      "pylon_custom": {
+        "description": "SAMPLE: single curved leg leaning back, tip bending toward the main span",
+        "legs": [
+          {
+            "centerline": [
+              [
+                0,
+                -30,
+                0
+              ],
+              [
+                -9,
+                20,
+                0
+              ],
+              [
+                -12,
+                60,
+                0
+              ],
+              [
+                -4,
+                95,
+                0
+              ],
+              [
+                8,
+                112,
+                0
+              ]
+            ],
+            "width_base_m": 9,
+            "width_top_m": 3,
+            "depth_base_m": 7,
+            "depth_top_m": 2.5
+          }
+        ],
+        "anchor_zone": [
+          {
+            "y_from_m": 45,
+            "y_to_m": 108,
+            "leg": 0
+          }
+        ]
+      }
     },
     "images": [
       {
@@ -287,7 +337,12 @@
       "https://example.org/sample"
     ],
     "confidence": "needs_check",
-    "notes": "SAMPLE DATA — Ba Son-like single-pylon test entry."
+    "notes": "SAMPLE DATA — Ba Son-like single-pylon test entry.",
+    "nav_clearance": {
+      "height_m": 45,
+      "width_m": 160,
+      "reference": "SAMPLE — rough value"
+    }
   },
   {
     "id": "cau-nhat-tan-mau",
@@ -379,7 +434,8 @@
       "cable_pattern": "harp",
       "deck_width_m": 30,
       "confidence": "estimated",
-      "notes": "SAMPLE — 3 pylons, 4×195."
+      "notes": "SAMPLE — 3 pylons, 4×195, deck curved in plan (R 1200 m, sample).",
+      "deck_plan_radius_m": 1200
     },
     "images": [
       {
