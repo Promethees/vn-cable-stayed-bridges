@@ -48,3 +48,4 @@ One question per line, bridge name first. Already answered: Phú Mỹ start year
 38. Cầu Cửa Lớn (Cà Mau – Đất Mũi expressway): confirmed cable-stayed (≈1.5 km) but no main span, pylon or start date was found. It is held as "pending" outside bridges.json. Can you supply the design span?
 39. Cầu Máy Chai (Hoàng Gia): main span 200 m and pylons 89 m are from press, but side spans and stay planes are not published. Is it 2 planes? What are the side spans?
 40. Cầu Hải Thành (Hải Phòng, Lạch Tray): press calls it a 3-span PC girder, yet one MOC note mentions stays at pier T12. Is it extradosed? If so, what is the main span (nav channel is only 50 m wide, so probably < 150 m)?
+41. Cầu Cửa Lớn: main span 250 m is now recorded (client). Still missing: side spans, pylon form/height, navigation clearance, the exact crossing location and the bridge's own start date. The model uses placeholders.

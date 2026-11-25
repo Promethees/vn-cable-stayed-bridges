@@ -1,6 +1,6 @@
 # Candidate list (updated 2026-11-25)
 
-This file mirrors `data/bridges.json` (34 entries). "?" means unknown. Province uses the 34-unit scheme (post-July-2025). For bridges not yet open, "Opened" is the target year. "client" means the value was client-confirmed on 2026-11-25.
+This file mirrors `data/bridges.json` (35 entries). "?" means unknown. Province uses the 34-unit scheme (post-July-2025). For bridges not yet open, "Opened" is the target year. "client" means the value was client-confirmed on 2026-11-25.
 
 ## Included: main span > 150 m (cable-stayed + extradosed; road, rail, metro)
 
@@ -24,6 +24,7 @@ This file mirrors `data/bridges.json` (34 entries). "?" means unknown. Province 
 | Cầu vượt cửa biển Thuận An | completed | extradosed | road | Huế | 218 | ? | 2026 | Đường bộ ven biển | needs check | Opened 30/4 (technical), operating from 30/7/2026 |
 | Cầu Kiền | completed | cable-stayed | road | Hải Phòng | 200 | 2001 | 2003 | QL10 | verified | |
 | Cầu Máy Chai (Hoàng Gia) | completed | cable-stayed | road | Hải Phòng | 200 | 2023 | 2025 | Lê Thánh Tông – đảo Vũ Yên | needs check | Added 2026-11-26 (client find). Two leaning yellow arch pylons, 89 m; nav 110 × 25 m; side spans unknown |
+| Cầu Cửa Lớn (cao tốc Cà Mau – Đất Mũi) | under construction | cable-stayed | road | Cà Mau | 250 (client) | 2025 (expressway) | ? (target 2028) | Cao tốc Cà Mau – Đất Mũi | needs check | Added 2026-11-26; span client-confirmed; geometry and coordinates approximate |
 | Cầu Ba Son (Thủ Thiêm 2) | completed | cable-stayed | road | TP. Hồ Chí Minh | 200 | 2015 | 2022 | Tôn Đức Thắng – R12 | needs check | Span from Wikipedia only |
 | Cầu Bến Rừng | completed | extradosed | road | Hải Phòng – Quảng Ninh | 160 (×2) | ? | 2024 | ? | needs check | 90+2×160+90 |
 | Cầu Cửa Hội | completed | extradosed | road | Nghệ An – Hà Tĩnh | 153 | 2019 | 2021 | Đường bộ ven biển | needs check | Span from one source; borderline |
@@ -45,7 +46,6 @@ This file mirrors `data/bridges.json` (34 entries). "?" means unknown. Province 
 
 | Name | Status | Type | Usage | Province | Main span (m) | Note |
 |---|---|---|---|---|---|---|
-| Cầu Cửa Lớn (cao tốc Cà Mau – Đất Mũi) | under construction (expressway started 19/8/2025; bridge package/start not confirmed) | cable-stayed | road | Cà Mau | ? (bridge ≈1.5 km; span not published) | Added 2026-11-26 (client find). Confirmed cable-stayed (baolamdong.vn, diendandoanhnghiep.vn) but no main-span figure, so not in bridges.json until the span is shown to be > 150 m |
 | Cầu Phú Mỹ 2 | planned (groundbreaking 15/1/2026) | cable-stayed (2 planes) | road | TP. Hồ Chí Minh – Đồng Nai | ? (navigation channel 250 m wide, so span is likely > 250) | Main bridge ≈870 m, crosses the Nhà Bè river; span figure not published |
 
 ## Excluded or borderline

@@ -278,6 +278,14 @@ add(id="cau-may-chai", name_vi="Cầu Máy Chai (Cầu Hoàng Gia)", name_en="M�
     sources=["https://cafef.vn/cau-2300-ty-dong-do-vingroup-cua-ty-phu-pham-nhat-vuong-dau-tu-xac-lap-ky-luc-chua-tung-co-ve-toc-do-xay-dung-cong-trinh-bac-qua-song-cam-188260730105702738.chn", "https://www.vtcnews.vn/hai-phong-khanh-thanh-cau-hoang-gia-hon-2-300-ty-dong-bac-qua-song-cam-ar960522.html", "https://tienphong.vn/lo-dien-hinh-hai-cau-hoang-gia-gan-2000-ty-bac-qua-song-cam-hai-phong-post1663183.tpo", "https://nominatim.openstreetmap.org (Cầu Máy Chai / Cầu Hoàng Gia)"], confidence="needs_check",
     notes="Also called cầu Hoàng Gia; links Vũ Yên island (Vinhomes Royal Island) to Máy Chai / Gia Viên (Lê Thánh Tông road). Started 9/2023; opened to traffic 15/7/2025 and inaugurated 19/8/2025. Main span 200 m with a steel deck, per press. CafeF's segment count (16 × 10 m + 5.8 m) does not add up to 200 m. Side spans not published. Coordinates are midway between the OSM bridge-way points.")
 
+
+add(id="cau-cua-lon", name_vi="Cầu Cửa Lớn (cao tốc Cà Mau – Đất Mũi)", name_en="Cửa Lớn Bridge (Cà Mau – Đất Mũi Expressway)", status="under_construction",
+    province="Cà Mau", province_former=["Cà Mau"], crosses="Sông Cửa Lớn",
+    roads=["Cao tốc Cà Mau – Đất Mũi"], construction_start=2025, opened=2028, main_span_m=250, total_length_m=1500, lanes=4,
+    cable_stayed_spans=1, investor="Bộ Quốc phòng (Binh đoàn 12 thi công)", lat=8.7546, lng=104.9906,
+    sources=["main span 250 m: client-confirmed 2026-11-26", "https://baolamdong.vn/cao-toc-ca-mau-dat-mui-59-000-ty-dong-tuyen-duong-so-huu-cau-vuot-bien-dai-nhat-viet-nam-447122.html", "https://nguoiquansat.vn/cao-toc-59-000-ty-cua-dbscl-se-so-huu-nhieu-cau-vuot-song-quy-mo-va-ket-noi-den-cau-vuot-bien-dai-nhat-viet-nam-296881.html", "https://diendandoanhnghiep.vn/ca-mau-dong-loat-khoi-cong-khanh-thanh-nhieu-cong-trinh-trong-diem-10159869.html", "https://www.vietnamplus.vn/huy-dong-3000-nhan-luc-gap-rut-thi-cong-du-an-cao-toc-duong-ra-dao-hon-khoai-post1136303.vnp", "https://nominatim.openstreetmap.org (Sông Cửa Lớn)"], confidence="needs_check",
+    notes="Cable-stayed bridge ≈1.5 km over the Cửa Lớn river near the end of the Cà Mau – Đất Mũi expressway (≈81 km, 4 lanes; groundbreaking 19/8/2025; target end-2028). Main span 250 m is client-confirmed and has no press source. Construction start of the bridge itself is unconfirmed: press reports equipment being mobilised for Cửa Lớn (2026), so construction_start is the expressway year. Expressway CT code not found. COORDINATES APPROXIMATE (±10 km): the river centroid near Năm Căn, not the surveyed alignment. No render or bridge photo found.")
+
 # ---------------- PLANNED ----------------
 add(id="cau-can-gio", name_vi="Cầu Cần Giờ", name_en="Cần Giờ Bridge", status="planned",
     province="TP. Hồ Chí Minh", province_former=["TP. Hồ Chí Minh"], crosses="Sông Soài Rạp",
@@ -664,6 +672,11 @@ PRESS["cau-may-chai"] = [
     press("https://cafefcdn.com/thumb_w/640/203337114487263232/2026/7/30/avatar1785383768277-1785383768904592996991.png", "CafeF", "https://cafef.vn/cau-2300-ty-dong-do-vingroup-cua-ty-phu-pham-nhat-vuong-dau-tu-xac-lap-ky-luc-chua-tung-co-ve-toc-do-xay-dung-cong-trinh-bac-qua-song-cam-188260730105702738.chn", "aerial (completed)"),
     press("https://cdn-i.vtcnews.vn/resize/1200x900/upload/2025/07/13/anh-2-18403346.jpg", "VTC News", "https://vtcnews.vn/can-canh-cau-hoang-gia-truoc-gio-g-bieu-tuong-moi-tai-hai-phong-sau-sap-nhap-ar954169.html", "photo 7/2025 (pylons)")]
 NAV["cau-my-thuan-2"] = nav(37.5, None, None, "https://www.sggp.org.vn/khoanh-khac-cau-my-thuan-2-noi-lien-doi-bo-song-tien-post709756.html")
+
+
+M3D["cau-cua-lon"] = m3d([110, 250, 110], "H", [100, 100], "total", 2, "semi_fan", 20.0,
+    notes="Placeholder geometry: 250 m main span (client); side spans assumed 110 m within the ≈1.5 km bridge; pylon shape, height and deck width (4-lane expressway) assumed, since no render was found.")
+PRESS["cau-cua-lon"] = [press("https://nqs.1cdn.vn/thumbs/1200x630/2026/06/09/5B30_ca-mau-1-17809802873171473761074-0-0-625-1000-crop-178098039885440981610.jpg", "Người Quan Sát", "https://nguoiquansat.vn/cao-toc-59-000-ty-cua-dbscl-se-so-huu-nhieu-cau-vuot-song-quy-mo-va-ket-noi-den-cau-vuot-bien-dai-nhat-viet-nam-296881.html", "expressway article image (not the bridge itself)")]
 
 # ---------------- MERGE images + model3d into each bridge ----------------
 for b in B:

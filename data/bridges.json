@@ -2867,6 +2867,69 @@
     "notes": "Also called cầu Hoàng Gia; links Vũ Yên island (Vinhomes Royal Island) to Máy Chai / Gia Viên (Lê Thánh Tông road). Started 9/2023; opened to traffic 15/7/2025 and inaugurated 19/8/2025. Main span 200 m with a steel deck, per press. CafeF's segment count (16 × 10 m + 5.8 m) does not add up to 200 m. Side spans not published. Coordinates are midway between the OSM bridge-way points. Link-only images (press/official, license unknown): CafeF – aerial (completed); VTC News – photo 7/2025 (pylons)."
   },
   {
+    "id": "cau-cua-lon",
+    "name_vi": "Cầu Cửa Lớn (cao tốc Cà Mau – Đất Mũi)",
+    "name_en": "Cửa Lớn Bridge (Cà Mau – Đất Mũi Expressway)",
+    "status": "under_construction",
+    "structure_type": "cable_stayed",
+    "usage": [
+      "road"
+    ],
+    "province": "Cà Mau",
+    "province_former": [
+      "Cà Mau"
+    ],
+    "crosses": "Sông Cửa Lớn",
+    "roads": [
+      "Cao tốc Cà Mau – Đất Mũi"
+    ],
+    "construction_start": 2025,
+    "opened": 2028,
+    "main_span_m": 250,
+    "total_length_m": 1500,
+    "lanes": 4,
+    "cable_stayed_spans": 1,
+    "investor": "Bộ Quốc phòng (Binh đoàn 12 thi công)",
+    "model3d": {
+      "spans_m": [
+        110,
+        250,
+        110
+      ],
+      "pylon_shape": "H",
+      "pylon_heights_m": [
+        100,
+        100
+      ],
+      "pylon_height_ref": "total",
+      "cable_planes": 2,
+      "cable_pattern": "semi_fan",
+      "deck_width_m": 20.0,
+      "confidence": "estimated",
+      "notes": "Placeholder geometry: 250 m main span (client); side spans assumed 110 m within the ≈1.5 km bridge; pylon shape, height and deck width (4-lane expressway) assumed, since no render was found."
+    },
+    "lat": 8.7546,
+    "lng": 104.9906,
+    "images": [
+      {
+        "url": "https://nqs.1cdn.vn/thumbs/1200x630/2026/06/09/5B30_ca-mau-1-17809802873171473761074-0-0-625-1000-crop-178098039885440981610.jpg",
+        "credit": "Người Quan Sát",
+        "license": "unknown",
+        "source": "https://nguoiquansat.vn/cao-toc-59-000-ty-cua-dbscl-se-so-huu-nhieu-cau-vuot-song-quy-mo-va-ket-noi-den-cau-vuot-bien-dai-nhat-viet-nam-296881.html"
+      }
+    ],
+    "sources": [
+      "main span 250 m: client-confirmed 2026-11-26",
+      "https://baolamdong.vn/cao-toc-ca-mau-dat-mui-59-000-ty-dong-tuyen-duong-so-huu-cau-vuot-bien-dai-nhat-viet-nam-447122.html",
+      "https://nguoiquansat.vn/cao-toc-59-000-ty-cua-dbscl-se-so-huu-nhieu-cau-vuot-song-quy-mo-va-ket-noi-den-cau-vuot-bien-dai-nhat-viet-nam-296881.html",
+      "https://diendandoanhnghiep.vn/ca-mau-dong-loat-khoi-cong-khanh-thanh-nhieu-cong-trinh-trong-diem-10159869.html",
+      "https://www.vietnamplus.vn/huy-dong-3000-nhan-luc-gap-rut-thi-cong-du-an-cao-toc-duong-ra-dao-hon-khoai-post1136303.vnp",
+      "https://nominatim.openstreetmap.org (Sông Cửa Lớn)"
+    ],
+    "confidence": "needs_check",
+    "notes": "Cable-stayed bridge ≈1.5 km over the Cửa Lớn river near the end of the Cà Mau – Đất Mũi expressway (≈81 km, 4 lanes; groundbreaking 19/8/2025; target end-2028). Main span 250 m is client-confirmed and has no press source. Construction start of the bridge itself is unconfirmed: press reports equipment being mobilised for Cửa Lớn (2026), so construction_start is the expressway year. Expressway CT code not found. COORDINATES APPROXIMATE (±10 km): the river centroid near Năm Căn, not the surveyed alignment. No render or bridge photo found. Link-only images (press/official, license unknown): Người Quan Sát – expressway article image (not the bridge itself)."
+  },
+  {
     "id": "cau-can-gio",
     "name_vi": "Cầu Cần Giờ",
     "name_en": "Cần Giờ Bridge",
