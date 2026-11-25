@@ -139,6 +139,8 @@ Paths: pylon `M8 2V14`; cables `M8 3L2 11 M8 3L4.5 11 M8 3L11.5 11 M8 3L14 11`; 
 
 ## 6. Bridge card
 
+> Update 2026-11-25: the card's media (photos, 3D model, elevation diagram) now live in one tabbed hero area, specified in `docs/design-3d.md`. That file replaces the diagram placement in §6.1 and the gallery in §6.5. The drawing rules in §6.2 still apply to the "Sơ đồ" tab.
+
 Desktop (≥ 768px): right side panel, `--panel-w` 400px, full height under the header, slides in (`--dur-base`). Map keeps its full size; when flying to a bridge use padding-right = panel width so the marker isn't hidden.
 Phone (< 768px): bottom sheet with three snaps: peek `--sheet-peek` (name, status, main span), half `--sheet-half`, full `--sheet-full`. Drag handle 36×4px; tap handle cycles snaps. When flying to a bridge use padding-bottom = current sheet height.
 

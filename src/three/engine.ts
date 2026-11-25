@@ -1,0 +1,554 @@
+/**
+ * Three.js engine for the schematic bridge model (docs/design-3d.md §2–§6).
+ * Loaded only through dynamic import() when the 3D tab is opened, so `three` never lands
+ * in the main bundle.
+ */
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { CSS2DObject, CSS2DRenderer } from 'three/addons/renderers/CSS2DRenderer.js';
+import type { BridgeGeometry, Member, Vec3 } from '../lib/bridge3d';
+
+export interface EngineStrings {
+  meters: (v: number) => string;
+  heightLabel: (v: string) => string;
+  aboveDeck: string;
+  total: string;
+}
+
+export interface EngineOptions {
+  strings: EngineStrings;
+  labels: boolean;
+  fullscreen: boolean;
+  reducedMotion: boolean;
+  onContextLost: () => void;
+}
+
+const DEG = Math.PI / 180;
+
+/** Reads a CSS colour token; supports #hex, rgb() and rgba() (alpha returned separately). */
+function cssColor(name: string, fallback: string): { color: THREE.Color; alpha: number } {
+  const raw = getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback;
+  const m = raw.match(/rgba?\(([^)]+)\)/);
+  if (m) {
+    const [r, g, b, a] = m[1].split(',').map((s) => parseFloat(s));
+    return { color: new THREE.Color(r / 255, g / 255, b / 255), alpha: a ?? 1 };
+  }
+  try {
+    return { color: new THREE.Color(raw), alpha: 1 };
+  } catch {
+    return { color: new THREE.Color(fallback), alpha: 1 };
+  }
+}
+const cssNum = (name: string, fallback: number) =>
+  parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name)) || fallback;
+
+export function webglAvailable(): boolean {
+  try {
+    const c = document.createElement('canvas');
+    return !!(c.getContext('webgl2') || c.getContext('webgl'));
+  } catch {
+    return false;
+  }
+}
+
+export class BridgeEngine {
+  private renderer: THREE.WebGLRenderer;
+  private labelRenderer: CSS2DRenderer;
+  private scene = new THREE.Scene();
+  private camera = new THREE.PerspectiveCamera(35, 1, 1, 10000);
+  private controls: OrbitControls;
+  private root = new THREE.Group();
+  private dims = new THREE.Group();
+  private host: HTMLElement;
+  private g: BridgeGeometry | null = null;
+  private opts: EngineOptions;
+  private raf = 0;
+  private tween: { from: [THREE.Vector3, THREE.Vector3]; to: [THREE.Vector3, THREE.Vector3]; t0: number } | null = null;
+  private fitDistance = 1000;
+  private home: [THREE.Vector3, THREE.Vector3] = [new THREE.Vector3(), new THREE.Vector3()];
+  private panBox = new THREE.Box3();
+  private dimSide = 1;
+  private labelEls: { el: HTMLElement; priority: number; span?: [number, number]; pylon?: number; obj?: CSS2DObject }[] = [];
+  private resizeObs: ResizeObserver;
+  private disposed = false;
+  private mats: Record<string, THREE.Material> = {};
+  private hemi: THREE.HemisphereLight;
+  private sun: THREE.DirectionalLight;
+
+  constructor(host: HTMLElement, opts: EngineOptions) {
+    this.host = host;
+    this.opts = opts;
+    this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    this.renderer.setClearColor(0x000000, 0);
+    this.renderer.outputColorSpace = THREE.SRGBColorSpace;
+    this.renderer.toneMapping = THREE.NoToneMapping;
+    this.renderer.domElement.className = 'm3d-canvas';
+    this.renderer.domElement.addEventListener('webglcontextlost', this.onContextLost);
+
+    this.labelRenderer = new CSS2DRenderer();
+    this.labelRenderer.domElement.className = 'm3d-labels';
+
+    this.hemi = new THREE.HemisphereLight(0xffffff, 0xffffff, 1);
+    this.sun = new THREE.DirectionalLight(0xffffff, 1);
+    // azimuth 135°, elevation 50°
+    this.sun.position.set(Math.cos(50 * DEG) * Math.sin(135 * DEG), Math.sin(50 * DEG), Math.cos(50 * DEG) * Math.cos(135 * DEG)).multiplyScalar(1000);
+    this.scene.add(this.hemi, this.sun, this.root);
+    this.root.add(this.dims);
+
+    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    this.controls.enableDamping = !opts.reducedMotion;
+    this.controls.dampingFactor = 0.08;
+    this.controls.minPolarAngle = 10 * DEG;
+    this.controls.maxPolarAngle = 84 * DEG;
+    this.controls.screenSpacePanning = true;
+    this.controls.autoRotateSpeed = 0.1; // ≈ 0.6°/s at 60 fps
+    this.controls.addEventListener('change', this.requestRender);
+    this.controls.addEventListener('start', this.cancelTween);
+
+    this.makeMaterials();
+    if (import.meta.env.DEV) (window as unknown as { __engine: BridgeEngine }).__engine = this;
+    this.resizeObs = new ResizeObserver(() => this.resize());
+    this.mount(host);
+  }
+
+  // ---------- lifecycle ----------
+
+  /** Re-parents the single canvas (card ↔ full-screen dialog) instead of creating a second context. */
+  mount(host: HTMLElement) {
+    this.resizeObs.disconnect();
+    this.host = host;
+    host.appendChild(this.renderer.domElement);
+    host.appendChild(this.labelRenderer.domElement);
+    this.resizeObs.observe(host);
+    this.resize();
+  }
+
+  setOptions(o: Partial<EngineOptions>) {
+    this.opts = { ...this.opts, ...o };
+    this.labelRenderer.domElement.style.display = this.opts.labels ? '' : 'none';
+    this.dims.visible = this.opts.labels;
+    this.requestRender();
+  }
+
+  setGeometry(g: BridgeGeometry) {
+    this.clearModel();
+    this.g = g;
+    this.build(g);
+    this.fit(true);
+    this.applyTheme();
+  }
+
+  dispose() {
+    if (this.disposed) return;
+    this.disposed = true;
+    cancelAnimationFrame(this.raf);
+    this.resizeObs.disconnect();
+    this.controls.removeEventListener('change', this.requestRender);
+    this.controls.removeEventListener('start', this.cancelTween);
+    this.controls.dispose();
+    this.clearModel();
+    Object.values(this.mats).forEach((m) => m.dispose());
+    this.renderer.domElement.removeEventListener('webglcontextlost', this.onContextLost);
+    this.renderer.dispose();
+    this.renderer.forceContextLoss();
+    this.renderer.domElement.remove();
+    this.labelRenderer.domElement.remove();
+  }
+
+  private onContextLost = (e: Event) => {
+    e.preventDefault();
+    this.opts.onContextLost();
+  };
+
+  // ---------- materials / theme ----------
+
+  private makeMaterials() {
+    const lambert = () => new THREE.MeshLambertMaterial({ flatShading: true });
+    this.mats = {
+      water: new THREE.MeshLambertMaterial(),
+      ground: lambert(),
+      concrete: lambert(),
+      steel: lambert(),
+      traveller: lambert(),
+      edge: new THREE.LineBasicMaterial({ transparent: true }),
+      edgeGhost: new THREE.LineDashedMaterial({ dashSize: 4, gapSize: 3, transparent: true }),
+      cable: new THREE.LineBasicMaterial(),
+      cableGhost: new THREE.LineDashedMaterial({ dashSize: 4, gapSize: 3 }),
+      dim: new THREE.LineBasicMaterial({ transparent: true }),
+    };
+  }
+
+  /** Reads every --m3d-* token and updates materials in place (§2 theme). */
+  applyTheme() {
+    const c = (n: string, f: string) => cssColor(n, f);
+    const sky = c('--m3d-sky-bottom', '#F3F5F4').color;
+    this.scene.fog = this.g ? new THREE.Fog(sky, 1.2 * this.fitDistance, 3 * this.fitDistance) : null;
+    this.hemi.color.copy(c('--m3d-sky-top', '#DDE7EB').color);
+    this.hemi.groundColor.copy(c('--m3d-water', '#BCD3DA').color);
+    this.hemi.intensity = cssNum('--m3d-hemi-intensity', 1.1);
+    this.sun.intensity = cssNum('--m3d-sun-intensity', 1.4);
+    const M = this.mats as Record<string, THREE.MeshLambertMaterial & THREE.LineBasicMaterial>;
+    M.water.color.copy(c('--m3d-water', '#BCD3DA').color);
+    M.ground.color.copy(c('--m3d-ground', '#D9DFDA').color);
+    M.concrete.color.copy(c('--m3d-concrete', '#D6DBDA').color);
+    M.steel.color.copy(c('--m3d-steel', '#96AAB3').color);
+    M.traveller.color.copy(c('--m3d-traveller', '#E8A600').color);
+    const edge = c('--m3d-edge', 'rgba(18,48,61,0.45)');
+    M.edge.color.copy(edge.color);
+    M.edge.opacity = edge.alpha;
+    const ghost = c('--m3d-ghost', '#56666E');
+    M.edgeGhost.color.copy(ghost.color);
+    M.edgeGhost.opacity = 0.9;
+    M.cable.color.copy(c('--m3d-cable', '#0E6A87').color);
+    M.cableGhost.color.copy(ghost.color);
+    M.dim.color.copy(c('--m3d-dim-line', '#56666E').color);
+    const planned = this.g?.status === 'planned';
+    const ghostOpacity = cssNum('--m3d-ghost-opacity', 0.12);
+    for (const k of ['concrete', 'steel', 'traveller'] as const) {
+      M[k].transparent = planned;
+      M[k].opacity = planned ? ghostOpacity : 1;
+      M[k].depthWrite = !planned;
+      M[k].needsUpdate = true;
+    }
+    this.requestRender();
+  }
+
+  // ---------- scene building ----------
+
+  private clearModel() {
+    this.labelEls.forEach(({ el }) => el.remove());
+    this.labelEls = [];
+    const disposeTree = (o: THREE.Object3D) => {
+      o.traverse((n) => {
+        if (n instanceof CSS2DObject) n.element.remove();
+        const geo = (n as THREE.Mesh).geometry;
+        if (geo) geo.dispose();
+      });
+    };
+    for (const child of [...this.root.children]) {
+      if (child === this.dims) continue;
+      disposeTree(child);
+      this.root.remove(child);
+    }
+    disposeTree(this.dims);
+    this.dims.clear();
+  }
+
+  private addMesh(geo: THREE.BufferGeometry, mat: THREE.Material, parent: THREE.Object3D = this.root) {
+    const mesh = new THREE.Mesh(geo, mat);
+    const planned = this.g?.status === 'planned';
+    const edges = new THREE.LineSegments(new THREE.EdgesGeometry(geo, 30), planned ? this.mats.edgeGhost : this.mats.edge);
+    if (planned) edges.computeLineDistances();
+    mesh.add(edges);
+    parent.add(mesh);
+    return mesh;
+  }
+
+  private box(c: Vec3, s: Vec3, mat: THREE.Material) {
+    const m = this.addMesh(new THREE.BoxGeometry(s[0], s[1], s[2]), mat);
+    m.position.set(...c);
+    return m;
+  }
+
+  private member(mb: Member, mat: THREE.Material) {
+    const a = new THREE.Vector3(...mb.a);
+    const b = new THREE.Vector3(...mb.b);
+    const len = a.distanceTo(b);
+    const m = this.addMesh(new THREE.BoxGeometry(mb.size, len, mb.size), mat);
+    m.position.copy(a).add(b).multiplyScalar(0.5);
+    m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), b.clone().sub(a).normalize());
+  }
+
+  private build(g: BridgeGeometry) {
+    const M = this.mats;
+    this.root.position.set(-g.totalLength / 2, 0, 0);
+    const deckMat = g.deckType === 'steel' || g.deckType === 'composite' ? M.steel : M.concrete;
+    const E = g.deckElevation;
+
+    // water (3 × total length square) and banks
+    const size = 3 * Math.max(g.totalLength, 400);
+    const water = new THREE.Mesh(new THREE.PlaneGeometry(size, size), M.water);
+    water.rotation.x = -Math.PI / 2;
+    water.position.set(g.totalLength / 2, 0, 0);
+    this.root.add(water);
+    g.banks.forEach((b) => this.addMesh(new THREE.BoxGeometry(...b.s), M.ground).position.set(...b.c));
+
+    // approach slabs
+    for (const s of g.approaches) {
+      const dx = s.x1 - s.x0;
+      const dy = s.y1 - s.y0;
+      const m = this.addMesh(new THREE.BoxGeometry(Math.hypot(dx, dy), g.deckDepth, g.deckWidth), deckMat);
+      m.position.set((s.x0 + s.x1) / 2, (s.y0 + s.y1) / 2 - g.deckDepth / 2, 0);
+      m.rotation.z = Math.atan2(dy, dx);
+    }
+    // deck
+    for (const s of g.deckSegments)
+      this.box([(s.x0 + s.x1) / 2, E - g.deckDepth / 2, 0], [s.x1 - s.x0, g.deckDepth, g.deckWidth], deckMat);
+    g.piers.forEach((p) => this.box(p.c, p.s, M.concrete));
+    g.pylons.forEach((p) => p.members.forEach((mb) => this.member(mb, M.concrete)));
+    g.travellers.forEach((t) => this.box(t.c, t.s, M.traveller));
+
+    // stay cables: 1px LineSegments
+    const pos = new Float32Array(g.cables.length * 6);
+    g.cables.forEach((c, i) => pos.set([...c.top, ...c.deck], i * 6));
+    const cg = new THREE.BufferGeometry();
+    cg.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    const cables = new THREE.LineSegments(cg, g.status === 'planned' ? M.cableGhost : M.cable);
+    if (g.status === 'planned') cables.computeLineDistances();
+    this.root.add(cables);
+
+    this.buildDims();
+  }
+
+  /** Dimension lines + CSS2D labels on the camera-facing side (§5). */
+  private buildDims() {
+    const g = this.g;
+    if (!g) return;
+    this.labelEls.forEach(({ el }) => el.remove());
+    this.labelEls = [];
+    this.dims.traverse((n) => (n as THREE.Mesh).geometry?.dispose());
+    this.dims.clear();
+    const S = this.opts.strings;
+    const E = g.deckElevation;
+    const z = this.dimSide * (g.deckWidth / 2 + 10);
+    const pts: number[] = [0, E, z, g.totalLength, E, z];
+    for (const s of g.spans) pts.push(s.x0, E, z - 3, s.x0, E, z + 3);
+    pts.push(g.totalLength, E, z - 3, g.totalLength, E, z + 3);
+
+    g.spans.forEach((s, i) => {
+      const el = document.createElement('span');
+      el.className = `m3d-label${s.main ? ' is-main' : ''}`;
+      el.textContent = S.meters(s.length);
+      const o = new CSS2DObject(el);
+      o.position.set((s.x0 + s.x1) / 2, E, z);
+      this.dims.add(o);
+      this.labelEls.push({ el, priority: s.main ? 0 : 2, span: [s.x0, s.x1] });
+      void i;
+    });
+
+    // pylon heights: a vertical line beside each pylon
+    const sameHeight = new Set(g.pylons.map((p) => Math.round(p.labelHeight))).size === 1;
+    g.pylons.forEach((p) => {
+      const y0 = p.labelRef === 'total' ? 0 : E;
+      const y1 = E + p.heightAboveDeck;
+      const x = p.x + Math.max(8, g.deckWidth * 0.4);
+      pts.push(x, y0, z, x, y1, z, x - 3, y1, z, x + 3, y1, z, x - 3, y0, z, x + 3, y0, z);
+      const el = document.createElement('span');
+      el.className = 'm3d-label is-height';
+      el.innerHTML = `<b>${S.heightLabel(S.meters(p.labelHeight))}</b><small>${p.labelRef === 'total' ? S.total : S.aboveDeck}</small>`;
+      const o = new CSS2DObject(el);
+      o.position.set(x, (y0 + y1) / 2, z);
+      o.center.set(-0.08, 0.5);
+      this.dims.add(o);
+      this.labelEls.push({ el, priority: 1, pylon: sameHeight ? p.index : -1, obj: o });
+    });
+
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
+    this.dims.add(new THREE.LineSegments(geo, this.mats.dim));
+    this.dims.visible = this.opts.labels;
+  }
+
+  // ---------- camera ----------
+
+  private resize() {
+    const w = this.host.clientWidth || 1;
+    const h = this.host.clientHeight || 1;
+    this.renderer.setSize(w, h, false);
+    this.labelRenderer.setSize(w, h);
+    this.camera.aspect = w / h;
+    this.camera.updateProjectionMatrix();
+    if (this.g) this.fit(false);
+    this.requestRender();
+  }
+
+  /** Default 3/4 view: azimuth 35° off the perpendicular, elevation 20°, unit + 10% fits the width (§4). */
+  private fit(jump: boolean) {
+    const g = this.g;
+    if (!g) return;
+    const top = Math.max(...g.pylons.map((p) => g.deckElevation + p.heightAboveDeck));
+    const target = new THREE.Vector3(0, top / 2, 0);
+    const az = 35 * DEG;
+    const el = 20 * DEG;
+    const dir = new THREE.Vector3(Math.sin(az) * Math.cos(el), Math.sin(el), Math.cos(az) * Math.cos(el));
+    // corners of the unit (+10% margin), centred like the scene root
+    const L = (g.totalLength * 1.1) / 2;
+    const hw = g.deckWidth / 2 + 10;
+    const corners: THREE.Vector3[] = [];
+    for (const x of [-L, L]) for (const y of [0, top]) for (const z of [-hw, hw]) corners.push(new THREE.Vector3(x, y, z));
+    // find the distance at which every corner projects inside the viewport (binary search)
+    const probe = this.camera.clone();
+    probe.near = 0.1;
+    probe.far = 1e7;
+    probe.updateProjectionMatrix();
+    const fits = (d: number) => {
+      probe.position.copy(target).addScaledVector(dir, d);
+      probe.lookAt(target);
+      probe.updateMatrixWorld();
+      return corners.every((c) => {
+        const p = c.clone().project(probe);
+        return Math.abs(p.x) <= 0.96 && Math.abs(p.y) <= 0.92 && p.z > -1 && p.z < 1;
+      });
+    };
+    let lo = 10;
+    let hi = 20 * g.totalLength + 1000;
+    for (let i = 0; i < 40; i++) {
+      const mid = (lo + hi) / 2;
+      if (fits(mid)) hi = mid;
+      else lo = mid;
+    }
+    const dist = hi;
+    this.fitDistance = dist;
+    const pos = target.clone().addScaledVector(dir, dist);
+    this.home = [pos, target];
+    this.camera.near = 1;
+    this.camera.far = 10 * dist;
+    this.camera.updateProjectionMatrix();
+    this.controls.minDistance = Math.max(60, 0.12 * g.totalLength);
+    this.controls.maxDistance = 2.2 * dist;
+    const half = new THREE.Vector3(g.totalLength / 2, top, g.deckWidth / 2 + 20).multiplyScalar(1.2);
+    this.panBox.set(new THREE.Vector3(-half.x, 0, -half.z), new THREE.Vector3(half.x, half.y, half.z));
+    if (jump) {
+      this.camera.position.copy(pos);
+      this.controls.target.copy(target);
+      this.controls.update();
+    }
+    if (this.scene.fog instanceof THREE.Fog) {
+      this.scene.fog.near = 1.2 * dist;
+      this.scene.fog.far = 3 * dist;
+    }
+  }
+
+  reset() {
+    const [pos, target] = this.home;
+    if (this.opts.reducedMotion) {
+      this.camera.position.copy(pos);
+      this.controls.target.copy(target);
+      this.controls.update();
+      this.requestRender();
+      return;
+    }
+    this.tween = { from: [this.camera.position.clone(), this.controls.target.clone()], to: [pos.clone(), target.clone()], t0: performance.now() };
+    this.requestRender();
+  }
+
+  private cancelTween = () => {
+    this.tween = null;
+  };
+
+  /** Keyboard orbit: degrees of azimuth / polar change. */
+  orbit(dAzDeg: number, dPolDeg: number) {
+    const off = this.camera.position.clone().sub(this.controls.target);
+    const s = new THREE.Spherical().setFromVector3(off);
+    s.theta += dAzDeg * DEG;
+    s.phi = THREE.MathUtils.clamp(s.phi + dPolDeg * DEG, this.controls.minPolarAngle, this.controls.maxPolarAngle);
+    this.camera.position.copy(this.controls.target).add(new THREE.Vector3().setFromSpherical(s));
+    this.controls.update();
+  }
+
+  zoom(factor: number) {
+    const off = this.camera.position.clone().sub(this.controls.target);
+    const len = THREE.MathUtils.clamp(off.length() * factor, this.controls.minDistance, this.controls.maxDistance);
+    this.camera.position.copy(this.controls.target).add(off.setLength(len));
+    this.controls.update();
+  }
+
+  pan(dx: number, dy: number) {
+    const d = this.camera.position.distanceTo(this.controls.target) * 0.05;
+    const right = new THREE.Vector3().setFromMatrixColumn(this.camera.matrix, 0).multiplyScalar(dx * d);
+    const up = new THREE.Vector3().setFromMatrixColumn(this.camera.matrix, 1).multiplyScalar(dy * d);
+    const delta = right.add(up);
+    this.camera.position.add(delta);
+    this.controls.target.add(delta);
+    this.controls.update();
+  }
+
+  setAutoRotate(on: boolean) {
+    this.controls.autoRotate = on && !this.opts.reducedMotion;
+    this.requestRender();
+  }
+
+  // ---------- render loop (on demand) ----------
+
+  requestRender = () => {
+    if (this.raf || this.disposed) return;
+    this.raf = requestAnimationFrame(this.frame);
+  };
+
+  private frame = () => {
+    this.raf = 0;
+    if (this.disposed) return;
+    let animating = false;
+    if (this.tween) {
+      const t = Math.min(1, (performance.now() - this.tween.t0) / 500);
+      const e = 1 - Math.pow(1 - t, 3);
+      this.camera.position.lerpVectors(this.tween.from[0], this.tween.to[0], e);
+      this.controls.target.lerpVectors(this.tween.from[1], this.tween.to[1], e);
+      if (t >= 1) this.tween = null;
+      animating = true;
+    }
+    // clamp the pan target to the bridge box + 20%
+    const clamped = this.controls.target.clone().clamp(this.panBox.min, this.panBox.max);
+    if (!clamped.equals(this.controls.target)) {
+      this.camera.position.add(clamped.clone().sub(this.controls.target));
+      this.controls.target.copy(clamped);
+    }
+    const moving = this.controls.update();
+    // flip dimension lines to the camera-facing side
+    const side = this.camera.position.z - this.controls.target.z >= 0 ? 1 : -1;
+    if (side !== this.dimSide && this.g) {
+      this.dimSide = side;
+      this.buildDims();
+    }
+    this.renderer.render(this.scene, this.camera);
+    this.labelRenderer.render(this.scene, this.camera);
+    this.declutter();
+    if (animating || moving || this.controls.autoRotate) this.requestRender();
+  };
+
+  /** Hides short-span labels and overlapping labels by priority (§5). */
+  private declutter() {
+    if (!this.opts.labels || !this.g) return;
+    const minPx = this.opts.fullscreen ? 40 : 56;
+    const w = this.host.clientWidth;
+    const E = this.g.deckElevation;
+    const z = this.dimSide * (this.g.deckWidth / 2 + 10);
+    const proj = (x: number) => new THREE.Vector3(x - this.g!.totalLength / 2, E, z).project(this.camera);
+    // nearest pylon to the camera (for "same height → label one")
+    let nearest = -1;
+    let best = Infinity;
+    this.g.pylons.forEach((p) => {
+      const d = this.camera.position.distanceTo(new THREE.Vector3(p.x - this.g!.totalLength / 2, E, 0));
+      if (d < best) {
+        best = d;
+        nearest = p.index;
+      }
+    });
+    const host = this.host.getBoundingClientRect();
+    const shown: DOMRect[] = [];
+    const ordered = [...this.labelEls].sort((a, b) => a.priority - b.priority);
+    for (const l of ordered) {
+      let visible = true;
+      if (l.span) visible = (Math.abs(proj(l.span[1]).x - proj(l.span[0]).x) * w) / 2 >= minPx || l.priority === 0;
+      if (l.pylon !== undefined && l.pylon >= 0 && l.pylon !== nearest) visible = false;
+      if (visible && l.obj) {
+        // keep height labels inside the viewport: flip to the left of their line near the right edge
+        const r = l.el.getBoundingClientRect();
+        if (r.right > host.right - 4 && l.obj.center.x < 0) {
+          l.obj.center.x = 1.08;
+          this.requestRender();
+        } else if (r.left < host.left + 4 && l.obj.center.x > 0) {
+          l.obj.center.x = -0.08;
+          this.requestRender();
+        }
+      }
+      if (visible) {
+        const r = l.el.getBoundingClientRect();
+        if (shown.some((s) => !(r.right < s.left || r.left > s.right || r.bottom < s.top || r.top > s.bottom))) visible = false;
+        else shown.push(r);
+      }
+      l.el.style.opacity = visible ? '1' : '0';
+    }
+  }
+}

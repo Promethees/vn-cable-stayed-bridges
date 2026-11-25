@@ -210,7 +210,7 @@ add(id="cau-dai-ngai-1", name_vi="Cầu Đại Ngãi 1", name_en="Đại Ngãi 1
     pylons="2 A-shaped pylons (110 m or 164 m per source)", cost="≈3,900 tỷ VND (package)", investor="Bộ Xây dựng (Ban QLDA 85); contractor Đèo Cả",
     lat=9.7069, lng=106.1506,
     sources=["https://moc.gov.vn/vn/tin-tuc/1252/92886/day-nhanh-tien-do-cong-trinh-cau-dai-ngai-1-bac-qua-song-hau.aspx", "https://tienphong.vn/cau-dai-ngai-1-dat-hon-63-khoi-luong-phan-dau-thong-tuyen-trong-nam-2027-post1851319.tpo", "https://vneconomy.vn/bo-giao-thong-van-tai-neu-nguyen-nhan-lui-tien-do-cau-day-vang-lon-thu-2-viet-nam.htm", OSM], confidence="verified",
-    notes="Construction from 12/1/2025. Completion target: 'thông tuyến 2027' (Tiền Phong) or 6/2028 (Đèo Cả package). Sources disagree on pylon height (110 m vs 164 m).")
+    notes="Construction from 12/1/2025. Completion target: 'thông tuyến 2027' (Tiền Phong) or 6/2028 (Đèo Cả package). Sources disagree on pylon height (110 m vs 164 m). Commons image 'Cầu Đại Ngãi 1.jpg' is tagged CC0, but its source is given as Báo Lao Động, so the free license is doubtful; it shows approach-viaduct construction and is categorised on Commons as an unidentified bridge.")
 
 add(id="cau-cat-lai", name_vi="Cầu Cát Lái", name_en="Cát Lái Bridge", status="under_construction",
     province="TP. Hồ Chí Minh – Đồng Nai", province_former=["TP. Hồ Chí Minh", "Đồng Nai"], crosses="Sông Đồng Nai",
@@ -294,6 +294,254 @@ add(id="cau-dong-nai-gia-nghia-bao-lam", name_vi="Cầu vượt sông Đồng Na
     sources=["https://tienphong.vn/lam-dong-duyet-du-an-lam-duong-xay-cau-day-vang-vuot-song-gan-3000-ty-dong-post1872499.tpo", "https://moc.gov.vn/vn/tin-tuc/1232/96640/lam-dong-dau-tu-2-850-ty-dong-xay-dung-tuyen-duong-dong-luc-gia-nghia---bao-lam.aspx", "https://nguoiquansat.vn/tinh-rong-nhat-viet-nam-sap-xay-cau-day-vang-vuot-song-nhip-chinh-dai-350m-313529.html"], confidence="needs_check",
     notes="Project approved; implementation 2026–2029; design contract awarded (BRITEC–CCU). COORDINATES VERY APPROXIMATE (±15 km): the route runs between Đông Gia Nghĩa ward and Bảo Lâm 5 commune. Bridge has no official name yet.")
 
+
+# ---------------- 3D MODEL PARAMETERS (schematic) ----------------
+# confidence "verified" only when spans, pylon shape/height and cable layout all come from a source;
+# anything read off photos/renders or derived (e.g. side spans = (unit length - main)/2) is "estimated".
+def m3d(spans, shape, heights, ref, planes, pattern, deck_w, deck_type=None, conf="estimated", notes="", cps=None, approach=None, extradosed=None):
+    d = {"spans_m": spans, "pylon_shape": shape, "pylon_heights_m": heights, "pylon_height_ref": ref,
+         "cable_planes": planes, "cable_pattern": pattern}
+    if cps: d["cables_per_side"] = cps
+    d["deck_width_m"] = deck_w
+    if deck_type: d["deck_type"] = deck_type
+    if approach: d["approach_length_m"] = approach
+    if extradosed: d["extradosed"] = True
+    d["confidence"] = conf
+    if notes: d["notes"] = notes
+    return d
+
+M3D = {
+ "cau-can-tho": m3d([40, 40, 150, 550, 150, 40, 40], "inverted_Y", [175.3, 175.3], "total", 2, "semi_fan", 26.0, "steel",
+    notes="Spans and 175.3 m pylon height from the mageba reference sheet. Inverted-Y pylons and fan stays confirmed on Commons photos (one press site wrongly says 'H'). Deck: steel box girder in the 550 m span (210 m central part in steel), concrete in the side spans; deck width 23.1–26 m by source."),
+ "cau-vam-cong": m3d([210, 450, 210], "H", [140, 140], "total", 2, "fan", 21.6, "composite",
+    notes="Main bridge ≈870 m, so side spans are derived as (870 − 450)/2 = 210. H (portal) pylons and fan stays per PLO and Commons photos. Composite steel–concrete girder per the Korean design paper (KoreaScience). Pylon height not published (estimated ≈140 m)."),
+ "cau-bai-chay": m3d([129, 435, 129], "single", [150, 150], "total", 1, "semi_fan", 25.0, "concrete",
+    notes="Single-plane prestressed-concrete box girder (sources). Side spans 129 m from engineering literature memory, not a fetched source. Pylon height uses the Wikipedia infobox 'Height 150 m'."),
+ "cau-phu-my": m3d([162.5, 380, 162.5], "H", [145, 145], "total", 2, "semi_fan", 27.0, "concrete",
+    notes="162.5+380+162.5 = 705 m (Wikipedia list / JPCI). H pylons per press. Height 145 m per Wikipedia (Người Quan Sát says 162.5 m, which is probably the side span confused with height)."),
+ "cau-binh-khanh": m3d([194, 375, 194], "H", [135, 135], "total", 2, "fan", 21.75,
+    notes="Main section 763 m (press), so side spans are derived as (763 − 375)/2 ≈ 194. H pylons 135 m (most sources; one says 155 m). Fan stays per press."),
+ "cau-my-thuan": m3d([150, 350, 150], "H", [120, 120], "total", 2, "semi_fan", 23.66, "concrete", cps=16,
+    notes="150+350+150 m; H pylons ≈120 m above high water (Wikipedia; counted here as total). 128 stays in total, so 16 per pylon side per plane. Concrete deck."),
+ "cau-my-thuan-2": m3d([150, 350, 150], "inverted_Y", [125, 125], "total", 2, "semi_fan", 28.0, "concrete",
+    notes="Spans 150+350+150 (Wikipedia list; press '650 m' = whole unit). Inverted-Y pylons read from press photos (SGGP 2023). Pylon height not published (estimated). Deck 25–28 m by source."),
+ "cau-cao-lanh": m3d([150, 350, 150], "H", [120, 120], "total", 2, "semi_fan", 24.5, "concrete", conf="verified",
+    notes="Spans, H-shaped 120 m towers and deck width per Wikipedia. Cable pattern (semi-fan) from photos."),
+ "cau-nhat-tan": m3d([150, 300, 300, 300, 300, 150], "A", [110, 110, 110, 110, 110], "total", 2, "fan", 33.2, "composite",
+    notes="150+4×300+150 m, five A-shaped pylons ≈110 m (Wikipedia). Steel–concrete composite girder. Fan pattern from photos."),
+ "cau-phuoc-khanh": m3d([150, 300, 150], "H", [155, 155], "total", 2, "fan", 21.75,
+    notes="Side spans not published (estimated 150). H pylons from press photos (CafeF 9/2026). Height 155 m per press (Wikipedia gives 135 m). 48 stays reported."),
+ "cau-rach-mieu": m3d([117, 270, 117], "inverted_Y", [110, 110], "total", 2, "fan", 12.0, "concrete",
+    notes="Spans 117+270+117 (Wikipedia). Inverted-Y (A with single head) pylons and fan stays read from Commons photos. Pylon height estimated; the Wikipedia 'height 117 m' looks like the side span."),
+ "cau-rach-mieu-2": m3d([125, 270, 125], "H", [113, 113], "total", 2, "semi_fan", 17.5, "concrete",
+    notes="Side spans not published (estimated). H pylons from VnExpress hợp long photo (4/2025). Pylon height 113 m per press."),
+ "cau-binh": m3d([100, 260, 100], "inverted_Y", [101.6, 101.6], "total", 2, "fan", 22.5, "composite",
+    notes="260 m main span; side spans estimated. Pylon height 101.6 m and composite steel–concrete girder per press. Pylon shape read from photos."),
+ "cau-bach-dang": m3d([110, 240, 240, 110], "H", [94.5, 99.74, 94.5], "total", 2, "semi_fan", 25.0, "concrete",
+    notes="110+240+240+110 per Thanh Tra / VSL ≈700 m unit (240 m client-confirmed). Pylon heights per Báo Lâm Đồng (centre ≈99.7 m, sides 94.5 m). H shape per Wikipedia. Cable planes/pattern and deck type estimated."),
+ "cau-tran-thi-ly": m3d([230, 120], "single", [145], "total", 1, "fan", 35.5, "concrete",
+    notes="Single 145 m pylon leaning 12° (press). The 230 m cable-stayed span is from the press; the back span (120 m) is estimated. Single central cable plane read from photos."),
+ "cau-kien": m3d([85, 200, 85], "H", [80, 80], "total", 2, "harp", 16.0,
+    notes="200 m main span; harp stays per Wikipedia. Side spans, pylon shape/height and deck width estimated from photos."),
+ "cau-ba-son": m3d([200, 85], "other", [113], "total", 2, "fan", 25.0,
+    notes="Single 113 m pylon, arch/dragon-shaped and inclined toward Thủ Thiêm, with an asymmetric layout (Wikipedia / press). Back span estimated. Two cable planes read from press photos."),
+ "cau-ben-rung": m3d([90, 160, 160, 90], "other", [18, 18, 18], "above_deck", 2, "harp", 21.5, "concrete", extradosed=True,
+    notes="Extradosed 90+2×160+90 m (press). Three pairs of red V-shaped low pylons ('V – Victory'). Pylon height above deck estimated from photos (≈18 m)."),
+ "cau-cua-hoi": m3d([86, 153, 86], "other", [18, 18], "above_deck", 1, "harp", 18.5, "concrete", extradosed=True,
+    notes="Extradosed 86+153+86 m (infra.global). Low red pylons; one central plane assumed from press aerials. Pylon height estimated."),
+ "cau-thuan-an": m3d([120, 218, 120], "A", [32, 32], "above_deck", 1, "harp", 23.5, "concrete", extradosed=True,
+    notes="Extradosed main span 218 m; A-topped red pylons 32 m above deck (72 m from water) per Người Quan Sát. Side spans and the single central cable plane estimated from photos. Number of extradosed spans unclear."),
+ "cau-hoa-son": m3d([220, 550, 220], "inverted_Y", [187, 187], "total", 2, "fan", 21.0,
+    notes="550 m main span, 187 m pylons, ≈1.2 km bridge (press). Side spans, deck width and inverted-Y shape read from official renders (Báo Lâm Đồng / Người Quan Sát)."),
+ "cau-tu-lien": m3d([250, 500, 250], "other", [185, 185], "total", 2, "fan", 43.0, "steel",
+    notes="1,000 m main bridge, 500 m span, 185 m pylons, 43 m steel deck (press). Side spans derived. Pylons are a twisted 'dragon' form with crossed stay planes (render); modelled as 'other'."),
+ "cau-dai-ngai-1": m3d([210, 450, 210], "A", [110, 110], "above_deck", 2, "fan", 21.5, "composite",
+    notes="210+450+210 m, A-shaped pylons 110 m above deck, composite steel girder (Báo Đầu tư). Fan pattern from the render. Another source gives 164 m total height."),
+ "cau-cat-lai": m3d([200, 450, 200], "inverted_Y", [170, 170], "total", 2, "fan", 38.0, "composite",
+    notes="450 m main span, two cable planes (press). Side spans, pylon height and deck width (8 lanes) estimated. Inverted-Y pylons read from the VnExpress render (1/2026)."),
+ "cau-duong-sat-can-gio": m3d([280, 360, 280], "other", [130, 130], "total", 2, "semi_fan", 14.0,
+    notes="920 m cable-stayed bridge with a 360 m span (24hMoney). Side spans derived. Pylon shape/height and deck width (double-track) unknown; placeholder values."),
+ "cau-ngoc-hoi": m3d([165, 350, 165], "H", [126, 126], "total", 2, "semi_fan", 33.0,
+    notes="Main river bridge ≈680 m with a 350 m span, so side spans are derived. H-shaped pylons ≈126 m (press). Deck 32.3–38.3 m by source."),
+ "cau-long-hung": m3d([175, 350, 175], "single", [175, 175], "total", 1, "fan", 38.0,
+    notes="350 m span, single cable plane, 175 m pylons (VietnamNet EN). Side spans and deck width (8 lanes) estimated. Single-mast pylons from renders."),
+ "cau-nguyen-trai": m3d([125, 300, 125], "H", [111, 111], "total", 2, "semi_fan", 26.5,
+    notes="125+300+125 m, pylons 111 m, deck 26.5 m (press). Pylon shape and cable pattern not published (placeholder 'H')."),
+ "cau-phuoc-an": m3d([145, 250, 145], "other", [35, 35], "above_deck", 2, "harp", 27.0, "concrete", extradosed=True,
+    notes="Extradosed 250 m main span, 27 m deck (press). Pylons are arch-shaped in the Người Quan Sát photo (8/2026). Side spans and pylon height estimated."),
+ "cau-thuong-cat": m3d([195, 195, 195, 195], "H", [60, 65, 60], "above_deck", 2, "semi_fan", 36.0,
+    notes="4×195 m and 3 pylons (client-confirmed 2026-11-25). Pylon shape/height and deck width (8 lanes) estimated; no render found."),
+ "cau-can-tho-2": m3d([210, 450, 210], "H", [160, 160], "total", 2, "semi_fan", 30.5, "steel",
+    notes="210+450+210 m, 30.5 m deck, double-deck road-over-rail (CafeF). H-like pylons and steel truss girder read from the CafeF render. Pylon height estimated."),
+ "cau-can-gio": m3d([150, 350, 150], "other", [100, 100], "total", 2, "fan", 30.0,
+    notes="350 m span (2019 approval). The design changed from one 230 m pylon to two 'mangrove' (cây đước) pylons ≈100 m (press). Side spans and deck width (6 lanes) estimated. Pylon shape per Tuổi Trẻ render (1/2026)."),
+ "cau-dong-nai-gia-nghia-bao-lam": m3d([175, 350, 175], "single", [150, 150], "total", 1, "fan", 20.0,
+    notes="350 m span, single cable plane, ≈1,167 m bridge (press). Side spans, pylon height and deck width estimated from the Người Quan Sát render."),
+}
+
+# ---------------- PRESS / RENDER IMAGES (license "unknown": shown as link only) ----------------
+def press(url, credit, src, what):
+    return {"url": url, "credit": credit, "license": "unknown", "source": src, "_what": what}
+
+PRESS = {
+ "cau-hoa-son": [
+    press("https://daknong.1cdn.vn/thumbs/1200x630/2026/02/16/img_6067e82a.jpeg", "Báo Lâm Đồng", "https://baolamdong.vn/cao-toc-10000-ty-hoa-binh-moc-chau-phan-dau-ve-dich-som-1-nam-va-ky-luc-cau-day-vang-424941.html", "render"),
+    press("https://nqs.1cdn.vn/thumbs/1200x630/2026/06/18/16C5_cau-hoa-son-17817714084611872675758-0-6-563-907-crop-17817714775621826758988.jpg", "Người Quan Sát", "https://nguoiquansat.vn/tay-bac-sap-co-cay-cau-moi-lap-ky-luc-viet-nam-quy-mo-3-100-ty-cam-hung-thiet-ke-tu-nui-rung-dia-phuong-298648.html", "render")],
+ "cau-tu-lien": [
+    press("https://daknong.1cdn.vn/thumbs/1200x630/2026/07/23/img_afa3cf01.jpg", "Báo Lâm Đồng", "https://baolamdong.vn/cau-tu-lien-hon-20100-ty-dong-tien-do-thi-cong-va-lo-trinh-hop-long-nam-2027-455142.html", "render"),
+    press("https://cafefcdn.com/thumb_w/1200/203337114487263232/2026/11/1/avatar1793492171852-17934921724821426072177.jpg", "CafeF / Hà Nội Mới", "https://cafef.vn/cau-day-vang-gan-20000-ty-dong-o-ha-noi-dang-thay-doi-dien-mao-the-nao-188261101071700319.chn", "construction 11/2026")],
+ "cau-dai-ngai-1": [
+    press("https://media.baodautu.vn/thumb_x470x250/Images/anhminh/2024/12/04/he-lo-nha-thau-thi-cong-sieu-cau-day-vang-dai-ngai-1-tri-gia-3900-ty-dong1733300762.jpg", "Báo Đầu tư", "https://baodautu.vn/he-lo-nha-thau-thi-cong-sieu-cau-day-vang-dai-ngai-1-tri-gia-3900-ty-dong-d231683.html", "render"),
+    press("https://cdn.daidoanket.vn/1200x630/uploaded/images/2026/03/18/e3af5231-140e-4454-aa79-b6fdb4a3625f.jpg", "Báo Đại Đoàn Kết", "https://daidoanket.vn/can-canh-cong-trinh-cau-day-vang-co-nhip-chinh-dai-thu-2-viet-nam.html", "construction 3/2026")],
+ "cau-cat-lai": [
+    press("https://i1-vnexpress.vnecdn.net/2026/01/29/gen-h-z7480267955959-ba79feb88a7a279aae8ce8175156fea7-1769679191-1769686927-1769696745.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=AcNEih9NX7kBNJoD0LwqfQ", "VnExpress (Đồng Nai Dept. of Construction render)", "https://e.vnexpress.net/photo/traffic/vietnam-unveils-794m-cable-bridge-design-linking-ho-chi-minh-city-to-long-thanh-airport-corridor-5015145.html", "render")],
+ "cau-long-hung": [
+    press("https://static-images.vnncdn.net/vps_images_publish/000001/00000Q/2026/9/30/vietnam-breaks-ground-on-14-billion-bridges-linking-hcmc-dong-nai-0357762bb0234c268c395c13c735948d-1011.jpg?width=0&s=-bm-9gfs17Ugs-fpazsM4A", "VietnamNet", "https://vietnamnet.vn/en/vietnam-breaks-ground-on-1-4-billion-bridges-linking-hcmc-dong-nai-2560272.html", "render"),
+    press("https://media.thuonghieucongluan.vn/resize_1200x630/uploads/2026/06/12/lay-1-1781221565.jpg", "Thương hiệu & Công luận", "https://thuonghieucongluan.com.vn/dieu-chinh-von-dau-tu-cau-long-hung-len-hon-12-700-ty-dong-tang-toc-ket-noi-tp-hcm-dong-nai-a322300.html", "render (earlier design option)")],
+ "cau-duong-sat-can-gio": [
+    press("https://cdn.24hmoney.vn/upload/images/2026-4/article_avatar_img/2026-10-22/a-nh-ma-n-hi-nh-2026-10-22-lu-c-10-1792639623-width698height391-auto-crop-1792639635-width698height391.jpg", "24hMoney", "https://24hmoney.vn/news/sieu-do-thi-ty-usd-cua-vingroup-co-them-buoc-ngoat-c3a2848236.html", "construction 10/2026 (Soài Rạp foundations)")],
+ "cau-ngoc-hoi": [
+    press("https://cafefcdn.com/thumb_w/1200/203337114487263232/2026/11/3/avatar1793691258906-17936912655082071358607.jpg", "CafeF / Hà Nội Mới", "https://cafef.vn/dai-cong-truong-cau-ngoc-hoi-sau-15-thang-thi-cong-188261103143452699.chn", "construction 11/2026"),
+    press("https://cdn2.tuoitre.vn/zoom/1200_630/471584752817336320/2026/1/28/9qa-1769609411334699323452-91-0-1406-2511-crop-1769609435273630389189.jpg", "Tuổi Trẻ", "https://tuoitre.vn/cong-truong-lam-cau-day-vang-hon-11-800-ti-dong-noi-ha-noi-va-hung-yen-20260128211946328.htm", "construction 1/2026")],
+ "cau-nguyen-trai": [
+    press("https://dbnd.1cdn.vn/thumbs/1200x630/2026/08/02/cau-nguyen-trai-7-.jpg", "Báo Đại biểu Nhân dân", "https://daibieunhandan.vn/hai-phong-toan-canh-du-an-cau-nguyen-trai-va-vung-phu-can-hon-6-300-ty-dong-10425773.html", "construction 8/2026 (aerial)")],
+ "cau-phuoc-an": [
+    press("https://nqs.1cdn.vn/thumbs/1200x630/2026/08/01/7031_cau-phuoc-an3.jpg", "Người Quan Sát", "https://nguoiquansat.vn/cau-day-vang-gan-5-000-ty-co-tinh-khong-cao-nhat-viet-nam-nhip-chinh-dai-nhat-dong-nam-a-noi-nhip-2-tp-truc-thuoc-trung-uong-la-hanh-lang-van-tai-chien-luoc-307915.html", "render / near-complete")],
+ "cau-thuong-cat": [
+    press("https://daknong.1cdn.vn/thumbs/1200x630/2026/06/17/img_98909ae3.jpg", "Báo Lâm Đồng", "https://baolamdong.vn/du-an-cau-thuong-cat-hon-7300-ty-dong-day-nhanh-thi-cong-ba-tru-thap-chinh-qua-song-hong-448557.html", "construction 6/2026 (aerial)"),
+    press("https://cafefcdn.com/thumb_w/1200/203337114487263232/2026/10/21/avatar1792571886935-17925718873211627305556.webp", "CafeF / Tiền Phong", "https://cafef.vn/hinh-hai-cau-thuong-cat-sau-mot-nam-khoi-cong-188261021153843485.chn", "construction 10/2026 (pylon)")],
+ "cau-can-tho-2": [
+    press("https://cafefcdn.com/thumb_w/1200/203337114487263232/2026/10/8/avatar1791451772173-1791451772671916968314.webp", "CafeF", "https://cafef.vn/cau-can-tho-2-hon-27000-ty-dong-du-kien-khoi-cong-nam-2027-188261008163003601.chn", "render (road + rail)")],
+ "cau-can-gio": [
+    press("https://cdn2.tuoitre.vn/zoom/1200_630/471584752817336320/2026/1/14/anh-9-17683527812281318384555-89-20-838-1451-crop-176842964739965225266.jpg", "Tuổi Trẻ", "https://tuoitre.vn/dong-tho-cau-can-gio-dinh-hinh-trung-tam-ha-tang-moi-cua-tp-hcm-20260115061754127.htm", "render (current two-pylon design)"),
+    press("https://cdn2.tuoitre.vn/plo/image/Uploaded/dinhcuong/2019_04_19/cangio34_GELO_thumb.jpg", "Pháp Luật TP.HCM", "https://plo.vn/chinh-thuc-cong-bo-hinh-hai-cau-day-vang-can-gio-5300-ti-post521730.html", "render (superseded 2019 single-pylon design)")],
+ "cau-dong-nai-gia-nghia-bao-lam": [
+    press("https://nqs.1cdn.vn/thumbs/1200x630/2026/08/31/2B2F_cay-cau.jpg", "Người Quan Sát", "https://nguoiquansat.vn/tinh-rong-nhat-viet-nam-sap-xay-cau-day-vang-vuot-song-nhip-chinh-dai-350m-313529.html", "render")],
+ "cau-ben-rung": [
+    press("https://cdn-i.vtcnews.vn/resize/1200x900//upload/2024/07/16/cau-ben-rung-truoc-ngay-thong-cau-5-10294993.jpg", "VTC News", "https://vtcnews.vn/hinh-hai-cau-ben-rung-noi-hai-phong-quang-ninh-truoc-ngay-thong-xe-ar883484.html", "photo 7/2024 (V pylons)"),
+    press("https://cdn2.tuoitre.vn/zoom/1200_630/471584752817336320/2024/7/17/cau-rung-17212139427531519216815-166-0-1213-2000-crop-17212141387431731728425.jpg", "Tuổi Trẻ", "https://tuoitre.vn/thong-cau-ben-rung-gan-2-000-ti-ket-noi-hai-phong-quang-ninh-20240717180405727.htm", "photo 7/2024 (opening)")],
+ "cau-cua-hoi": [
+    press("https://static.vinwonders.com/production/cau-cua-hoi-thumb.jpg", "VinWonders", "https://vinwonders.com/vi/wonderpedia/news/cau-cua-hoi-bieu-tuong-ket-noi-nghe-an-va-ha-tinh/", "aerial photo")],
+ "cau-thuan-an": [
+    press("https://daknong.1cdn.vn/thumbs/1200x630/2026/07/21/img_3fc41632.jpg", "Báo Lâm Đồng", "https://baolamdong.vn/cau-vuot-bien-thuan-an-dai-nhat-mien-trung-sap-dua-vao-khai-thac-454712.html", "photo 7/2026 (extradosed span)")],
+ "cau-phuoc-khanh": [
+    press("https://cafefcdn.com/thumb_w/1200/203337114487263232/2026/9/11/avatar1789096235138-1789096236156216466580.jpg", "CafeF", "https://cafef.vn/nhung-cong-doan-cuoi-cung-truoc-khi-thong-xe-cau-phuoc-khanh-188260911101103844.chn", "photo 9/2026 (completed span)")],
+ "cau-ba-son": [
+    press("https://i2-vnexpress.vnecdn.net/2021/09/02/22cauthuthiem2-1630569460-5250-1630569471.jpg?w=1200&h=675&q=100&dpr=1&fit=crop&s=EGLmhFqYjwS-qcPamZwyng", "VnExpress", "https://vnexpress.net/hop-long-cau-thu-thiem-2-4350180.html", "photo 9/2021 (closure)")],
+ "cau-my-thuan-2": [
+    press("https://image.sggp.org.vn/1200x630/Uploaded/2026/cdjwzdjwp/2023_10_14/cong-trinh-giao-thong-cau-my-thuan-2-sung-sung-noi-doi-bo-song-tien-9597.jpg.webp", "Sài Gòn Giải Phóng", "https://www.sggp.org.vn/khoanh-khac-cau-my-thuan-2-noi-lien-doi-bo-song-tien-post709756.html", "photo 10/2023 (closure)")],
+}
+
+# ---------------- CURATED WIKIMEDIA COMMONS IMAGES (1280px thumbnails) ----------------
+COMMONS = {
+ "cau-can-tho": [
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Can_Tho_Bridge_3.jpg/1280px-Can_Tho_Bridge_3.jpg", "Christophe95", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:Can_Tho_Bridge_3.jpg"),
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Can_Tho_Bridge_cables.JPG/1280px-Can_Tho_Bridge_cables.JPG", "Dragfyre", "CC BY-SA 3.0", "https://commons.wikimedia.org/wiki/File:Can_Tho_Bridge_cables.JPG"),
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Can_Tho_Bridge_tower_under_construction.jpg/1280px-Can_Tho_Bridge_tower_under_construction.jpg", "Dave Nix", "CC BY-SA 2.0", "https://commons.wikimedia.org/wiki/File:Can_Tho_Bridge_tower_under_construction.jpg"),
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/C%E1%BA%A7u_C%E1%BA%A7n_Th%C6%A1_%286321757880%29.jpg/1280px-C%E1%BA%A7u_C%E1%BA%A7n_Th%C6%A1_%286321757880%29.jpg", "Quang Vũ Trương", "CC BY 2.0", "https://commons.wikimedia.org/wiki/File:C%E1%BA%A7u_C%E1%BA%A7n_Th%C6%A1_(6321757880).jpg"),
+ ],
+ "cau-vam-cong": [
+    img("https://upload.wikimedia.org/wikipedia/commons/2/21/Vam_Cong_Bridge.jpg", "Duong Dang Khoi", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:Vam_Cong_Bridge.jpg"),
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/C%E1%BA%A7u_V%C3%A0m_C%E1%BB%91ng_trong_chi%E1%BB%81u.png/1280px-C%E1%BA%A7u_V%C3%A0m_C%E1%BB%91ng_trong_chi%E1%BB%81u.png", "Bùi Thụy Đào Nguyên", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:C%E1%BA%A7u_V%C3%A0m_C%E1%BB%91ng_trong_chi%E1%BB%81u.png"),
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/C%E1%BA%A7u_V%C3%A0m_C%E1%BB%91ng%2C_042016.JPG/1280px-C%E1%BA%A7u_V%C3%A0m_C%E1%BB%91ng%2C_042016.JPG", "Prenn", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:C%E1%BA%A7u_V%C3%A0m_C%E1%BB%91ng,_042016.JPG"),
+ ],
+ "cau-bai-chay": [
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Bai_Chay_Bridge_%2849357435003%29.jpg/1280px-Bai_Chay_Bridge_%2849357435003%29.jpg", "Martin Lewison", "CC BY 2.0", "https://commons.wikimedia.org/wiki/File:Bai_Chay_Bridge_(49357435003).jpg"),
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/B%C3%A3i_Ch%C3%A1y_Bridge%2C_H%E1%BA%A1_Long_City%2C_Vi%E1%BB%87t_Nam.jpg/1280px-B%C3%A3i_Ch%C3%A1y_Bridge%2C_H%E1%BA%A1_Long_City%2C_Vi%E1%BB%87t_Nam.jpg", "Phó Nháy", "Public domain", "https://commons.wikimedia.org/wiki/File:B%C3%A3i_Ch%C3%A1y_Bridge,_H%E1%BA%A1_Long_City,_Vi%E1%BB%87t_Nam.jpg"),
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/VietnamBaiChayBridge.jpg/1280px-VietnamBaiChayBridge.jpg", "BluesyPete", "CC BY-SA 3.0", "https://commons.wikimedia.org/wiki/File:VietnamBaiChayBridge.jpg"),
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Le_pont_suspendu_d%27Halong.jpg/1280px-Le_pont_suspendu_d%27Halong.jpg", "Jean-Pierre Dalbéra", "CC BY 2.0", "https://commons.wikimedia.org/wiki/File:Le_pont_suspendu_d%27Halong.jpg"),
+ ],
+ "cau-phu-my": [
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Cablestay_bridge_in_Saigon.jpg/1280px-Cablestay_bridge_in_Saigon.jpg", "Frank Starmer", "CC BY-SA 2.0", "https://commons.wikimedia.org/wiki/File:Cablestay_bridge_in_Saigon.jpg"),
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Phu_My_Bruecke2.jpg/1280px-Phu_My_Bruecke2.jpg", "Hajotthu", "CC BY 3.0", "https://commons.wikimedia.org/wiki/File:Phu_My_Bruecke2.jpg"),
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Ph%C3%BA_M%E1%BB%B9_Bridge.JPG/1280px-Ph%C3%BA_M%E1%BB%B9_Bridge.JPG", "Nguyễn Thanh Quang", "CC BY-SA 3.0", "https://commons.wikimedia.org/wiki/File:Ph%C3%BA_M%E1%BB%B9_Bridge.JPG"),
+ ],
+ "cau-binh-khanh": [
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/C%E1%BA%A7u_B%C3%ACnh_Kh%C3%A1nh_trong_qu%C3%A1_tr%C3%ACnh_x%C3%A2y_d%E1%BB%B1ng.jpg/1280px-C%E1%BA%A7u_B%C3%ACnh_Kh%C3%A1nh_trong_qu%C3%A1_tr%C3%ACnh_x%C3%A2y_d%E1%BB%B1ng.jpg", "Lê Uy Lân", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:C%E1%BA%A7u_B%C3%ACnh_Kh%C3%A1nh_trong_qu%C3%A1_tr%C3%ACnh_x%C3%A2y_d%E1%BB%B1ng.jpg"),
+ ],
+ "cau-my-thuan": [
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/C%E1%BA%A7u_M%E1%BB%B9_Thu%E1%BA%ADn_%286297673871%29.jpg/1280px-C%E1%BA%A7u_M%E1%BB%B9_Thu%E1%BA%ADn_%286297673871%29.jpg", "Quang Vũ Trương", "CC BY 2.0", "https://commons.wikimedia.org/wiki/File:C%E1%BA%A7u_M%E1%BB%B9_Thu%E1%BA%ADn_(6297673871).jpg"),
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/My_Thuan_Bridge_cables.jpg/1280px-My_Thuan_Bridge_cables.jpg", "Dragfyre", "CC BY-SA 3.0", "https://commons.wikimedia.org/wiki/File:My_Thuan_Bridge_cables.jpg"),
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/C%E1%BA%A7u_M%E1%BB%B9_Thu%E1%BA%ADn%2C_V%C4%A9nh_Long%2C_2013.JPG/1280px-C%E1%BA%A7u_M%E1%BB%B9_Thu%E1%BA%ADn%2C_V%C4%A9nh_Long%2C_2013.JPG", "Prenn", "CC BY-SA 3.0", "https://commons.wikimedia.org/wiki/File:C%E1%BA%A7u_M%E1%BB%B9_Thu%E1%BA%ADn,_V%C4%A9nh_Long,_2013.JPG"),
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/C%E1%BA%A7u_M%E1%BB%B9_Thu%E1%BA%ADn_1_v%C3%A0_2.jpg/1280px-C%E1%BA%A7u_M%E1%BB%B9_Thu%E1%BA%ADn_1_v%C3%A0_2.jpg", "AnhNguyen", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:C%E1%BA%A7u_M%E1%BB%B9_Thu%E1%BA%ADn_1_v%C3%A0_2.jpg"),
+ ],
+ "cau-my-thuan-2": [
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/C%E1%BA%A7u_M%E1%BB%B9_Thu%E1%BA%ADn_1_v%C3%A0_2.jpg/1280px-C%E1%BA%A7u_M%E1%BB%B9_Thu%E1%BA%ADn_1_v%C3%A0_2.jpg", "AnhNguyen", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:C%E1%BA%A7u_M%E1%BB%B9_Thu%E1%BA%ADn_1_v%C3%A0_2.jpg"),
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Cao_t%E1%BB%91c_m%E1%BB%B9_thu%E1%BA%ADn_c%E1%BA%A7n_th%C6%A1.jpg/1280px-Cao_t%E1%BB%91c_m%E1%BB%B9_thu%E1%BA%ADn_c%E1%BA%A7n_th%C6%A1.jpg", "Letrieuvy2002", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:Cao_t%E1%BB%91c_m%E1%BB%B9_thu%E1%BA%ADn_c%E1%BA%A7n_th%C6%A1.jpg"),
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/C%E1%BA%A7u_M%E1%BB%B9_Thu%E1%BA%ADn_2_%C4%91ang_thi_c%C3%B4ng.jpg/1280px-C%E1%BA%A7u_M%E1%BB%B9_Thu%E1%BA%ADn_2_%C4%91ang_thi_c%C3%B4ng.jpg", "Lehuunghi", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:C%E1%BA%A7u_M%E1%BB%B9_Thu%E1%BA%ADn_2_%C4%91ang_thi_c%C3%B4ng.jpg"),
+ ],
+ "cau-cao-lanh": [
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/C%E1%BA%A7u_Cao_L%C3%A3nh.jpg/1280px-C%E1%BA%A7u_Cao_L%C3%A3nh.jpg", "Bùi Thụy Đào Nguyên", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:C%E1%BA%A7u_Cao_L%C3%A3nh.jpg"),
+ ],
+ "cau-nhat-tan": [
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/4am_view_of_Nhat_Tan_Bridge_in_Hanoi.jpg/1280px-4am_view_of_Nhat_Tan_Bridge_in_Hanoi.jpg", "cloud.shepherd", "CC BY 2.0", "https://commons.wikimedia.org/wiki/File:4am_view_of_Nhat_Tan_Bridge_in_Hanoi.jpg"),
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Cau_Nhat_Tan%2C_Ha_Noi%2C_VN_02.jpg/1280px-Cau_Nhat_Tan%2C_Ha_Noi%2C_VN_02.jpg", "Ltn12345", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:Cau_Nhat_Tan,_Ha_Noi,_VN_02.jpg"),
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Nhat_Tan_Bridge_at_night_2016.jpg/1280px-Nhat_Tan_Bridge_at_night_2016.jpg", "cloud.shepherd", "CC BY 2.0", "https://commons.wikimedia.org/wiki/File:Nhat_Tan_Bridge_at_night_2016.jpg"),
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/C%E1%BA%A7u_Nh%E1%BA%ADt_T%C3%A2n_%C4%91ang_x%C3%A2y_d%E1%BB%B1ng.jpg/1280px-C%E1%BA%A7u_Nh%E1%BA%ADt_T%C3%A2n_%C4%91ang_x%C3%A2y_d%E1%BB%B1ng.jpg", "David Berkowitz", "CC BY 2.0", "https://commons.wikimedia.org/wiki/File:C%E1%BA%A7u_Nh%E1%BA%ADt_T%C3%A2n_%C4%91ang_x%C3%A2y_d%E1%BB%B1ng.jpg"),
+ ],
+ "cau-phuoc-khanh": [
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/C%E1%BA%A7u_Ph%C6%B0%E1%BB%9Bc_Kh%C3%A1nh_2017.jpg/1280px-C%E1%BA%A7u_Ph%C6%B0%E1%BB%9Bc_Kh%C3%A1nh_2017.jpg", "Pieceofmetalwork", "CC0", "https://commons.wikimedia.org/wiki/File:C%E1%BA%A7u_Ph%C6%B0%E1%BB%9Bc_Kh%C3%A1nh_2017.jpg"),
+ ],
+ "cau-rach-mieu": [
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/C%E1%BA%A7u_d%C3%A2y_v%C4%83ng_R%E1%BA%A1ch_Mi%E1%BB%85u.jpg/1280px-C%E1%BA%A7u_d%C3%A2y_v%C4%83ng_R%E1%BA%A1ch_Mi%E1%BB%85u.jpg", "Bùi Thụy Đào Nguyên", "CC BY-SA 3.0", "https://commons.wikimedia.org/wiki/File:C%E1%BA%A7u_d%C3%A2y_v%C4%83ng_R%E1%BA%A1ch_Mi%E1%BB%85u.jpg"),
+    img("https://upload.wikimedia.org/wikipedia/commons/2/2c/Rach_Mieu_Bridge_pylon.jpg", "Chris Yasick", "CC BY 2.0", "https://commons.wikimedia.org/wiki/File:Rach_Mieu_Bridge_pylon.jpg"),
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/R%E1%BA%A1ch_Mi%E1%BB%85u_bridge._%2814451567804%29.jpg/1280px-R%E1%BA%A1ch_Mi%E1%BB%85u_bridge._%2814451567804%29.jpg", "Phi Phi Hoang", "CC BY 2.0", "https://commons.wikimedia.org/wiki/File:R%E1%BA%A1ch_Mi%E1%BB%85u_bridge._(14451567804).jpg"),
+    img("https://upload.wikimedia.org/wikipedia/commons/6/66/Rach_Mieu_Bridge_under_construction.jpg", "Terry Tran", "CC BY 2.0", "https://commons.wikimedia.org/wiki/File:Rach_Mieu_Bridge_under_construction.jpg"),
+ ],
+ "cau-rach-mieu-2": [
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/%28VNM-Dong_Thap%29_Rach_Mieu_2_Bridge_2025-10-05.jpg/1280px-%28VNM-Dong_Thap%29_Rach_Mieu_2_Bridge_2025-10-05.jpg", "S5A-0043", "CC BY 4.0", "https://commons.wikimedia.org/wiki/File:(VNM-Dong_Thap)_Rach_Mieu_2_Bridge_2025-10-05.jpg"),
+ ],
+ "cau-binh": [
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Bridge_in_Haiphong.jpg/1280px-Bridge_in_Haiphong.jpg", "Teijo Hakala", "CC BY-SA 2.0", "https://commons.wikimedia.org/wiki/File:Bridge_in_Haiphong.jpg"),
+ ],
+ "cau-bach-dang": [
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/B%E1%BA%A1ch_%C4%90%E1%BA%B1ng_Bridge_%2849534690148%29.jpg/1280px-B%E1%BA%A1ch_%C4%90%E1%BA%B1ng_Bridge_%2849534690148%29.jpg", "Not So Dusty", "CC BY 2.0", "https://commons.wikimedia.org/wiki/File:B%E1%BA%A1ch_%C4%90%E1%BA%B1ng_Bridge_(49534690148).jpg"),
+ ],
+ "cau-tran-thi-ly": [
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Tr%E1%BA%A7n_Th%E1%BB%8B_L%C3%BD_Bridge_at_daytime.jpg/1280px-Tr%E1%BA%A7n_Th%E1%BB%8B_L%C3%BD_Bridge_at_daytime.jpg", "Tycho (shansov.net)", "CC BY-SA 3.0", "https://commons.wikimedia.org/wiki/File:Tr%E1%BA%A7n_Th%E1%BB%8B_L%C3%BD_Bridge_at_daytime.jpg"),
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Tran_Thi_Ly_Bridge_%28I%29.jpg/1280px-Tran_Thi_Ly_Bridge_%28I%29.jpg", "This Photo was taken by Supanut Arunoprayote. Feel free to use any of my images,", "CC BY 4.0", "https://commons.wikimedia.org/wiki/File:Tran_Thi_Ly_Bridge_(I).jpg"),
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Tr%E1%BA%A7n_Th%E1%BB%8B_L%C3%BD_Bridge%2C_Da_Nang.jpg/1280px-Tr%E1%BA%A7n_Th%E1%BB%8B_L%C3%BD_Bridge%2C_Da_Nang.jpg", "Quangpraha", "CC0", "https://commons.wikimedia.org/wiki/File:Tr%E1%BA%A7n_Th%E1%BB%8B_L%C3%BD_Bridge,_Da_Nang.jpg"),
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Tran_Thi_Ly_Bridge.jpg/1280px-Tran_Thi_Ly_Bridge.jpg", "Christophe95", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:Tran_Thi_Ly_Bridge.jpg"),
+ ],
+ "cau-kien": [
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Kien_Bridge.jpg/1280px-Kien_Bridge.jpg", "Phó Nháy", "Public domain", "https://commons.wikimedia.org/wiki/File:Kien_Bridge.jpg"),
+ ],
+ "cau-ba-son": [
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/C%E1%BA%A7u_Ba_Son%2C_TP.HCM%2C_042022.jpg/1280px-C%E1%BA%A7u_Ba_Son%2C_TP.HCM%2C_042022.jpg", "Prenn", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:C%E1%BA%A7u_Ba_Son,_TP.HCM,_042022.jpg"),
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Ba_Son_Bridge_%2853175234769%29.jpg/1280px-Ba_Son_Bridge_%2853175234769%29.jpg", "David Ackerman", "CC BY 2.0", "https://commons.wikimedia.org/wiki/File:Ba_Son_Bridge_(53175234769).jpg"),
+    img("https://upload.wikimedia.org/wikipedia/commons/4/47/ThapCauThuThiem2.jpg", "Lacessori", "CC0", "https://commons.wikimedia.org/wiki/File:ThapCauThuThiem2.jpg"),
+    img("https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Thu_Thiem_2_Bridge_construction.png/1280px-Thu_Thiem_2_Bridge_construction.png", "Cuong Tran", "Public domain", "https://commons.wikimedia.org/wiki/File:Thu_Thiem_2_Bridge_construction.png"),
+ ],
+ "cau-dai-ngai-1": [
+    img("https://upload.wikimedia.org/wikipedia/commons/8/86/C%E1%BA%A7u_%C4%90%E1%BA%A1i_Ng%C3%A3i_1.jpg", "Phương Anh", "CC0", "https://commons.wikimedia.org/wiki/File:C%E1%BA%A7u_%C4%90%E1%BA%A1i_Ng%C3%A3i_1.jpg"),
+ ],
+}
+
+
+PRESS.setdefault("cau-binh-khanh", []).append(press("https://cdn2.tuoitre.vn/thesaigontimes/uploads/2025/07/DJI_20250710151804_0781_D-1.jpg", "Sài Gòn Times", "https://thesaigontimes.vn/cau-binh-khanh-hop-long-cao-toc-ben-luc-long-thanh-tang-toc-ve-dich/", "aerial 7/2025 (closure)"))
+PRESS.setdefault("cau-bach-dang", []).extend([
+    press("https://media.vov.vn/sites/default/files/styles/og_image/public/images/vov_cau_bach_dang_7_KXCD.jpg", "VOV", "https://vov.vn/tin-24h/nhung-hinh-anh-thi-cong-cuoi-cung-tren-cau-bach-dang-805863.vov", "final construction 2018"),
+    press("https://daknong.1cdn.vn/thumbs/1200x630/2026/07/19/img_93285243.jpg", "Báo Lâm Đồng", "https://baolamdong.vn/cau-bach-dang-cong-trinh-day-vang-nhieu-nhip-hang-dau-the-gioi-noi-hai-phong-va-quang-ninh-454260.html", "aerial (3 pylons)")])
+PRESS.setdefault("cau-rach-mieu-2", []).extend([
+    press("https://i2-vnexpress.vnecdn.net/2025/04/19/DJI-20250420075438-0019-D-copy-1745029263.jpg?w=1200&h=675&q=100&dpr=1&fit=crop&s=e6x9QcBbyTU8zxJQt7zodA", "VnExpress", "https://vnexpress.net/cau-rach-mieu-2-hop-long-4875889.html", "aerial 4/2025 (closure)"),
+    press("https://cdn2.tuoitre.vn/zoom/1200_630/471584752817336320/2025/4/12/hinhanh-3-17444238244982079259698-345-542-1120-2023-crop-17444242392611225682403.jpg", "Tuổi Trẻ", "https://tuoitre.vn/hop-long-cau-rach-mieu-2-som-hon-4-thang-so-voi-ke-hoach-20250412091941669.htm", "photo 4/2025")])
+
+# ---------------- MERGE images + model3d into each bridge ----------------
+for b in B:
+    bid = b["id"]
+    if bid in COMMONS:                      # curated Commons set replaces the single seed image
+        b["images"] = list(COMMONS[bid])
+    extra = PRESS.get(bid, [])
+    if extra:
+        b["images"] += [{k: v for k, v in p.items() if not k.startswith("_")} for p in extra]
+        what = "; ".join(f"{p['credit']} – {p['_what']}" for p in extra)
+        b["notes"] = (b.get("notes", "") + f" Link-only images (press/official, license unknown): {what}.").strip()
+    assert b["images"], f"{bid}: no image"
+    b["model3d"] = M3D[bid]
+    if b["structure_type"] == "extradosed":
+        assert b["model3d"].get("extradosed") is True, bid
+    assert sum(b["model3d"]["spans_m"]) > 0 and max(b["model3d"]["spans_m"]) >= b["main_span_m"] - 1, bid
+
 for b in B:
     for f in ("lat", "lng"):
         b[f] = float(b[f])
@@ -301,7 +549,7 @@ ids = [b["id"] for b in B]
 assert len(ids) == len(set(ids))
 order = ["id","name_vi","name_en","status","structure_type","usage","province","province_former","crosses","roads","railways",
          "construction_start","opened","main_span_m","total_length_m","width_m","lanes","cable_stayed_spans","span_arrangement",
-         "pylons","investor","cost","lat","lng","images","sources","confidence","notes"]
+         "pylons","investor","cost","model3d","lat","lng","images","sources","confidence","notes"]
 out = [{k: b[k] for k in order if k in b} for b in B]
 json.dump(out, open(sys.argv[1], "w"), ensure_ascii=False, indent=2)
 from collections import Counter

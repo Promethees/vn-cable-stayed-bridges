@@ -30,3 +30,10 @@ export function layoutSpans(spans: number[], count = 1): SpanLayout {
   if (idx[idx.length - 1] - idx[0] === k - 1) return { spans, mainStart: idx[0], mainEnd: idx[idx.length - 1] };
   return { spans, mainStart: order[0].i, mainEnd: order[0].i };
 }
+
+/** Spans for the elevation diagram: model3d.spans_m when present, else span_arrangement. */
+export function diagramSpansOf(b: { model3d?: { spans_m: number[] }; span_arrangement?: string }): number[] | null {
+  const m = b.model3d?.spans_m;
+  if (m && m.length >= 2) return m;
+  return parseSpanArrangement(b.span_arrangement);
+}

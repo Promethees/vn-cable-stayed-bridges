@@ -4,6 +4,7 @@ import { isSampleData, loadBridges } from './lib/data';
 import { countByStatus, countByUsage, filterBridges, groupByProvince, type ProvinceGroup } from './lib/grouping';
 import { readStoredLang, storeLang, STRINGS, type Lang } from './lib/i18n';
 import { buildSearch, parseSearch, sameView, type View } from './lib/url';
+import { resolveView, type HeroView } from './lib/hero';
 import { primaryProvince, provinceSlug } from './lib/provinces';
 import { BRIDGE_FOCUS_ZOOM, BRIDGE_ZOOM_THRESHOLD, DEEP_LINK_ZOOM } from './lib/geo';
 import { readStored, useDarkTheme, useMediaQuery, writeStored } from './lib/hooks';
@@ -28,6 +29,7 @@ export default function App() {
   const [init] = useState(() => parseSearch(window.location.search));
   const [lang, setLangState] = useState<Lang>(() => init.lang ?? readStoredLang() ?? 'vi');
   const [view, setView] = useState<View>(init.view);
+  const [heroPref, setHeroPref] = useState<HeroView | null>(init.hero);
   const [data, setData] = useState<DataState>({ status: 'loading' });
   const [loadNonce, setLoadNonce] = useState(0);
   const [active, setActive] = useState<ReadonlySet<Status>>(() => new Set(STATUSES));
@@ -62,10 +64,18 @@ export default function App() {
   const showBridges = view.kind !== 'country' || zoom >= BRIDGE_ZOOM_THRESHOLD;
 
   // ---- refs for callbacks used inside Leaflet handlers ----
-  const st = useRef({ view, lang, isDesktop, sheet, allGroups, byId });
+  const st = useRef({ view, lang, isDesktop, sheet, allGroups, byId, heroPref });
   useEffect(() => {
-    st.current = { view, lang, isDesktop, sheet, allGroups, byId };
+    st.current = { view, lang, isDesktop, sheet, allGroups, byId, heroPref };
   });
+
+  /** URL for a view: &view= only when the kept hero view applies to that bridge. */
+  const urlFor = useCallback((v: View) => {
+    const { lang: l, byId: ids, heroPref: pref } = st.current;
+    const b = v.kind === 'bridge' ? ids.get(v.id) : undefined;
+    const hero = b && pref && resolveView(b, pref) === pref ? pref : null;
+    return buildSearch(v, l, hero) || window.location.pathname;
+  }, []);
 
   const nonce = useRef(0);
   const requestFly = useCallback((target: FlyTarget, cardOpen: boolean) => {
@@ -92,11 +102,14 @@ export default function App() {
   /** Change view, push history, optionally fly the map. */
   const navigate = useCallback(
     (next: View, opts: { fly?: boolean; replace?: boolean; bridgeZoom?: number } = {}) => {
-      const { view: cur, lang: l } = st.current;
-      if (next.kind === 'bridge') setSheet('half');
+      const { view: cur } = st.current;
+      if (next.kind === 'bridge') {
+        const b = st.current.byId.get(next.id);
+        setSheet(b && st.current.heroPref && resolveView(b, st.current.heroPref) === '3d' ? 'full' : 'half');
+      }
       setView(next);
       st.current.view = next;
-      const url = buildSearch(next, l) || window.location.pathname;
+      const url = urlFor(next);
       if (opts.replace || sameView(cur, next)) window.history.replaceState(null, '', url);
       else window.history.pushState(null, '', url);
       if (opts.fly !== false) {
@@ -104,7 +117,7 @@ export default function App() {
         if (target) requestFly(target, next.kind === 'bridge');
       }
     },
-    [requestFly, targetFor],
+    [requestFly, targetFor, urlFor],
   );
 
   // ---- data loading ----
@@ -139,8 +152,10 @@ export default function App() {
   // ---- browser back/forward ----
   useEffect(() => {
     const onPop = () => {
-      const { view: v, lang: l } = parseSearch(window.location.search);
+      const { view: v, lang: l, hero } = parseSearch(window.location.search);
       setView(v);
+      setHeroPref(hero);
+      st.current.heroPref = hero;
       st.current.view = v;
       if (l) setLangState(l);
       const target = targetFor(v, BRIDGE_FOCUS_ZOOM);
@@ -159,7 +174,7 @@ export default function App() {
     setLangState(l);
     storeLang(l);
     st.current.lang = l;
-    window.history.replaceState(null, '', buildSearch(st.current.view, l) || window.location.pathname);
+    window.history.replaceState(null, '', urlFor(st.current.view));
   };
 
   const changeBaseLayer = (id: BaseLayerId) => {
@@ -265,6 +280,13 @@ export default function App() {
       lang={lang}
       onClose={closeCard}
       onBackToProvince={() => navigate({ kind: 'province', slug: primarySlug(selected.province) })}
+      heroPref={heroPref}
+      onHeroSelect={(v) => {
+        setHeroPref(v);
+        st.current.heroPref = v;
+        window.history.replaceState(null, '', urlFor(st.current.view));
+      }}
+      onEngage={(v) => setSheet((s) => (v === '3d' ? 'full' : s === 'peek' ? 'half' : s))}
     />
   ) : null;
 

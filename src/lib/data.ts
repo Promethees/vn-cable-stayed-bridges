@@ -6,10 +6,12 @@ const loaders = import.meta.glob<unknown>('../../data/bridges*.json', { import: 
 const realKey = Object.keys(loaders).find((k) => k.endsWith('/bridges.json'));
 const sampleKey = Object.keys(loaders).find((k) => k.endsWith('/bridges.sample.json'));
 
-export const isSampleData = !realKey;
+// dev only: ?data=sample forces the sample file (used to test model3d / gallery cases)
+const forceSample = import.meta.env.DEV && new URLSearchParams(window.location.search).get('data') === 'sample';
+export const isSampleData = !realKey || forceSample;
 
 export async function loadBridges(): Promise<Bridge[]> {
-  const key = realKey ?? sampleKey;
+  const key = (forceSample ? sampleKey : realKey) ?? sampleKey;
   if (!key) throw new Error('No bridge data file found');
   if (isSampleData) console.info('[bridges] data/bridges.json not found — using data/bridges.sample.json');
   return parseBridges(await loaders[key]());

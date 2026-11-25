@@ -1,4 +1,4 @@
-import { STATUSES, STRUCTURE_TYPES, USAGES, type Bridge, type BridgeImage } from '../types';
+import { PYLON_SHAPES, STATUSES, STRUCTURE_TYPES, USAGES, type Bridge, type BridgeImage, type Model3D } from '../types';
 
 export const MIN_MAIN_SPAN_M = 150;
 
@@ -11,6 +11,27 @@ const isStrArr = (v: unknown): v is string[] => Array.isArray(v) && v.every((x) 
 
 function isImage(v: unknown): v is BridgeImage {
   return isObj(v) && isStr(v.url) && typeof v.credit === 'string' && typeof v.license === 'string' && typeof v.source === 'string';
+}
+
+/** Problems with an optional model3d block (an invalid block is dropped, the bridge is kept). */
+export function model3dProblems(v: unknown): string[] {
+  if (!isObj(v)) return ['not an object'];
+  const p: string[] = [];
+  const posArr = (a: unknown) => Array.isArray(a) && a.every((x) => isNum(x) && x > 0);
+  if (!posArr(v.spans_m) || (v.spans_m as number[]).length < 1) p.push('spans_m');
+  if (!PYLON_SHAPES.includes(v.pylon_shape as never)) p.push('pylon_shape');
+  if (!Array.isArray(v.pylon_heights_m) || !(v.pylon_heights_m.length === 0 || posArr(v.pylon_heights_m))) p.push('pylon_heights_m');
+  if (v.pylon_height_ref !== 'above_deck' && v.pylon_height_ref !== 'total') p.push('pylon_height_ref');
+  if (v.cable_planes !== 1 && v.cable_planes !== 2) p.push('cable_planes');
+  if (!['fan', 'semi_fan', 'harp'].includes(v.cable_pattern as string)) p.push('cable_pattern');
+  if (v.cables_per_side !== undefined && !(isNum(v.cables_per_side) && v.cables_per_side >= 1)) p.push('cables_per_side');
+  if (!(isNum(v.deck_width_m) && v.deck_width_m > 0)) p.push('deck_width_m');
+  if (v.deck_type !== undefined && !['concrete', 'steel', 'composite'].includes(v.deck_type as string)) p.push('deck_type');
+  if (!optNum(v.approach_length_m)) p.push('approach_length_m');
+  if (v.extradosed !== undefined && typeof v.extradosed !== 'boolean') p.push('extradosed');
+  if (v.confidence !== 'verified' && v.confidence !== 'estimated') p.push('confidence');
+  if (!optStr(v.notes)) p.push('notes');
+  return p;
 }
 
 /** Returns a list of problems; empty list means the value is a valid Bridge. */
@@ -50,6 +71,13 @@ function withDefaults(v: unknown, warn: (...a: unknown[]) => void): unknown {
   if (out.structure_type === undefined) {
     warn(`[bridges] "${String(v.id)}": missing structure_type, assuming "cable_stayed"`);
     out.structure_type = 'cable_stayed';
+  }
+  if (out.model3d !== undefined) {
+    const problems = model3dProblems(out.model3d);
+    if (problems.length) {
+      warn(`[bridges] "${String(v.id)}": dropping invalid model3d (${problems.join(', ')})`);
+      delete out.model3d;
+    } else out.model3d = out.model3d as Model3D;
   }
   if (out.usage === undefined) {
     warn(`[bridges] "${String(v.id)}": missing usage, assuming ["road"]`);

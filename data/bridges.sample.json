@@ -40,7 +40,27 @@
       "https://en.wikipedia.org/wiki/C%E1%BA%A7n_Th%C6%A1_Bridge"
     ],
     "confidence": "needs_check",
-    "notes": "SAMPLE DATA — rough values for development only; replace with data/bridges.json."
+    "notes": "SAMPLE DATA — rough values for development only; replace with data/bridges.json.",
+    "model3d": {
+      "spans_m": [
+        150,
+        550,
+        150
+      ],
+      "pylon_shape": "H",
+      "pylon_heights_m": [
+        175,
+        175
+      ],
+      "pylon_height_ref": "total",
+      "cable_planes": 2,
+      "cable_pattern": "fan",
+      "deck_width_m": 26,
+      "deck_type": "steel",
+      "approach_length_m": 300,
+      "confidence": "estimated",
+      "notes": "SAMPLE — H pylon, fan, 2 planes (Cần Thơ-like)."
+    }
   },
   {
     "id": "cau-rach-mieu-2",
@@ -76,7 +96,28 @@
       "https://vi.wikipedia.org/wiki/C%E1%BA%A7u_R%E1%BA%A1ch_Mi%E1%BB%85u_2"
     ],
     "confidence": "needs_check",
-    "notes": "SAMPLE DATA — rough values for development only."
+    "notes": "SAMPLE DATA — rough values for development only.",
+    "model3d": {
+      "spans_m": [
+        115,
+        270,
+        115
+      ],
+      "pylon_shape": "inverted_Y",
+      "pylon_heights_m": [
+        70,
+        70
+      ],
+      "pylon_height_ref": "above_deck",
+      "cable_planes": 2,
+      "cable_pattern": "semi_fan",
+      "cables_per_side": 12,
+      "deck_width_m": 17.5,
+      "deck_type": "concrete",
+      "approach_length_m": 200,
+      "confidence": "estimated",
+      "notes": "SAMPLE — inverted-Y, semi-fan."
+    }
   },
   {
     "id": "cau-can-gio",
@@ -108,7 +149,27 @@
       "https://vi.wikipedia.org/wiki/C%E1%BA%A7u_C%E1%BA%A7n_Gi%E1%BB%9D"
     ],
     "confidence": "needs_check",
-    "notes": "SAMPLE DATA — rough values for development only."
+    "notes": "SAMPLE DATA — rough values for development only.",
+    "model3d": {
+      "spans_m": [
+        150,
+        300,
+        300,
+        150
+      ],
+      "pylon_shape": "A",
+      "pylon_heights_m": [
+        80,
+        90,
+        80
+      ],
+      "pylon_height_ref": "above_deck",
+      "cable_planes": 2,
+      "cable_pattern": "semi_fan",
+      "deck_width_m": 28,
+      "confidence": "estimated",
+      "notes": "SAMPLE — 3 A-pylons (multi-pylon)."
+    }
   },
   {
     "id": "cau-duong-sat-song-hong-mau",
@@ -137,6 +198,207 @@
       "https://example.org/sample"
     ],
     "confidence": "needs_check",
-    "notes": "SAMPLE DATA — fictional rail/extradosed entry for development only."
+    "notes": "SAMPLE DATA — fictional rail/extradosed entry for development only.",
+    "model3d": {
+      "spans_m": [
+        120,
+        200,
+        120
+      ],
+      "pylon_shape": "diamond",
+      "pylon_heights_m": [],
+      "pylon_height_ref": "above_deck",
+      "cable_planes": 2,
+      "cable_pattern": "harp",
+      "deck_width_m": 14,
+      "deck_type": "concrete",
+      "extradosed": true,
+      "confidence": "estimated",
+      "notes": "SAMPLE — extradosed, derived pylon height and stays."
+    }
+  },
+  {
+    "id": "cau-ba-son-mau",
+    "name_vi": "Cầu Ba Son (mẫu)",
+    "name_en": "Ba Son Bridge (sample)",
+    "status": "completed",
+    "structure_type": "cable_stayed",
+    "usage": [
+      "road"
+    ],
+    "province": "TP. Hồ Chí Minh",
+    "crosses": "Sông Sài Gòn",
+    "roads": [
+      "Tôn Đức Thắng"
+    ],
+    "opened": 2022,
+    "main_span_m": 200,
+    "total_length_m": 1500,
+    "width_m": 24.5,
+    "span_arrangement": "200 + 100 m",
+    "lat": 10.7835,
+    "lng": 106.7108,
+    "model3d": {
+      "spans_m": [
+        200,
+        100
+      ],
+      "pylon_shape": "single",
+      "pylon_heights_m": [
+        113
+      ],
+      "pylon_height_ref": "total",
+      "cable_planes": 1,
+      "cable_pattern": "semi_fan",
+      "cables_per_side": 12,
+      "deck_width_m": 24.5,
+      "deck_type": "steel",
+      "approach_length_m": 250,
+      "confidence": "estimated",
+      "notes": "SAMPLE — single pylon, 1 plane, asymmetric."
+    },
+    "images": [
+      {
+        "url": "https://picsum.photos/seed/vncsb-1/960/600",
+        "credit": "SAMPLE",
+        "license": "CC0",
+        "source": "https://picsum.photos/"
+      },
+      {
+        "url": "https://example.org/photo-unknown.jpg",
+        "credit": "SAMPLE author",
+        "license": "unknown",
+        "source": "https://example.org/"
+      },
+      {
+        "url": "https://picsum.photos/seed/vncsb-2/960/600",
+        "credit": "SAMPLE",
+        "license": "CC BY-SA 3.0",
+        "source": "https://picsum.photos/"
+      },
+      {
+        "url": "https://picsum.photos/seed/vncsb-3/960/600",
+        "credit": "SAMPLE",
+        "license": "CC BY 4.0",
+        "source": "https://picsum.photos/"
+      }
+    ],
+    "sources": [
+      "https://example.org/sample"
+    ],
+    "confidence": "needs_check",
+    "notes": "SAMPLE DATA — Ba Son-like single-pylon test entry."
+  },
+  {
+    "id": "cau-nhat-tan-mau",
+    "name_vi": "Cầu Nhật Tân (mẫu)",
+    "name_en": "Nhat Tan Bridge (sample)",
+    "status": "completed",
+    "structure_type": "cable_stayed",
+    "usage": [
+      "road"
+    ],
+    "province": "Hà Nội",
+    "crosses": "Sông Hồng",
+    "roads": [
+      "Võ Nguyên Giáp"
+    ],
+    "opened": 2015,
+    "main_span_m": 300,
+    "total_length_m": 3900,
+    "width_m": 33.2,
+    "span_arrangement": "150 + 4×300 + 150 m",
+    "lat": 21.086,
+    "lng": 105.818,
+    "model3d": {
+      "spans_m": [
+        150,
+        300,
+        300,
+        300,
+        300,
+        150
+      ],
+      "pylon_shape": "diamond",
+      "pylon_heights_m": [
+        110,
+        110,
+        110,
+        110,
+        110
+      ],
+      "pylon_height_ref": "total",
+      "cable_planes": 2,
+      "cable_pattern": "semi_fan",
+      "deck_width_m": 33.2,
+      "deck_type": "composite",
+      "confidence": "estimated",
+      "notes": "SAMPLE — 5 pylons."
+    },
+    "images": [],
+    "sources": [
+      "https://example.org/sample"
+    ],
+    "confidence": "needs_check",
+    "notes": "SAMPLE DATA — Nhật Tân-like multi-pylon test entry."
+  },
+  {
+    "id": "cau-thuong-cat-mau",
+    "name_vi": "Cầu Thượng Cát (mẫu)",
+    "name_en": "Thuong Cat Bridge (sample)",
+    "status": "under_construction",
+    "structure_type": "cable_stayed",
+    "usage": [
+      "road"
+    ],
+    "province": "Hà Nội",
+    "crosses": "Sông Hồng",
+    "roads": [
+      "Vành đai 2,5"
+    ],
+    "opened": 2026,
+    "main_span_m": 195,
+    "span_arrangement": "4×195 m",
+    "lat": 21.095,
+    "lng": 105.76,
+    "model3d": {
+      "spans_m": [
+        195,
+        195,
+        195,
+        195
+      ],
+      "pylon_shape": "H",
+      "pylon_heights_m": [
+        55,
+        55,
+        55
+      ],
+      "pylon_height_ref": "above_deck",
+      "cable_planes": 2,
+      "cable_pattern": "harp",
+      "deck_width_m": 30,
+      "confidence": "estimated",
+      "notes": "SAMPLE — 3 pylons, 4×195."
+    },
+    "images": [
+      {
+        "url": "https://example.org/a.jpg",
+        "credit": "SAMPLE",
+        "license": "unknown",
+        "source": "https://example.org/a"
+      },
+      {
+        "url": "https://example.org/b.jpg",
+        "credit": "SAMPLE",
+        "license": "unknown",
+        "source": "https://example.org/b"
+      }
+    ],
+    "sources": [
+      "https://example.org/sample"
+    ],
+    "confidence": "needs_check",
+    "notes": "SAMPLE DATA — Thượng Cát-like 3-pylon test entry."
   }
 ]

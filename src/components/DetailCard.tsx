@@ -5,8 +5,8 @@ import { googleMapsUrl, osmUrl } from '../lib/geo';
 import { fmtMeters, fmtNum, STRINGS, STRUCTURE_LABEL, type Lang } from '../lib/i18n';
 import { primaryProvince } from '../lib/provinces';
 import { Chevron, ExternalIcon, StatusChip, UsageTag } from './Glyph';
-import { SpanDiagram } from './SpanDiagram';
-import { Gallery } from './Gallery';
+import { CardHero } from './CardHero';
+import type { HeroView } from '../lib/hero';
 
 const hostOf = (url: string) => {
   try {
@@ -37,9 +37,12 @@ interface Props {
   lang: Lang;
   onClose: () => void;
   onBackToProvince: () => void;
+  heroPref: HeroView | null;
+  onHeroSelect: (v: HeroView) => void;
+  onEngage: (view: HeroView) => void;
 }
 
-export function DetailCard({ bridge, lang, onClose, onBackToProvince }: Props) {
+export function DetailCard({ bridge, lang, onClose, onBackToProvince, heroPref, onHeroSelect, onEngage }: Props) {
   const t = STRINGS[lang];
   const headingRef = useRef<HTMLHeadingElement>(null);
 
@@ -78,12 +81,12 @@ export function DetailCard({ bridge, lang, onClose, onBackToProvince }: Props) {
         ))}
       </p>
 
+      <CardHero bridge={bridge} lang={lang} pref={heroPref} onSelect={onHeroSelect} onEngage={onEngage} />
+
       <p className="headline">
         <span className="headline-figure">{fmtMeters(bridge.main_span_m, lang)}</span>
         <span className="headline-label">{t.mainSpan}</span>
       </p>
-
-      <SpanDiagram bridge={bridge} lang={lang} />
 
       <div className="nav-buttons">
         <a className="btn btn-nav" href={googleMapsUrl(bridge.lat, bridge.lng)} {...ext}>
@@ -109,8 +112,6 @@ export function DetailCard({ bridge, lang, onClose, onBackToProvince }: Props) {
           );
         })}
       </dl>
-
-      <Gallery key={bridge.id} images={bridge.images} name={bridge.name_vi} status={bridge.status} lang={lang} />
 
       {bridge.sources.length > 0 && (
         <section className="card-section">

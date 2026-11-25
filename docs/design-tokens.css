@@ -43,6 +43,37 @@
   --shadow-sheet:   0 -6px 20px rgba(18, 48, 61, 0.16);
   --shadow-marker:  0 1px 3px rgba(18, 48, 61, 0.35);
 
+  /* ---- 3D schematic model (read by Three.js via getComputedStyle; re-read on theme change) ---- */
+  --m3d-sky-top:      #DDE7EB;
+  --m3d-sky-bottom:   #F3F5F4;  /* = fog color */
+  --m3d-water:        #BCD3DA;
+  --m3d-ground:       #D9DFDA;  /* river banks / approach embankments */
+  --m3d-concrete:     #D6DBDA;  /* pylons, piers, concrete deck */
+  --m3d-steel:        #96AAB3;  /* steel / composite deck girder */
+  --m3d-cable:        #0E6A87;  /* stay cables = --c-cable */
+  --m3d-edge:         rgba(18, 48, 61, 0.45);  /* outline lines on every mesh */
+  --m3d-ghost:        #56666E;  /* planned: dashed edges, no fill */
+  --m3d-traveller:    var(--status-construction);  /* form travellers at cantilever tips */
+  --m3d-dim-line:     #56666E;  /* dimension lines + ticks */
+  --m3d-label-bg:     rgba(255, 255, 255, 0.92);
+  --m3d-label-ink:    #12303D;
+  --m3d-ghost-opacity: 0.12;    /* planned: face opacity */
+  --m3d-hemi-intensity: 1.1;
+  --m3d-sun-intensity:  1.4;
+
+  /* ---- Card hero (Ảnh / 3D / Sơ đồ) & gallery ---- */
+  --hero-aspect:      16 / 10;
+  --hero-max-h:       260px;    /* desktop panel; phone uses aspect only */
+  --thumb-w:          64px;
+  --thumb-h:          40px;
+  --thumb-gap:        6px;
+  --thumb-ring-sel:   2px;      /* selected thumb outline in --c-cable */
+  --lightbox-bg:      rgba(8, 14, 17, 0.94);  /* same both themes: photos read best on dark */
+  --lightbox-ink:     #E6ECEE;
+  --linkcard-bg:      repeating-linear-gradient(135deg, var(--c-mist) 0 10px, var(--c-raised) 10px 20px);
+  --badge-approx-bg:  var(--status-construction-tint);
+  --badge-approx-ink: var(--status-construction-text);
+
   /* ---- Typography ---- */
   --font-ui:      "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-display: "Barlow Condensed", "Be Vietnam Pro", system-ui, sans-serif;
@@ -92,6 +123,7 @@
   --z-controls:     1000;
   --z-panel:        1100;
   --z-toast:        1200;
+  --z-lightbox:     1300;  /* also used for 3D full-screen dialog */
 
   /* ---- Focus & motion ---- */
   --focus-ring: 0 0 0 2px var(--c-raised), 0 0 0 4px var(--c-cable);
@@ -135,6 +167,22 @@
     --shadow-panel:   -8px 0 24px rgba(0, 0, 0, 0.45);
     --shadow-sheet:   0 -6px 20px rgba(0, 0, 0, 0.45);
     --shadow-marker:  0 1px 3px rgba(0, 0, 0, 0.6);
+
+    --m3d-sky-top:      #0D1418;
+    --m3d-sky-bottom:   #18232A;
+    --m3d-water:        #17343D;
+    --m3d-ground:       #1F2A2E;
+    --m3d-concrete:     #9AA5A9;
+    --m3d-steel:        #6F8792;
+    --m3d-cable:        #62C3E0;
+    --m3d-edge:         rgba(230, 236, 238, 0.32);
+    --m3d-ghost:        #9DADB4;
+    --m3d-dim-line:     #9DADB4;
+    --m3d-label-bg:     rgba(27, 38, 43, 0.92);
+    --m3d-label-ink:    #E6ECEE;
+    --m3d-ghost-opacity: 0.16;
+    --m3d-hemi-intensity: 0.8;
+    --m3d-sun-intensity:  1.1;
   }
 }
 
@@ -170,6 +218,22 @@
   --shadow-panel:   -8px 0 24px rgba(0, 0, 0, 0.45);
   --shadow-sheet:   0 -6px 20px rgba(0, 0, 0, 0.45);
   --shadow-marker:  0 1px 3px rgba(0, 0, 0, 0.6);
+
+  --m3d-sky-top:      #0D1418;
+  --m3d-sky-bottom:   #18232A;
+  --m3d-water:        #17343D;
+  --m3d-ground:       #1F2A2E;
+  --m3d-concrete:     #9AA5A9;
+  --m3d-steel:        #6F8792;
+  --m3d-cable:        #62C3E0;
+  --m3d-edge:         rgba(230, 236, 238, 0.32);
+  --m3d-ghost:        #9DADB4;
+  --m3d-dim-line:     #9DADB4;
+  --m3d-label-bg:     rgba(27, 38, 43, 0.92);
+  --m3d-label-ink:    #E6ECEE;
+  --m3d-ghost-opacity: 0.16;
+  --m3d-hemi-intensity: 0.8;
+  --m3d-sun-intensity:  1.1;
 }
 
 @media (prefers-reduced-motion: reduce) {

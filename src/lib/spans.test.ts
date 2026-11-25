@@ -31,7 +31,11 @@ describe('url state', () => {
     expect(parseSearch(buildSearch({ kind: 'bridge', id: 'cau-can-tho' }, 'en'))).toEqual({
       view: { kind: 'bridge', id: 'cau-can-tho' },
       lang: 'en',
+      hero: null,
     });
+    expect(buildSearch({ kind: 'bridge', id: 'x' }, 'vi', '3d')).toBe('?bridge=x&view=3d');
+    expect(buildSearch({ kind: 'bridge', id: 'x' }, 'vi', 'photos')).toBe('?bridge=x');
+    expect(parseSearch('?bridge=x&view=diagram').hero).toBe('diagram');
     expect(buildSearch({ kind: 'province', slug: 'vinh-long' }, 'vi')).toBe('?province=vinh-long');
     expect(buildSearch({ kind: 'country' }, 'vi')).toBe('');
   });

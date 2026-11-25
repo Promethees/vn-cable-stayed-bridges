@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react';
 import type { Bridge } from '../types';
-import { layoutSpans, parseSpanArrangement } from '../lib/spans';
+import { diagramSpansOf, layoutSpans } from '../lib/spans';
 import { fmtMeters, fmtNum, STRINGS, type Lang } from '../lib/i18n';
 
 const VB_W = 1000;
@@ -9,8 +9,8 @@ const DECK_Y = 60;
 const ASSUMED_PX_W = 368; // approximate rendered width inside a 400px panel
 
 /** To-scale (horizontally) elevation drawing built from span_arrangement (design.md §6.2). */
-export function SpanDiagram({ bridge, lang }: { bridge: Bridge; lang: Lang }) {
-  const spans = parseSpanArrangement(bridge.span_arrangement);
+export function SpanDiagram({ bridge, lang, className }: { bridge: Bridge; lang: Lang; className?: string }) {
+  const spans = diagramSpansOf(bridge);
   if (!spans) return null;
   const { mainStart, mainEnd } = layoutSpans(spans, bridge.cable_stayed_spans ?? 1);
   const total = spans.reduce((a, b) => a + b, 0);
@@ -52,7 +52,7 @@ export function SpanDiagram({ bridge, lang }: { bridge: Bridge; lang: Lang }) {
   const arrText = spans.map((s) => fmtNum(s, lang)).join(' + ') + ' m';
   return (
     <figure
-      className="span-diagram"
+      className={`span-diagram${className ? ` ${className}` : ''}`}
       role="img"
       aria-label={STRINGS[lang].diagramAria(arrText, fmtMeters(mainLen, lang))}
       style={planned ? { opacity: 0.6 } : undefined}

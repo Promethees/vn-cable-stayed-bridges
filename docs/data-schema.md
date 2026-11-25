@@ -35,12 +35,32 @@ interface Bridge {
   pylons?: string;               // count / shape / height
   investor?: string;
   cost?: string;
+  model3d?: Model3D;             // parameters for the schematic 3D model (see below)
   lat: number;
   lng: number;
   images: BridgeImage[];
   sources: string[];             // URLs backing the facts
   confidence: "verified" | "needs_check";
   notes?: string;                // conflicts between sources, caveats
+}
+```
+
+```ts
+// Schematic 3D model parameters (approximate; drawn procedurally, not a survey model)
+interface Model3D {
+  spans_m: number[];             // full span list of the stay-cabled unit, e.g. [150, 350, 150]
+  pylon_shape: "H" | "A" | "inverted_Y" | "diamond" | "single" | "inverted_V" | "other";
+  pylon_heights_m: number[];     // one per pylon, height above deck or total (say which in notes)
+  pylon_height_ref: "above_deck" | "total";
+  cable_planes: 1 | 2;
+  cable_pattern: "fan" | "semi_fan" | "harp";
+  cables_per_side?: number;      // stays per pylon per side per plane, if known
+  deck_width_m: number;
+  deck_type?: "concrete" | "steel" | "composite";
+  approach_length_m?: number;    // approaches each side, for context
+  extradosed?: boolean;          // low pylons, short stays
+  confidence: "verified" | "estimated";
+  notes?: string;
 }
 ```
 
