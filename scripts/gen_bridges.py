@@ -269,6 +269,15 @@ add(id="cau-thuong-cat", name_vi="Cầu Thượng Cát", name_en="Thượng Cát
     sources=["https://danviet.vn/lo-dien-vi-tri-3-tru-thap-chinh-cua-cau-thuong-cat-tren-song-hong-d1434160.html", "https://vtcnews.vn/toan-canh-cau-day-vang-hon-7-300-ty-dong-o-ha-noi-sau-gan-10-thang-thi-cong-ar1037024.html", "main_span_m / cable_stayed_spans / span_arrangement / pylons: " + CC, OSM], confidence="verified",
     notes="Span data client-confirmed 2026-11-25 (4 × 195 m = the 780 m river section). Press gives only '780 m with 3 large spans'. Started 8/10/2025; completion target 2027. Total length 5.2 km includes approaches (main bridge ≈3.9 km). Runs from Kỳ Vũ road (Thượng Cát) to QL23B (Thiên Lộc).")
 
+
+add(id="cau-may-chai", name_vi="Cầu Máy Chai (Cầu Hoàng Gia)", name_en="Máy Chai (Hoàng Gia) Bridge", status="completed",
+    province="Hải Phòng", province_former=["Hải Phòng"], crosses="Sông Cấm",
+    roads=["Đường Lê Thánh Tông", "Đảo Vũ Yên"], construction_start=2023, opened=2025, main_span_m=200, total_length_m=2200,
+    width_m=21, lanes=4, cable_stayed_spans=1, pylons="2 yellow arch-shaped pylons (two curved legs each), 89 m, leaning toward the river; 24 stays per pylon",
+    investor="Vingroup", cost="≈2,300 tỷ VND", lat=20.8737, lng=106.7142,
+    sources=["https://cafef.vn/cau-2300-ty-dong-do-vingroup-cua-ty-phu-pham-nhat-vuong-dau-tu-xac-lap-ky-luc-chua-tung-co-ve-toc-do-xay-dung-cong-trinh-bac-qua-song-cam-188260730105702738.chn", "https://www.vtcnews.vn/hai-phong-khanh-thanh-cau-hoang-gia-hon-2-300-ty-dong-bac-qua-song-cam-ar960522.html", "https://tienphong.vn/lo-dien-hinh-hai-cau-hoang-gia-gan-2000-ty-bac-qua-song-cam-hai-phong-post1663183.tpo", "https://nominatim.openstreetmap.org (Cầu Máy Chai / Cầu Hoàng Gia)"], confidence="needs_check",
+    notes="Also called cầu Hoàng Gia; links Vũ Yên island (Vinhomes Royal Island) to Máy Chai / Gia Viên (Lê Thánh Tông road). Started 9/2023; opened to traffic 15/7/2025 and inaugurated 19/8/2025. Main span 200 m with a steel deck, per press. CafeF's segment count (16 × 10 m + 5.8 m) does not add up to 200 m. Side spans not published. Coordinates are midway between the OSM bridge-way points.")
+
 # ---------------- PLANNED ----------------
 add(id="cau-can-gio", name_vi="Cầu Cần Giờ", name_en="Cần Giờ Bridge", status="planned",
     province="TP. Hồ Chí Minh", province_former=["TP. Hồ Chí Minh"], crosses="Sông Soài Rạp",
@@ -343,8 +352,8 @@ M3D = {
     notes="Single 145 m pylon leaning 12° (press). The 230 m cable-stayed span is from the press; the back span (120 m) is estimated. Single central cable plane read from photos."),
  "cau-kien": m3d([85, 200, 85], "H", [80, 80], "total", 2, "harp", 16.0,
     notes="200 m main span; harp stays per Wikipedia. Side spans, pylon shape/height and deck width estimated from photos."),
- "cau-ba-son": m3d([200, 85], "other", [113], "total", 2, "fan", 25.0,
-    notes="Single 113 m pylon, arch/dragon-shaped and inclined toward Thủ Thiêm, with an asymmetric layout (Wikipedia / press). Back span estimated. Two cable planes read from press photos."),
+ "cau-ba-son": m3d([200, 115], "other", [113], "total", 2, "fan", 27.5, "composite",
+    notes="Asymmetric: 200 m main span (steel–concrete composite) + 115 m concrete back span; deck 27–28 m; pylon 110 m (WSP) / 113 m (Freyssinet, press). WSP calls it a 'backward sloping and curved pylon'. Pylon form, lean and stay layout measured off Commons photos; see pylon_custom."),
  "cau-ben-rung": m3d([90, 160, 160, 90], "other", [18, 18, 18], "above_deck", 2, "harp", 21.5, "concrete", extradosed=True,
     notes="Extradosed 90+2×160+90 m (press). Three pairs of red V-shaped low pylons ('V – Victory'). Pylon height above deck estimated from photos (≈18 m)."),
  "cau-cua-hoi": m3d([86, 153, 86], "other", [18, 18], "above_deck", 1, "harp", 18.5, "concrete", extradosed=True,
@@ -357,8 +366,8 @@ M3D = {
     notes="1,000 m main bridge, 500 m span, 185 m pylons, 43 m steel deck (press). Side spans derived. Pylons are a twisted 'dragon' form with crossed stay planes (render); modelled as 'other'."),
  "cau-dai-ngai-1": m3d([210, 450, 210], "A", [110, 110], "above_deck", 2, "fan", 21.5, "composite",
     notes="210+450+210 m, A-shaped pylons 110 m above deck, composite steel girder (Báo Đầu tư). Fan pattern from the render. Another source gives 164 m total height."),
- "cau-cat-lai": m3d([200, 450, 200], "inverted_Y", [170, 170], "total", 2, "fan", 38.0, "composite",
-    notes="450 m main span, two cable planes (press). Side spans, pylon height and deck width (8 lanes) estimated. Inverted-Y pylons read from the VnExpress render (1/2026)."),
+ "cau-cat-lai": m3d([190, 450, 190], "inverted_Y", [170, 170], "total", 2, "fan", 38.0, "composite",
+    notes="Spans 190–450–190 m and a ≥230 × 55 m navigation clearance (cafeland.vn). Two cable planes (press). Pylon height and deck width (8 lanes) estimated. Inverted-Y pylons read from the VnExpress render (1/2026)."),
  "cau-duong-sat-can-gio": m3d([280, 360, 280], "other", [130, 130], "total", 2, "semi_fan", 14.0,
     notes="920 m cable-stayed bridge with a 360 m span (24hMoney). Side spans derived. Pylon shape/height and deck width (double-track) unknown; placeholder values."),
  "cau-ngoc-hoi": m3d([165, 350, 165], "H", [126, 126], "total", 2, "semi_fan", 33.0,
@@ -526,6 +535,136 @@ PRESS.setdefault("cau-rach-mieu-2", []).extend([
     press("https://i2-vnexpress.vnecdn.net/2025/04/19/DJI-20250420075438-0019-D-copy-1745029263.jpg?w=1200&h=675&q=100&dpr=1&fit=crop&s=e6x9QcBbyTU8zxJQt7zodA", "VnExpress", "https://vnexpress.net/cau-rach-mieu-2-hop-long-4875889.html", "aerial 4/2025 (closure)"),
     press("https://cdn2.tuoitre.vn/zoom/1200_630/471584752817336320/2025/4/12/hinhanh-3-17444238244982079259698-345-542-1120-2023-crop-17444242392611225682403.jpg", "Tuổi Trẻ", "https://tuoitre.vn/hop-long-cau-rach-mieu-2-som-hon-4-thang-so-voi-ke-hoach-20250412091941669.htm", "photo 4/2025")])
 
+
+# ---------------- NAVIGATION CLEARANCE (tĩnh không thông thuyền) ----------------
+# Only values found in a source; fields left out when unknown (see research/questions.md).
+def nav(h=None, b=None, ref=None, src=None):
+    d = {}
+    if h is not None: d["height_m"] = h
+    if b is not None: d["width_m"] = b
+    if ref: d["reference"] = ref
+    if src: d["source"] = src
+    return d
+
+NAV = {
+ "cau-can-tho": nav(39, None, "for 10,000 DWT ships; reference level not stated", "https://nguoiquansat.vn/sieu-cau-noi-2-vung-dbscl-ket-thuc-su-menh-nhung-ben-pha-hon-100-nam-tuoi-thong-xe-15-nam-van-nam-giu-ky-luc-dong-nam-a-top-the-gioi-194312.html"),
+ "cau-vam-cong": nav(37.5, None, None, "https://vov.vn/kinh-te/khanh-thanh-cau-vam-cong-bac-qua-song-hau-911038.vov"),
+ "cau-phu-my": nav(45, 200, "width 200 m from a travel blog only (mytour.vn)", "https://24hmoney.vn/news/tp-hcm-de-xuat-mo-rong-cau-phu-my-len-it-nhat-8-lan-c27a2807656.html"),
+ "cau-binh-khanh": nav(55, None, "for 30,000–50,000 DWT ships", "https://tienphong.vn/cau-nghin-ty-co-tinh-khong-cao-nhat-viet-nam-sap-ve-dich-post1849789.tpo"),
+ "cau-my-thuan": nav(37.5, 110, None, "https://mytour.vn/vi/blog/bai-viet/cau-my-thuan.html"),
+ "cau-cao-lanh": nav(37.5, None, None, "https://vtcnews.vn/thong-xe-cay-cau-lon-thu-2-o-mien-tay-d401815.html"),
+ "cau-phuoc-khanh": nav(55, None, None, "https://tuoitre.vn/cao-toc-ben-luc-long-thanh.html"),
+ "cau-rach-mieu": nav(37.5, 70, None, "https://nguoiquansat.vn/cay-cau-day-vang-dau-tien-do-viet-nam-xay-dung-se-cam-o-to-trong-3-ngay-150152.html"),
+ "cau-rach-mieu-2": nav(37.5, 110, "main channel; secondary channel 220 m × 30 m", "https://daibieunhandan.vn/du-an-cau-rach-mieu-2-dua-vao-khai-thac-som-hon-5-thang-10383788.html"),
+ "cau-binh": nav(25, None, "for 3,000 DWT ships; travel blog only", "https://mytour.vn/vi/blog/bai-viet/cau-binh.html"),
+ "cau-bach-dang": nav(48.4, 250, None, "https://vov.vn/tin-24h/nhung-hinh-anh-thi-cong-cuoi-cung-tren-cau-bach-dang-805863.vov"),
+ "cau-ben-rung": nav(11, 85, "two channels, each 85 m × 11 m (BxH = 2×(85×11) m)", "https://vnbusiness.vn/day-nhanh-tien-do-thi-cong-cau-ben-rung-ket-noi-hai-phong-quang-ninh.html"),
+ "cau-cat-lai": nav(55, 230, "minimum, for 60,000 DWT container ships", "https://cafeland.vn/tin-tuc/toan-canh-noi-xay-cau-cat-lai-sau-dong-tho-khu-vuc-nay-dang-ra-sao-150238.html"),
+ "cau-duong-sat-can-gio": nav(55, 242, None, "https://24hmoney.vn/news/sieu-do-thi-ty-usd-cua-vingroup-co-them-buoc-ngoat-c3a2848236.html"),
+ "cau-nguyen-trai": nav(25, 165, "press says 'khoảng 165m x 25m'", "https://daibieunhandan.vn/hai-phong-toan-canh-du-an-cau-nguyen-trai-va-vung-phu-can-hon-6-300-ty-dong-10425773.html"),
+ "cau-phuoc-an": nav(55, 135, "for 30,000 DWT ships (an earlier appraisal said 123 m × 55 m)", "https://nhandan.vn/can-canh-cau-phuoc-an-ket-noi-quan-trong-giua-thanh-pho-ho-chi-minh-va-dong-nai-dang-vuot-tien-do-post968305.html"),
+ "cau-can-tho-2": nav(40, 110, "main channel, above H5%; total navigable width 300 m incl. two 95 m × 31 m side channels", "https://baodautu.vn/phan-dau-khoi-cong-xay-dung-cau-can-tho-2-von-28500-ty-dong-vao-nam-2027-d388354.html"),
+ "cau-ba-son": nav(11, None, None, "https://en.wikipedia.org/wiki/Ba_Son_Bridge"),
+ "cau-can-gio": nav(55, None, None, "https://plo.vn/cau-can-gio-mang-hinh-tuong-cay-duoc-post515884.html"),
+}
+
+
+# ---------------- CUSTOM PYLON GEOMETRY (sculptural / curved / leaning pylons) ----------------
+# Local frame per schema: x along bridge (+ toward main span), y up from deck level, z across bridge.
+# All values were measured off side-on / oblique photos and renders, scaled with known pylon heights,
+# deck widths and spans. They are approximate ("estimated").
+CW = "https://commons.wikimedia.org/wiki/File:"
+PYLON = {
+ "cau-ba-son": {
+    "description": "Single pointed-arch pylon (two legs straddling the deck, curving inward and meeting at the tip, like an inverted 'U'/dragon spine). The whole arch is curved in elevation and leans BACK, away from the 200 m main span, toward the Thủ Thiêm back span. The main-span stays fan from the upper arch to both deck edges; a smaller set of back-stays anchors in the 115 m back span.",
+    "legs": [
+        {"centerline": [[0, -11, -15.5], [-2, 15, -14.5], [-7, 45, -11], [-14, 75, -6], [-21, 92, -2], [-24, 101, 0]], "width_base_m": 5.0, "width_top_m": 2.5, "depth_base_m": 4.0, "depth_top_m": 2.5},
+        {"centerline": [[0, -11, 15.5], [-2, 15, 14.5], [-7, 45, 11], [-14, 75, 6], [-21, 92, 2], [-24, 101, 0]], "width_base_m": 5.0, "width_top_m": 2.5, "depth_base_m": 4.0, "depth_top_m": 2.5},
+    ],
+    "anchor_zone": [{"y_from_m": 40, "y_to_m": 96, "leg": 0}, {"y_from_m": 40, "y_to_m": 96, "leg": 1}],
+    "reference_images": [CW + "Cầu_Ba_Son,_TP.HCM,_042022.jpg", CW + "ThapCauThuThiem2(Left).jpg", CW + "Ba_Son_Bridge,_Saigon_(20230705_1516).jpg", "https://wsp.com/en-ca/projects/thu-thiem-2-cable-stayed-bridge"],
+ },
+ "cau-nhat-tan": {
+    "description": "Five identical pointed-arch ('gothic A') pylons: two legs straddle the deck and curve inward to meet at a single tip, with no visible cross-beam above the deck. Fan stays run from the upper third of each leg to the deck edges.",
+    "legs": [
+        {"centerline": [[0, -12, -19], [0, 20, -17], [0, 50, -12], [0, 72, -5], [0, 82, 0]], "width_base_m": 4.5, "width_top_m": 2.5},
+        {"centerline": [[0, -12, 19], [0, 20, 17], [0, 50, 12], [0, 72, 5], [0, 82, 0]], "width_base_m": 4.5, "width_top_m": 2.5},
+    ],
+    "anchor_zone": [{"y_from_m": 45, "y_to_m": 78, "leg": 0}, {"y_from_m": 45, "y_to_m": 78, "leg": 1}],
+    "mirror_for_other_pylons": True,
+    "reference_images": [CW + "4am_view_of_Nhat_Tan_Bridge_in_Hanoi.jpg", CW + "Cau_Nhat_Tan,_Ha_Noi,_VN_02.jpg"],
+ },
+ "cau-tran-thi-ly": {
+    "description": "Single straight concrete mast leaning ~12° back, away from the 230 m cable-stayed span ('sail' shape). One central cable plane fans from the upper mast to the deck centreline on the main-span side; red back-stays run from the same zone down to the back span / ground anchorage.",
+    "legs": [
+        {"centerline": [[0, -8, 0], [-10, 40, 0], [-20, 88, 0], [-27, 120, 0]], "width_base_m": 6.0, "width_top_m": 2.5, "depth_base_m": 5.0, "depth_top_m": 2.0},
+    ],
+    "anchor_zone": [{"y_from_m": 55, "y_to_m": 118, "leg": 0}],
+    "reference_images": [CW + "Trần_Thị_Lý_Bridge_at_daytime.jpg", CW + "Trần_Thị_Lý_Bridge,_Da_Nang.jpg"],
+ },
+ "cau-tu-lien": {
+    "description": "Two 'dragon' pylons from the official render: two legs rise from outside the deck edges, cross over each other (twisted) above the deck and merge into a single spire; the stay planes appear crossed. The twist is modelled as the legs swapping x-offset (one leans forward, one back) while converging in z.",
+    "legs": [
+        {"centerline": [[6, -15, -24], [4, 30, -18], [0, 80, -6], [-3, 125, 0], [-2, 170, 0]], "width_base_m": 6.0, "width_top_m": 2.5},
+        {"centerline": [[-6, -15, 24], [-4, 30, 18], [0, 80, 6], [3, 125, 0], [2, 170, 0]], "width_base_m": 6.0, "width_top_m": 2.5},
+    ],
+    "anchor_zone": [{"y_from_m": 95, "y_to_m": 165, "leg": 0}, {"y_from_m": 95, "y_to_m": 165, "leg": 1}],
+    "mirror_for_other_pylons": True,
+    "reference_images": ["https://daknong.1cdn.vn/thumbs/1200x630/2026/07/23/img_afa3cf01.jpg"],
+ },
+ "cau-can-gio": {
+    "description": "Current two-pylon 'mangrove tree' (cây đước) design per the 1/2026 render: each pylon has two splayed 'root' legs that rise from the water outside the deck, curve inward under/through the deck and join into one trunk about a third of the way up; the trunk continues as a single mast carrying fan stays in two planes.",
+    "legs": [
+        {"centerline": [[0, -40, -20], [0, -15, -17], [0, 10, -10], [0, 30, -2], [0, 40, 0]], "width_base_m": 5.0, "width_top_m": 4.0},
+        {"centerline": [[0, -40, 20], [0, -15, 17], [0, 10, 10], [0, 30, 2], [0, 40, 0]], "width_base_m": 5.0, "width_top_m": 4.0},
+        {"centerline": [[0, 40, 0], [0, 65, 0], [0, 90, 0]], "width_base_m": 6.0, "width_top_m": 3.0},
+    ],
+    "anchor_zone": [{"y_from_m": 50, "y_to_m": 88, "leg": 2}],
+    "mirror_for_other_pylons": True,
+    "reference_images": ["https://cdn2.tuoitre.vn/zoom/1200_630/471584752817336320/2026/1/14/anh-9-17683527812281318384555-89-20-838-1451-crop-176842964739965225266.jpg"],
+ },
+ "cau-phuoc-an": {
+    "description": "Pointed-arch pylons (two legs straddling the deck, curving inward to a tip) at both main piers; extradosed stays fan from the upper arch to the deck. Shape per the Người Quan Sát image (8/2026); proportions from the 250 m span and 27 m deck.",
+    "legs": [
+        {"centerline": [[0, -10, -15], [0, 12, -13.5], [0, 30, -8], [0, 40, -3], [0, 44, 0]], "width_base_m": 3.5, "width_top_m": 2.0},
+        {"centerline": [[0, -10, 15], [0, 12, 13.5], [0, 30, 8], [0, 40, 3], [0, 44, 0]], "width_base_m": 3.5, "width_top_m": 2.0},
+    ],
+    "anchor_zone": [{"y_from_m": 18, "y_to_m": 40, "leg": 0}, {"y_from_m": 18, "y_to_m": 40, "leg": 1}],
+    "mirror_for_other_pylons": True,
+    "reference_images": ["https://nqs.1cdn.vn/thumbs/1200x630/2026/08/01/7031_cau-phuoc-an3.jpg"],
+ },
+ "cau-ben-rung": {
+    "description": "At each of the 3 pylon piers, two separate flat 'blade' posts stand at the deck edges and lean OUTWARD, forming a V in cross-section (the 'V – Victory' motif), white with a red inner face. Short extradosed stays (red) in two planes run from each blade to the deck edge.",
+    "legs": [
+        {"centerline": [[0, -2, -10.5], [0, 8, -12.5], [0, 18, -15]], "width_base_m": 2.0, "width_top_m": 3.5, "depth_base_m": 2.0, "depth_top_m": 1.2},
+        {"centerline": [[0, -2, 10.5], [0, 8, 12.5], [0, 18, 15]], "width_base_m": 2.0, "width_top_m": 3.5, "depth_base_m": 2.0, "depth_top_m": 1.2},
+    ],
+    "anchor_zone": [{"y_from_m": 6, "y_to_m": 17, "leg": 0}, {"y_from_m": 6, "y_to_m": 17, "leg": 1}],
+    "mirror_for_other_pylons": True,
+    "reference_images": ["https://cdn-i.vtcnews.vn/resize/1200x900//upload/2024/07/16/cau-ben-rung-truoc-ngay-thong-cau-5-10294993.jpg"],
+ },
+}
+DECK_RADIUS = {}   # no horizontally curved stayed unit found in sources/photos
+
+
+M3D["cau-may-chai"] = m3d([90, 200, 90], "other", [89, 89], "total", 2, "semi_fan", 21.0, "steel", cps=6,
+    notes="200 m main span, 89 m pylons, 48 stays (24 per pylon, so 6 per side per plane assuming 2 planes), steel deck 21 m (CafeF). Side spans not published (estimated 90 m). Pylon form read from the CafeF and VTC photos (7/2025).")
+PYLON["cau-may-chai"] = {
+    "description": "Each pylon is a yellow arch: two curved legs straddle the deck, lean forward toward the river (main span) and curve inward to meet at the tip, like a bent wing ('Cửa Thế Giới' concept). Stays in two planes fan to the deck edges on both sides.",
+    "legs": [
+        {"centerline": [[-4, -20, -13], [0, 10, -12.5], [6, 35, -9], [11, 55, -4], [13, 64, 0]], "width_base_m": 4.0, "width_top_m": 2.5},
+        {"centerline": [[-4, -20, 13], [0, 10, 12.5], [6, 35, 9], [11, 55, 4], [13, 64, 0]], "width_base_m": 4.0, "width_top_m": 2.5},
+    ],
+    "anchor_zone": [{"y_from_m": 25, "y_to_m": 60, "leg": 0}, {"y_from_m": 25, "y_to_m": 60, "leg": 1}],
+    "mirror_for_other_pylons": True,
+    "reference_images": ["https://cafefcdn.com/thumb_w/640/203337114487263232/2026/7/30/avatar1785383768277-1785383768904592996991.png", "https://cdn-i.vtcnews.vn/resize/1200x900/upload/2025/07/13/anh-2-18403346.jpg"],
+}
+NAV["cau-may-chai"] = nav(25, 110, None, "https://cafef.vn/cau-2300-ty-dong-do-vingroup-cua-ty-phu-pham-nhat-vuong-dau-tu-xac-lap-ky-luc-chua-tung-co-ve-toc-do-xay-dung-cong-trinh-bac-qua-song-cam-188260730105702738.chn")
+PRESS["cau-may-chai"] = [
+    press("https://cafefcdn.com/thumb_w/640/203337114487263232/2026/7/30/avatar1785383768277-1785383768904592996991.png", "CafeF", "https://cafef.vn/cau-2300-ty-dong-do-vingroup-cua-ty-phu-pham-nhat-vuong-dau-tu-xac-lap-ky-luc-chua-tung-co-ve-toc-do-xay-dung-cong-trinh-bac-qua-song-cam-188260730105702738.chn", "aerial (completed)"),
+    press("https://cdn-i.vtcnews.vn/resize/1200x900/upload/2025/07/13/anh-2-18403346.jpg", "VTC News", "https://vtcnews.vn/can-canh-cau-hoang-gia-truoc-gio-g-bieu-tuong-moi-tai-hai-phong-sau-sap-nhap-ar954169.html", "photo 7/2025 (pylons)")]
+NAV["cau-my-thuan-2"] = nav(37.5, None, None, "https://www.sggp.org.vn/khoanh-khac-cau-my-thuan-2-noi-lien-doi-bo-song-tien-post709756.html")
+
 # ---------------- MERGE images + model3d into each bridge ----------------
 for b in B:
     bid = b["id"]
@@ -538,6 +677,24 @@ for b in B:
         b["notes"] = (b.get("notes", "") + f" Link-only images (press/official, license unknown): {what}.").strip()
     assert b["images"], f"{bid}: no image"
     b["model3d"] = M3D[bid]
+    if bid in PYLON:
+        pc = PYLON[bid]
+        for leg in pc["legs"]:
+            assert len(leg["centerline"]) >= 3, bid
+        for az in pc["anchor_zone"]:
+            assert 0 <= az["leg"] < len(pc["legs"]) and az["y_from_m"] < az["y_to_m"], bid
+        b["model3d"]["pylon_custom"] = pc
+        b["model3d"]["confidence"] = "estimated"
+    if bid in DECK_RADIUS:
+        b["model3d"]["deck_plan_radius_m"] = DECK_RADIUS[bid]
+    if NAV.get(bid):
+        b["nav_clearance"] = NAV[bid]
+        h = NAV[bid].get("height_m")
+        if h is not None:
+            assert h > 0, bid
+            m = b["model3d"]
+            if m["pylon_height_ref"] == "total":
+                assert h < min(m["pylon_heights_m"]), f"{bid}: clearance {h} >= pylon height"
     if b["structure_type"] == "extradosed":
         assert b["model3d"].get("extradosed") is True, bid
     assert sum(b["model3d"]["spans_m"]) > 0 and max(b["model3d"]["spans_m"]) >= b["main_span_m"] - 1, bid
@@ -549,7 +706,7 @@ ids = [b["id"] for b in B]
 assert len(ids) == len(set(ids))
 order = ["id","name_vi","name_en","status","structure_type","usage","province","province_former","crosses","roads","railways",
          "construction_start","opened","main_span_m","total_length_m","width_m","lanes","cable_stayed_spans","span_arrangement",
-         "pylons","investor","cost","model3d","lat","lng","images","sources","confidence","notes"]
+         "pylons","investor","cost","nav_clearance","model3d","lat","lng","images","sources","confidence","notes"]
 out = [{k: b[k] for k in order if k in b} for b in B]
 json.dump(out, open(sys.argv[1], "w"), ensure_ascii=False, indent=2)
 from collections import Counter

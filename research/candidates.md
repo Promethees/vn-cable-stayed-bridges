@@ -1,6 +1,6 @@
 # Candidate list (updated 2026-11-25)
 
-This file mirrors `data/bridges.json` (33 entries). "?" means unknown. Province uses the 34-unit scheme (post-July-2025). For bridges not yet open, "Opened" is the target year. "client" means the value was client-confirmed on 2026-11-25.
+This file mirrors `data/bridges.json` (34 entries). "?" means unknown. Province uses the 34-unit scheme (post-July-2025). For bridges not yet open, "Opened" is the target year. "client" means the value was client-confirmed on 2026-11-25.
 
 ## Included: main span > 150 m (cable-stayed + extradosed; road, rail, metro)
 
@@ -23,6 +23,7 @@ This file mirrors `data/bridges.json` (33 entries). "?" means unknown. Province 
 | Cầu Trần Thị Lý | completed | cable-stayed | road | Đà Nẵng | 230 | 2009 | 2013 | Đường Trần Thị Lý | needs check | Single inclined pylon |
 | Cầu vượt cửa biển Thuận An | completed | extradosed | road | Huế | 218 | ? | 2026 | Đường bộ ven biển | needs check | Opened 30/4 (technical), operating from 30/7/2026 |
 | Cầu Kiền | completed | cable-stayed | road | Hải Phòng | 200 | 2001 | 2003 | QL10 | verified | |
+| Cầu Máy Chai (Hoàng Gia) | completed | cable-stayed | road | Hải Phòng | 200 | 2023 | 2025 | Lê Thánh Tông – đảo Vũ Yên | needs check | Added 2026-11-26 (client find). Two leaning yellow arch pylons, 89 m; nav 110 × 25 m; side spans unknown |
 | Cầu Ba Son (Thủ Thiêm 2) | completed | cable-stayed | road | TP. Hồ Chí Minh | 200 | 2015 | 2022 | Tôn Đức Thắng – R12 | needs check | Span from Wikipedia only |
 | Cầu Bến Rừng | completed | extradosed | road | Hải Phòng – Quảng Ninh | 160 (×2) | ? | 2024 | ? | needs check | 90+2×160+90 |
 | Cầu Cửa Hội | completed | extradosed | road | Nghệ An – Hà Tĩnh | 153 | 2019 | 2021 | Đường bộ ven biển | needs check | Span from one source; borderline |
@@ -44,12 +45,21 @@ This file mirrors `data/bridges.json` (33 entries). "?" means unknown. Province 
 
 | Name | Status | Type | Usage | Province | Main span (m) | Note |
 |---|---|---|---|---|---|---|
+| Cầu Cửa Lớn (cao tốc Cà Mau – Đất Mũi) | under construction (expressway started 19/8/2025; bridge package/start not confirmed) | cable-stayed | road | Cà Mau | ? (bridge ≈1.5 km; span not published) | Added 2026-11-26 (client find). Confirmed cable-stayed (baolamdong.vn, diendandoanhnghiep.vn) but no main-span figure, so not in bridges.json until the span is shown to be > 150 m |
 | Cầu Phú Mỹ 2 | planned (groundbreaking 15/1/2026) | cable-stayed (2 planes) | road | TP. Hồ Chí Minh – Đồng Nai | ? (navigation channel 250 m wide, so span is likely > 250) | Main bridge ≈870 m, crosses the Nhà Bè river; span figure not published |
 
 ## Excluded or borderline
 
 | Name | Main span (m) | Reason |
 |---|---|---|
+| Cầu Hải Thành (Vành đai 2 Hải Phòng, sông Lạch Tray) | ? (3-span PC girder, nav 50 × 9.5 m) | girder per Tiền Phong; one MOC note mentions "dây văng tại trụ T12", probably a mix-up with Nguyễn Trãi |
+| Cầu Trà Khúc 1 mới (Quảng Ngãi) | ? | self-anchored suspension (dây võng tự neo), not cable-stayed |
+| Cầu Lại Xuân (Hải Phòng – Quảng Ninh) | ? | concrete girder |
+| Cầu Rào 3 (Hải Phòng) | ? (main bridge 344.5 m) | structure not confirmed; no cable-stayed evidence |
+| Cầu Văn Úc 2 (cao tốc Ninh Bình – Hải Phòng) | ? | PC concrete bridge |
+| Cầu vượt sông Đáy (cao tốc Ninh Bình – Hải Phòng) | 130 | box girder 80+130+80 |
+| Cầu vượt vịnh Rạch Giá (An Biên – Rạch Giá, An Giang) | ? | concrete/PC per press; not cable-stayed |
+| Cầu Bát Xát – Bá Sái (Lào Cai) | < 150 | low-pylon cable-stayed, 230 m main bridge in 3 spans |
 | Cầu Nhật Lệ 2 (Quảng Trị) | 150 ×2 | ≤ 150 m |
 | Cầu Rào 2 (Hải Phòng) | 120 | ≤ 150 m |
 | Cầu Sông Hiếu (Quảng Trị) | 100 ×2 | ≤ 150 m |

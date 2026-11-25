@@ -23,3 +23,28 @@ One question per line, bridge name first. Already answered: Phú Mỹ start year
 19. Bridges spanning two provinces: `province` is written "A – B" (e.g. "Đồng Tháp – Vĩnh Long"). Is that format OK, or should we pick one province?
 20. Rail lines (Lào Cai–Hà Nội–Hải Phòng, North–South HSR, Hà Nội–Quảng Ninh HSR, Thủ Thiêm–Long Thành, Biên Hòa–Vũng Tàu): no published cable-stayed/extradosed span > 150 m found. Do you know of a specific crossing to add?
 21. Mỹ Lợi, Hưng Hà, Ba Lạt, Hàm Luông, Đình Vũ, Tân Vũ, Vĩnh Thịnh, Rạch Sỏi: we found no cable-stayed span > 150 m. OK to leave them out?
+
+## Navigation clearance (tĩnh không thông thuyền), added 2026-11-26
+22. Not found (left blank): Mỹ Thuận 2, Nhật Tân, Kiền, Trần Thị Lý, Bãi Cháy, Cửa Hội, Thuận An, Hòa Sơn, Tứ Liên, Đại Ngãi 1, Ngọc Hồi, Long Hưng, Thượng Cát, Đồng Nai river bridge (Lâm Đồng). Can you supply B × H from design documents?
+23. Cầu Cần Thơ: H = 39 m (Người Quan Sát); some sources imply 37.5 m. Which is right? Channel width?
+24. Cầu Bãi Cháy: only "deck ≈50 m above water" (Wikipedia mirror) was found, so no clearance value is set. Is it 50 m?
+25. Cầu Thuận An: press says only "nhịp thông thuyền cao hơn 40 m"; no value set. Exact H × B?
+26. Cầu Phú Mỹ: H = 45 m is well sourced; B = 200 m comes from a travel blog only. Confirm B?
+27. Cầu Bính: H = 25 m comes from a travel blog only. Confirm?
+28. Cầu Rạch Miễu: B = 70 m (Người Quan Sát) looks small next to Mỹ Thuận's 110 m. Confirm?
+29. Cầu Phước An: B = 135 m (most press) vs 123 m (appraisal-stage article). Which one?
+30. Cầu Cần Thơ 2: main channel 110 × 40 m above H5% (Báo Đầu tư) vs 160 × 39 m (VOH / Người Quan Sát). Which is current?
+31. Cầu Nguyễn Trãi: "khoảng 165m x 25m" is from one article. Confirm?
+32. Cầu Bến Rừng: 2 × (85 × 11) m is from one article (vnbusiness). Confirm?
+33. Cầu Cát Lái: 230 × 55 m and spans 190–450–190 m come from cafeland (one source also says "PC balanced cantilever", which may be an older design). Confirm against the approved cable-stayed design?
+
+## Pylon geometry (model3d.pylon_custom), added 2026-11-26
+34. Cầu Ba Son: modelled as a pointed arch straddling the deck, curving back ~24 m toward the 115 m back span, with main-span stays plus back-stays. Do you have an elevation drawing to confirm the lean and where the stays anchor?
+35. Cầu Tứ Liên, Cầu Cần Giờ, Cầu Phước An: shapes are read from small press renders only. Can you supply official architectural drawings?
+36. Cầu Soài Rạp rail bridge and Cầu Cửa Hội: no clear image of the pylon form was found, so no pylon_custom (Cửa Hội looks like a plain single low pylon). Any drawings?
+37. Horizontally curved decks (deck_plan_radius_m): none found in a stayed unit. Do you know of any?
+
+## New bridges found on 2026-11-26
+38. Cầu Cửa Lớn (Cà Mau – Đất Mũi expressway): confirmed cable-stayed (≈1.5 km) but no main span, pylon or start date was found. It is held as "pending" outside bridges.json. Can you supply the design span?
+39. Cầu Máy Chai (Hoàng Gia): main span 200 m and pylons 89 m are from press, but side spans and stay planes are not published. Is it 2 planes? What are the side spans?
+40. Cầu Hải Thành (Hải Phòng, Lạch Tray): press calls it a 3-span PC girder, yet one MOC note mentions stays at pier T12. Is it extradosed? If so, what is the main span (nav channel is only 50 m wide, so probably < 150 m)?
