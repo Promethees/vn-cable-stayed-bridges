@@ -134,7 +134,11 @@ export class BridgeEngine {
     this.controls.addEventListener('start', this.cancelTween);
 
     this.makeMaterials();
-    if (import.meta.env.DEV) (window as unknown as { __engine: BridgeEngine }).__engine = this;
+    if (import.meta.env.DEV) {
+      (window as unknown as { __engine: BridgeEngine }).__engine = this;
+      // dev-only camera presets for scripts/render_views.mjs; the import is dead code in production builds
+      void import('./devViews').then((m) => m.installDevViews(this));
+    }
     this.resizeObs = new ResizeObserver(() => this.resize());
     this.mount(host);
   }
@@ -305,11 +309,15 @@ export class BridgeEngine {
   }
 
   private sweep(sw: SweepMesh, mat: THREE.Material) {
+    return this.sweepMesh(sw, mat);
+  }
+
+  private sweepMesh(sw: SweepMesh, mat: THREE.Material) {
     const geo = new THREE.BufferGeometry();
     geo.setAttribute('position', new THREE.Float32BufferAttribute(sw.positions, 3));
     geo.setIndex(sw.indices);
     geo.computeVertexNormals();
-    this.addMesh(geo, mat);
+    return this.addMesh(geo, mat);
   }
 
   private member(mb: Member, mat: THREE.Material) {
@@ -343,9 +351,9 @@ export class BridgeEngine {
       const smooth = (mainDeckMat as THREE.MeshLambertMaterial).clone();
       smooth.flatShading = false;
       this.extraMats.push(smooth);
-      g.deckMeshes.forEach((dm) => this.sweep(dm, smooth));
+      g.deckMeshes.forEach((dm) => (this.sweep(dm, smooth).userData.deck = true));
     }
-    else g.deckPieces.forEach((b) => this.box(b, mainDeckMat));
+    else g.deckPieces.forEach((b) => (this.box(b, mainDeckMat).userData.deck = true));
     g.piers.forEach((b) => this.box(b, M.concrete));
     g.pylons.forEach((p) => {
       p.members.forEach((mb) => this.member(mb, pylonMat));
