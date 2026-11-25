@@ -277,3 +277,13 @@ describe('pylon_custom, plan curve and clearance', () => {
     expect(w.clearance!.height).toBeLessThan(w.deckElevation);
   });
 });
+
+describe('choosePylonSupports: single-pylon bridges', () => {
+  it('puts one pylon between main and back span (Trần Thị Lý 230+120, Ba Son 200+115)', () => {
+    expect(choosePylonSupports([230, 120], 1)).toEqual([0]);
+    expect(choosePylonSupports([200, 115], 1)).toEqual([0]);
+  });
+  it('puts two pylons at the ends of the main span when approach spans are listed', () => {
+    expect(choosePylonSupports([40, 40, 150, 550, 150, 40, 40], 2)).toEqual([2, 3]);
+  });
+});

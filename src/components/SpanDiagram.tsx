@@ -1,6 +1,7 @@
 import type { ReactElement } from 'react';
 import type { Bridge } from '../types';
 import { diagramSpansOf, layoutSpans } from '../lib/spans';
+import { choosePylonSupports } from '../lib/bridge3d';
 import { fmtMeters, fmtNum, STRINGS, type Lang } from '../lib/i18n';
 
 const VB_W = 1000;
@@ -19,7 +20,15 @@ export function SpanDiagram({ bridge, lang, className }: { bridge: Bridge; lang:
   const edges = spans.reduce<number[]>((acc, s) => [...acc, acc[acc.length - 1] + s], [0]);
   const mainLen = Math.max(...spans.slice(mainStart, mainEnd + 1));
   const pylonH = Math.max(18, Math.min(DECK_Y - 4, 0.28 * mainLen * (ASSUMED_PX_W / total)));
-  const pylonIdx = Array.from({ length: mainEnd - mainStart + 2 }, (_, i) => mainStart + i);
+  // Pylon edge indices: from model3d's pylon count (same rule as the 3D model), so single-pylon
+  // bridges get one pylon, not one at each end of the main span.
+  const pylonCount = bridge.model3d?.pylon_heights_m?.length;
+  const pylonIdx = pylonCount
+    ? choosePylonSupports(spans, pylonCount).map((s) => s + 1)
+    : Array.from({ length: mainEnd - mainStart + 2 }, (_, i) => mainStart + i).filter(
+        (e) => e > 0 && e < spans.length,
+      );
+  const isPylon = new Set(pylonIdx);
   const cableFrac = bridge.status === 'under_construction' ? 0.6 : 1;
   const planned = bridge.status === 'planned';
   const ve = { vectorEffect: 'non-scaling-stroke' as const };
@@ -32,7 +41,9 @@ export function SpanDiagram({ bridge, lang, className }: { bridge: Bridge; lang:
     for (const side of [-1, 1] as const) {
       const spanIdx = side < 0 ? pi - 1 : pi;
       if (spanIdx < 0 || spanIdx >= spans.length) continue;
-      const reach = sx(spans[spanIdx]) / 2;
+      // share the span with a pylon at its far end; otherwise stays reach across most of it
+      const farEdge = side < 0 ? pi - 1 : pi + 1;
+      const reach = sx(spans[spanIdx]) * (isPylon.has(farEdge) ? 0.5 : 0.92);
       for (let j = 1; j <= 5; j++) {
         const x2 = x + side * reach * (j / 5);
         cables.push(
