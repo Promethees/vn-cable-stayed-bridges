@@ -143,7 +143,7 @@ const en: Dict = {
   customPylon: 'custom-shaped',
   tabPhotos: 'Photos',
   tab3d: '3D',
-  tabDiagram: 'Elevation',
+  tabDiagram: 'Diagram',
   mediaLabel: 'Photos and model',
   fullscreen: 'Full screen',
   resetView: 'Reset view',
