@@ -1,9 +1,11 @@
 import { useEffect, useRef } from 'react';
 import type { Bridge } from '../types';
-import { CARD_FIELDS } from '../lib/fields';
+import { visibleFields, type FieldDef } from '../lib/fields';
 import { googleMapsUrl, osmUrl } from '../lib/geo';
-import { StatusBadge } from './StatusBadge';
-import { ImageGallery } from './ImageGallery';
+import { fmtMeters, fmtNum, STRINGS, STRUCTURE_LABEL, type Lang } from '../lib/i18n';
+import { Chevron, ExternalIcon, StatusChip, UsageTag } from './Glyph';
+import { SpanDiagram } from './SpanDiagram';
+import { Gallery } from './Gallery';
 
 const hostOf = (url: string) => {
   try {
@@ -13,66 +15,109 @@ const hostOf = (url: string) => {
   }
 };
 
-export function DetailCard({ bridge, onClose }: { bridge: Bridge; onClose: () => void }) {
+function FieldValue({ f, b, lang }: { f: FieldDef; b: Bridge; lang: Lang }) {
+  const v = b[f.key];
+  if (f.format === 'roadChips' && Array.isArray(v))
+    return (
+      <ul className="road-chips">
+        {v.map((r) => (
+          <li key={String(r)}>{String(r)}</li>
+        ))}
+      </ul>
+    );
+  if (f.format === 'meters' && typeof v === 'number') return <>{fmtMeters(v, lang)}</>;
+  if (Array.isArray(v)) return <>{v.join(' – ')}</>;
+  if (typeof v === 'number' && !f.key.endsWith('start') && f.key !== 'opened') return <>{fmtNum(v, lang)}</>;
+  return <>{String(v)}</>;
+}
+
+interface Props {
+  bridge: Bridge;
+  lang: Lang;
+  onClose: () => void;
+  onBackToProvince: () => void;
+}
+
+export function DetailCard({ bridge, lang, onClose, onBackToProvince }: Props) {
+  const t = STRINGS[lang];
   const headingRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
-    headingRef.current?.focus();
+    headingRef.current?.focus({ preventScroll: true });
   }, [bridge.id]);
 
-  const rows = CARD_FIELDS.map((f) => ({ f, v: f.render(bridge) })).filter(
-    ({ v }) => v !== null && v !== undefined && v !== '',
-  );
+  const fields = visibleFields(bridge);
+  const ext = { target: '_blank', rel: 'noopener noreferrer' };
 
   return (
-    <aside className="detail-card" data-status={bridge.status} aria-labelledby="detail-title" role="dialog" aria-modal="false">
-      <header className="card-header">
-        <div>
-          <h2 id="detail-title" ref={headingRef} tabIndex={-1}>
-            {bridge.name_vi}
-          </h2>
-          {bridge.name_en && <p className="name-en">{bridge.name_en}</p>}
-          <div className="badges">
-            <StatusBadge status={bridge.status} />
-            {bridge.confidence === 'needs_check' && (
-              <span className="needs-check-badge" title="Một số thông tin chưa được kiểm chứng đầy đủ">
-                Cần kiểm tra
-              </span>
-            )}
-          </div>
-        </div>
-        <button type="button" className="icon-button" onClick={onClose} aria-label="Đóng (Esc)">
-          ×
+    <article className="card">
+      <div className="card-topbar">
+        <button type="button" className="btn btn-ghost" onClick={onBackToProvince}>
+          <Chevron /> {bridge.province}
         </button>
-      </header>
+        <button type="button" className="btn btn-icon" onClick={onClose} aria-label={`${t.close} (Esc)`}>
+          <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
+            <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+          </svg>
+        </button>
+      </div>
 
-      <dl className="fields">
-        {rows.map(({ f, v }) => (
-          <div key={f.key} className="field-row">
-            <dt>{f.label}</dt>
-            <dd>{v}</dd>
-          </div>
+      <h2 id="panel-title" ref={headingRef} tabIndex={-1} className="card-title">
+        {bridge.name_vi}
+      </h2>
+      {lang === 'en' && bridge.name_en && <p className="card-subtitle">{bridge.name_en}</p>}
+      <p className="card-meta">
+        <StatusChip status={bridge.status} lang={lang} />
+        <span>{[bridge.crosses, bridge.province].filter(Boolean).join(', ')}</span>
+      </p>
+      <p className="card-tags">
+        <span className={`tag tag-structure is-${bridge.structure_type}`}>{STRUCTURE_LABEL[bridge.structure_type][lang]}</span>
+        {bridge.usage.map((u) => (
+          <UsageTag key={u} usage={u} lang={lang} />
         ))}
-      </dl>
+      </p>
 
-      <div className="card-actions">
-        <a className="button" href={googleMapsUrl(bridge.lat, bridge.lng)} target="_blank" rel="noopener noreferrer">
-          Mở trong Google Maps
+      <p className="headline">
+        <span className="headline-figure">{fmtMeters(bridge.main_span_m, lang)}</span>
+        <span className="headline-label">{t.mainSpan}</span>
+      </p>
+
+      <SpanDiagram bridge={bridge} lang={lang} />
+
+      <div className="nav-buttons">
+        <a className="btn btn-nav" href={googleMapsUrl(bridge.lat, bridge.lng)} {...ext}>
+          {t.openGmaps} <ExternalIcon />
+          <span className="visually-hidden">{t.newTab}</span>
         </a>
-        <a className="button" href={osmUrl(bridge.lat, bridge.lng)} target="_blank" rel="noopener noreferrer">
-          Mở trong OpenStreetMap
+        <a className="btn btn-nav" href={osmUrl(bridge.lat, bridge.lng)} {...ext}>
+          {t.openOsm} <ExternalIcon />
+          <span className="visually-hidden">{t.newTab}</span>
         </a>
       </div>
 
-      <ImageGallery images={bridge.images} name={bridge.name_vi} />
+      <dl className="spec">
+        {fields.map((f) => {
+          const label = typeof f.label === 'function' ? f.label(bridge) : f.label;
+          return (
+            <div key={f.key} className="spec-row">
+              <dt>{label[lang]}</dt>
+              <dd>
+                <FieldValue f={f} b={bridge} lang={lang} />
+              </dd>
+            </div>
+          );
+        })}
+      </dl>
+
+      <Gallery key={bridge.id} images={bridge.images} name={bridge.name_vi} status={bridge.status} lang={lang} />
 
       {bridge.sources.length > 0 && (
         <section className="card-section">
-          <h3>Nguồn</h3>
+          <h3>{t.sources}</h3>
           <ol className="sources">
             {bridge.sources.map((s) => (
               <li key={s}>
-                <a href={s} target="_blank" rel="noopener noreferrer" title={s}>
+                <a href={s} {...ext} title={s}>
                   {hostOf(s)}
                 </a>
               </li>
@@ -80,6 +125,17 @@ export function DetailCard({ bridge, onClose }: { bridge: Bridge; onClose: () =>
           </ol>
         </section>
       )}
-    </aside>
+      {bridge.confidence === 'needs_check' && (
+        <p className="needs-check" role="note">
+          <span aria-hidden="true">ⓘ</span> {t.needsCheck}
+        </p>
+      )}
+      {bridge.notes && (
+        <details className="notes">
+          <summary>{t.notes}</summary>
+          <p>{bridge.notes}</p>
+        </details>
+      )}
+    </article>
   );
 }

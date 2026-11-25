@@ -1,4 +1,4 @@
-import { STATUSES, type Bridge, type BridgeImage } from '../types';
+import { STATUSES, STRUCTURE_TYPES, USAGES, type Bridge, type BridgeImage } from '../types';
 
 export const MIN_MAIN_SPAN_M = 150;
 
@@ -20,6 +20,9 @@ export function bridgeProblems(v: unknown): string[] {
   if (!isStr(v.id)) p.push('id');
   if (!isStr(v.name_vi)) p.push('name_vi');
   if (!STATUSES.includes(v.status as never)) p.push('status');
+  if (!STRUCTURE_TYPES.includes(v.structure_type as never)) p.push('structure_type');
+  if (!Array.isArray(v.usage) || !v.usage.every((u) => USAGES.includes(u as never))) p.push('usage');
+  if (v.railways !== undefined && !isStrArr(v.railways)) p.push('railways');
   if (!isStr(v.province)) p.push('province');
   if (!isStrArr(v.roads)) p.push('roads');
   if (!isNum(v.main_span_m)) p.push('main_span_m');
@@ -40,6 +43,21 @@ export function bridgeProblems(v: unknown): string[] {
 
 export const isBridge = (v: unknown): v is Bridge => bridgeProblems(v).length === 0;
 
+/** Fills fields added to the schema later (structure_type, usage) so older data still loads. */
+function withDefaults(v: unknown, warn: (...a: unknown[]) => void): unknown {
+  if (!isObj(v)) return v;
+  const out = { ...v };
+  if (out.structure_type === undefined) {
+    warn(`[bridges] "${String(v.id)}": missing structure_type, assuming "cable_stayed"`);
+    out.structure_type = 'cable_stayed';
+  }
+  if (out.usage === undefined) {
+    warn(`[bridges] "${String(v.id)}": missing usage, assuming ["road"]`);
+    out.usage = ['road'];
+  }
+  return out;
+}
+
 /** Validates raw JSON, drops invalid entries, spans <= 150 m and duplicate ids (with console.warn). */
 export function parseBridges(raw: unknown, warn: (...a: unknown[]) => void = console.warn): Bridge[] {
   if (!Array.isArray(raw)) {
@@ -48,7 +66,8 @@ export function parseBridges(raw: unknown, warn: (...a: unknown[]) => void = con
   }
   const out: Bridge[] = [];
   const seen = new Set<string>();
-  raw.forEach((item, i) => {
+  raw.forEach((rawItem, i) => {
+    const item = withDefaults(rawItem, warn);
     const problems = bridgeProblems(item);
     if (problems.length) {
       warn(`[bridges] dropping entry #${i} (${isObj(item) ? String(item.id) : '?'}): invalid ${problems.join(', ')}`);

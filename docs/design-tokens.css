@@ -1,0 +1,209 @@
+/* Cầu dây văng Việt Nam: design tokens
+ * Spec: docs/design.md. Import before any component CSS.
+ * Theme: follows OS by default; force with <html data-theme="light|dark">.
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;1,400&display=swap&subset=vietnamese");
+
+:root {
+  color-scheme: light;
+
+  /* ---- Base palette (light) ---- */
+  --c-mist:        #F3F5F4;  /* app surface / panel bg */
+  --c-raised:      #FFFFFF;  /* cards, marker fill, controls */
+  --c-ink:         #12303D;  /* primary text, province dot fill */
+  --c-steel:       #56666E;  /* secondary text (5.6:1 on mist) */
+  --c-line:        #D3D9DA;  /* dividers, control borders */
+  --c-cable:       #0E6A87;  /* interactive accent, links, focus (5.6:1 on mist) */
+  --c-cable-soft:  #DCEEF3;  /* accent tint: hover/selected rows */
+
+  /* ---- Status (border colors) ---- */
+  --status-completed:          #1E8A4C;  /* green  - 4.5:1 on white */
+  --status-completed-tint:     #E3F3E9;
+  --status-construction:       #E8A600;  /* amber  - always paired with outline below */
+  --status-construction-edge:  #5C4300;  /* dark outline around amber (>= 3:1 composite) */
+  --status-construction-tint:  #FFF4D1;
+  --status-construction-text:  #7A5800;  /* amber-family text on light (5.9:1) */
+  --status-planned:            #C4302B;  /* red    - 5.0:1 on white */
+  --status-planned-tint:       #FBE6E4;
+
+  /* ---- Map overlays ---- */
+  --map-label-ink:    #12303D;
+  --map-label-halo:   rgba(255, 255, 255, 0.92);
+  --map-plate-bg:     rgba(243, 245, 244, 0.94);  /* sovereignty label plate */
+  --map-plate-border: #12303D;
+  --dot-fill:         var(--c-ink);
+  --dot-numeral:      #FFFFFF;
+  --marker-fill:      var(--c-raised);
+  --marker-glyph:     var(--c-ink);
+
+  /* ---- Elevation ---- */
+  --shadow-control: 0 1px 2px rgba(18, 48, 61, 0.18), 0 0 0 1px rgba(18, 48, 61, 0.08);
+  --shadow-panel:   -8px 0 24px rgba(18, 48, 61, 0.14);
+  --shadow-sheet:   0 -6px 20px rgba(18, 48, 61, 0.16);
+  --shadow-marker:  0 1px 3px rgba(18, 48, 61, 0.35);
+
+  /* ---- Typography ---- */
+  --font-ui:      "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Barlow Condensed", "Be Vietnam Pro", system-ui, sans-serif;
+
+  --fs-xs:   0.75rem;   /* 12 - credits, map plate 2nd line */
+  --fs-sm:   0.8125rem; /* 13 - field labels, chips */
+  --fs-base: 0.9375rem; /* 15 - body / field values */
+  --fs-md:   1.0625rem; /* 17 - section titles */
+  --fs-lg:   1.75rem;   /* 28 - bridge name (display) */
+  --fs-xl:   2.5rem;    /* 40 - main-span figure (display) */
+  --lh-tight: 1.15;
+  --lh-body:  1.5;
+  --fw-regular: 400;
+  --fw-medium:  500;
+  --fw-semi:    600;
+  --fw-bold:    700;
+
+  /* ---- Space (4px base) ---- */
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+
+  /* ---- Radius: hierarchy, not one value everywhere ---- */
+  --r-chip:    999px; /* status/filter chips, road chips */
+  --r-control: 8px;   /* buttons, map controls */
+  --r-panel:   14px;  /* bottom sheet top corners */
+  --r-media:   6px;   /* gallery images */
+
+  /* ---- Markers ---- */
+  --dot-min:            32px;  /* province dot, 1 bridge */
+  --dot-max:            48px;  /* province dot cap */
+  --dot-ring:           4px;   /* status ring thickness */
+  --marker-size:        30px;  /* bridge marker */
+  --marker-size-sel:    40px;  /* selected bridge marker */
+  --marker-ring:        3px;
+  --marker-ring-sel:    4px;
+  --marker-halo-sel:    6px;   /* outer translucent halo when selected */
+  --hit-min:            44px;  /* min touch target around any marker */
+
+  /* ---- Layout ---- */
+  --panel-w:        400px;  /* desktop side panel */
+  --sheet-peek:     148px;  /* mobile bottom sheet collapsed */
+  --sheet-half:     52vh;
+  --sheet-full:     calc(100dvh - 56px);
+  --header-h:       56px;
+  --bp-desktop:     768px;  /* reference only: use in media queries literally */
+  --z-map-labels:   450;    /* custom Leaflet pane above tiles, below markers */
+  --z-controls:     1000;
+  --z-panel:        1100;
+  --z-toast:        1200;
+
+  /* ---- Focus & motion ---- */
+  --focus-ring: 0 0 0 2px var(--c-raised), 0 0 0 4px var(--c-cable);
+  --ease-out:   cubic-bezier(0.2, 0.8, 0.2, 1);
+  --dur-fast:   120ms;
+  --dur-base:   220ms;
+  --dur-map:    0.8; /* seconds, Leaflet flyTo duration (0 under reduced motion) */
+}
+
+/* ---- Dark theme: OS preference unless forced light ---- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --c-mist:        #121A1E;
+    --c-raised:      #1B262B;
+    --c-ink:         #E6ECEE;
+    --c-steel:       #9DADB4;
+    --c-line:        #2E3D44;
+    --c-cable:       #62C3E0;
+    --c-cable-soft:  #173A46;
+
+    --status-completed:          #4CC27A;
+    --status-completed-tint:     #183626;
+    --status-construction:       #F5C02E;
+    --status-construction-edge:  #1B262B;
+    --status-construction-tint:  #3A3014;
+    --status-construction-text:  #F5C02E;
+    --status-planned:            #FF6B5E;
+    --status-planned-tint:       #3D1E1C;
+
+    --map-label-ink:    #E6ECEE;
+    --map-label-halo:   rgba(18, 26, 30, 0.9);
+    --map-plate-bg:     rgba(18, 26, 30, 0.92);
+    --map-plate-border: #E6ECEE;
+    --dot-fill:         #E6ECEE;
+    --dot-numeral:      #12303D;
+    --marker-fill:      #1B262B;
+    --marker-glyph:     #E6ECEE;
+
+    --shadow-control: 0 1px 2px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.06);
+    --shadow-panel:   -8px 0 24px rgba(0, 0, 0, 0.45);
+    --shadow-sheet:   0 -6px 20px rgba(0, 0, 0, 0.45);
+    --shadow-marker:  0 1px 3px rgba(0, 0, 0, 0.6);
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --c-mist:        #121A1E;
+  --c-raised:      #1B262B;
+  --c-ink:         #E6ECEE;
+  --c-steel:       #9DADB4;
+  --c-line:        #2E3D44;
+  --c-cable:       #62C3E0;
+  --c-cable-soft:  #173A46;
+
+  --status-completed:          #4CC27A;
+  --status-completed-tint:     #183626;
+  --status-construction:       #F5C02E;
+  --status-construction-edge:  #1B262B;
+  --status-construction-tint:  #3A3014;
+  --status-construction-text:  #F5C02E;
+  --status-planned:            #FF6B5E;
+  --status-planned-tint:       #3D1E1C;
+
+  --map-label-ink:    #E6ECEE;
+  --map-label-halo:   rgba(18, 26, 30, 0.9);
+  --map-plate-bg:     rgba(18, 26, 30, 0.92);
+  --map-plate-border: #E6ECEE;
+  --dot-fill:         #E6ECEE;
+  --dot-numeral:      #12303D;
+  --marker-fill:      #1B262B;
+  --marker-glyph:     #E6ECEE;
+
+  --shadow-control: 0 1px 2px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.06);
+  --shadow-panel:   -8px 0 24px rgba(0, 0, 0, 0.45);
+  --shadow-sheet:   0 -6px 20px rgba(0, 0, 0, 0.45);
+  --shadow-marker:  0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur-base: 0ms;
+    --dur-map:  0;
+  }
+}
+
+/* ---- Status helpers: one class sets color AND border style (non-color cue) ---- */
+.status-completed {
+  --status: var(--status-completed);
+  --status-tint: var(--status-completed-tint);
+  --status-text: var(--status-completed);
+  --status-border-style: solid;
+}
+.status-under_construction {
+  --status: var(--status-construction);
+  --status-tint: var(--status-construction-tint);
+  --status-text: var(--status-construction-text);
+  --status-border-style: dashed;
+}
+.status-planned {
+  --status: var(--status-planned);
+  --status-tint: var(--status-planned-tint);
+  --status-text: var(--status-planned);
+  --status-border-style: dotted;
+}
+
+body {
+  background: var(--c-mist);
+  color: var(--c-ink);
+  font-family: var(--font-ui);
+  font-size: var(--fs-base);
+  line-height: var(--lh-body);
+}

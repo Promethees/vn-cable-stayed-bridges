@@ -1,12 +1,16 @@
+import type { Bridge } from '../types';
 import { parseBridges } from './validate';
 
-// Glob so the build does not fail while data/bridges.json does not exist yet.
-const files = import.meta.glob<unknown>('../../data/bridges*.json', { eager: true, import: 'default' });
-
-const realKey = Object.keys(files).find((k) => k.endsWith('/bridges.json'));
-const sampleKey = Object.keys(files).find((k) => k.endsWith('/bridges.sample.json'));
+// Lazy glob: separate chunk (real loading state) and no build failure while data/bridges.json is absent.
+const loaders = import.meta.glob<unknown>('../../data/bridges*.json', { import: 'default' });
+const realKey = Object.keys(loaders).find((k) => k.endsWith('/bridges.json'));
+const sampleKey = Object.keys(loaders).find((k) => k.endsWith('/bridges.sample.json'));
 
 export const isSampleData = !realKey;
-if (isSampleData) console.info('[bridges] data/bridges.json not found — using data/bridges.sample.json');
 
-export const bridges = parseBridges(files[realKey ?? sampleKey ?? ''] ?? []);
+export async function loadBridges(): Promise<Bridge[]> {
+  const key = realKey ?? sampleKey;
+  if (!key) throw new Error('No bridge data file found');
+  if (isSampleData) console.info('[bridges] data/bridges.json not found — using data/bridges.sample.json');
+  return parseBridges(await loaders[key]());
+}

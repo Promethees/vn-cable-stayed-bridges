@@ -1,57 +1,99 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, type ReactNode } from 'react';
 import L from 'leaflet';
-import { LayersControl, MapContainer, Marker, TileLayer, useMap, useMapEvents } from 'react-leaflet';
-import type { Bridge } from '../types';
-import type { ProvinceGroup } from '../lib/grouping';
-import { STATUS_ICON_SVG, STATUS_LABEL } from '../lib/status';
 import {
-  BRIDGE_FOCUS_ZOOM,
-  BRIDGE_ZOOM_THRESHOLD,
-  ISLAND_LABELS,
+  LayersControl,
+  MapContainer,
+  Marker,
+  Pane,
+  Polygon,
+  TileLayer,
+  Tooltip,
+  ZoomControl,
+  useMap,
+  useMapEvents,
+} from 'react-leaflet';
+import type { Bridge, Status } from '../types';
+import type { ProvinceGroup } from '../lib/grouping';
+import { pylonSvg } from '../lib/status';
+import { fmtMeters, STATUS_LABEL, STRINGS, type Lang } from '../lib/i18n';
+import {
+  ARCHIPELAGO_BOUNDS,
+  BRIDGE_LABEL_ZOOM,
+  ellipse,
+  ISLAND_LABEL_MAX_ZOOM,
+  MAP_LABELS,
   MAX_ZOOM,
-  MIN_ZOOM,
+  PROVINCE_LABEL_ZOOM,
+  PROVINCE_MAX_ZOOM,
+  BRIDGE_ZOOM_THRESHOLD,
   VIETNAM_BOUNDS,
   VIETNAM_MAX_BOUNDS,
 } from '../lib/geo';
 
+export type BaseLayerId = 'osm' | 'light' | 'sat';
+
+export type FlyTarget =
+  | { kind: 'country' }
+  | { kind: 'province'; bounds: [[number, number], [number, number]] }
+  | { kind: 'bridge'; lat: number; lng: number; zoom: number };
+
+export interface FlyRequest {
+  target: FlyTarget;
+  /** map-space padding (px) covered by the panel / sheet */
+  padRight: number;
+  padBottom: number;
+  nonce: number;
+}
+
 interface Props {
   bridges: Bridge[];
   groups: ProvinceGroup[];
+  showBridges: boolean;
+  selectedId: string | null;
   zoom: number;
+  lang: Lang;
+  baseLayer: BaseLayerId;
+  dark: boolean;
+  fly: FlyRequest | null;
   onZoom: (z: number) => void;
-  selected: Bridge | null;
-  onSelect: (id: string) => void;
-  onReset: () => void;
+  onBaseLayer: (id: BaseLayerId) => void;
+  onProvince: (g: ProvinceGroup) => void;
+  onBridge: (id: string) => void;
+  onMapClick: () => void;
 }
 
 const OSM_ATTR = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+const esc = (s: string) => s.replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
+const reducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
 
-export function MapView({ bridges, groups, zoom, onZoom, selected, onSelect, onReset }: Props) {
-  const showBridges = zoom >= BRIDGE_ZOOM_THRESHOLD;
+export function MapView(p: Props) {
+  const t = STRINGS[p.lang];
+  const layerNames: Record<BaseLayerId, string> = { osm: t.layerOsm, light: t.layerLight, sat: t.layerSat };
   return (
     <MapContainer
-      className="map"
+      className={`map${p.baseLayer === 'sat' ? ' is-satellite' : ''}`}
       bounds={VIETNAM_BOUNDS}
+      boundsOptions={{ padding: [16, 16] }}
       maxBounds={VIETNAM_MAX_BOUNDS}
       maxBoundsViscosity={1}
-      minZoom={MIN_ZOOM}
       maxZoom={MAX_ZOOM}
-      zoomSnap={0.5}
-      worldCopyJump={false}
+      zoomSnap={0.25}
+      zoomControl={false}
     >
-      <LayersControl position="topright">
-        <LayersControl.BaseLayer checked name="OpenStreetMap">
+      <ZoomControl position="bottomright" />
+      <LayersControl position="topright" key={`${p.lang}-${p.dark}`}>
+        <LayersControl.BaseLayer checked={p.baseLayer === 'osm'} name={layerNames.osm}>
           <TileLayer url="https://tile.openstreetmap.org/{z}/{x}/{y}.png" attribution={OSM_ATTR} maxZoom={19} />
         </LayersControl.BaseLayer>
-        <LayersControl.BaseLayer name="CARTO Light">
+        <LayersControl.BaseLayer checked={p.baseLayer === 'light'} name={layerNames.light}>
           <TileLayer
-            url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+            url={`https://{s}.basemaps.cartocdn.com/${p.dark ? 'dark_all' : 'light_all'}/{z}/{x}/{y}{r}.png`}
             attribution={`${OSM_ATTR} &copy; <a href="https://carto.com/attributions">CARTO</a>`}
             subdomains="abcd"
             maxZoom={20}
           />
         </LayersControl.BaseLayer>
-        <LayersControl.BaseLayer name="Esri World Imagery">
+        <LayersControl.BaseLayer checked={p.baseLayer === 'sat'} name={layerNames.sat}>
           <TileLayer
             url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
             attribution="Tiles &copy; Esri &mdash; Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community"
@@ -60,159 +102,316 @@ export function MapView({ bridges, groups, zoom, onZoom, selected, onSelect, onR
         </LayersControl.BaseLayer>
       </LayersControl>
 
-      <IslandLabels />
-      <ZoomWatcher onZoom={onZoom} />
-      <ResetControl onReset={onReset} />
-      <FocusController selected={selected} />
+      <MapSetup
+        lang={p.lang}
+        zoom={p.zoom}
+        onZoom={p.onZoom}
+        onMapClick={p.onMapClick}
+        onBaseLayer={(name) => {
+          const id = (Object.keys(layerNames) as BaseLayerId[]).find((k) => layerNames[k] === name);
+          if (id) p.onBaseLayer(id);
+        }}
+      />
+      <FlyController fly={p.fly} />
 
-      {showBridges ? (
-        <BridgeMarkers bridges={bridges} selectedId={selected?.id ?? null} onSelect={onSelect} />
+      {p.zoom <= ISLAND_LABEL_MAX_ZOOM && <SovereigntyLabels lang={p.lang} zoom={p.zoom} />}
+
+      {p.showBridges ? (
+        <BridgeMarkers bridges={p.bridges} selectedId={p.selectedId} zoom={p.zoom} lang={p.lang} onBridge={p.onBridge} />
       ) : (
-        <ProvinceMarkers groups={groups} />
+        <ProvinceDots groups={p.groups} lang={p.lang} onProvince={p.onProvince} />
       )}
     </MapContainer>
   );
 }
 
-function IslandLabels() {
+/** Zoom tracking, min-zoom lock, a11y label, label-visibility classes, base-layer and click events. */
+function MapSetup({
+  lang,
+  zoom,
+  onZoom,
+  onMapClick,
+  onBaseLayer,
+}: {
+  lang: Lang;
+  zoom: number;
+  onZoom: (z: number) => void;
+  onMapClick: () => void;
+  onBaseLayer: (name: string) => void;
+}) {
+  const map = useMapEvents({
+    zoomend: () => onZoom(map.getZoom()),
+    click: () => onMapClick(),
+    baselayerchange: (e) => onBaseLayer(e.name),
+  });
+  useEffect(() => {
+    // test hook for headless screenshots: ?debug exposes the map instance
+    if (new URLSearchParams(window.location.search).has('debug')) (window as unknown as { __map: L.Map }).__map = map;
+    map.setMinZoom(map.getZoom());
+    onZoom(map.getZoom());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [map]);
+  useEffect(() => {
+    map.getContainer().setAttribute('aria-label', STRINGS[lang].mapLabel);
+  }, [map, lang]);
+  useEffect(() => {
+    map.getContainer().classList.toggle('show-province-labels', zoom >= PROVINCE_LABEL_ZOOM);
+  }, [map, zoom]);
+  return null;
+}
+
+function FlyController({ fly }: { fly: FlyRequest | null }) {
+  const map = useMap();
+  useEffect(() => {
+    if (!fly) return;
+    const animate = !reducedMotion();
+    const { target, padRight, padBottom } = fly;
+    if (target.kind === 'country') {
+      if (animate) map.flyToBounds(VIETNAM_BOUNDS, { duration: 0.8, padding: [16, 16] });
+      else map.fitBounds(VIETNAM_BOUNDS, { padding: [16, 16], animate: false });
+      return;
+    }
+    let center: L.LatLng;
+    let zoom: number;
+    if (target.kind === 'province') {
+      const b = L.latLngBounds(target.bounds);
+      const fit = map.getBoundsZoom(b, false, L.point(128 + padRight, 128 + padBottom));
+      zoom = Math.min(Math.max(fit, BRIDGE_ZOOM_THRESHOLD), PROVINCE_MAX_ZOOM);
+      center = b.getCenter();
+    } else {
+      zoom = target.zoom;
+      center = L.latLng(target.lat, target.lng);
+    }
+    // shift so the target sits in the centre of the area not covered by panel/sheet
+    const pt = map.project(center, zoom).add([padRight / 2, padBottom / 2]);
+    const dest = map.unproject(pt, zoom);
+    if (animate) map.flyTo(dest, zoom, { duration: 0.8 });
+    else map.setView(dest, zoom, { animate: false });
+  }, [map, fly]);
+  return null;
+}
+
+function SovereigntyLabels({ lang, zoom }: { lang: Lang; zoom: number }) {
   const icons = useMemo(
     () =>
-      ISLAND_LABELS.map((l) =>
-        L.divIcon({ className: 'island-label', html: `<span>${l.text}</span>`, iconSize: [0, 0] }),
+      MAP_LABELS.map((l) =>
+        L.divIcon({
+          className: l.plate ? 'map-plate' : 'map-sea-label',
+          html: `<span><span class="plate-l1">${esc(l.line1[lang])}</span>${
+            l.line2 ? `<span class="plate-l2">${esc(l.line2[lang])}</span>` : ''
+          }</span>`,
+          iconSize: [0, 0],
+        }),
       ),
-    [],
+    [lang],
   );
   return (
+    <Pane name="vnLabels" style={{ zIndex: 450, pointerEvents: 'none' }}>
+      {ARCHIPELAGO_BOUNDS.map((b, i) => (
+        <Polygon
+          key={i}
+          positions={ellipse(b)}
+          pane="vnLabels"
+          interactive={false}
+          className="archipelago-ring"
+          pathOptions={{ fill: false, weight: 1, dashArray: '2 4' }}
+        />
+      ))}
+      {MAP_LABELS.map((l, i) =>
+        l.minZoom !== undefined && zoom < l.minZoom ? null : (
+        <Marker key={l.id} position={l.position} icon={icons[i]} pane="vnLabels" interactive={false} keyboard={false} />
+        ),
+      )}
+    </Pane>
+  );
+}
+
+/** Marker with role=button, aria-label, Enter/Space activation, tooltip on focus. */
+function A11yMarker({
+  position,
+  icon,
+  label,
+  dataId,
+  zIndexOffset,
+  onActivate,
+  children,
+}: {
+  position: [number, number];
+  icon: L.DivIcon;
+  label: string;
+  dataId?: string;
+  zIndexOffset?: number;
+  onActivate: () => void;
+  children?: ReactNode;
+}) {
+  const ref = useRef<L.Marker>(null);
+  const act = useRef(onActivate);
+  useEffect(() => {
+    act.current = onActivate;
+  });
+  useEffect(() => {
+    const m = ref.current;
+    const el = m?.getElement();
+    if (!m || !el) return;
+    el.setAttribute('role', 'button');
+    el.setAttribute('aria-label', label);
+    el.tabIndex = 0;
+    if (dataId) el.dataset.markerId = dataId;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        e.stopPropagation();
+        act.current();
+      }
+    };
+    const onFocus = () => m.openTooltip();
+    const onBlur = () => {
+      if (!m.getTooltip()?.options.permanent) m.closeTooltip();
+    };
+    el.addEventListener('keydown', onKey);
+    el.addEventListener('focus', onFocus);
+    el.addEventListener('blur', onBlur);
+    return () => {
+      el.removeEventListener('keydown', onKey);
+      el.removeEventListener('focus', onFocus);
+      el.removeEventListener('blur', onBlur);
+    };
+  });
+  return (
+    <Marker
+      ref={ref}
+      position={position}
+      icon={icon}
+      zIndexOffset={zIndexOffset}
+      eventHandlers={{ click: () => act.current() }}
+    >
+      {children}
+    </Marker>
+  );
+}
+
+const iconCache = new Map<string, L.DivIcon>();
+function cached(key: string, make: () => L.DivIcon) {
+  let i = iconCache.get(key);
+  if (!i) iconCache.set(key, (i = make()));
+  return i;
+}
+
+const RING_ORDER: Status[] = ['completed', 'under_construction', 'planned'];
+const RING_VAR: Record<Status, string> = {
+  completed: 'var(--status-completed)',
+  under_construction: 'var(--status-construction)',
+  planned: 'var(--status-planned)',
+};
+
+function ringGradient(by: Record<Status, number>, total: number): string {
+  const present = RING_ORDER.filter((s) => by[s] > 0);
+  if (present.length === 1) return RING_VAR[present[0]];
+  const GAP = 4; // degrees ≈ 1px on a 40px ring
+  let a = 0;
+  const stops: string[] = [];
+  for (const s of present) {
+    const b = a + (by[s] / total) * 360;
+    stops.push(`${RING_VAR[s]} ${a}deg ${b - GAP}deg`, `var(--c-raised) ${b - GAP}deg ${b}deg`);
+    a = b;
+  }
+  return `conic-gradient(${stops.join(', ')})`;
+}
+
+function provinceIcon(g: ProvinceGroup) {
+  const d = Math.round(Math.min(48, Math.max(32, 28 + 6 * Math.sqrt(g.count))));
+  const hit = Math.max(44, d);
+  const ring = ringGradient(g.byStatus, g.count);
+  return cached(`p|${g.province}|${g.count}|${ring}`, () =>
+    L.divIcon({
+      className: 'province-hit',
+      iconSize: [hit, hit],
+      html: `<span class="province-dot" style="width:${d}px;height:${d}px;background:${ring}"><span class="province-num">${g.count}</span></span><span class="province-name">${esc(g.province)}</span>`,
+    }),
+  );
+}
+
+function ProvinceDots({
+  groups,
+  lang,
+  onProvince,
+}: {
+  groups: ProvinceGroup[];
+  lang: Lang;
+  onProvince: (g: ProvinceGroup) => void;
+}) {
+  const t = STRINGS[lang];
+  return (
     <>
-      {ISLAND_LABELS.map((l, i) => (
-        <Marker key={l.text} position={l.position} icon={icons[i]} interactive={false} keyboard={false} />
+      {groups.map((g) => (
+        <A11yMarker
+          key={g.slug}
+          position={[g.lat, g.lng]}
+          icon={provinceIcon(g)}
+          label={t.provinceAria(g.province, g.count, g.byStatus.completed, g.byStatus.under_construction, g.byStatus.planned)}
+          dataId={`province:${g.slug}`}
+          onActivate={() => onProvince(g)}
+        >
+          <Tooltip direction="top" offset={[0, -18]}>
+            {t.provinceTooltip(g.count)}
+          </Tooltip>
+        </A11yMarker>
       ))}
     </>
   );
 }
 
-function ZoomWatcher({ onZoom }: { onZoom: (z: number) => void }) {
-  const map = useMapEvents({ zoomend: () => onZoom(map.getZoom()) });
-  useEffect(() => {
-    onZoom(map.getZoom());
-  }, [map, onZoom]);
-  return null;
-}
-
-function ResetControl({ onReset }: { onReset: () => void }) {
-  const map = useMap();
-  const cb = useRef(onReset);
-  useEffect(() => {
-    cb.current = onReset;
-  }, [onReset]);
-  useEffect(() => {
-    const control = new L.Control({ position: 'topleft' });
-    control.onAdd = () => {
-      const wrap = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
-      const btn = L.DomUtil.create('button', 'reset-button', wrap);
-      btn.type = 'button';
-      btn.title = 'Xem toàn Việt Nam';
-      btn.setAttribute('aria-label', 'Xem toàn Việt Nam');
-      btn.innerHTML =
-        '<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2 7l6-5 6 5M4 6v8h8V6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>';
-      L.DomEvent.disableClickPropagation(wrap);
-      L.DomEvent.on(btn, 'click', () => {
-        cb.current();
-        map.flyToBounds(VIETNAM_BOUNDS, { duration: 0.8 });
-      });
-      return wrap;
-    };
-    control.addTo(map);
-    return () => {
-      control.remove();
-    };
-  }, [map]);
-  return null;
-}
-
-/** Flies to the selected bridge (deep link: close zoom; later clicks: keep zoom if already close). */
-function FocusController({ selected }: { selected: Bridge | null }) {
-  const map = useMap();
-  const first = useRef(true);
-  useEffect(() => {
-    if (!selected) return;
-    const zoom = first.current ? BRIDGE_FOCUS_ZOOM : Math.max(map.getZoom(), BRIDGE_ZOOM_THRESHOLD + 2);
-    first.current = false;
-    map.flyTo([selected.lat, selected.lng], zoom, { duration: 0.8 });
-  }, [map, selected]);
-  return null;
-}
-
-function ProvinceMarkers({ groups }: { groups: ProvinceGroup[] }) {
-  const map = useMap();
-  return (
-    <>
-      {groups.map((g) => {
-        const size = Math.min(48, 26 + g.count * 3);
-        const label = `${g.province}: ${g.count} cầu. Nhấn để phóng to.`;
-        const icon = L.divIcon({
-          className: 'province-marker',
-          html: `<span>${g.count}</span>`,
-          iconSize: [size, size],
-        });
-        return (
-          <Marker
-            key={g.province}
-            position={[g.lat, g.lng]}
-            icon={icon}
-            title={label}
-            alt={label}
-            eventHandlers={{
-              add: (e) => e.target.getElement()?.setAttribute('aria-label', label),
-              click: () => {
-                const bounds = L.latLngBounds(g.bounds);
-                const fit = map.getBoundsZoom(bounds.pad(0.3));
-                const z = Math.min(Math.max(fit, BRIDGE_ZOOM_THRESHOLD), BRIDGE_FOCUS_ZOOM);
-                map.flyTo(bounds.getCenter(), z, { duration: 0.8 });
-              },
-            }}
-          />
-        );
-      })}
-    </>
+function bridgeIcon(status: Status, selected: boolean) {
+  return cached(`b|${status}|${selected}`, () =>
+    L.divIcon({
+      className: 'bridge-hit',
+      iconSize: [44, 44],
+      html: `<span class="bridge-marker status-${status}${selected ? ' is-selected' : ''}">${pylonSvg(status)}</span>`,
+    }),
   );
 }
 
 function BridgeMarkers({
   bridges,
   selectedId,
-  onSelect,
+  zoom,
+  lang,
+  onBridge,
 }: {
   bridges: Bridge[];
   selectedId: string | null;
-  onSelect: (id: string) => void;
+  zoom: number;
+  lang: Lang;
+  onBridge: (id: string) => void;
 }) {
+  const t = STRINGS[lang];
+  const sorted = useMemo(() => [...bridges].sort((a, b) => b.lat - a.lat), [bridges]);
   return (
     <>
-      {bridges.map((b) => {
-        const isSel = b.id === selectedId;
-        const label = `${b.name_vi} – ${STATUS_LABEL[b.status].vi}, nhịp chính ${b.main_span_m} m`;
-        const icon = L.divIcon({
-          className: `bridge-marker${isSel ? ' is-selected' : ''}`,
-          html: `<span class="bridge-marker-inner" data-status="${b.status}">${STATUS_ICON_SVG[b.status]}</span>`,
-          iconSize: isSel ? [36, 36] : [28, 28],
-        });
+      {sorted.map((b) => {
+        const sel = b.id === selectedId;
+        const permanent = sel || zoom >= BRIDGE_LABEL_ZOOM;
+        const span = fmtMeters(b.main_span_m, lang);
         return (
-          <Marker
+          <A11yMarker
             key={b.id}
             position={[b.lat, b.lng]}
-            icon={icon}
-            title={b.name_vi}
-            zIndexOffset={isSel ? 1000 : 0}
-            eventHandlers={{
-              add: (e) => {
-                const el = e.target.getElement() as HTMLElement | undefined;
-                el?.setAttribute('aria-label', label);
-                el?.setAttribute('data-bridge-id', b.id);
-              },
-              click: () => onSelect(b.id),
-            }}
-          />
+            icon={bridgeIcon(b.status, sel)}
+            label={t.bridgeAria(b.name_vi, STATUS_LABEL[b.status][lang], span)}
+            dataId={`bridge:${b.id}`}
+            zIndexOffset={sel ? 1000 : 0}
+            onActivate={() => onBridge(b.id)}
+          >
+            <Tooltip
+              key={permanent ? 'perm' : 'hover'}
+              permanent={permanent}
+              direction="right"
+              offset={[sel ? 20 : 15, 0]}
+              className={`bridge-label${sel ? ' is-selected' : ''}`}
+            >
+              {permanent && !sel ? b.name_vi : `${b.name_vi}, ${span}`}
+            </Tooltip>
+          </A11yMarker>
         );
       })}
     </>

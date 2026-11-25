@@ -4,10 +4,19 @@
     "name_vi": "Cầu Cần Thơ",
     "name_en": "Can Tho Bridge",
     "status": "completed",
+    "structure_type": "cable_stayed",
+    "usage": [
+      "road"
+    ],
     "province": "Cần Thơ",
-    "province_former": ["Cần Thơ", "Vĩnh Long"],
+    "province_former": [
+      "Cần Thơ",
+      "Vĩnh Long"
+    ],
     "crosses": "Sông Hậu",
-    "roads": ["QL1A"],
+    "roads": [
+      "QL1A"
+    ],
     "construction_start": 2004,
     "opened": 2010,
     "main_span_m": 550,
@@ -27,7 +36,9 @@
         "source": "https://en.wikipedia.org/wiki/C%E1%BA%A7n_Th%C6%A1_Bridge"
       }
     ],
-    "sources": ["https://en.wikipedia.org/wiki/C%E1%BA%A7n_Th%C6%A1_Bridge"],
+    "sources": [
+      "https://en.wikipedia.org/wiki/C%E1%BA%A7n_Th%C6%A1_Bridge"
+    ],
     "confidence": "needs_check",
     "notes": "SAMPLE DATA — rough values for development only; replace with data/bridges.json."
   },
@@ -36,10 +47,19 @@
     "name_vi": "Cầu Rạch Miễu 2",
     "name_en": "Rach Mieu 2 Bridge",
     "status": "under_construction",
+    "structure_type": "cable_stayed",
+    "usage": [
+      "road"
+    ],
     "province": "Vĩnh Long",
-    "province_former": ["Tiền Giang", "Bến Tre"],
+    "province_former": [
+      "Tiền Giang",
+      "Bến Tre"
+    ],
     "crosses": "Sông Tiền",
-    "roads": ["QL60"],
+    "roads": [
+      "QL60"
+    ],
     "construction_start": 2022,
     "opened": 2026,
     "main_span_m": 270,
@@ -52,7 +72,9 @@
     "lat": 10.3225,
     "lng": 106.3489,
     "images": [],
-    "sources": ["https://vi.wikipedia.org/wiki/C%E1%BA%A7u_R%E1%BA%A1ch_Mi%E1%BB%85u_2"],
+    "sources": [
+      "https://vi.wikipedia.org/wiki/C%E1%BA%A7u_R%E1%BA%A1ch_Mi%E1%BB%85u_2"
+    ],
     "confidence": "needs_check",
     "notes": "SAMPLE DATA — rough values for development only."
   },
@@ -61,9 +83,15 @@
     "name_vi": "Cầu Cần Giờ",
     "name_en": "Can Gio Bridge",
     "status": "planned",
+    "structure_type": "cable_stayed",
+    "usage": [
+      "road"
+    ],
     "province": "Hồ Chí Minh",
     "crosses": "Sông Soài Rạp",
-    "roads": ["Rừng Sác"],
+    "roads": [
+      "Rừng Sác"
+    ],
     "construction_start": 2025,
     "opened": 2028,
     "main_span_m": 300,
@@ -73,11 +101,42 @@
     "cable_stayed_spans": 2,
     "span_arrangement": "~ 150 + 300 + 300 + 150 m (sample)",
     "pylons": "3 trụ tháp (sample)",
-    "lat": 10.6620,
-    "lng": 106.7760,
+    "lat": 10.662,
+    "lng": 106.776,
     "images": [],
-    "sources": ["https://vi.wikipedia.org/wiki/C%E1%BA%A7u_C%E1%BA%A7n_Gi%E1%BB%9D"],
+    "sources": [
+      "https://vi.wikipedia.org/wiki/C%E1%BA%A7u_C%E1%BA%A7n_Gi%E1%BB%9D"
+    ],
     "confidence": "needs_check",
     "notes": "SAMPLE DATA — rough values for development only."
+  },
+  {
+    "id": "cau-duong-sat-song-hong-mau",
+    "name_vi": "Cầu đường sắt vượt sông Hồng (mẫu)",
+    "name_en": "Red River rail bridge (sample)",
+    "status": "planned",
+    "structure_type": "extradosed",
+    "usage": [
+      "rail"
+    ],
+    "province": "Hà Nội",
+    "crosses": "Sông Hồng",
+    "roads": [],
+    "railways": [
+      "Đường sắt Lào Cai–Hà Nội–Hải Phòng"
+    ],
+    "construction_start": 2027,
+    "opened": 2030,
+    "main_span_m": 200,
+    "span_arrangement": "120 + 200 + 120 m",
+    "pylons": "2 tháp thấp (extradosed)",
+    "lat": 21.072,
+    "lng": 105.901,
+    "images": [],
+    "sources": [
+      "https://example.org/sample"
+    ],
+    "confidence": "needs_check",
+    "notes": "SAMPLE DATA — fictional rail/extradosed entry for development only."
   }
 ]

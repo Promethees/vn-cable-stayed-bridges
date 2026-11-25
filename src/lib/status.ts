@@ -1,17 +1,13 @@
 import type { Status } from '../types';
 
-export const STATUS_LABEL: Record<Status, { vi: string; en: string }> = {
-  completed: { vi: 'Đã hoàn thành', en: 'Completed' },
-  under_construction: { vi: 'Đang xây dựng', en: 'Under construction' },
-  planned: { vi: 'Quy hoạch / dự kiến', en: 'Planned' },
-};
+const CABLES = 'M8 3L2 11M8 3L4.5 11M8 3L11.5 11M8 3L14 11';
 
-/** Inline SVG glyphs so status is never conveyed by color alone. */
-export const STATUS_ICON_SVG: Record<Status, string> = {
-  completed:
-    '<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-  under_construction:
-    '<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 2.5L14 13.5H2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8 6.5v3.5M8 11.6v.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
-  planned:
-    '<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-dasharray="2.4 2"/><circle cx="8" cy="8" r="1.6" fill="currentColor"/></svg>',
-};
+/** Pylon glyph (design.md §5.3): finished deck / broken deck / dashed sketch. */
+export function pylonSvg(status: Status, size = 16): string {
+  const attrs = `viewBox="0 0 16 16" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true" focusable="false"`;
+  if (status === 'planned') {
+    return `<svg ${attrs} stroke-dasharray="1.5 2" opacity=".85"><path d="M8 2V14"/><path d="${CABLES}"/><path d="M1 11H15"/></svg>`;
+  }
+  const deck = status === 'completed' ? 'M1 11H15' : 'M1 11H6M10 11H15';
+  return `<svg ${attrs}><path d="M8 2V14"/><path d="${CABLES}"/><path d="${deck}"/></svg>`;
+}
