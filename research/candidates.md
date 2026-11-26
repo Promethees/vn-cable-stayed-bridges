@@ -46,7 +46,7 @@ This file mirrors `data/bridges.json` (35 entries). "?" means unknown. Province 
 
 | Name | Status | Type | Usage | Province | Main span (m) | Note |
 |---|---|---|---|---|---|---|
-| Cầu Phú Mỹ 2 | planned (groundbreaking 15/1/2026) | cable-stayed (2 planes) | road | TP. Hồ Chí Minh – Đồng Nai | ? (navigation channel 250 m wide, so span is likely > 250) | Main bridge ≈870 m, crosses the Nhà Bè river; span figure not published |
+| Cầu Phú Mỹ 2 | planned (groundbreaking 15/1/2026; design in progress; target 2029) | cable-stayed (2 symmetric pylons, 2 cable planes, fan; steel–concrete composite girder) | road | TP. Hồ Chí Minh – Đồng Nai | ? (not published; 250 × 55 m channel ⇒ > 250 m; one press line says 'nhịp chính dài 870m', which is the ≈870 m main bridge) | Re-checked 2026-11-26. Architectural competition won by TEDI–BR (PM02, 84.11 pts; HCMC decision, 4/2026). Main bridge ≈870 m, deck ≈33.5 m, 8 lanes, route 6.3 km (Nguyễn Hữu Thọ / Nhà Bè → Liên Cảng 25C / Đại Phước), Masterise PPP-BT, ≈23,186 tỷ VND. No official span found, so not in bridges.json |
 
 ## Excluded or borderline
 
