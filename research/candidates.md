@@ -1,6 +1,6 @@
 # Candidate list (updated 2026-11-25)
 
-This file mirrors `data/bridges.json` (35 entries). "?" means unknown. Province uses the 34-unit scheme (post-July-2025). For bridges not yet open, "Opened" is the target year. "client" means the value was client-confirmed on 2026-11-25.
+This file mirrors `data/bridges.json` (36 entries). "?" means unknown. Province uses the 34-unit scheme (post-July-2025). For bridges not yet open, "Opened" is the target year. "client" means the value was client-confirmed on 2026-11-25.
 
 ## Included: main span > 150 m (cable-stayed + extradosed; road, rail, metro)
 
@@ -39,6 +39,7 @@ This file mirrors `data/bridges.json` (35 entries). "?" means unknown. Province 
 | Cầu Phước An | under construction | extradosed | road | TP. Hồ Chí Minh – Đồng Nai | 250 | 2023 | ? (end 2026–2027) | ? | needs check | Main span closed 24/7/2026 |
 | Cầu Thượng Cát | under construction | cable-stayed | road | Hà Nội | 195 (×4) (client) | 2025 | ? (target 2027) | Vành đai 3.5 | verified | 4×195 m, 3 pylons (client) |
 | Cầu Cần Thơ 2 | planned | cable-stayed | road, rail | Cần Thơ – Vĩnh Long | 450 | ? (2028) | ? (2031) | CT.01 + Đường sắt TP.HCM – Cần Thơ | needs check | 210+450+210 |
+| Cầu Phú Mỹ 2 | planned | cable-stayed | road | TP. Hồ Chí Minh – Đồng Nai | 350 (client-chosen estimate) | 2026 (groundbreaking) | ? (target 2029) | Nguyễn Hữu Thọ – Liên Cảng 25C | needs check | Added 2026-11-26; official span unpublished; nav 250 × 55 m; PM02 render; coordinates approximate |
 | Cầu Cần Giờ (road) | planned (client) | cable-stayed | road | TP. Hồ Chí Minh | 350 | ? | ? (target 2029) | Đường 15B – Đường Rừng Sác | needs check | Groundbreaking 15/1/2026 |
 | Cầu vượt sông Đồng Nai (Gia Nghĩa – Bảo Lâm) | planned | cable-stayed | road | Lâm Đồng | 350 | ? | ? (2029) | Đường động lực Gia Nghĩa – Bảo Lâm | needs check | Coordinates very approximate |
 
@@ -46,7 +47,6 @@ This file mirrors `data/bridges.json` (35 entries). "?" means unknown. Province 
 
 | Name | Status | Type | Usage | Province | Main span (m) | Note |
 |---|---|---|---|---|---|---|
-| Cầu Phú Mỹ 2 | planned (groundbreaking 15/1/2026; design in progress; target 2029) | cable-stayed (2 symmetric pylons, 2 cable planes, fan; steel–concrete composite girder) | road | TP. Hồ Chí Minh – Đồng Nai | ? (not published; 250 × 55 m channel ⇒ > 250 m; one press line says 'nhịp chính dài 870m', which is the ≈870 m main bridge) | Re-checked 2026-11-26. Architectural competition won by TEDI–BR (PM02, 84.11 pts; HCMC decision, 4/2026). Main bridge ≈870 m, deck ≈33.5 m, 8 lanes, route 6.3 km (Nguyễn Hữu Thọ / Nhà Bè → Liên Cảng 25C / Đại Phước), Masterise PPP-BT, ≈23,186 tỷ VND. No official span found, so not in bridges.json |
 
 ## Excluded or borderline
 

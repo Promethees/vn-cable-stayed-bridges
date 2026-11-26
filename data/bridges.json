@@ -4601,6 +4601,210 @@
     "notes": "Cable-stayed bridge ≈1.5 km over the Cửa Lớn river near the end of the Cà Mau – Đất Mũi expressway (≈81 km, 4 lanes; groundbreaking 19/8/2025; target end-2028). Main span 250 m is client-confirmed and has no press source. Construction start of the bridge itself is unconfirmed: press reports equipment being mobilised for Cửa Lớn (2026), so construction_start is the expressway year. Expressway CT code not found. COORDINATES APPROXIMATE (±10 km): the river centroid near Năm Căn, not the surveyed alignment. No render or bridge photo found. Link-only images (press/official, license unknown): Người Quan Sát – expressway article image (not the bridge itself)."
   },
   {
+    "id": "cau-phu-my-2",
+    "name_vi": "Cầu Phú Mỹ 2",
+    "name_en": "Phú Mỹ 2 Bridge",
+    "status": "planned",
+    "structure_type": "cable_stayed",
+    "usage": [
+      "road"
+    ],
+    "province": "TP. Hồ Chí Minh – Đồng Nai",
+    "province_former": [
+      "TP. Hồ Chí Minh",
+      "Đồng Nai"
+    ],
+    "crosses": "Sông Nhà Bè",
+    "roads": [
+      "Đường Nguyễn Hữu Thọ",
+      "Đường Liên Cảng – 25C"
+    ],
+    "construction_start": 2026,
+    "opened": 2029,
+    "main_span_m": 350,
+    "total_length_m": 6300,
+    "width_m": 33.5,
+    "lanes": 8,
+    "cable_stayed_spans": 1,
+    "span_arrangement": "60 + 200 + 350 + 200 + 60 m (≈870 m stayed unit; estimated)",
+    "pylons": "2 tháp chữ Y ngược đối xứng, chân kim cương, dây văng đỏ (phối cảnh PM02); nhịp chính 350 m là ước tính",
+    "pylons_en": "2 symmetric inverted-Y pylons with diamond feet, red stays (PM02 render); 350 m main span is an estimate",
+    "investor": "Masterise Hạ tầng Phú Mỹ (PPP-BT)",
+    "cost": "≈23,186 tỷ VND",
+    "nav_clearance": {
+      "height_m": 55,
+      "width_m": 250,
+      "source": "https://baodautu.vn/thong-nhat-tinh-khong-thong-thuyen-cau-chinh-phu-my-2-cao-55-m-rong-250-m-d569257.html"
+    },
+    "model3d": {
+      "spans_m": [
+        60,
+        200,
+        350,
+        200,
+        60
+      ],
+      "pylon_shape": "inverted_Y",
+      "pylon_heights_m": [
+        165,
+        165
+      ],
+      "pylon_height_ref": "total",
+      "cable_planes": 2,
+      "cable_pattern": "fan",
+      "deck_width_m": 33.5,
+      "deck_type": "composite",
+      "auxiliary_piers_m": [
+        60,
+        810
+      ],
+      "pylon_colour": "white",
+      "stay_colour": "red",
+      "confidence": "estimated",
+      "pylon_custom": {
+        "description": "Inverted Y per the PM02 render: legs pass just outside the 33.5 m deck, converge below it to a narrower footing (diamond foot), merge ≈55% of the above-deck height into a slim head; two planes of red stays fan from the head.",
+        "legs": [
+          {
+            "centerline": [
+              [
+                0,
+                -55,
+                -10
+              ],
+              [
+                0,
+                -25,
+                -15
+              ],
+              [
+                0,
+                0,
+                -19
+              ],
+              [
+                0,
+                30,
+                -10.5
+              ],
+              [
+                0,
+                60,
+                -1.8
+              ]
+            ],
+            "width_base_m": 6.0,
+            "width_top_m": 4.0,
+            "depth_base_m": 8.0,
+            "depth_top_m": 6.0
+          },
+          {
+            "centerline": [
+              [
+                0,
+                -55,
+                10
+              ],
+              [
+                0,
+                -25,
+                15
+              ],
+              [
+                0,
+                0,
+                19
+              ],
+              [
+                0,
+                30,
+                10.5
+              ],
+              [
+                0,
+                60,
+                1.8
+              ]
+            ],
+            "width_base_m": 6.0,
+            "width_top_m": 4.0,
+            "depth_base_m": 8.0,
+            "depth_top_m": 6.0
+          },
+          {
+            "centerline": [
+              [
+                0,
+                60,
+                0
+              ],
+              [
+                0,
+                85,
+                0
+              ],
+              [
+                0,
+                110,
+                0
+              ]
+            ],
+            "width_base_m": 6.5,
+            "width_top_m": 3.5
+          }
+        ],
+        "crossbeams_y_m": [
+          -3
+        ],
+        "crown": "pointed",
+        "anchor_zone": [
+          {
+            "y_from_m": 68,
+            "y_to_m": 108,
+            "leg": 2
+          }
+        ],
+        "mirror_for_other_pylons": true,
+        "reference_images": [
+          "https://cdn2.tuoitre.vn/plo/image/Uploaded/daotrang/2026_04_11/cau-phu-my-2-21-6172-1418.jpg",
+          "https://images2.thanhnien.vn/zoom/1200_630/528068263637045248/2026/4/11/thumbnail-1-17758816924231675336197-0-0-755-1208-crop-17758818141781921120657.jpg"
+        ]
+      },
+      "notes": "From the PM02 competition render (Pháp Luật / Thanh Niên, 4/2026). Main span 350 m is a client-chosen estimate; the render's pylon-to-span proportion suggests a somewhat longer span, so pylon height (≈110 m above deck, ≈165 m total incl. ≈55 m clearance) is estimated. Side spans with one auxiliary pier each to total ≈870 m."
+    },
+    "lat": 10.705,
+    "lng": 106.77,
+    "images": [
+      {
+        "url": "https://cdn2.tuoitre.vn/plo/image/Uploaded/daotrang/2026_04_11/cau-phu-my-2-21-6172-1418.jpg",
+        "credit": "Pháp Luật TP.HCM (PM02 render)",
+        "license": "unknown",
+        "source": "https://tuoitre.vn/plo/kien-truc-doc-dao-cua-cau-phu-my-2-post903737.html"
+      },
+      {
+        "url": "https://images2.thanhnien.vn/zoom/1200_630/528068263637045248/2026/4/11/thumbnail-1-17758816924231675336197-0-0-755-1208-crop-17758818141781921120657.jpg",
+        "credit": "Thanh Niên (PM02 render)",
+        "license": "unknown",
+        "source": "https://thanhnien.vn/lo-dien-thiet-ke-cau-phu-my-2-noi-tphcm-dong-nai-185260411113038756.htm"
+      },
+      {
+        "url": "https://cafefcdn.com/thumb_w/1200/203337114487263232/2026/9/13/cau-phu-my-2-11-8376-8844-17892844087341675295924-0-0-755-1208-crop-17892844148141100818472.jpg",
+        "credit": "CafeF",
+        "license": "unknown",
+        "source": "https://cafef.vn/cay-cau-dai-63km-quy-mo-8-lan-xe-so-huu-day-vang-tinh-khong-cao-bac-nhat-viet-nam-ket-noi-voi-sieu-du-an-16-ty-usd-18826091314280457.chn"
+      }
+    ],
+    "sources": [
+      "main span 350 m: client-chosen estimate 2026-11-26 (official figure unpublished)",
+      "https://baodautu.vn/thong-nhat-tinh-khong-thong-thuyen-cau-chinh-phu-my-2-cao-55-m-rong-250-m-d569257.html",
+      "https://thanhnien.vn/lo-dien-thiet-ke-cau-phu-my-2-noi-tphcm-dong-nai-185260411113038756.htm",
+      "https://tuoitre.vn/plo/kien-truc-doc-dao-cua-cau-phu-my-2-post903737.html",
+      "https://cafeland.vn/tin-tuc/toan-canh-vi-tri-xay-cau-phu-my-2-sau-dong-tho-khu-vuc-nay-dang-ra-sao-150579.html",
+      "https://cafef.vn/cay-cau-dai-63km-quy-mo-8-lan-xe-so-huu-day-vang-tinh-khong-cao-bac-nhat-viet-nam-ket-noi-voi-sieu-du-an-16-ty-usd-18826091314280457.chn"
+    ],
+    "confidence": "needs_check",
+    "notes": "MAIN SPAN 350 m IS A CLIENT-CHOSEN ESTIMATE (2026-11-26); no official figure has been published. Known: TEDI–BR design PM02 won the architectural competition (HCMC decision, 4/2026); cable-stayed main bridge ≈870 m with 2 symmetric pylons, 2 cable planes, steel–concrete composite girder, deck ≈33.5 m, 8 lanes; navigation channel 250 × 55 m (Ministry of Construction, channel shifted ≈340 m toward Đồng Nai). Route ≈6.3 km (4.6 km HCMC, 1.7 km Đồng Nai) from Nguyễn Hữu Thọ (Nhà Bè) to Liên Cảng – 25C (Đại Phước). Groundbreaking 15/1/2026 (taken as construction_start); completion target 2029. Span arrangement estimated to total ≈870 m. COORDINATES APPROXIMATE (on the Nhà Bè river between Nhà Bè and Đại Phước). Link-only images (press/official, license unknown): Pháp Luật TP.HCM (PM02 render) – PM02 render; Thanh Niên (PM02 render) – PM02 render; CafeF – render."
+  },
+  {
     "id": "cau-can-gio",
     "name_vi": "Cầu Cần Giờ",
     "name_en": "Cần Giờ Bridge",

@@ -287,6 +287,22 @@ add(id="cau-cua-lon", name_vi="Cầu Cửa Lớn (cao tốc Cà Mau – Đất M
     notes="Cable-stayed bridge ≈1.5 km over the Cửa Lớn river near the end of the Cà Mau – Đất Mũi expressway (≈81 km, 4 lanes; groundbreaking 19/8/2025; target end-2028). Main span 250 m is client-confirmed and has no press source. Construction start of the bridge itself is unconfirmed: press reports equipment being mobilised for Cửa Lớn (2026), so construction_start is the expressway year. Expressway CT code not found. COORDINATES APPROXIMATE (±10 km): the river centroid near Năm Căn, not the surveyed alignment. No render or bridge photo found.")
 
 # ---------------- PLANNED ----------------
+
+add(id="cau-phu-my-2", name_vi="Cầu Phú Mỹ 2", name_en="Phú Mỹ 2 Bridge", status="planned",
+    province="TP. Hồ Chí Minh – Đồng Nai", province_former=["TP. Hồ Chí Minh", "Đồng Nai"], crosses="Sông Nhà Bè",
+    roads=["Đường Nguyễn Hữu Thọ", "Đường Liên Cảng – 25C"], construction_start=2026, opened=2029, main_span_m=350,
+    total_length_m=6300, width_m=33.5, lanes=8, cable_stayed_spans=1, span_arrangement="60 + 200 + 350 + 200 + 60 m (≈870 m stayed unit; estimated)",
+    pylons="2 symmetric pylons, fan stays in 2 planes", investor="Masterise Hạ tầng Phú Mỹ (PPP-BT)", cost="≈23,186 tỷ VND",
+    lat=10.7050, lng=106.7700,
+    sources=["main span 350 m: client-chosen estimate 2026-11-26 (official figure unpublished)",
+             "https://baodautu.vn/thong-nhat-tinh-khong-thong-thuyen-cau-chinh-phu-my-2-cao-55-m-rong-250-m-d569257.html",
+             "https://thanhnien.vn/lo-dien-thiet-ke-cau-phu-my-2-noi-tphcm-dong-nai-185260411113038756.htm",
+             "https://tuoitre.vn/plo/kien-truc-doc-dao-cua-cau-phu-my-2-post903737.html",
+             "https://cafeland.vn/tin-tuc/toan-canh-vi-tri-xay-cau-phu-my-2-sau-dong-tho-khu-vuc-nay-dang-ra-sao-150579.html",
+             "https://cafef.vn/cay-cau-dai-63km-quy-mo-8-lan-xe-so-huu-day-vang-tinh-khong-cao-bac-nhat-viet-nam-ket-noi-voi-sieu-du-an-16-ty-usd-18826091314280457.chn"],
+    confidence="needs_check",
+    notes="MAIN SPAN 350 m IS A CLIENT-CHOSEN ESTIMATE (2026-11-26); no official figure has been published. Known: TEDI–BR design PM02 won the architectural competition (HCMC decision, 4/2026); cable-stayed main bridge ≈870 m with 2 symmetric pylons, 2 cable planes, steel–concrete composite girder, deck ≈33.5 m, 8 lanes; navigation channel 250 × 55 m (Ministry of Construction, channel shifted ≈340 m toward Đồng Nai). Route ≈6.3 km (4.6 km HCMC, 1.7 km Đồng Nai) from Nguyễn Hữu Thọ (Nhà Bè) to Liên Cảng – 25C (Đại Phước). Groundbreaking 15/1/2026 (taken as construction_start); completion target 2029. Span arrangement estimated to total ≈870 m. COORDINATES APPROXIMATE (on the Nhà Bè river between Nhà Bè and Đại Phước).")
+
 add(id="cau-can-gio", name_vi="Cầu Cần Giờ", name_en="Cần Giờ Bridge", status="planned",
     province="TP. Hồ Chí Minh", province_former=["TP. Hồ Chí Minh"], crosses="Sông Soài Rạp",
     roads=["Đường 15B (Nhà Bè)", "Đường Rừng Sác"], opened=2029, main_span_m=350, total_length_m=6300, lanes=6,
@@ -738,6 +754,15 @@ PHASE6 = {
     "cau-cat-lai": {"pylon_custom": {"crown": "rounded"}},
     "cau-phuoc-an": {"pylon_custom": {"crown": "rounded"}},
 }
+
+
+M3D["cau-phu-my-2"] = m3d([60, 200, 350, 200, 60], "H", [140, 140], "total", 2, "fan", 33.5, "composite",
+    notes="Placeholder until the render compare: 350 m main span is a client-chosen estimate.")
+NAV["cau-phu-my-2"] = nav(55, 250, None, "https://baodautu.vn/thong-nhat-tinh-khong-thong-thuyen-cau-chinh-phu-my-2-cao-55-m-rong-250-m-d569257.html")
+PRESS["cau-phu-my-2"] = [
+    press("https://cdn2.tuoitre.vn/plo/image/Uploaded/daotrang/2026_04_11/cau-phu-my-2-21-6172-1418.jpg", "Pháp Luật TP.HCM (PM02 render)", "https://tuoitre.vn/plo/kien-truc-doc-dao-cua-cau-phu-my-2-post903737.html", "PM02 render"),
+    press("https://images2.thanhnien.vn/zoom/1200_630/528068263637045248/2026/4/11/thumbnail-1-17758816924231675336197-0-0-755-1208-crop-17758818141781921120657.jpg", "Thanh Niên (PM02 render)", "https://thanhnien.vn/lo-dien-thiet-ke-cau-phu-my-2-noi-tphcm-dong-nai-185260411113038756.htm", "PM02 render"),
+    press("https://cafefcdn.com/thumb_w/1200/203337114487263232/2026/9/13/cau-phu-my-2-11-8376-8844-17892844087341675295924-0-0-755-1208-crop-17892844148141100818472.jpg", "CafeF", "https://cafef.vn/cay-cau-dai-63km-quy-mo-8-lan-xe-so-huu-day-vang-tinh-khong-cao-bac-nhat-viet-nam-ket-noi-voi-sieu-du-an-16-ty-usd-18826091314280457.chn", "render")]
 
 # ---------------- MERGE images + model3d into each bridge ----------------
 for b in B:

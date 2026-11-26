@@ -1,0 +1,158 @@
+{
+ "id": "cau-phu-my-2",
+ "pass2": true,
+ "pylons_vi": "2 tháp chữ Y ngược đối xứng, chân kim cương, dây văng đỏ (phối cảnh PM02); nhịp chính 350 m là ước tính",
+ "pylons_en": "2 symmetric inverted-Y pylons with diamond feet, red stays (PM02 render); 350 m main span is an estimate",
+ "model3d": {
+  "spans_m": [
+   60,
+   200,
+   350,
+   200,
+   60
+  ],
+  "pylon_shape": "inverted_Y",
+  "pylon_heights_m": [
+   165,
+   165
+  ],
+  "pylon_height_ref": "total",
+  "cable_planes": 2,
+  "cable_pattern": "fan",
+  "deck_width_m": 33.5,
+  "deck_type": "composite",
+  "auxiliary_piers_m": [
+   60,
+   810
+  ],
+  "pylon_colour": "white",
+  "stay_colour": "red",
+  "confidence": "estimated",
+  "pylon_custom": {
+   "description": "Inverted Y per the PM02 render: legs pass just outside the 33.5 m deck, converge below it to a narrower footing (diamond foot), merge ≈55% of the above-deck height into a slim head; two planes of red stays fan from the head.",
+   "legs": [
+    {
+     "centerline": [
+      [
+       0,
+       -55,
+       -10
+      ],
+      [
+       0,
+       -25,
+       -15
+      ],
+      [
+       0,
+       0,
+       -19
+      ],
+      [
+       0,
+       30,
+       -10.5
+      ],
+      [
+       0,
+       60,
+       -1.8
+      ]
+     ],
+     "width_base_m": 6.0,
+     "width_top_m": 4.0,
+     "depth_base_m": 8.0,
+     "depth_top_m": 6.0
+    },
+    {
+     "centerline": [
+      [
+       0,
+       -55,
+       10
+      ],
+      [
+       0,
+       -25,
+       15
+      ],
+      [
+       0,
+       0,
+       19
+      ],
+      [
+       0,
+       30,
+       10.5
+      ],
+      [
+       0,
+       60,
+       1.8
+      ]
+     ],
+     "width_base_m": 6.0,
+     "width_top_m": 4.0,
+     "depth_base_m": 8.0,
+     "depth_top_m": 6.0
+    },
+    {
+     "centerline": [
+      [
+       0,
+       60,
+       0
+      ],
+      [
+       0,
+       85,
+       0
+      ],
+      [
+       0,
+       110,
+       0
+      ]
+     ],
+     "width_base_m": 6.5,
+     "width_top_m": 3.5
+    }
+   ],
+   "crossbeams_y_m": [
+    -3
+   ],
+   "crown": "pointed",
+   "anchor_zone": [
+    {
+     "y_from_m": 68,
+     "y_to_m": 108,
+     "leg": 2
+    }
+   ],
+   "mirror_for_other_pylons": true,
+   "reference_images": [
+    "https://cdn2.tuoitre.vn/plo/image/Uploaded/daotrang/2026_04_11/cau-phu-my-2-21-6172-1418.jpg",
+    "https://images2.thanhnien.vn/zoom/1200_630/528068263637045248/2026/4/11/thumbnail-1-17758816924231675336197-0-0-755-1208-crop-17758818141781921120657.jpg"
+   ]
+  },
+  "notes": "From the PM02 competition render (Pháp Luật / Thanh Niên, 4/2026). Main span 350 m is a client-chosen estimate; the render's pylon-to-span proportion suggests a somewhat longer span, so pylon height (≈110 m above deck, ≈165 m total incl. ≈55 m clearance) is estimated. Side spans with one auxiliary pier each to total ≈870 m."
+ },
+ "checklist": {
+  "foot below deck": "pass (diamond, per render)",
+  "legs at deck": "pass (outside the deck edges)",
+  "merge height": "pass (≈55%)",
+  "crossbeams": "pass (under deck)",
+  "head": "pass (slim head)",
+  "proportions": "limited (350 m span is an estimate; render implies taller pylons relative to the span)",
+  "stays": "pass (red fan, 2 planes)",
+  "deck / aux piers": "pass (one auxiliary pier per side span, estimated)",
+  "colour": "pass (white pylon, red stays)"
+ },
+ "compare": "scratchpad only (press renders, licence unknown)",
+ "review": [
+  "New bridge",
+  "Added from the PM02 render",
+  "Render only (2 press renders)"
+ ]
+}
