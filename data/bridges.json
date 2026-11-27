@@ -2503,75 +2503,128 @@
     "opened": 2013,
     "main_span_m": 230,
     "total_length_m": 731,
-    "width_m": 35.5,
+    "width_m": 34.5,
     "cable_stayed_spans": 1,
-    "pylons": "1 tháp nghiêng 12°, cao 145 m; dây văng neo sau màu đỏ",
-    "pylons_en": "1 pylon leaning 12°, 145 m; red back-stays",
+    "span_arrangement": "4 × 50 + 230 m (cầu chính 430 m); toàn cầu 4×50 + 230 + 45 + 4×50 + 30 + 26 = 731 m",
+    "pylons": "1 tháp BTCT nghiêng 12° về phía Tây, tiết diện chữ V, cao 145 m (134 m trên mặt cầu); dây văng 3 mặt phẳng: 33 dây nhịp chính (1 mặt phẳng giữa), 30 dây neo sau màu đỏ (2 mặt phẳng) hội tụ về mố S1",
+    "pylons_en": "1 RC pylon leaning 12° west, V-section, 145 m (134 m above deck); three stay planes: 33 main-span stays in one central plane, 30 red back stays in two planes converging on abutment S1",
     "cost": "497.7 tỷ VND (Wikipedia) / 1,709 tỷ VND (press, whole project)",
+    "nav_clearance": {
+      "height_m": 7,
+      "width_m": 50,
+      "reference": "navigation clearance BxH = 50 × 7 m",
+      "source": "https://vecc.com.vn/project/cau-nguyen-van-troi-tran-thi-ly-thanh-pho-da-nang/?lang=en"
+    },
     "model3d": {
       "spans_m": [
-        230,
-        120
+        200,
+        230
+      ],
+      "auxiliary_piers_m": [
+        50,
+        100,
+        150
       ],
       "pylon_shape": "single",
       "pylon_heights_m": [
         145
       ],
       "pylon_height_ref": "total",
-      "cable_planes": 1,
-      "cable_pattern": "fan",
-      "deck_width_m": 35.5,
+      "deck_elevation_m": 11,
+      "deck_width_m": 34.5,
       "deck_type": "concrete",
-      "confidence": "estimated",
-      "notes": "Single 145 m pylon leaning 12° (press). The 230 m cable-stayed span is from the press; the back span (120 m) is estimated. Single central cable plane read from photos. Colour: white mast; white main-span stays, red back-stays; purple night lighting. Confirmed on 4 Commons photos: single plane, back-stays red. Geometry unchanged except colour data. Review r1: Main-span stays in one central plane; back stays split into two planes to the deck edges (VECC 'triple-plane', CafeF).",
+      "cable_planes": 1,
+      "back_stay_planes": 2,
+      "cable_pattern": "semi_fan",
+      "cables_per_side": 33,
+      "back_stay_count": 15,
+      "back_stay_deck_m": [
+        181,
+        195
+      ],
+      "pylon_colour": "white",
+      "stay_colour": "white",
+      "back_stay_colour": "red",
+      "confidence": "verified",
+      "notes": "Stayed unit 4 × 50 + 230 m (S1–S6), pylon at S5 (VECC general elevation, DCCD, ITST). Pylon 145 m above sea level, 134 m above an ≈11 m deck, leaning 12° west (tip ≈28.5 m behind the base). 33 main stays in one central plane (mast 48–126 m, deck 17–219 m east of S5); 30 back stays = 2 planes × 15 (mast 68–126 m) converging on the last ≈15 m of deck at abutment S1, 181–195 m behind the pylon (VECC drawing). S5 pier ≈15 m along the bridge (oval in reality, drawn as a 15 × 12 m block) and rounded pile cap at the waterline, measured off photos. Back stays use G11 (back_stay_count 15, back_stay_deck_m 181–195). Colour: white mast; white main-span stays, red back-stays; purple night lighting. Round 7: rebuilt from the VECC general elevation and Commons photos.",
       "pylon_custom": {
-        "description": "Single straight concrete mast on the deck centreline, leaning ≈12° back (away from the 230 m span) like a sail. One central plane of white stays fans from the upper mast to the main span; a denser fan of RED back-stays runs from the same zone down to the back span. Mast lit purple/magenta at night.",
+        "description": "Single straight RC blade on the deck centreline at pier S5, leaning 12° west (back, away from the 230 m span); V-section tapering from ≈11 m deep along the bridge at deck level to ≈4.5 m at the flat top (glass lantern, 134 m above deck). Rigid with the deck, seated on a wide oval pier and pile cap at the waterline. Main span: one central plane of 33 white stays anchored 48–126 m up the mast. Back side: 2 × 15 red stays from the mast faces (68–126 m) to the two deck edges, all converging on the last ≈15 m of deck at abutment S1 (≈181–195 m behind the pylon) — the twisted red 'sail'.",
         "legs": [
           {
             "centerline": [
               [
-                0,
-                -8,
+                0.4,
+                -2,
                 0
               ],
               [
-                -10,
-                40,
+                -13.8,
+                65,
                 0
               ],
               [
-                -20,
-                88,
-                0
-              ],
-              [
-                -27,
-                120,
+                -28.5,
+                134,
                 0
               ]
             ],
-            "width_base_m": 6.0,
-            "width_top_m": 2.5,
-            "depth_base_m": 5.0,
-            "depth_top_m": 2.0
+            "width_base_m": 6,
+            "width_top_m": 4,
+            "depth_base_m": 11,
+            "depth_top_m": 4.5
+          },
+          {
+            "centerline": [
+              [
+                0,
+                -10.5,
+                0
+              ],
+              [
+                0,
+                -6,
+                0
+              ],
+              [
+                0,
+                -2,
+                0
+              ]
+            ],
+            "width_base_m": 12,
+            "width_top_m": 12,
+            "depth_base_m": 15,
+            "depth_top_m": 15
           }
         ],
         "anchor_zone": [
           {
-            "y_from_m": 55,
-            "y_to_m": 118,
-            "leg": 0
+            "y_from_m": 48,
+            "y_to_m": 126,
+            "leg": 0,
+            "side": "main"
+          },
+          {
+            "y_from_m": 68,
+            "y_to_m": 126,
+            "leg": 0,
+            "side": "back"
           }
         ],
+        "pile_cap": {
+          "length_x_m": 22,
+          "width_z_m": 30,
+          "top_y_m": -10.5,
+          "thickness_m": 3,
+          "rounded_ends": true
+        },
         "reference_images": [
-          "https://commons.wikimedia.org/wiki/File:Trần_Thị_Lý_Bridge_at_daytime.jpg",
-          "https://commons.wikimedia.org/wiki/File:Trần_Thị_Lý_Bridge,_Da_Nang.jpg"
+          "https://vecc.com.vn/project/cau-nguyen-van-troi-tran-thi-ly-thanh-pho-da-nang/?lang=en (general elevation)",
+          "https://commons.wikimedia.org/wiki/File:Tran_Thi_Ly_Br%C3%BCcke.jpeg",
+          "https://commons.wikimedia.org/wiki/File:Tr%E1%BA%A7n_Th%E1%BB%8B_L%C3%BD_Bridge_at_daytime.jpg",
+          "https://commons.wikimedia.org/wiki/File:C%E1%BA%A7u_Tr%E1%BA%A7n_Th%E1%BB%8B_L%C3%BD.jpeg"
         ]
-      },
-      "pylon_colour": "white",
-      "stay_colour": "white",
-      "back_stay_colour": "red",
-      "back_stay_planes": 2
+      }
     },
     "lat": 16.0504,
     "lng": 108.23,
@@ -2602,13 +2655,18 @@
       }
     ],
     "sources": [
+      "https://vecc.com.vn/project/cau-nguyen-van-troi-tran-thi-ly-thanh-pho-da-nang/?lang=en",
+      "https://www.dccd.com/project/tran-thi-ly-bridge/",
+      "https://itst.gov.vn/thanh-tuu-khcn-moi/doc-dao-cau-day-vang-ba-mat-phang/",
+      "https://danang.gov.vn/vi/w/cau-tran-thi-ly-canh-buom-cang-gio-ra-bien-lon-i",
+      "https://vi.wikipedia.org/wiki/C%E1%BA%A7u_Tr%E1%BA%A7n_Th%E1%BB%8B_L%C3%BD",
       "https://en.wikipedia.org/wiki/Trần_Thị_Lý_Bridge",
       "https://en.wikipedia.org/wiki/List_of_bridges_in_Vietnam",
       "https://mia.vn/cam-nang-du-lich/cau-tran-thi-ly-da-nang-14983",
       "https://structurae.net/en/structures/nguyen-van-troi-tran-thi-ly-bridge"
     ],
-    "confidence": "needs_check",
-    "notes": "Single-pylon asymmetric cable-stayed bridge. The 230 m 'main span' (actually the cable-stayed span) comes from a travel site and the Wikipedia list. Construction start is given as 2003 (press, whole project) or 2009 (Wikipedia). Opened 29/3/2013."
+    "confidence": "verified",
+    "notes": "Single-pylon asymmetric cable-stayed bridge. The cable-stayed unit is 4 × 50 m + 230 m (430 m, S1–S6) with the pylon at S5 (VECC general elevation; DCCD: '4 side spans of the main bridge at 50 m each… main span (cable-stayed) of 230 m'; ITST). Whole bridge 731 m. Pylon 145 m above sea level, 134 m above the deck, leaning 12° west; 33 main-span stays in one central plane and 30 back stays in two planes anchored at abutment S1 (ITST). Deck 34.5 m (VECC; 35.5 m elsewhere does not add up). Navigation clearance 50 × 7 m (VECC). Construction start is given as 2003 (press, whole project) or 2009 (Wikipedia). Opened 29/3/2013."
   },
   {
     "id": "cau-kien",

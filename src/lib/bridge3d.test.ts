@@ -717,3 +717,88 @@ describe('per-side anchor zones (G8)', () => {
     expect(noSide.cables.filter((c) => !c.back).every((c) => c.top[2] === 0)).toBe(true);
   });
 });
+
+describe('back-stay count and deck range (G11)', () => {
+  const ttl: Partial<Model3D> = {
+    spans_m: [200, 230],
+    auxiliary_piers_m: [50, 100, 150],
+    pylon_shape: 'single',
+    pylon_heights_m: [145],
+    pylon_height_ref: 'total',
+    deck_elevation_m: 11,
+    deck_width_m: 34.5,
+    cable_planes: 1,
+    back_stay_planes: 2,
+    cable_pattern: 'semi_fan',
+    cables_per_side: 33,
+    back_stay_count: 15,
+    back_stay_deck_m: [181, 195],
+    pylon_custom: {
+      description: 'leaning blade',
+      legs: [
+        { centerline: [[0.4, -2, 0], [-13.8, 65, 0], [-28.5, 134, 0]], width_base_m: 6, width_top_m: 4, depth_base_m: 11, depth_top_m: 4.5 },
+        { centerline: [[0, -10.5, 0], [0, -6, 0], [0, -2, 0]], width_base_m: 12, width_top_m: 12, depth_base_m: 15, depth_top_m: 15 },
+      ],
+      anchor_zone: [
+        { y_from_m: 48, y_to_m: 126, leg: 0, side: 'main' },
+        { y_from_m: 68, y_to_m: 126, leg: 0, side: 'back' },
+      ],
+    },
+  };
+
+  it('Trần Thị Lý-like: 33 central main stays, 2 × 15 back stays converging on the far end', () => {
+    const g = build(ttl);
+    const hw = 34.5 / 2;
+    const main = g.cables.filter((c) => !c.back);
+    const back = g.cables.filter((c) => c.back);
+    expect(main).toHaveLength(33);
+    expect(main.every((c) => c.deck[2] === 0 && Math.abs(c.top[2]) < 1e-6)).toBe(true);
+    expect(back).toHaveLength(30);
+    expect(back.filter((c) => c.deck[2] === -hw)).toHaveLength(15);
+    expect(back.filter((c) => c.deck[2] === hw)).toHaveLength(15);
+    // back planes leave the mast faces, not the centreline
+    for (const c of back) expect(Math.sign(c.top[2])).toBe(Math.sign(c.deck[2]));
+    const E = g.deckY(100);
+    expect(E).toBeCloseTo(11, 6);
+    for (const c of back) {
+      expect(c.deck[0]).toBeGreaterThanOrEqual(5 - 0.5);
+      expect(c.deck[0]).toBeLessThanOrEqual(19 + 0.5);
+      expect(c.top[1] - E).toBeGreaterThanOrEqual(68 - 0.5);
+      expect(c.top[1] - E).toBeLessThanOrEqual(126 + 0.5);
+    }
+    for (const c of main) {
+      expect(c.deck[0]).toBeGreaterThanOrEqual(200 + 17 - 0.5);
+      expect(c.deck[0]).toBeLessThanOrEqual(200 + 219 + 0.5);
+    }
+    // nesting: the lowest back anchor lands nearest the pylon (no crossing)
+    const plane0 = back.filter((c) => c.plane === 0).sort((a, b) => a.j - b.j);
+    for (let i = 1; i < plane0.length; i++) {
+      expect(plane0[i].deck[0]).toBeLessThan(plane0[i - 1].deck[0]);
+      expect(plane0[i].top[1]).toBeGreaterThan(plane0[i - 1].top[1]);
+    }
+    expect(g.warnings.some((w) => w.includes('back_stay_deck_m'))).toBe(false);
+  });
+
+  it('swaps a reversed range with a warning, clamps to the unit end, ignores the range for harp', () => {
+    const rev = build({ ...ttl, back_stay_deck_m: [195, 181] });
+    expect(rev.warnings.some((w) => w.includes('swapped'))).toBe(true);
+    expect(rev.cables.filter((c) => c.back).every((c) => c.deck[0] >= 4.5 && c.deck[0] <= 19.5)).toBe(true);
+    const far = build({ ...ttl, back_stay_deck_m: [190, 500] });
+    expect(Math.min(...far.cables.filter((c) => c.back).map((c) => c.deck[0]))).toBeCloseTo(1, 6);
+    const harp = build({ ...ttl, cable_pattern: 'harp' });
+    expect(harp.warnings.some((w) => w.includes('ignored for harp'))).toBe(true);
+    expect(harp.cables.filter((c) => c.back)).toHaveLength(30);
+  });
+
+  it('without the fields the back side uses cables_per_side and the reach spread (unchanged)', () => {
+    const plain: Partial<Model3D> = { ...ttl };
+    delete plain.back_stay_count;
+    delete plain.back_stay_deck_m;
+    const g = build(plain);
+    const back = g.cables.filter((c) => c.back);
+    expect(back).toHaveLength(66);
+    expect(Math.max(...back.map((c) => c.deck[0]))).toBeGreaterThan(150);
+    // the count alone keeps the reach spread
+    expect(build({ ...plain, back_stay_count: 15 }).cables.filter((c) => c.back)).toHaveLength(30);
+  });
+});

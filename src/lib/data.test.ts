@@ -292,11 +292,39 @@ describe.each(files)('%s', (file) => {
     }
   });
 
+  it('Trần Thị Lý (round 7): 4×50 + 230 unit, 134 m leaning blade, back stays converging on abutment S1 (G11)', () => {
+    const b = bridges.find((x) => x.id === 'cau-tran-thi-ly');
+    if (!b?.model3d) return; // sample data
+    const g = buildBridgeGeometry(b.model3d, 'completed', { navClearance: b.nav_clearance })!;
+    expect(g.deckElevation).toBe(11);
+    expect(g.warnings).toEqual([]);
+    expect(g.auxiliaryPiers).toEqual([50, 100, 150]);
+    expect(g.pylons.map((p) => p.x)).toEqual([200]);
+    const [p] = g.pylons;
+    expect(p.labelRef).toBe('total');
+    expect(p.labelHeight).toBeGreaterThan(142);
+    expect(p.labelHeight).toBeLessThan(148);
+    expect(p.caps).toHaveLength(1);
+    // the mast leans 12° away from the main span (local −x is west, toward S1 at station 0)
+    const cl = b.model3d.pylon_custom!.legs[0].centerline;
+    const [x0, y0] = cl[0];
+    const [x1, y1] = cl[cl.length - 1];
+    expect((Math.atan2(x0 - x1, y1 - y0) * 180) / Math.PI).toBeCloseTo(12, 0);
+    const main = g.cables.filter((c) => !c.back);
+    const back = g.cables.filter((c) => c.back);
+    expect(main).toHaveLength(33);
+    expect(back).toHaveLength(30);
+    expect(main.every((c) => c.deck[2] === 0 && c.deck[0] > 200)).toBe(true);
+    expect(back.every((c) => Math.abs(c.deck[2]) === 17.25 && c.deck[0] >= 4.5 && c.deck[0] <= 19.5)).toBe(true);
+    // no back stay lands over S2–S4
+    expect(back.some((c) => c.deck[0] > 45)).toBe(false);
+  });
+
   it('model3d has only schema keys, and harp bridges draw parallel stays (within 2°)', () => {
     const KEYS = new Set([
       'spans_m', 'pylon_shape', 'pylon_heights_m', 'pylon_height_ref', 'cable_planes', 'cable_pattern', 'cables_per_side',
       'deck_width_m', 'deck_type', 'approach_length_m', 'extradosed', 'deck_plan_radius_m', 'deck_crest_m', 'deck_elevation_m',
-      'auxiliary_piers_m', 'pylon_colour', 'stay_colour', 'back_stay_colour', 'deck_colour', 'back_stay_planes', 'deck_section',
+      'auxiliary_piers_m', 'pylon_colour', 'stay_colour', 'back_stay_colour', 'deck_colour', 'back_stay_planes', 'back_stay_count', 'back_stay_deck_m', 'deck_section',
       'deck_depth_m', 'pylon_custom', 'confidence', 'notes',
     ]);
     for (const b of bridges) {

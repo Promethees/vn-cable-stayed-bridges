@@ -76,6 +76,10 @@ interface Model3D {
   deck_depth_m?: number;         // girder depth; truss: distance between the chords (default 12 m)
   back_stay_planes?: 1 | 2;      // with cable_planes = 1: 2 splits the back-span stays to both deck edges (Trần Thị Lý);
                                  //   main-span stays stay in the central plane
+  back_stay_count?: number;      // G11: stays per plane on each back side (toward a unit end), integer 1–60; default cables_per_side
+  back_stay_deck_m?: [number, number]; // G11: back-side deck anchors spread linearly from..to metres from the pylon station
+                                 //   toward the unit end (lowest pylon anchor ↔ from), clamped to [1, distance to end − 1],
+                                 //   no snapping to auxiliary piers; ignored for harp (warning). Trần Thị Lý: [181, 195]
   auxiliary_piers_m?: number[];  // auxiliary piers, distances from the unit start (back-stays may anchor over them)
   pylon_colour?: string;         // "#rrggbb" or a named colour: white grey red orange yellow green blue purple brown black
   stay_colour?: string;          //   (all colours are rendered muted, study-model style)
