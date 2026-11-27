@@ -33,6 +33,10 @@ export function model3dProblems(v: unknown): string[] {
   if (!optStr(v.notes)) p.push('notes');
   if (v.deck_plan_radius_m !== undefined && !(isNum(v.deck_plan_radius_m) && v.deck_plan_radius_m > 0)) p.push('deck_plan_radius_m');
   if (v.deck_crest_m !== undefined && !(isNum(v.deck_crest_m) && v.deck_crest_m >= 0)) p.push('deck_crest_m');
+  if (v.deck_elevation_m !== undefined && !(isNum(v.deck_elevation_m) && v.deck_elevation_m > 0)) p.push('deck_elevation_m');
+  if (v.back_stay_planes !== undefined && v.back_stay_planes !== 1 && v.back_stay_planes !== 2) p.push('back_stay_planes');
+  if (v.deck_section !== undefined && v.deck_section !== 'box' && v.deck_section !== 'truss') p.push('deck_section');
+  if (v.deck_depth_m !== undefined && !(isNum(v.deck_depth_m) && v.deck_depth_m > 0)) p.push('deck_depth_m');
   if (v.auxiliary_piers_m !== undefined && !(Array.isArray(v.auxiliary_piers_m) && v.auxiliary_piers_m.every((x) => isNum(x) && x > 0)))
     p.push('auxiliary_piers_m');
   for (const k of ['pylon_colour', 'stay_colour', 'back_stay_colour', 'deck_colour'])

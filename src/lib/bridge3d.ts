@@ -92,6 +92,9 @@ export interface BridgeGeometry {
   deckPieces: Box[];
   /** continuous deck meshes when the deck is curved in plan or cambered (used instead of the pieces) */
   deckMeshes: SweepMesh[];
+  /** truss girder web (verticals + diagonals on both faces), world coordinates; empty for a box girder */
+  deckMembers: Member[];
+  deckSection: 'box' | 'truss';
   /** form travellers at cantilever tips (under construction only) */
   travellers: Box[];
   approaches: Box[];
@@ -157,6 +160,12 @@ export function choosePylonSupports(spans: number[], k: number, warn?: (msg: str
     .map((x) => x.s)
     .sort((a, b) => a - b);
 }
+
+/**
+ * Stay-cable line lightness (HSL, 0–1) clamped so 1px stays stay visible against the sky: at most 0.70 in the
+ * light theme (white stays read as light grey), at least 0.45 in the dark theme.
+ */
+export const stayLightness = (l: number, dark: boolean) => (dark ? Math.max(0.45, l) : Math.min(0.7, l));
 
 /** Default stays per pylon per side per plane (§2). */
 export const defaultCablesPerSide = (reach: number) => clamp(Math.round(reach / 12), 6, 24);
@@ -298,10 +307,15 @@ export function buildBridgeGeometry(
   else main[spans[supports[0]] >= spans[supports[0] + 1] ? supports[0] : supports[0] + 1] = true;
   const mainSpan = Math.max(...spans.filter((_, i) => main[i]));
 
-  const deckDepth = clamp(mainSpan / 120, 2, 4.5) * (extradosed ? 1.8 : 1);
+  const truss = m.deck_section === 'truss';
+  const deckDepth =
+    m.deck_depth_m && m.deck_depth_m > 0 ? m.deck_depth_m : truss ? 12 : clamp(mainSpan / 120, 2, 4.5) * (extradosed ? 1.8 : 1);
   // the navigation clearance (if given) must fit under the deck
   const navH = opts.navClearance?.height_m;
-  const E = Math.max(deckElevation(mainSpan), navH ? navH + deckDepth + 1 : 0);
+  const navMin = navH ? navH + deckDepth + 1 : 0;
+  const givenE = m.deck_elevation_m && m.deck_elevation_m > 0 ? m.deck_elevation_m : undefined;
+  const E = Math.max(givenE ?? deckElevation(mainSpan), navMin);
+  if (givenE !== undefined && navMin > givenE) warnings.push('deck_elevation_m below navigation clearance');
   const isPylonSupport = new Set(supports);
 
   // reach of the stays on each side of a support (§2)
@@ -337,13 +351,19 @@ export function buildBridgeGeometry(
   // ---- custom pylons (pylon_custom): swept legs in the pylon-local frame ----
   const custom = m.pylon_custom;
   const centre = totalLength / 2;
+  // per-pylon heights for a shared custom geometry: scale each pylon's above-deck y by h_i / max(h)
+  const hs = m.pylon_heights_m;
+  const hMax = hs.length ? Math.max(...hs) : 0;
+  const pylonScale = (index: number) =>
+    custom && hs.length > 1 && new Set(hs).size > 1 && hMax > 0 ? (hs[index] ?? hMax) / hMax : 1;
   /** +1 when local +x (toward the main span) points along +station */
   const towardMain = (support: number, x: number) =>
     main[support + 1] && !main[support] ? 1 : main[support] && !main[support + 1] ? -1 : x <= centre ? 1 : -1;
   const customLegs = (support: number, x: number, index: number) => {
     if (!custom) return null;
     const dir = custom.mirror_for_other_pylons === false && index > 0 ? towardMain(supports[0], edges[supports[0] + 1]) : towardMain(support, x);
-    const toStation = ([lx, ly, lz]: Vec3): Vec3 => [x + dir * lx, E + ly, lz];
+    const f = pylonScale(index);
+    const toStation = ([lx, ly, lz]: Vec3): Vec3 => [x + dir * lx, E + (ly > 0 ? ly * f : ly), lz];
     // legs whose tips meet (within 1.5 m) form a crown
     const tips = custom.legs.map((l) => l.centerline[l.centerline.length - 1]);
     const merging = custom.legs.map((_, i) =>
@@ -399,14 +419,27 @@ export function buildBridgeGeometry(
       const tip = Math.max(...legs.flatMap((l) => l.pl.pts.map((p) => p[1]))) - E;
       // crossbeams between consecutive legs at the given heights (local y above deck)
       const members: Member[] = [];
-      for (const y of custom!.crossbeams_y_m ?? [])
+      for (const y0 of custom!.crossbeams_y_m ?? [])
         for (let k = 0; k + 1 < legs.length; k++) {
+          const y = y0 > 0 ? y0 * pylonScale(i) : y0;
           const a = pointAt(legs[k].pl, arcAtY(legs[k].pl, E + y));
           const b = pointAt(legs[k + 1].pl, arcAtY(legs[k + 1].pl, E + y));
           members.push({ a, b, size: Math.max(1.5, legs[k].w1 * 0.8) });
         }
       members.push(...legs.extra);
-      return { index: i, x, support, heightAboveDeck: tip, labelHeight: tip, labelRef: 'above_deck' as const, members, sweeps: legs.map((l) => l.mesh), custom: true };
+      // the label follows the data's reference: water-to-tip of the drawn pylon when heights are given as total
+      const total = m.pylon_height_ref === 'total';
+      return {
+        index: i,
+        x,
+        support,
+        heightAboveDeck: tip,
+        labelHeight: total ? tip + E : tip,
+        labelRef: total ? ('total' as const) : ('above_deck' as const),
+        members,
+        sweeps: legs.map((l) => l.mesh),
+        custom: true,
+      };
     }
     const adjMain = Math.max(main[support] ? spans[support] : 0, main[support + 1] ? spans[support + 1] : 0) || mainSpan;
     const given = m.pylon_heights_m[i] ?? m.pylon_heights_m[m.pylon_heights_m.length - 1];
@@ -457,10 +490,12 @@ export function buildBridgeGeometry(
     perSide = defaultCablesPerSide(Math.min(mainReach, mainSpan / 2));
     derived.push('cables per side');
   }
-  const deckZ = (plane: number) => (planes === 1 ? 0 : plane === 0 ? -hw : hw);
+  const deckZ = (plane: number, n: number = planes) => (n === 1 ? 0 : plane === 0 ? -hw : hw);
+  // back stays split into two planes (cable_planes = 1, back_stay_planes = 2: Trần Thị Lý)
+  const splitBack = planes === 1 && m.back_stay_planes === 2;
 
-  /** pylon-side anchor for a custom pylon: distributed by arc length along the leg's anchor zone */
-  const customAnchor = (pi: number, plane: number, t: number): Vec3 => {
+  /** anchor zone, leg curve and face offset serving a cable plane of a custom pylon */
+  const customZone = (pi: number, plane: number) => {
     const legs = legCurves[pi]!;
     const zones = custom!.anchor_zone;
     let zone = zones[0];
@@ -478,11 +513,28 @@ export function buildBridgeGeometry(
         if (new Set(zones.map((z) => z.leg)).size === 1) zOffset = (sideSign * legs[zone.leg].w1) / 2;
       }
     }
-    const pl = legs[zone.leg].pl;
-    const s0 = arcAtY(pl, E + zone.y_from_m);
-    const s1 = arcAtY(pl, E + zone.y_to_m);
-    const p = pointAt(pl, s0 + (s1 - s0) * t);
-    return [p[0], p[1], p[2] + zOffset];
+    const f = pylonScale(pi);
+    return { leg: legs[zone.leg], from: zone.y_from_m * f, to: zone.y_to_m * f, zOffset };
+  };
+  /** custom pylon anchor at local height y above deck (on the zone's leg); one plane → on the centreline */
+  const customAnchorAtY = (pi: number, plane: number, y: number): Vec3 => {
+    const { leg, zOffset } = customZone(pi, plane);
+    const p = pointAt(leg.pl, arcAtY(leg.pl, E + y));
+    return [p[0], p[1], planes === 1 ? 0 : p[2] + zOffset];
+  };
+  /** custom pylon anchor distributed by arc length along the anchor zone (t = 0 lowest) */
+  const customAnchor = (pi: number, plane: number, t: number): Vec3 => {
+    const { leg, from, to, zOffset } = customZone(pi, plane);
+    const s0 = arcAtY(leg.pl, E + from);
+    const s1 = arcAtY(leg.pl, E + to);
+    const p = pointAt(leg.pl, s0 + (s1 - s0) * t);
+    return [p[0], p[1], planes === 1 ? 0 : p[2] + zOffset];
+  };
+  /** half the section width of a custom pylon's anchor leg at height y (for back stays split to both faces) */
+  const customHalfWidth = (pi: number, y: number) => {
+    const { leg } = customZone(pi, 0);
+    const fr = leg.pl.length ? arcAtY(leg.pl, y) / leg.pl.length : 1;
+    return (leg.w0 + (leg.w1 - leg.w0) * fr) / 2;
   };
 
   const cablesStation: Cable[] = [];
@@ -490,27 +542,52 @@ export function buildBridgeGeometry(
     const yd = E;
     const H = p.heightAboveDeck;
     const [lo, hi] = pattern === 'fan' ? [0.97, 0.97] : pattern === 'semi_fan' ? [0.75, 0.97] : [0.3, 0.97];
+    const builtInHalf = clamp((E + H) / 25, 1.5, 8) * 0.65;
     for (const side of [-1, 1] as const) {
       const r = reach(p.support, side);
+      const back = isBackSide(p.support, side);
       const [f0, f1] = extradosed ? [0.15, 0.5] : [0.08, 1];
-      for (let plane = 0; plane < planes; plane++) {
+      const nPlanes = splitBack && back ? 2 : planes;
+      for (let plane = 0; plane < nPlanes; plane++) {
+        const anchorPlane = nPlanes === planes ? plane : 0;
+        /** pylon-side anchor at local height y above deck (harp), or by fan index t */
+        const atY = (y: number): Vec3 => (p.custom ? customAnchorAtY(pi, anchorPlane, y) : [p.x, yd + y, shapes[pi].anchorZ(anchorPlane, yd + y)]);
+        // harp: anchor heights linear from yLow to yTop; deck stations proportional to the height above deck, so
+        // every stay on this side has the same slope (parallel). yLow = yTop·f0/f1 unless the anchor zone / 15%
+        // floor is higher, in which case the deck stations start further out instead of bunching the stays.
+        let harp: { yLow: number; yTop: number; k: number } | undefined;
+        if (pattern === 'harp') {
+          const zone = p.custom ? customZone(pi, anchorPlane) : undefined;
+          const yTop = zone ? zone.to : H * hi;
+          const yLow = Math.min(yTop, Math.max(zone ? zone.from : 0.15 * H, (yTop * f0) / f1));
+          const outer = atY(yTop);
+          const run = Math.abs(p.x + side * r * f1 - outer[0]);
+          harp = { yLow, yTop, k: run / Math.max(1e-6, outer[1] - yd) };
+        }
         for (let j = 0; j < perSide; j++) {
           const t = perSide === 1 ? 1 : j / (perSide - 1); // 0 = nearest the pylon
-          let x = p.x + side * r * (f0 + (f1 - f0) * t);
-          // back-span anchors close to an auxiliary pier sit on it (the pier takes the back-stay force)
-          if (isBackSide(p.support, side)) {
-            const near = auxiliaryPiers.find((a) => Math.abs(a - x) < AUX_SNAP && Math.sign(a - p.x) === side);
-            if (near !== undefined) x = near;
+          let top: Vec3;
+          let x: number;
+          if (harp) {
+            top = atY(harp.yLow + (harp.yTop - harp.yLow) * t);
+            x = top[0] + side * harp.k * (top[1] - yd);
+          } else {
+            x = p.x + side * r * (f0 + (f1 - f0) * t);
+            // back-span anchors close to an auxiliary pier sit on it (the pier takes the back-stay force)
+            if (back) {
+              const near = auxiliaryPiers.find((a) => Math.abs(a - x) < AUX_SNAP && Math.sign(a - p.x) === side);
+              if (near !== undefined) x = near;
+            }
+            // outer stays anchor highest (no crossing); fan: all at one point
+            top = p.custom ? customAnchor(pi, anchorPlane, t) : atY(H * (lo + (hi - lo) * t));
           }
           if (!onBuiltDeck(x)) continue;
-          // outer stays anchor highest (no crossing); fan: all at one point
-          const top: Vec3 = p.custom
-            ? customAnchor(pi, plane, t)
-            : (() => {
-                const y = yd + H * (lo + (hi - lo) * t);
-                return [p.x, y, shapes[pi].anchorZ(plane, y)] as Vec3;
-              })();
-          cablesStation.push({ pylon: pi, side, plane, top, deck: [x, yd, deckZ(plane)], back: isBackSide(p.support, side), j });
+          if (nPlanes !== planes) {
+            // split back stays leave the mast from its two faces
+            const half = p.custom ? customHalfWidth(pi, top[1]) : builtInHalf;
+            top = [top[0], top[1], top[2] + (plane === 0 ? -half : half)];
+          }
+          cablesStation.push({ pylon: pi, side, plane, top, deck: [x, yd, deckZ(plane, nPlanes)], back, j });
         }
       }
     }
@@ -553,22 +630,46 @@ export function buildBridgeGeometry(
   const mapBox = (b: Box): Box => ({ ...b, c: mapV(b.c), yaw: (b.yaw ?? 0) + yawAt(b.c[0]) });
 
   const deckPieces: Box[] = [];
+  const deckMembers: Member[] = [];
   const pieceLen = R || crest ? 20 : Infinity;
+  // truss: top and bottom chord slabs, deckDepth apart (stays anchor at the top chord edges)
+  const CHORD = 0.6;
+  const layers: [number, number][] = truss ? [[0, CHORD], [deckDepth - CHORD, CHORD]] : [[0, deckDepth]]; // [depth below deck top, thickness]
   for (const seg of deckSegments) {
     const n = Math.max(1, Math.ceil((seg.x1 - seg.x0) / pieceLen));
     const L = (seg.x1 - seg.x0) / n;
     for (let k = 0; k < n; k++) {
       const x = seg.x0 + (k + 0.5) * L;
-      // a hair longer than the arc piece so curved joints close
-      const piece = mapBox({ c: [x, E - deckDepth / 2, 0], s: [L + (R || crest ? 0.3 : 0), deckDepth, W] });
-      piece.c[1] = deckY(x) - deckDepth / 2;
-      if (crest) piece.pitch = Math.atan(crestSlope(x));
-      deckPieces.push(piece);
+      for (const [below, th] of layers) {
+        // a hair longer than the arc piece so curved joints close
+        const piece = mapBox({ c: [x, E - below - th / 2, 0], s: [L + (R || crest ? 0.3 : 0), th, W] });
+        piece.c[1] = deckY(x) - below - th / 2;
+        if (crest) piece.pitch = Math.atan(crestSlope(x));
+        deckPieces.push(piece);
+      }
+    }
+    if (truss) {
+      // Warren web on both faces: verticals at every node, diagonals alternating, panels ≈ deckDepth long
+      const panels = Math.max(1, Math.round((seg.x1 - seg.x0) / deckDepth));
+      const pl = (seg.x1 - seg.x0) / panels;
+      // straight-deck heights: the plan mapping adds the crest (if any) itself
+      const yT = E - CHORD;
+      const yB = E - deckDepth + CHORD;
+      const size = clamp(deckDepth / 14, 0.5, 1.2);
+      for (const z of [-hw + size / 2, hw - size / 2])
+        for (let k = 0; k <= panels; k++) {
+          const xa = seg.x0 + k * pl;
+          deckMembers.push({ a: [xa, yB, z], b: [xa, yT, z], size });
+          if (k < panels) {
+            const xb = xa + pl;
+            deckMembers.push(k % 2 ? { a: [xa, yT, z], b: [xb, yB, z], size } : { a: [xa, yB, z], b: [xb, yT, z], size });
+          }
+        }
     }
   }
   // continuous deck meshes for curved / cambered decks (box pieces would show an outline every 20 m)
   const deckMeshes: SweepMesh[] = [];
-  if (R || crest)
+  if ((R || crest) && !truss)
     for (const seg of deckSegments) {
       const n = Math.max(2, Math.ceil((seg.x1 - seg.x0) / 10));
       const positions: number[] = [];
@@ -598,9 +699,10 @@ export function buildBridgeGeometry(
       deckMeshes.push({ positions, indices });
     }
   const pitch = Math.atan2(E - bankH, A);
+  const apD = truss ? 3 : deckDepth;
   const approaches: Box[] = [
-    mapBox({ c: [-A / 2, (E + bankH) / 2 - deckDepth / 2, 0], s: [Math.hypot(A, E - bankH), deckDepth, W], pitch }),
-    mapBox({ c: [totalLength + A / 2, (E + bankH) / 2 - deckDepth / 2, 0], s: [Math.hypot(A, E - bankH), deckDepth, W], pitch: -pitch }),
+    mapBox({ c: [-A / 2, (E + bankH) / 2 - apD / 2, 0], s: [Math.hypot(A, E - bankH), apD, W], pitch }),
+    mapBox({ c: [totalLength + A / 2, (E + bankH) / 2 - apD / 2, 0], s: [Math.hypot(A, E - bankH), apD, W], pitch: -pitch }),
   ];
   const piers: Box[] = pierXs.map((px) => {
     const h = deckY(px) - deckDepth;
@@ -661,6 +763,8 @@ export function buildBridgeGeometry(
     deckSegments,
     deckPieces,
     deckMeshes,
+    deckMembers: deckMembers.map((mb) => ({ ...mb, a: mapV(mb.a), b: mapV(mb.b) })),
+    deckSection: truss ? 'truss' : 'box',
     travellers: travellerBoxes.map(mapBox),
     approaches,
     banks,

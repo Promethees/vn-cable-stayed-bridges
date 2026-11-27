@@ -1,6 +1,6 @@
 # Questions for the client (2026-11-25)
 
-One question per line, bridge name first. Already answered: Phú Mỹ start year 2005, Rạch Miễu 2 = QL60B, Thượng Cát 4×195 m, include extradosed bridges, include rail/metro bridges, Cần Giờ road bridge stays planned.
+One question per line, bridge name first. Already answered: Phú Mỹ start year 2005, Rạch Miễu 2 = QL60B, Thượng Cát 4×195 m (superseded 2026-11-27: 120 + 2 × 270 + 120 m per the ground-breaking reports, user-confirmed), include extradosed bridges, include rail/metro bridges, Cần Giờ road bridge stays planned.
 
 1. [ANSWERED 2026-11-25: wait for an official figure; do not add yet] Cầu Phú Mỹ 2: the span isn't published, but the navigation channel is 250 × 55 m, so the span is almost certainly > 250 m. Add it as planned with an estimated span, or wait for an official figure?
 2. Cầu đường sắt Cần Giờ (Soài Rạp, Bến Thành–Cần Giờ line): the 360 m span comes from one article (22/10/2026). Is it right? Should usage be "metro" or "rail"? The line is marketed as both.
@@ -49,4 +49,4 @@ One question per line, bridge name first. Already answered: Phú Mỹ start year
 39. Cầu Máy Chai (Hoàng Gia): main span 200 m and pylons 89 m are from press, but side spans and stay planes are not published. Is it 2 planes? What are the side spans?
 40. Cầu Hải Thành (Hải Phòng, Lạch Tray): press calls it a 3-span PC girder, yet one MOC note mentions stays at pier T12. Is it extradosed? If so, what is the main span (nav channel is only 50 m wide, so probably < 150 m)?
 41. Cầu Cửa Lớn: main span 250 m is now recorded (client). Still missing: side spans, pylon form/height, navigation clearance, the exact crossing location and the bridge's own start date. The model uses placeholders.
-42. [ANSWERED 2026-11-26: client chose main_span_m = 350 as an estimate; bridge added as planned/needs_check] Cầu Phú Mỹ 2 (re-checked 2026-11-26): still no official main span. Known: 250 × 55 m channel, ≈870 m cable-stayed main bridge, 2 pylons, TEDI–BR design PM02, groundbreaking 15/1/2026, target 2029. Add it with an estimated span (e.g. ≈450 m, inferred from 870 m ≈ 210+450+210) flagged as an estimate, or keep waiting?
+42. [ANSWERED 2026-11-26: client chose main_span_m = 350 as an estimate; bridge added as planned/needs_check. UPDATED 2026-11-26 (model review r1): client adopted the contractor figures 210 + 450 + 210 m, main span 450 m (https://bactrungnam-vn.com/cau-phu-my-2-dong-nai/)] Cầu Phú Mỹ 2 (re-checked 2026-11-26): still no official main span. Known: 250 × 55 m channel, ≈870 m cable-stayed main bridge, 2 pylons, TEDI–BR design PM02, groundbreaking 15/1/2026, target 2029. Add it with an estimated span (e.g. ≈450 m, inferred from 870 m ≈ 210+450+210) flagged as an estimate, or keep waiting?

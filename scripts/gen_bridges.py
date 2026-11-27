@@ -263,11 +263,21 @@ add(id="cau-phuoc-an", name_vi="Cầu Phước An", name_en="Phước An Bridge"
 
 add(id="cau-thuong-cat", name_vi="Cầu Thượng Cát", name_en="Thượng Cát Bridge", status="under_construction",
     province="Hà Nội", province_former=["Hà Nội"], crosses="Sông Hồng",
-    roads=["Vành đai 3.5 Hà Nội"], construction_start=2025, opened=2027, main_span_m=195, total_length_m=5200,
-    lanes=8, cable_stayed_spans=4, span_arrangement="4 × 195 m", pylons="3 tháp dây văng", cost="≈7,300 tỷ VND",
+    roads=["Vành đai 3.5 Hà Nội"], construction_start=2025, opened=2027, main_span_m=270, total_length_m=5200, width_m=35,
+    lanes=8, cable_stayed_spans=2, span_arrangement="120 + 2 × 270 + 120 m (780 m cable-stayed main bridge)", pylons="3 tháp chữ V hình cánh chim", cost="≈7,300 tỷ VND",
     lat=21.1030, lng=105.7455,
-    sources=["https://danviet.vn/lo-dien-vi-tri-3-tru-thap-chinh-cua-cau-thuong-cat-tren-song-hong-d1434160.html", "https://vtcnews.vn/toan-canh-cau-day-vang-hon-7-300-ty-dong-o-ha-noi-sau-gan-10-thang-thi-cong-ar1037024.html", "main_span_m / cable_stayed_spans / span_arrangement / pylons: " + CC, OSM], confidence="verified",
-    notes="Span data client-confirmed 2026-11-25 (4 × 195 m = the 780 m river section). Press gives only '780 m with 3 large spans'. Started 8/10/2025; completion target 2027. Total length 5.2 km includes approaches (main bridge ≈3.9 km). Runs from Kỳ Vũ road (Thượng Cát) to QL23B (Thiên Lộc).")
+    sources=["https://baodauthau.vn/khoi-cong-cau-thuong-cat-hon-7000-ty-dong-bac-qua-song-hong-post186408.html",
+             "https://danviet.vn/khoi-cong-cau-thuong-cat-buoc-tien-moi-cho-ha-tang-giao-thong-thu-do-d1368789.html",
+             "https://vtv.vn/ha-noi-khoi-cong-du-an-cau-thuong-cat-ket-noi-bo-bac-song-hong-voi-trung-tam-thu-do-100251008113812543.htm",
+             "https://tedi.vn/phuong-an-kien-truc-canh-chim-hoa-binh-cho-cau-thuong-cat/",
+             "http://vov.vn/xa-hoi/cau-thuong-cat-lap-nhip-dam-dau-tien-tang-toc-thi-cong-3-tru-thap-post1351599.vov",
+             "https://soha.vn/nhin-tu-tren-cao-cong-truong-xay-cay-cau-8-lan-xe-hon-7300-ty-dong-o-ha-noi-198261115112543869.htm",
+             "https://cafef.vn/kien-truc-cau-thuong-cat-bi-nghi-giong-cau-thach-han-se-dieu-chinh-de-tao-khac-biet-188240403064544532.chn",
+             "https://dantri.com.vn/thoi-su/kien-truc-cau-thuong-cat-o-ha-noi-bi-nghi-giong-cau-thach-han-1-o-quang-tri-20240130150755072.htm",
+             "https://mekongasean.vn/chiem-nguong-phuong-an-dat-giai-nhat-thiet-ke-kien-truc-cau-thuong-cat-20434.html",
+             "https://danviet.vn/lo-dien-vi-tri-3-tru-thap-chinh-cua-cau-thuong-cat-tren-song-hong-d1434160.html",
+             "https://vtcnews.vn/toan-canh-cau-day-vang-hon-7-300-ty-dong-o-ha-noi-sau-gan-10-thang-thi-cong-ar1037024.html", OSM], confidence="verified",
+    notes="Main (cable-stayed) bridge 780 m in 4 spans 120 + 270 + 270 + 120 m with 3 pylons, per the ground-breaking reports (Báo Đấu thầu, Dân Việt, 8/10/2025); confirmed by the user 2026-11-27. This supersedes the earlier client-confirmed 4 × 195 m (2026-11-25); the 2024 competition scheme was 100 + 2 × 200 + 100 m (600 m) before the city asked for a 270 m main span. Deck 35 m on the main bridge (31 m on the approaches), 8 lanes, prestressed-concrete box girder by balanced cantilever (TEDI). Pylons: 'Cánh chim Hòa bình' (dove wings), each a V of two separate blades leaning outward ≈15° from one pier; the centre pylon (P30) is ≈10 m taller than P29 / P31 (reported 102–107 m, 60–80 m above deck). Under construction (≈21% in 11/2026: P31 at tower segment 6/32, P29 at 3/32, P30 pile cap); started 8/10/2025, completion target end of 2027. Total length 5.2 km includes approaches (main bridge + approaches ≈3.9 km). Runs from Kỳ Vũ road (Thượng Cát) to QL23B (Thiên Lộc).")
 
 
 add(id="cau-may-chai", name_vi="Cầu Máy Chai (Cầu Hoàng Gia)", name_en="Máy Chai (Hoàng Gia) Bridge", status="completed",
@@ -290,18 +300,18 @@ add(id="cau-cua-lon", name_vi="Cầu Cửa Lớn (cao tốc Cà Mau – Đất M
 
 add(id="cau-phu-my-2", name_vi="Cầu Phú Mỹ 2", name_en="Phú Mỹ 2 Bridge", status="planned",
     province="TP. Hồ Chí Minh – Đồng Nai", province_former=["TP. Hồ Chí Minh", "Đồng Nai"], crosses="Sông Nhà Bè",
-    roads=["Đường Nguyễn Hữu Thọ", "Đường Liên Cảng – 25C"], construction_start=2026, opened=2029, main_span_m=350,
-    total_length_m=6300, width_m=33.5, lanes=8, cable_stayed_spans=1, span_arrangement="60 + 200 + 350 + 200 + 60 m (≈870 m stayed unit; estimated)",
+    roads=["Đường Nguyễn Hữu Thọ", "Đường Liên Cảng – 25C"], construction_start=2026, opened=2029, main_span_m=450,
+    total_length_m=6300, width_m=33.5, lanes=8, cable_stayed_spans=1, span_arrangement="210 + 450 + 210 m (870 m stayed unit; contractor Bắc Trung Nam)",
     pylons="2 symmetric pylons, fan stays in 2 planes", investor="Masterise Hạ tầng Phú Mỹ (PPP-BT)", cost="≈23,186 tỷ VND",
     lat=10.7050, lng=106.7700,
-    sources=["main span 350 m: client-chosen estimate 2026-11-26 (official figure unpublished)",
+    sources=["https://bactrungnam-vn.com/cau-phu-my-2-dong-nai/",
              "https://baodautu.vn/thong-nhat-tinh-khong-thong-thuyen-cau-chinh-phu-my-2-cao-55-m-rong-250-m-d569257.html",
              "https://thanhnien.vn/lo-dien-thiet-ke-cau-phu-my-2-noi-tphcm-dong-nai-185260411113038756.htm",
              "https://tuoitre.vn/plo/kien-truc-doc-dao-cua-cau-phu-my-2-post903737.html",
              "https://cafeland.vn/tin-tuc/toan-canh-vi-tri-xay-cau-phu-my-2-sau-dong-tho-khu-vuc-nay-dang-ra-sao-150579.html",
              "https://cafef.vn/cay-cau-dai-63km-quy-mo-8-lan-xe-so-huu-day-vang-tinh-khong-cao-bac-nhat-viet-nam-ket-noi-voi-sieu-du-an-16-ty-usd-18826091314280457.chn"],
     confidence="needs_check",
-    notes="MAIN SPAN 350 m IS A CLIENT-CHOSEN ESTIMATE (2026-11-26); no official figure has been published. Known: TEDI–BR design PM02 won the architectural competition (HCMC decision, 4/2026); cable-stayed main bridge ≈870 m with 2 symmetric pylons, 2 cable planes, steel–concrete composite girder, deck ≈33.5 m, 8 lanes; navigation channel 250 × 55 m (Ministry of Construction, channel shifted ≈340 m toward Đồng Nai). Route ≈6.3 km (4.6 km HCMC, 1.7 km Đồng Nai) from Nguyễn Hữu Thọ (Nhà Bè) to Liên Cảng – 25C (Đại Phước). Groundbreaking 15/1/2026 (taken as construction_start); completion target 2029. Span arrangement estimated to total ≈870 m. COORDINATES APPROXIMATE (on the Nhà Bè river between Nhà Bè and Đại Phước).")
+    notes="Span arrangement 210 + 450 + 210 m (main span 450 m) from the contractor page (Bắc Trung Nam), adopted by client decision 2026-11-26; replaces the earlier 350 m client estimate. Known: TEDI–BR design PM02 won the architectural competition (HCMC decision, 4/2026); cable-stayed main bridge ≈870 m with 2 symmetric pylons, 2 cable planes, steel–concrete composite girder, deck ≈33.5 m, 8 lanes; navigation channel 250 × 55 m (Ministry of Construction, channel shifted ≈340 m toward Đồng Nai). Route ≈6.3 km (4.6 km HCMC, 1.7 km Đồng Nai) from Nguyễn Hữu Thọ (Nhà Bè) to Liên Cảng – 25C (Đại Phước). Groundbreaking 15/1/2026 (taken as construction_start); completion target 2029. COORDINATES APPROXIMATE (on the Nhà Bè river between Nhà Bè and Đại Phước).")
 
 add(id="cau-can-gio", name_vi="Cầu Cần Giờ", name_en="Cần Giờ Bridge", status="planned",
     province="TP. Hồ Chí Minh", province_former=["TP. Hồ Chí Minh"], crosses="Sông Soài Rạp",
@@ -402,8 +412,8 @@ M3D = {
     notes="125+300+125 m, pylons 111 m, deck 26.5 m (press). Pylon shape and cable pattern not published (placeholder 'H')."),
  "cau-phuoc-an": m3d([145, 250, 145], "other", [35, 35], "above_deck", 2, "harp", 27.0, "concrete", extradosed=True,
     notes="Extradosed 250 m main span, 27 m deck (press). Pylons are arch-shaped in the Người Quan Sát photo (8/2026). Side spans and pylon height estimated."),
- "cau-thuong-cat": m3d([195, 195, 195, 195], "H", [60, 65, 60], "above_deck", 2, "semi_fan", 36.0,
-    notes="4×195 m and 3 pylons (client-confirmed 2026-11-25). Pylon shape/height and deck width (8 lanes) estimated; no render found."),
+ "cau-thuong-cat": m3d([120, 270, 270, 120], "other", [70, 80, 70], "above_deck", 2, "semi_fan", 35.0, "concrete",
+    notes="Placeholder; replaced by research/shapes/cau-thuong-cat.json (round 2)."),
  "cau-can-tho-2": m3d([210, 450, 210], "H", [160, 160], "total", 2, "semi_fan", 30.5, "steel",
     notes="210+450+210 m, 30.5 m deck, double-deck road-over-rail (CafeF). H-like pylons and steel truss girder read from the CafeF render. Pylon height estimated."),
  "cau-can-gio": m3d([150, 350, 150], "other", [100, 100], "total", 2, "fan", 30.0,
@@ -756,13 +766,170 @@ PHASE6 = {
 }
 
 
-M3D["cau-phu-my-2"] = m3d([60, 200, 350, 200, 60], "H", [140, 140], "total", 2, "fan", 33.5, "composite",
-    notes="Placeholder until the render compare: 350 m main span is a client-chosen estimate.")
+M3D["cau-phu-my-2"] = m3d([210, 450, 210], "H", [170, 170], "total", 2, "fan", 33.5, "composite",
+    notes="Placeholder until the render compare (replaced by research/shapes/cau-phu-my-2.json).")
 NAV["cau-phu-my-2"] = nav(55, 250, None, "https://baodautu.vn/thong-nhat-tinh-khong-thong-thuyen-cau-chinh-phu-my-2-cao-55-m-rong-250-m-d569257.html")
 PRESS["cau-phu-my-2"] = [
     press("https://cdn2.tuoitre.vn/plo/image/Uploaded/daotrang/2026_04_11/cau-phu-my-2-21-6172-1418.jpg", "Pháp Luật TP.HCM (PM02 render)", "https://tuoitre.vn/plo/kien-truc-doc-dao-cua-cau-phu-my-2-post903737.html", "PM02 render"),
     press("https://images2.thanhnien.vn/zoom/1200_630/528068263637045248/2026/4/11/thumbnail-1-17758816924231675336197-0-0-755-1208-crop-17758818141781921120657.jpg", "Thanh Niên (PM02 render)", "https://thanhnien.vn/lo-dien-thiet-ke-cau-phu-my-2-noi-tphcm-dong-nai-185260411113038756.htm", "PM02 render"),
     press("https://cafefcdn.com/thumb_w/1200/203337114487263232/2026/9/13/cau-phu-my-2-11-8376-8844-17892844087341675295924-0-0-755-1208-crop-17892844148141100818472.jpg", "CafeF", "https://cafef.vn/cay-cau-dai-63km-quy-mo-8-lan-xe-so-huu-day-vang-tinh-khong-cao-bac-nhat-viet-nam-ket-noi-voi-sieu-du-an-16-ty-usd-18826091314280457.chn", "render")]
+
+# ---------------- MODEL REVIEW ROUND 1 (research/model-review/brief-round1.md, 2026-11-26) ----------------
+# Applied LAST and unconditionally (after SHAPES and PHASE6). Per bridge:
+#   "scale_y": multiply every above-deck y of the custom pylon (centreline points, crossbeams, anchor zones, strut ends)
+#   "set": model3d fields; "pylon_custom": pylon_custom fields (after scaling); "bridge": top-level fields; "nav": nav_clearance
+NON_SCHEMA = ("colour", "image_issue", "auxiliary_piers_m_from_end")
+
+def sanitize_model3d(m):
+    """Drops keys that are not in docs/data-schema.md (their text is kept in notes)."""
+    c = m.pop("colour", None)
+    if c and c not in m.get("notes", ""):
+        m["notes"] = (m.get("notes", "") + " Colour: " + c + ".").strip()
+    m.pop("image_issue", None)                      # handled by DROP_IMAGES
+    fe = m.pop("auxiliary_piers_m_from_end", None)
+    if fe and "auxiliary_piers_m" not in m:
+        L = sum(m["spans_m"])
+        m["auxiliary_piers_m"] = sorted(set(fe) | {round(L - d, 3) for d in fe})
+
+def scale_custom(pc, f):
+    for leg in pc["legs"]:
+        leg["centerline"] = [[x, y * f if y > 0 else y, z] for x, y, z in leg["centerline"]]
+    if "crossbeams_y_m" in pc:
+        pc["crossbeams_y_m"] = [round(y * f, 2) if y > 0 else y for y in pc["crossbeams_y_m"]]
+    for az in pc["anchor_zone"]:
+        az["y_from_m"] = round(az["y_from_m"] * f, 2)
+        az["y_to_m"] = round(az["y_to_m"] * f, 2)
+    for st in pc.get("struts", []):
+        for e in ("a", "b"):
+            if st[e][1] > 0: st[e] = [st[e][0], st[e][1] * f, st[e][2]]
+    for leg in pc["legs"]:
+        leg["centerline"] = [[x, round(y, 3), z] for x, y, z in leg["centerline"]]
+
+def apply_review(b, r):
+    import copy
+    m = b["model3d"]
+    if "scale_y" in r:
+        assert "pylon_custom" in m, b["id"]
+        m["pylon_custom"] = copy.deepcopy(m["pylon_custom"])
+        scale_custom(m["pylon_custom"], r["scale_y"])
+    for k, v in r.get("set", {}).items():
+        if v is None: m.pop(k, None)
+        else: m[k] = copy.deepcopy(v)
+    for k, v in r.get("pylon_custom", {}).items():
+        m["pylon_custom"][k] = copy.deepcopy(v)
+    for k, v in r.get("bridge", {}).items():
+        b[k] = v
+    if "nav" in r:
+        NAV[b["id"]] = r["nav"]
+    if r.get("note"):
+        m["notes"] = (m.get("notes", "") + " Review r1: " + r["note"]).strip()
+
+R1 = "model review round 1 (research/model-review/brief-round1.md)"
+REVIEW_R1 = {
+    "cau-can-tho": {"scale_y": 0.965, "set": {"auxiliary_piers_m": [40, 80, 930, 970], "cables_per_side": 27},
+        "note": "Aux piers at 930/970 m (unit 1010 m); 27 stays per side per plane (216 stays); custom pylon scaled to 175.3 m total."},
+    "cau-vam-cong": {"scale_y": 1.05, "set": {"pylon_heights_m": [150, 150]},
+        "bridge": {"pylons": "2 tháp chữ H, chân choãi rộng dưới mặt cầu, cao 150 m", "pylons_en": "2 H-shaped pylons with splayed lower legs, 150 m"},
+        "note": "Pylon 150 m total (vi.wikipedia, CafeF)."},
+    "cau-bai-chay": {"scale_y": 0.915,
+        "set": {"pylon_heights_m": [91.5, 91.5], "pylon_height_ref": "above_deck", "cables_per_side": 28, "pylon_colour": "grey", "stay_colour": "yellow"},
+        "nav": nav(50, None, "press (widely quoted)"),
+        "bridge": {"pylons": "2 tháp một cột (một mặt phẳng dây), cao 91,5 m trên mặt cầu; dây văng bọc vàng", "pylons_en": "2 single-column pylons (one cable plane), 91.5 m above deck; yellow stay sheaths"},
+        "note": "Pylon 91.5 m above deck (IABSE / ResearchGate); 28 stays per side per pylon (112 total, Freyssinet)."},
+    "cau-phu-my": {"scale_y": 0.96, "note": "Custom pylon scaled to 145 m total (Wikipedia)."},
+    "cau-binh-khanh": {"set": {"spans_m": [187.25, 375, 187.25], "pylon_heights_m": [155, 155], "cables_per_side": 17, "deck_type": "concrete"},
+        "bridge": {"pylons": "2 tháp chữ H, dầm ngang đỉnh, cao 155 m", "pylons_en": "2 H-shaped pylons with a top cross-beam, 155 m",
+                   "span_arrangement": "187,25 + 375 + 187,25 m"},
+        "note": "Spans 187.25 + 375 + 187.25 m, 155 m pylons, 17 stay pairs per pylon side (vi.wikipedia, VnExpress)."},
+    "cau-phuoc-khanh": {"scale_y": 0.877, "set": {"cables_per_side": 14, "deck_type": "concrete"},
+        "note": "Custom pylon scaled to 155 m total; 56 stay bundles = 14 per side per plane (vietnamnet)."},
+    "cau-my-thuan-2": {"scale_y": 0.967, "set": {"cables_per_side": 16, "pylon_heights_m": [125.5, 125.5]},
+        "note": "128 stay bundles = 16 per side per plane (VnExpress); crest 125.5 m (Tiền Phong)."},
+    "cau-nhat-tan": {"set": {"cables_per_side": 11, "pylon_heights_m": [111] * 5, "pylon_colour": "grey"},
+        "note": "220 stays / 5 pylons = 11 per side per plane (JSCE); max pylon 111 m."},
+    "cau-rach-mieu": {"set": {"deck_width_m": 15, "pylon_heights_m": [117, 117], "stay_colour": "orange", "pylon_colour": "#e6dcc3"},
+        "pylon_custom": {"legs": None},   # filled below (legs moved to ±9.5 m at deck level)
+        "bridge": {"pylons": "2 tháp chữ A (Y ngược), chân choãi, dây văng màu cam, cao 117 m", "pylons_en": "2 A-frame (inverted-Y) pylons with splayed feet, orange stays, 117 m"},
+        "note": "Deck 15 m and pylon 117 m (vi.wikipedia)."},
+    "cau-rach-mieu-2": {"set": {"pylon_heights_m": [116.5, 116.5]},
+        "nav": nav(37.5, 220, "contractor: channel 220 m × 30 m, 37.5 m at mid-channel", "https://trungnamec.com.vn/cau-rach-mieu-2/"),
+        "bridge": {"pylons": "2 tháp hai cột (chữ H), cao 116,5 m", "pylons_en": "2 twin-column (H) pylons, 116.5 m"},
+        "note": "Pylon 116.5 m (Trung Nam E&C)."},
+    "cau-bach-dang": {"scale_y": 0.74, "set": {"cables_per_side": 12, "pylon_colour": "grey", "stay_colour": "orange"},
+        "pylon_custom": {"crossbeams_y_m": [-3, 22], "anchor_zone": [{"y_from_m": 28, "y_to_m": 45, "leg": 0}, {"y_from_m": 28, "y_to_m": 45, "leg": 1}]},
+        "note": "Pylons ≈43–46 m above a deck ≈52 m above water (crown +99.74 / +94.5 m); beam at ≈50% of the above-deck height; 48 stay bundles per pylon (baolamdong). Per-pylon heights scale the custom pylon (centre taller)."},
+    "cau-tran-thi-ly": {"set": {"back_stay_planes": 2},
+        "note": "Main-span stays in one central plane; back stays split into two planes to the deck edges (VECC 'triple-plane', CafeF)."},
+    "cau-kien": {"set": {"cables_per_side": 9, "deck_width_m": 16.7}, "note": "36 stay pairs = 9 per side per plane; deck 16.7 m (vi.wikipedia)."},
+    "cau-ba-son": {"scale_y": 0.92, "set": {"cables_per_side": 14}, "note": "56 stay bundles = 14 per side per plane; 113 m (vi.wikipedia)."},
+    "cau-may-chai": {"set": {"cable_pattern": "harp"}, "note": "Harp stays ('dây văng kiểu đàn hạc', baohaiphong / congly)."},
+    "cau-thuan-an": {"set": {"deck_elevation_m": 40},
+        "pylon_custom": None,   # filled below
+        "note": "Deck ≈40 m above water: pylon 32 m above deck and 72 m above water (Tiền Phong). A-head on the pier head (legs from the deck edges), single central plane."},
+    "cau-hoa-son": {"set": {"deck_elevation_m": 40}, "note": "Deck elevation 40 m estimated (reservoir crossing)."},
+    "cau-tu-lien": {"scale_y": 0.94, "set": {"deck_elevation_m": 25}, "note": "Deck ≈25 m above water (estimated) and blades scaled so the total is ≈185 m (VOV, CafeF)."},
+    "cau-long-hung": {"set": {"deck_crest_m": 6, "deck_width_m": 37, "auxiliary_piers_m": [60, 640]},
+        "pylon_custom": None,   # filled below
+        "bridge": {"pylons": "2 tháp 'song kiếm hợp bích': hai lưỡi mảnh giữa dải phân cách, chụm nhọn ở đỉnh, chân choãi dưới mặt cầu, cao 175 m",
+                   "pylons_en": "2 'twin swords' pylons: two slim median blades meeting at a pointed tip, flared below the deck, 175 m"},
+        "note": "Twin swords ('song kiếm hợp bích', 1thegioi; ground-breaking render); crest, aux piers and 37 m deck."},
+    "cau-can-tho-2": {"scale_y": 0.913, "set": {"deck_section": "truss", "deck_depth_m": 14},
+        "pylon_custom": {"crossbeams_y_m": [-15, 98.6]},
+        "note": "Double-deck steel truss (road on top, 2 rail tracks below; baoxaydung, VnExpress), depth ≈14 m estimated; the deeper deck raises the deck, so the custom pylon is scaled to keep ≈160 m total."},
+    "cau-duong-sat-can-gio": {"set": {"pylon_shape": "A", "deck_section": "truss", "deck_depth_m": 10},
+        "bridge": {"pylons": "2 tháp chữ A; dầm giàn thép", "pylons_en": "2 A-shaped pylons; steel-truss girder"},
+        "note": "'Hai trụ tháp chữ A', steel-truss girder (nguoiquansat)."},
+    "cau-ngoc-hoi": {"set": {"deck_width_m": 38.3}, "note": "Deck 38.3 m overall incl. stay-anchor zones (32.3 m carriageway)."},
+    "cau-can-gio": {"set": {"pylon_heights_m": [150, 150]},
+        "bridge": {"pylons": "2 tháp hình cây đước (chân rễ choãi), cao ≈150 m", "pylons_en": "2 mangrove-tree pylons with splayed root legs, ≈150 m"},
+        "note": "Height label 150 m (most press; some say 100 m)."},
+}
+REVIEW_R1["cau-rach-mieu"]["pylon_custom"]["legs"] = [
+    {"centerline": [[0, -30, -14], [0, 0, -9.5], [0, 40, -3], [0, 58, 0]], "width_base_m": 3.5, "width_top_m": 2.5},
+    {"centerline": [[0, -30, 14], [0, 0, 9.5], [0, 40, 3], [0, 58, 0]], "width_base_m": 3.5, "width_top_m": 2.5},
+    {"centerline": [[0, 58, 0], [0, 66, 0], [0, 75, 0]], "width_base_m": 3.5, "width_top_m": 2.8},
+]
+REVIEW_R1["cau-thuan-an"]["set"]["pylon_custom"] = {
+    "description": "Low A-head on each pier: two legs rise from the pier head at the deck edges and lean in to an apex 32 m above the deck, with a central king-post from the upper third through the apex to a short head that carries the single central plane of red extradosed stays. A single pier column carries the pier head below the deck.",
+    "legs": [
+        {"centerline": [[0, -3, -10.5], [0, 0, -10], [0, 16, -5], [0, 32, 0]], "width_base_m": 2.5, "width_top_m": 2.0},
+        {"centerline": [[0, -3, 10.5], [0, 0, 10], [0, 16, 5], [0, 32, 0]], "width_base_m": 2.5, "width_top_m": 2.0},
+        # central king-post carrying the single stay plane (saddles), rising through the apex to a short head
+        {"centerline": [[0, 16, 0], [0, 26, 0], [0, 36, 0]], "width_base_m": 2.4, "width_top_m": 1.6, "depth_base_m": 3.0, "depth_top_m": 2.2},
+    ],
+    "struts": [{"a": [0, -40, 0], "b": [0, -3, 0], "width": 8.0}, {"a": [0, -3, -10.5], "b": [0, -3, 10.5], "width": 3.0}],
+    "anchor_zone": [{"y_from_m": 18, "y_to_m": 33, "leg": 2}],
+    "mirror_for_other_pylons": True,
+    "reference_images": ["https://tienphong.vn/chiem-nguong-cau-day-do-vuot-cua-bien-dai-nhat-mien-trung-post1810259.tpo"],
+}
+del REVIEW_R1["cau-thuan-an"]["pylon_custom"]
+REVIEW_R1["cau-long-hung"]["set"]["pylon_custom"] = {
+    "description": "Twin swords ('song kiếm hợp bích'): two slim legs in the median, separate for the full height with a narrow slot, meeting at a pointed tip; below the deck they flare out to a wider footing. Single central plane of stays anchored along both blades.",
+    "legs": [
+        {"centerline": [[0, -30, -7], [0, 0, -3.5], [0, 70, -2.2], [0, 125, -1], [0, 140, 0]], "width_base_m": 3.0, "width_top_m": 1.8, "depth_base_m": 6.0, "depth_top_m": 4.0},
+        {"centerline": [[0, -30, 7], [0, 0, 3.5], [0, 70, 2.2], [0, 125, 1], [0, 140, 0]], "width_base_m": 3.0, "width_top_m": 1.8, "depth_base_m": 6.0, "depth_top_m": 4.0},
+    ],
+    "crossbeams_y_m": [-3],
+    "crown": "pointed",
+    "anchor_zone": [{"y_from_m": 60, "y_to_m": 132, "leg": 0}, {"y_from_m": 60, "y_to_m": 132, "leg": 1}],
+    "mirror_for_other_pylons": True,
+    "reference_images": ["https://1thegioi.vn/cau-cat-lai-va-cau-long-hung-cong-nghe-gap-ngon-ngu-kien-truc-258897.html"],
+}
+del REVIEW_R1["cau-long-hung"]["pylon_custom"]
+# keys that must reach data/bridges.json (a regression fails the build)
+EXPECT_R1 = {
+    "cau-bai-chay": {"stay_colour": "yellow", "deck_crest_m": 8.0}, "cau-my-thuan": {"deck_crest_m": 6.0},
+    "cau-bach-dang": {"stay_colour": "orange"}, "cau-rach-mieu": {"stay_colour": "orange"},
+    "cau-tran-thi-ly": {"pylon_colour": "white", "stay_colour": "white", "back_stay_colour": "red", "back_stay_planes": 2},
+    "cau-cua-hoi": {"pylon_colour": "white", "stay_colour": "red"}, "cau-ben-rung": {"pylon_colour": "white", "stay_colour": "red"},
+    "cau-thuan-an": {"pylon_colour": "white", "stay_colour": "red", "deck_elevation_m": 40},
+    "cau-rach-mieu-2": {"auxiliary_piers_m": [60, 460]}, "cau-can-tho": {"auxiliary_piers_m": [40, 80, 930, 970], "cables_per_side": 27},
+    "cau-may-chai": {"cable_pattern": "harp", "pylon_colour": "yellow", "deck_colour": "red"},
+    "cau-phu-my-2": {"spans_m": [210, 450, 210]},
+    # round 2 (research/model-review/brief-round2-thuong-cat.md)
+    "cau-thuong-cat": {"spans_m": [120, 270, 270, 120], "pylon_heights_m": [70, 80, 70], "pylon_height_ref": "above_deck",
+                       "deck_width_m": 35.0, "deck_type": "concrete", "deck_elevation_m": 25, "cables_per_side": 13},
+}
 
 # ---------------- MERGE images + model3d into each bridge ----------------
 for b in B:
@@ -804,20 +971,26 @@ for b in B:
     if bid == "cau-tu-lien":
         b["pylons"] = "2 tháp chân kim cương, tách hai lưỡi xoắn phía trên, cao ≈185 m"
         b["pylons_en"] = "2 diamond-foot pylons splitting into two twisted blades, ≈185 m"
-    if bid in PHASE6 and not SHAPES.get(bid, {}).get("pass2"):   # pass-2 shape files are authoritative
-        ov = PHASE6[bid]
+    # PHASE6 for every bridge; keys the pass-2 shape file sets itself win (Máy Chai keeps its refined legs/struts)
+    if bid in PHASE6:
+        shape_m = SHAPES.get(bid, {}).get("model3d", {}) if SHAPES.get(bid, {}).get("pass2") else {}
+        shape_pc = shape_m.get("pylon_custom", {})
         m = b["model3d"]
-        for k, v in ov.items():
+        for k, v in PHASE6[bid].items():
             if k == "pylon_custom":
                 assert "pylon_custom" in m, bid
                 for kk, vv in v.items():
                     if kk == "legs_override":
+                        if "legs" in shape_pc: continue
                         for li, cl in vv.items():
                             m["pylon_custom"]["legs"][li]["centerline"] = cl
-                    else:
+                    elif kk not in shape_pc:
                         m["pylon_custom"][kk] = vv
-            else:
+            elif k not in shape_m:
                 m[k] = v
+    sanitize_model3d(b["model3d"])
+    if bid in REVIEW_R1:
+        apply_review(b, REVIEW_R1[bid])
     for frag in DROP_IMAGES.get(bid, []):
         b["images"] = [im for im in b["images"] if frag not in im["url"] and frag not in im["source"]]
     assert b["images"], f"{bid}: no image after drop"
@@ -834,6 +1007,23 @@ for b in B:
     if b["structure_type"] == "extradosed":
         assert b["model3d"].get("extradosed") is True, bid
     assert sum(b["model3d"]["spans_m"]) > 0 and max(b["model3d"]["spans_m"]) >= b["main_span_m"] - 1, bid
+
+for b in B:
+    m = b["model3d"]
+    for k in NON_SCHEMA: assert k not in m, (b["id"], k)
+    for k, v in EXPECT_R1.get(b["id"], {}).items():
+        assert m.get(k) == v, (b["id"], k, m.get(k))
+    if "pylon_custom" in m:
+        for leg in m["pylon_custom"]["legs"]: assert len(leg["centerline"]) >= 3, b["id"]
+        for az in m["pylon_custom"]["anchor_zone"]:
+            assert 0 <= az["leg"] < len(m["pylon_custom"]["legs"]) and az["y_from_m"] < az["y_to_m"], b["id"]
+    if b["id"] == "cau-thuong-cat":   # round 3: slender blades along the bridge, wide wings across
+        legs = m["pylon_custom"]["legs"]
+        assert [l["depth_base_m"] for l in legs[:4]] == [10.0, 10.0, 4.5, 4.5], legs
+        assert legs[2]["width_base_m"] == 10.0 and legs[2]["width_top_m"] == 1.0, legs[2]
+        assert [z["leg"] for z in m["pylon_custom"]["anchor_zone"]] == [2, 3]
+    aux = m.get("auxiliary_piers_m", [])
+    assert all(0 < x < sum(m["spans_m"]) for x in aux), b["id"]
 
 for b in B:
     for f in ("lat", "lng"):

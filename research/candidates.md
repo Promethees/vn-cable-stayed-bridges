@@ -37,9 +37,9 @@ This file mirrors `data/bridges.json` (36 entries). "?" means unknown. Province 
 | Cầu Long Hưng | under construction | cable-stayed | road | TP. Hồ Chí Minh – Đồng Nai | 350 | 2026 | ? (target 2029) | ? | needs check | Single cable plane; coordinates approximate |
 | Cầu Nguyễn Trãi | under construction | cable-stayed | road | Hải Phòng | 300 | 2024 | ? (end of 2027) | ? | needs check | 125+300+125 |
 | Cầu Phước An | under construction | extradosed | road | TP. Hồ Chí Minh – Đồng Nai | 250 | 2023 | ? (end 2026–2027) | ? | needs check | Main span closed 24/7/2026 |
-| Cầu Thượng Cát | under construction | cable-stayed | road | Hà Nội | 195 (×4) (client) | 2025 | ? (target 2027) | Vành đai 3.5 | verified | 4×195 m, 3 pylons (client) |
+| Cầu Thượng Cát | under construction | cable-stayed | road | Hà Nội | 270 (120 + 2 × 270 + 120, ground-breaking reports; user-confirmed 2026-11-27) | 2025 | ? (target 2027) | Vành đai 3.5 | verified | 780 m main bridge, 3 V-blade pylons; supersedes the 4×195 m client value |
 | Cầu Cần Thơ 2 | planned | cable-stayed | road, rail | Cần Thơ – Vĩnh Long | 450 | ? (2028) | ? (2031) | CT.01 + Đường sắt TP.HCM – Cần Thơ | needs check | 210+450+210 |
-| Cầu Phú Mỹ 2 | planned | cable-stayed | road | TP. Hồ Chí Minh – Đồng Nai | 350 (client-chosen estimate) | 2026 (groundbreaking) | ? (target 2029) | Nguyễn Hữu Thọ – Liên Cảng 25C | needs check | Added 2026-11-26; official span unpublished; nav 250 × 55 m; PM02 render; coordinates approximate |
+| Cầu Phú Mỹ 2 | planned | cable-stayed | road | TP. Hồ Chí Minh – Đồng Nai | 450 (210 + 450 + 210, contractor Bắc Trung Nam; client decision 2026-11-26) | 2026 (groundbreaking) | ? (target 2029) | Nguyễn Hữu Thọ – Liên Cảng 25C | needs check | Added 2026-11-26; span from the contractor page https://bactrungnam-vn.com/cau-phu-my-2-dong-nai/; nav 250 × 55 m; PM02 render; coordinates approximate |
 | Cầu Cần Giờ (road) | planned (client) | cable-stayed | road | TP. Hồ Chí Minh | 350 | ? | ? (target 2029) | Đường 15B – Đường Rừng Sác | needs check | Groundbreaking 15/1/2026 |
 | Cầu vượt sông Đồng Nai (Gia Nghĩa – Bảo Lâm) | planned | cable-stayed | road | Lâm Đồng | 350 | ? | ? (2029) | Đường động lực Gia Nghĩa – Bảo Lâm | needs check | Coordinates very approximate |
 

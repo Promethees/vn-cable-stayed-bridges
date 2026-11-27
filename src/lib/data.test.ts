@@ -31,7 +31,7 @@ describe.each(files)('%s', (file) => {
     }
   });
 
-  it('custom pylons: every stay anchors on a swept leg (incl. Long Hưng leg 2 on the split-foot mast)', () => {
+  it('custom pylons: every stay anchors on a swept leg (incl. the Long Hưng twin median blades)', () => {
     for (const b of bridges) {
       const pc = b.model3d?.pylon_custom;
       if (!pc) continue;
@@ -51,10 +51,10 @@ describe.each(files)('%s', (file) => {
         }
       }
       if (b.id === 'cau-long-hung') {
-        expect(pc.anchor_zone[0].leg).toBe(2);
+        // twin swords: one central plane anchored in the slot between the two median blades
+        expect(pc.legs).toHaveLength(2);
         expect(g.cables.length).toBeGreaterThan(0);
-        // anchors sit on the mast (leg 2), i.e. on the centreline, above the split foot
-        expect(g.cables.every((c) => Math.abs(c.top[2]) < 1e-6 && c.top[1] > g.deckElevation + 15)).toBe(true);
+        expect(g.cables.every((c) => Math.abs(c.top[2]) < 1e-6 && c.top[1] > g.deckElevation + 59)).toBe(true);
       }
     }
   });
@@ -119,6 +119,79 @@ describe.each(files)('%s', (file) => {
     for (const b of bridges) {
       if (b.images.length && b.images.every((i) => i.license.trim().toLowerCase() === 'unknown') && b.model3d)
         expect(defaultView(b), b.id).toBe('diagram');
+    }
+  });
+
+  it('Thượng Cát (round 2): 3 V-blade pylons on 120 + 2 × 270 + 120, centre taller, blades lean outward, no beam above deck', () => {
+    const b = bridges.find((x) => x.id === 'cau-thuong-cat');
+    if (!b?.model3d) return; // sample data
+    const g = buildBridgeGeometry(b.model3d, b.status, { navClearance: b.nav_clearance })!;
+    expect(b.main_span_m).toBe(270);
+    expect(g.pylons.map((p) => p.x)).toEqual([120, 390, 660]);
+    expect(g.deckElevation).toBe(25);
+    const [h0, h1, h2] = g.pylons.map((p) => p.heightAboveDeck);
+    expect(h1).toBeCloseTo(80, 0);
+    expect(h0).toBeCloseTo(70, 0);
+    expect(h2).toBeCloseTo(70, 0);
+    for (const p of g.pylons) {
+      // the only member above the waterline block is the under-deck crossbeam: nothing joins the blades above the deck
+      expect(p.members.every((mb) => Math.max(mb.a[1], mb.b[1]) < g.deckElevation)).toBe(true);
+      // blades: widest across at the tips (outward lean), tips well outside the deck edges
+      let tipHalf = 0;
+      for (const sw of p.sweeps)
+        for (let i = 0; i < sw.positions.length; i += 3)
+          if (sw.positions[i + 1] > g.deckElevation + p.heightAboveDeck - 2) tipHalf = Math.max(tipHalf, Math.abs(sw.positions[i + 2]));
+      expect(tipHalf).toBeGreaterThan(g.deckWidth / 2 + 15);
+    }
+    // stays: 2 planes from the deck edges, rising outward to the blades
+    expect(g.cables.every((c) => Math.abs(c.deck[2]) === 17.5 && Math.abs(c.top[2]) > 17.5 && Math.sign(c.top[2]) === Math.sign(c.deck[2]))).toBe(true);
+    // round 2b: blades = legs 2 and 3 (split at deck level); stays between ≈0.4 and 0.8 of the height, top fifth bare
+    const pc = b.model3d.pylon_custom!;
+    expect(pc.legs).toHaveLength(5);
+    expect(pc.anchor_zone.map((z) => z.leg).sort()).toEqual([2, 3]);
+    expect(pc.crossbeams_y_m).toBeUndefined();
+    expect(b.model3d.cables_per_side).toBe(13);
+    // round 3: slender along the bridge (height / width at the deck ≈ 18–22; flare ≈ 2–2.5 × the shaft at the waterline)
+    const [lower, , upper] = pc.legs;
+    expect(80 / upper.depth_base_m!).toBeGreaterThanOrEqual(17);
+    expect(80 / upper.depth_base_m!).toBeLessThanOrEqual(22);
+    expect(lower.depth_top_m).toBe(upper.depth_base_m);
+    expect(lower.width_top_m).toBe(upper.width_base_m);
+    expect(lower.depth_base_m! / upper.depth_base_m!).toBeGreaterThanOrEqual(2);
+    expect(lower.depth_base_m! / upper.depth_base_m!).toBeLessThanOrEqual(2.5);
+    for (const p of g.pylons)
+      for (const c of g.cables.filter((x) => x.pylon === p.index)) {
+        const f = (c.top[1] - g.deckElevation) / p.heightAboveDeck;
+        expect(f).toBeGreaterThan(0.39);
+        expect(f).toBeLessThan(0.81);
+      }
+    // low pile cap: members stay within ≈2 m of the waterline (+ crest lift); the only other members sit just under the deck
+    for (const p of g.pylons)
+      for (const mb of p.members) expect(Math.max(mb.a[1], mb.b[1]) <= 2.5 || Math.min(mb.a[1], mb.b[1]) > g.deckElevation - 15).toBe(true);
+  });
+
+  it('model3d has only schema keys, and harp bridges draw parallel stays (within 2°)', () => {
+    const KEYS = new Set([
+      'spans_m', 'pylon_shape', 'pylon_heights_m', 'pylon_height_ref', 'cable_planes', 'cable_pattern', 'cables_per_side',
+      'deck_width_m', 'deck_type', 'approach_length_m', 'extradosed', 'deck_plan_radius_m', 'deck_crest_m', 'deck_elevation_m',
+      'auxiliary_piers_m', 'pylon_colour', 'stay_colour', 'back_stay_colour', 'deck_colour', 'back_stay_planes', 'deck_section',
+      'deck_depth_m', 'pylon_custom', 'confidence', 'notes',
+    ]);
+    for (const b of bridges) {
+      if (!b.model3d) continue;
+      for (const k of Object.keys(b.model3d)) expect(KEYS.has(k), `${b.id}: ${k}`).toBe(true);
+      if (b.model3d.cable_pattern !== 'harp') continue;
+      const g = buildBridgeGeometry(b.model3d, 'completed', { navClearance: b.nav_clearance })!;
+      const groups = new Map<string, number[]>();
+      for (const c of g.cables) {
+        const k = `${c.pylon}|${c.side}|${c.plane}`;
+        const deg = (Math.atan2(c.top[1] - c.deck[1], Math.hypot(c.top[0] - c.deck[0], c.top[2] - c.deck[2])) * 180) / Math.PI;
+        groups.set(k, [...(groups.get(k) ?? []), deg]);
+      }
+      for (const [k, a] of groups) {
+        const sorted = [...a].sort((x, y) => x - y);
+        for (let i = 1; i < sorted.length; i++) expect(sorted[i] - sorted[i - 1], `${b.id} ${k}`).toBeLessThan(2);
+      }
     }
   });
 });

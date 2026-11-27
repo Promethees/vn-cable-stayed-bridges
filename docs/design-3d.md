@@ -65,7 +65,7 @@ Aim for a matte study model of the bridge, not a render. It should read instantl
 | Pylons, piers | `--m3d-concrete` | `MeshLambertMaterial`, `flatShading: true` |
 | Deck (concrete) | `--m3d-concrete` | same; deck depth = clamp(main span / 120, 2, 4.5) m |
 | Deck (steel / composite) | `--m3d-steel` | same |
-| Stay cables | `--m3d-cable` | `LineSegments` with `LineBasicMaterial` (1px, so they stay crisp at any zoom) |
+| Stay cables | `--m3d-cable` | `LineSegments` with `LineBasicMaterial` (1px, so they stay crisp at any zoom). A data `stay_colour` / `back_stay_colour` is muted, then its HSL lightness is clamped to ≤ 0.70 on a light sky and ≥ 0.45 on a dark sky, so white stays never vanish |
 | Outlines | `--m3d-edge` | `EdgesGeometry(threshold 30°)` on every mesh, `LineBasicMaterial` transparent |
 
 Lighting: `HemisphereLight(sky = --m3d-sky-top, ground = --m3d-water, --m3d-hemi-intensity)` plus one `DirectionalLight(#ffffff, --m3d-sun-intensity)` from azimuth 135° and elevation 50°. **No shadows** (cost, and they add realism the schematic does not want). Tone mapping off, `outputColorSpace = SRGBColorSpace`.
@@ -73,7 +73,8 @@ Lighting: `HemisphereLight(sky = --m3d-sky-top, ground = --m3d-water, --m3d-hemi
 Theme: read every `--m3d-*` value with `getComputedStyle(document.documentElement)` when building the scene. On theme change (the `prefers-color-scheme` matchMedia listener, plus a MutationObserver on `data-theme`), update material colors in place and render once.
 
 ### Geometry rules (procedural, 1 unit = 1 m, no vertical exaggeration)
-- **Deck elevation** above water: `clamp(0.1 × main span, 12, 45)` m. If `pylon_height_ref = "total"`, the pylon height above deck = height − deck elevation.
+- **Deck elevation** above water: `deck_elevation_m` when given, else `clamp(0.1 × main span, 12, 45)` m; in both cases raised to `nav_clearance.height_m + deck depth + 1` if that is higher (a given value that gets raised logs the warning "deck_elevation_m below navigation clearance"). If `pylon_height_ref = "total"`, the pylon height above deck = height − deck elevation.
+- **Custom pylons** (`pylon_custom`): local y is above the deck, so tip = local y + deck elevation. When `pylon_heights_m` differ between pylons, each pylon's above-deck y (legs, crossbeams, anchor zones, struts) is scaled by `h_i / max(h)`. The height label shows the drawn pylon: water-to-tip when the data's reference is `total`, otherwise tip above deck.
 - Missing `pylon_heights_m`: use 0.22 × adjacent main span above deck (0.1 × for `extradosed`).
 - **Pylon positions** (count = `pylon_heights_m.length`): (a) if the count equals the number of interior supports, put a pylon on every interior support; (b) otherwise put them at the ends of the largest spans; (c) if that still does not match, rank interior supports by the sum of their adjacent spans and take the top N, and log a console warning. Other supports get plain piers (box columns, width 0.6 × deck width).
 - **Pylon shapes** (legs at the cable-plane positions; leg section about 1/25 of pylon height):
@@ -85,7 +86,9 @@ Theme: read every `--m3d-*` value with `getComputedStyle(document.documentElemen
   - `other`: draw as `H`.
 - **Cable planes**: 2 → at the deck edges (±0.5 × `deck_width_m`), anchored on the pylon legs; 1 → on the centreline (a median slot in the deck).
 - **Cables per side** = `cables_per_side ?? clamp(round(reach / 12), 6, 24)`, where reach = half the main span toward a neighbouring pylon, or 0.95 × the back span toward an abutment or auxiliary pier. Deck anchors are spaced evenly from 8% to 100% of the reach.
-- **Pattern**: `fan` = all cables from the top point; `semi_fan` = pylon anchors spread over the top 25% of the height above deck; `harp` = anchors spread evenly from 30% to 100% of the height, so the cables run parallel.
+- **Pattern**: `fan` = all cables from the top point; `semi_fan` = pylon anchors spread over the top 25% of the height above deck; `harp` = truly parallel stays on each side of a pylon: anchor heights run linearly from `yLow` to `yTop` (built-in pylons: `yTop` = 0.97 H, floor 0.15 H; custom: the anchor zone), with `yLow = max(floor, yTop · f0/f1)`, and each deck anchor sits at `anchor x ± k · (anchor height above deck)`, where `k` puts the outermost stay at the end of the reach (`f1`). If the floor is above `yTop · f0/f1`, the deck anchors start further out rather than bunching the stays.
+- **Back-stay planes**: with `cable_planes = 1` and `back_stay_planes = 2`, the back-span stays (toward a unit end) are drawn in two planes from the two faces of the mast to the deck edges (±0.5 × deck width); main-span stays stay on the centreline. Single-plane custom pylons anchor on the centreline (z = 0).
+- **Truss deck** (`deck_section: "truss"`): top and bottom chord slabs (0.6 m thick, full deck width) `deck_depth_m` apart (default 12 m), joined on both faces by a Warren web (verticals at every node plus alternating diagonals, panels ≈ `deck_depth_m` long). Stays anchor at the top-chord edges; approach slabs stay 3 m deep.
 - **Extradosed**: low pylons (as above); deck anchors only from 15% to 50% of the reach. The deck is visibly deeper (×1.8).
 - Unparseable or degenerate `model3d` (for example an empty `spans_m`): do not attempt a partial model. Show the fallback (§6) with the message "Thiếu thông số để dựng mô hình 3D." / "Not enough data to build the 3D model."
 

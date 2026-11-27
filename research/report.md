@@ -35,7 +35,7 @@ The Wikipedia articles above; moc.gov.vn; VietnamNet EN (Cát Lái and Long Hưn
 | Thuận Phước | 405 | Suspension bridge |
 | Vân Phúc, Bạch Đằng 2, Cổ Chiên 2 | ? | Not cable-stayed per available sources |
 | Mỹ Lợi, Hưng Hà, Ba Lạt, Hàm Luông, Đình Vũ, Tân Vũ, Vĩnh Thịnh, Rạch Sỏi | ? | No evidence of a cable-stayed span over 150 m |
-| Phú Mỹ 2 | ? (likely over 250) | Pending: span unpublished |
+| Phú Mỹ 2 | 450 (210 + 450 + 210, contractor) | Added: client decision 2026-11-26 |
 
 ## Coverage gaps
 - Rail-line designs are largely unpublished, so these lines should be rechecked as feasibility studies come out.

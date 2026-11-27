@@ -6,7 +6,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { CSS2DObject, CSS2DRenderer } from 'three/addons/renderers/CSS2DRenderer.js';
-import { heightDimension, type Box, type BridgeGeometry, type Member, type SweepMesh } from '../lib/bridge3d';
+import { heightDimension, stayLightness, type Box, type BridgeGeometry, type Member, type SweepMesh } from '../lib/bridge3d';
 
 export interface EngineStrings {
   meters: (v: number) => string;
@@ -327,6 +327,7 @@ export class BridgeEngine {
     const m = this.addMesh(new THREE.BoxGeometry(mb.size, len, mb.size), mat);
     m.position.copy(a).add(b).multiplyScalar(0.5);
     m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), b.clone().sub(a).normalize());
+    return m;
   }
 
   private build(g: BridgeGeometry) {
@@ -354,6 +355,7 @@ export class BridgeEngine {
       g.deckMeshes.forEach((dm) => (this.sweep(dm, smooth).userData.deck = true));
     }
     else g.deckPieces.forEach((b) => (this.box(b, mainDeckMat).userData.deck = true));
+    g.deckMembers.forEach((mb) => (this.member(mb, mainDeckMat).userData.deck = true));
     g.piers.forEach((b) => this.box(b, M.concrete));
     g.pylons.forEach((p) => {
       p.members.forEach((mb) => this.member(mb, pylonMat));
@@ -392,7 +394,14 @@ export class BridgeEngine {
     const lineMat = (colour?: string) => {
       const base = planned ? M.cableGhost : M.cable;
       const mat = (base as THREE.LineBasicMaterial).clone();
-      if (colour && !planned) mat.color = mutedColour(colour);
+      if (colour && !planned) {
+        // keep light stays (white) visible against the sky in either theme
+        const c = mutedColour(colour);
+        const hsl = { h: 0, s: 0, l: 0 };
+        // HSL in sRGB (what the eye sees); three's default working space is linear
+        c.getHSL(hsl, THREE.SRGBColorSpace);
+        mat.color = c.setHSL(hsl.h, hsl.s, stayLightness(hsl.l, this.darkTheme()), THREE.SRGBColorSpace);
+      }
       mat.transparent = opacity < 1;
       mat.opacity = opacity;
       this.cableMats.push(mat);
@@ -411,6 +420,14 @@ export class BridgeEngine {
     }
   }
   private cableMats: THREE.Material[] = [];
+
+  /** dark theme = dark sky token (the theme may come from prefers-color-scheme or data-theme) */
+  private darkTheme() {
+    const sky = cssColor('--m3d-sky-bottom', '#F3F5F4').color;
+    const hsl = { h: 0, s: 0, l: 0 };
+    sky.getHSL(hsl, THREE.SRGBColorSpace);
+    return hsl.l < 0.5;
+  }
 
   /** Dimension lines + CSS2D labels on the camera-facing side (§5). */
   private buildDims() {

@@ -61,6 +61,14 @@ export interface Model3D {
   deck_plan_radius_m?: number;
   /** rise of the deck at mid-unit (vertical curve), metres */
   deck_crest_m?: number;
+  /** deck elevation above water, metres (overrides the heuristic; raised to clear navigation if needed) */
+  deck_elevation_m?: number;
+  /** cable planes on the back side when cable_planes = 1 (2 = back stays split to the deck edges) */
+  back_stay_planes?: 1 | 2;
+  /** girder section: box (default) or a double-deck / truss girder drawn as two chords with a Warren web */
+  deck_section?: 'box' | 'truss';
+  /** girder depth in metres (truss: distance between the chords, default 12) */
+  deck_depth_m?: number;
   /** auxiliary piers, distances from the unit start, metres */
   auxiliary_piers_m?: number[];
   /** colours: hex (#rrggbb) or a named colour; rendered muted */

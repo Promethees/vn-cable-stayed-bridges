@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { Model3D } from '../types';
-import { buildBridgeGeometry, choosePylonSupports, deckElevation, defaultCablesPerSide } from './bridge3d';
+import { buildBridgeGeometry, choosePylonSupports, deckElevation, defaultCablesPerSide, stayLightness } from './bridge3d';
 
 const base: Model3D = {
   spans_m: [150, 550, 150],
@@ -444,5 +444,152 @@ describe('phase 6: aux piers, colours, crest, crowns, struts, twist', () => {
     const w1 = [v((n - 1) * 4), v((n - 1) * 4 + 1)];
     expect(Math.abs(w0[0][2] - w0[1][2])).toBeCloseTo(6, 3);
     expect(Math.abs(w1[0][0] - w1[1][0])).toBeCloseTo(6, 3);
+  });
+});
+
+describe('model review round 1: deck elevation, harp, back-stay planes, per-pylon custom heights, truss', () => {
+  const curvedLeg: Model3D['pylon_custom'] = {
+    description: 'two legs leaning toward the main span',
+    legs: [
+      { centerline: [[0, -20, -12], [2, 20, -11], [6, 50, -9], [9, 70, -7]], width_base_m: 4, width_top_m: 2.5 },
+      { centerline: [[0, -20, 12], [2, 20, 11], [6, 50, 9], [9, 70, 7]], width_base_m: 4, width_top_m: 2.5 },
+    ],
+    anchor_zone: [
+      { y_from_m: 25, y_to_m: 66, leg: 0 },
+      { y_from_m: 25, y_to_m: 66, leg: 1 },
+    ],
+  };
+  const slopeDeg = (c: { top: number[]; deck: number[] }) =>
+    (Math.atan2(c.top[1] - c.deck[1], Math.abs(c.top[0] - c.deck[0])) * 180) / Math.PI;
+  /** max angle difference between stays of one pylon / side / plane */
+  const harpSpread = (g: ReturnType<typeof build>) => {
+    const groups = new Map<string, number[]>();
+    for (const c of g.cables) {
+      const k = `${c.pylon}|${c.side}|${c.plane}`;
+      groups.set(k, [...(groups.get(k) ?? []), slopeDeg(c)]);
+    }
+    return Math.max(...[...groups.values()].map((a) => Math.max(...a) - Math.min(...a)));
+  };
+
+  it('deck_elevation_m sets the deck height; navigation clearance still raises it, with a warning', () => {
+    expect(build({ deck_elevation_m: 25 }).deckElevation).toBe(25);
+    const g = buildBridgeGeometry({ ...base, deck_elevation_m: 25 }, 'completed', { navClearance: { height_m: 40 } })!;
+    expect(g.deckElevation).toBeCloseTo(40 + g.deckDepth + 1, 6);
+    expect(g.warnings).toContain('deck_elevation_m below navigation clearance');
+    // custom pylon tips stay at the local y above the given deck
+    const c = build({ deck_elevation_m: 25, pylon_custom: curvedLeg });
+    expect(c.pylons[0].heightAboveDeck + c.deckElevation).toBeCloseTo(95, 0);
+  });
+
+  it('harp: stays on each side of a pylon are parallel (built-in, extradosed and custom pylons)', () => {
+    for (const m of [
+      { cable_pattern: 'harp' as const, cables_per_side: 9 },
+      { cable_pattern: 'harp' as const, cables_per_side: 12, extradosed: true, pylon_heights_m: [30, 30] },
+      { cable_pattern: 'harp' as const, cables_per_side: 6, pylon_custom: curvedLeg },
+      { cable_pattern: 'harp' as const, cables_per_side: 8, extradosed: true, pylon_custom: curvedLeg },
+    ]) {
+      const g = build(m);
+      expect(g.cables.length).toBeGreaterThan(0);
+      expect(harpSpread(g)).toBeLessThan(0.5);
+    }
+    // a semi-fan is not parallel
+    expect(harpSpread(build({ cable_pattern: 'semi_fan' }))).toBeGreaterThan(5);
+  });
+
+  it('harp: outermost stay still reaches the end of the reach, inner stays stay between pylon and reach', () => {
+    const g = build({ cable_pattern: 'harp', cables_per_side: 9 });
+    const left = g.cables.filter((c) => c.pylon === 0 && c.side === -1 && c.plane === 0);
+    const xs = left.map((c) => c.deck[0]);
+    expect(Math.min(...xs)).toBeCloseTo(150 - 0.95 * 150, 3);
+    expect(Math.max(...xs)).toBeLessThan(150);
+    // anchors rise with distance from the pylon
+    const byX = [...left].sort((a, b) => b.deck[0] - a.deck[0]);
+    for (let i = 1; i < byX.length; i++) expect(byX[i].top[1]).toBeGreaterThan(byX[i - 1].top[1]);
+  });
+
+  it('back_stay_planes = 2: one central plane in the main span, back stays split to both deck edges', () => {
+    const g = build({ spans_m: [230, 120], pylon_shape: 'single', pylon_heights_m: [100], cable_planes: 1, back_stay_planes: 2, deck_width_m: 30 });
+    const main = g.cables.filter((c) => !c.back);
+    const back = g.cables.filter((c) => c.back);
+    expect(main).toHaveLength(10);
+    expect(main.every((c) => c.deck[2] === 0 && c.top[2] === 0)).toBe(true);
+    expect(back).toHaveLength(20);
+    expect(new Set(back.map((c) => c.deck[2]))).toEqual(new Set([-15, 15]));
+    // they leave the mast from its two faces (small offset), not from the deck edges
+    for (const c of back) {
+      expect(Math.sign(c.top[2])).toBe(Math.sign(c.deck[2]));
+      expect(Math.abs(c.top[2])).toBeLessThan(5);
+    }
+    // without the flag: everything in one plane
+    expect(build({ spans_m: [230, 120], pylon_shape: 'single', pylon_heights_m: [100], cable_planes: 1 }).cables.every((c) => c.deck[2] === 0)).toBe(true);
+  });
+
+  it('back_stay_planes = 2 with a custom single mast anchors the split stays on the mast faces', () => {
+    const g = build({
+      spans_m: [230, 120],
+      pylon_shape: 'single',
+      pylon_heights_m: [145],
+      pylon_height_ref: 'total',
+      cable_planes: 1,
+      back_stay_planes: 2,
+      pylon_custom: {
+        description: 'leaning mast',
+        legs: [{ centerline: [[0, -8, 0], [-10, 40, 0], [-20, 88, 0], [-27, 120, 0]], width_base_m: 6, width_top_m: 2.5 }],
+        anchor_zone: [{ y_from_m: 55, y_to_m: 118, leg: 0 }],
+      },
+    });
+    const back = g.cables.filter((c) => c.back);
+    expect(back.length).toBe(2 * g.cablesPerSide);
+    for (const c of back) expect(Math.abs(c.top[2])).toBeGreaterThan(0.5);
+    for (const c of back) expect(Math.abs(c.top[2])).toBeLessThan(3);
+  });
+
+  it('per-pylon heights scale a shared custom geometry (centre pylon taller), incl. crossbeams and anchors', () => {
+    const pc = { ...curvedLeg!, crossbeams_y_m: [-3, 40] };
+    const g = build({ spans_m: [110, 240, 240, 110], pylon_heights_m: [94.5, 99.74, 94.5], pylon_height_ref: 'total', pylon_custom: pc });
+    const [a, b, c] = g.pylons.map((p) => p.heightAboveDeck);
+    expect(b).toBeCloseTo(70, 0);
+    expect(a).toBeCloseTo((70 * 94.5) / 99.74, 0);
+    expect(c).toBeCloseTo(a, 6);
+    // the upper crossbeam of a side pylon sits lower than the centre one
+    const beamY = (pi: number) => Math.max(...g.pylons[pi].members.map((mb) => mb.a[1]));
+    expect(beamY(0)).toBeLessThan(beamY(1));
+    const topAnchor = (pi: number) => Math.max(...g.cables.filter((x) => x.pylon === pi).map((x) => x.top[1]));
+    expect(topAnchor(0)).toBeLessThan(topAnchor(1));
+    // equal heights: unscaled
+    expect(build({ pylon_custom: pc }).pylons[0].heightAboveDeck).toBeCloseTo(70, 0);
+  });
+
+  it('custom pylon label: total (water to tip) when heights are given as total, else above deck', () => {
+    const t = build({ pylon_height_ref: 'total', pylon_custom: curvedLeg });
+    expect(t.pylons[0].labelRef).toBe('total');
+    expect(t.pylons[0].labelHeight).toBeCloseTo(t.pylons[0].heightAboveDeck + t.deckElevation, 6);
+    const a = build({ pylon_custom: curvedLeg });
+    expect(a.pylons[0].labelRef).toBe('above_deck');
+    expect(a.pylons[0].labelHeight).toBeCloseTo(a.pylons[0].heightAboveDeck, 6);
+  });
+
+  it('truss deck: two chord slabs deck_depth_m apart plus a web on both faces; deeper deck raises E over navigation', () => {
+    const box = build({});
+    const g = buildBridgeGeometry({ ...base, deck_section: 'truss', deck_depth_m: 14 }, 'completed', { navClearance: { height_m: 40 } })!;
+    expect(g.deckSection).toBe('truss');
+    expect(g.deckDepth).toBe(14);
+    expect(g.deckPieces).toHaveLength(2 * box.deckPieces.length);
+    const tops = g.deckPieces.map((p) => p.c[1] + p.s[1] / 2);
+    expect(Math.max(...tops)).toBeCloseTo(g.deckElevation, 6);
+    expect(Math.min(...g.deckPieces.map((p) => p.c[1] - p.s[1] / 2))).toBeCloseTo(g.deckElevation - 14, 6);
+    expect(g.deckMembers.length).toBeGreaterThan(100);
+    expect(new Set(g.deckMembers.map((mb) => Math.sign(mb.a[2])))).toEqual(new Set([-1, 1]));
+    expect(g.deckElevation).toBeCloseTo(40 + 14 + 1, 6);
+    // stays still anchor at the top chord edge
+    expect(g.cables.every((c) => c.deck[1] === g.deckElevation && Math.abs(c.deck[2]) === 13)).toBe(true);
+    expect(box.deckMembers).toHaveLength(0);
+  });
+
+  it('stay lightness clamp keeps white stays visible on a light sky and dark stays on a dark sky', () => {
+    expect(stayLightness(0.91, false)).toBe(0.7);
+    expect(stayLightness(0.4, false)).toBe(0.4);
+    expect(stayLightness(0.2, true)).toBe(0.45);
+    expect(stayLightness(0.9, true)).toBe(0.9);
   });
 });
