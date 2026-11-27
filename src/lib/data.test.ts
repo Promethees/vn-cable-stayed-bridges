@@ -96,7 +96,7 @@ describe.each(files)('%s', (file) => {
         expect(p.members.length, b.id).toBeLessThanOrEqual(expected + flatBeams);
       }
     }
-  });
+  }, 20_000); // one expect per sweep vertex: ≈2–5 s on a loaded machine
 
   it('height dimensions sit beside the real pylon tip (no orphan pole by the base of a leaning pylon)', () => {
     for (const b of bridges) {
@@ -217,6 +217,50 @@ describe.each(files)('%s', (file) => {
       expect(main.every((c) => c.deck[2] === 0 && Math.abs(c.top[2]) < 1e-6)).toBe(true);
       expect(back.every((c) => Math.abs(c.deck[2]) === 13.25 && Math.sign(c.top[2]) === Math.sign(c.deck[2]))).toBe(true);
     }
+  });
+
+  it('Rạch Miễu 2 (round 7): H pylons with an upper strut, no aux piers, crested deck clears 37.5 m at E = 36', () => {
+    const b = bridges.find((x) => x.id === 'cau-rach-mieu-2');
+    if (!b?.model3d || file.endsWith('.sample.json')) return; // the sample keeps an older, simpler record
+    const m = b.model3d;
+    expect(m.spans_m).toEqual([120, 270, 120]);
+    expect(m.auxiliary_piers_m).toBeUndefined();
+    expect(b.span_arrangement).toBe('120 + 270 + 120 m');
+    const g = buildBridgeGeometry(m, 'completed', { navClearance: b.nav_clearance })!;
+    expect(g.warnings).toEqual([]);
+    expect(g.deckElevation).toBe(36);
+    expect(g.auxiliaryPiers).toEqual([]);
+    expect(g.pylons.map((p) => p.x)).toEqual([120, 390]);
+    const mid = g.deckY(255);
+    expect(mid).toBeCloseTo(42, 1);
+    expect(mid - g.deckDepth).toBeGreaterThan(37.5 + 1 - 1e-9);
+    expect(g.clearance?.height).toBe(37.5);
+    for (const p of g.pylons) {
+      // ≈40 m deck at the pylons, ≈66 m above it, ≈106 m water to tip (label includes the crest)
+      expect(g.deckY(p.x)).toBeGreaterThan(39.5);
+      expect(g.deckY(p.x)).toBeLessThan(41);
+      expect(p.heightAboveDeck).toBeCloseTo(66, 0);
+      expect(p.heightAboveDeck / g.deckY(p.x)).toBeGreaterThan(1.55);
+      expect(p.heightAboveDeck / g.deckY(p.x)).toBeLessThan(1.75);
+      expect(p.labelHeight).toBeGreaterThan(105);
+      expect(p.labelHeight).toBeLessThan(108);
+      expect(p.caps).toHaveLength(1);
+      // lower crossbeam under the deck and the upper strut at ≈53% of the above-deck height, 5 m deep
+      const ys = p.members.map((mb) => (mb.a[1] + mb.b[1]) / 2 - g.deckY(p.x)).sort((a, c) => a - c);
+      expect(ys).toHaveLength(2);
+      expect(ys[0]).toBeCloseTo(-3, 0);
+      expect(ys[1] / p.heightAboveDeck).toBeGreaterThan(0.51);
+      expect(ys[1] / p.heightAboveDeck).toBeLessThan(0.55);
+      expect(p.members.every((mb) => mb.depth === 5)).toBe(true);
+      // 14 per side per plane, anchored 31–61 m above the deck
+      const cs = g.cables.filter((c) => c.pylon === p.index);
+      expect(cs).toHaveLength(14 * 2 * 2);
+      for (const c of cs) {
+        expect(c.top[1] - g.deckY(p.x)).toBeGreaterThan(30);
+        expect(c.top[1] - g.deckY(p.x)).toBeLessThan(62);
+      }
+    }
+    expect(g.colours.stay).toBe('white');
   });
 
   it('model3d has only schema keys, and harp bridges draw parallel stays (within 2°)', () => {

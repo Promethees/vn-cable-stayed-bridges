@@ -1,120 +1,135 @@
 {
- "pylons_vi": "2 tháp hai cột (chữ H), cao 113 m",
- "pylons_en": "2 twin-column (H) pylons, 113 m",
+ "pylons_vi": "2 tháp chữ H (hai cột đứng, dầm ngang trên ở khoảng giữa chiều cao), cao 116,5 m",
+ "pylons_en": "2 H-shaped pylons (two vertical columns, one upper cross-beam at about mid-height), 116.5 m",
  "model3d": {
   "spans_m": [
-   125,
+   120,
    270,
-   125
+   120
   ],
   "pylon_shape": "H",
   "pylon_heights_m": [
-   113,
-   113
+   116.5,
+   116.5
   ],
   "pylon_height_ref": "total",
+  "deck_elevation_m": 36,
+  "deck_crest_m": 6,
   "cable_planes": 2,
   "cable_pattern": "semi_fan",
+  "cables_per_side": 14,
   "deck_width_m": 17.5,
   "deck_type": "concrete",
+  "stay_colour": "white",
   "confidence": "estimated",
   "pylon_custom": {
-   "description": "Two tall, slim, near-vertical columns at the deck edges joined only below/at deck level (no visible upper cross-beam in the aerial); semi-fan stays in two planes from the upper ~40%. Side spans have an intermediate auxiliary pier.",
+   "description": "H pylon: two vertical, parallel rectangular RC columns outside the deck edges, a lower crossbeam under the deck and one deep upper strut at about mid-height above the deck; flat heads; semi-fan stays in two planes anchored on the columns from about 31 m to 61 m above the deck; rectangular pile cap at the waterline.",
    "legs": [
     {
      "centerline": [
       [
        0,
-       -38,
-       -10.5
+       -34,
+       -11
       ],
       [
        0,
        0,
-       -10.5
+       -11
       ],
       [
        0,
-       40,
-       -10.2
+       35,
+       -11
       ],
       [
        0,
-       75,
-       -10
+       66,
+       -11
       ]
      ],
-     "width_base_m": 3.5,
-     "width_top_m": 2.5
+     "width_base_m": 4.0,
+     "width_top_m": 3.0,
+     "depth_base_m": 5.5,
+     "depth_top_m": 3.5
     },
     {
      "centerline": [
       [
        0,
-       -38,
-       10.5
+       -34,
+       11
       ],
       [
        0,
        0,
-       10.5
+       11
       ],
       [
        0,
-       40,
-       10.2
+       35,
+       11
       ],
       [
        0,
-       75,
-       10
+       66,
+       11
       ]
      ],
-     "width_base_m": 3.5,
-     "width_top_m": 2.5
+     "width_base_m": 4.0,
+     "width_top_m": 3.0,
+     "depth_base_m": 5.5,
+     "depth_top_m": 3.5
     }
    ],
    "crossbeams_y_m": [
-    -3
+    -3,
+    35
    ],
+   "crossbeam_depth_m": 5,
    "anchor_zone": [
     {
-     "y_from_m": 42,
-     "y_to_m": 73,
+     "y_from_m": 31,
+     "y_to_m": 61,
      "leg": 0
     },
     {
-     "y_from_m": 42,
-     "y_to_m": 73,
+     "y_from_m": 31,
+     "y_to_m": 61,
      "leg": 1
     }
    ],
+   "pile_cap": {
+    "length_x_m": 22,
+    "width_z_m": 34,
+    "top_y_m": -34,
+    "thickness_m": 6,
+    "rounded_ends": false
+   },
    "mirror_for_other_pylons": true,
    "reference_images": [
     "https://commons.wikimedia.org/wiki/File:(VNM-Dong_Thap)_Rach_Mieu_2_Bridge_2025-10-05.jpg",
-    "https://i2-vnexpress.vnecdn.net/2025/04/19/DJI-20250420075438-0019-D-copy-1745029263.jpg?w=1200&h=675&q=100&dpr=1&fit=crop&s=e6x9QcBbyTU8zxJQt7zodA"
+    "https://i2-vnexpress.vnecdn.net/2025/04/19/DJI-20250420075438-0019-D-copy-1745029263.jpg?w=1200&h=675&q=100&dpr=1&fit=crop&s=e6x9QcBbyTU8zxJQt7zodA",
+    "https://vnexpress.net/cau-rach-mieu-2-hop-long-4875889.html (DSC05579: on-deck view of the H strut)"
    ]
   },
-  "auxiliary_piers_m_from_end": [
-   60
-  ],
-  "notes": "Aerial (VnExpress, 4/2025) shows twin columns without an upper beam; the Commons side view shows an auxiliary pier in each side span (position estimated ≈60 m from the end pier)."
+  "notes": "Round 7 (research/model-review/brief-r7-rach-mieu-2.md): H pylon with a deep upper strut at ≈53% of the above-deck height (VnExpress closure aerial and on-deck photo; pass 2 missed it). No auxiliary piers: the pier pass 2 read as one is the anchor pier 120 m from each pylon, and the next pier is the first approach pier (Commons elevation, PLO, Tạp chí GTVT). Pylon ≈66 m above a deck ≈40 m above water at the pylons; deck 36 m at the anchor piers with a ≈6 m vertical curve; stays anchored ≈31–61 m above the deck (Commons elevation, scaled from the 270 m span). Rectangular pile cap ≈22 × 34 m from 24 Ø2.0 m piles. Deck width 17.5 m (photo-measured from a car); 21.5 m (VnExpress, Trung Nam) would move the columns to z = ±13."
  },
  "id": "cau-rach-mieu-2",
  "review": [
-  "H with an implied upper beam; no auxiliary piers",
+  "H pylon with a deep upper strut at ≈53% above deck; no auxiliary piers (round 7)",
   "Twin columns with no upper beam, under-deck beam only; auxiliary pier in each side span",
   "Medium: 1 Commons + 2 press aerials"
  ],
  "checklist": {
   "foot below deck": "pass (straight)",
   "legs at deck": "pass",
-  "merge height": "n/a (twin columns)",
-  "crossbeams": "pass (under deck only)",
+  "merge height": "n/a (H, vertical columns)",
+  "crossbeams": "pass (under deck + upper strut, round 7)",
   "head": "pass",
   "proportions": "pass",
   "stays": "pass",
-  "deck / aux piers": "pass (aux piers)",
+  "deck / aux piers": "pass (no aux piers; vertical curve, round 7)",
   "colour": "pass"
  },
  "pass2": true,
