@@ -121,10 +121,16 @@ add(id="cau-rach-mieu", name_vi="Cầu Rạch Miễu", name_en="Rạch Miễu Br
 add(id="cau-rach-mieu-2", name_vi="Cầu Rạch Miễu 2", name_en="Rạch Miễu 2 Bridge", status="completed",
     province="Đồng Tháp – Vĩnh Long", province_former=["Tiền Giang", "Bến Tre"], crosses="Sông Tiền",
     roads=["QL60B"], construction_start=2022, opened=2025, main_span_m=270, total_length_m=1954,
-    width_m=17.5, lanes=4, cable_stayed_spans=1, pylons="2 pylons, ≈113 m", cost="6,810 tỷ VND (whole project)",
+    width_m=17.5, lanes=4, cable_stayed_spans=1, span_arrangement="120 + 270 + 120 m",
+    pylons="2 tháp chữ H (hai cột đứng, dầm ngang trên ở khoảng giữa chiều cao), cao 116,5 m", cost="6,810 tỷ VND (whole project)",
     lat=10.3368, lng=106.3074,
-    sources=["https://vi.wikipedia.org/wiki/C%E1%BA%A7u_R%E1%BA%A1ch_Mi%E1%BB%85u_2", "https://vneconomy.vn/cau-rach-mieu-2-se-khanh-thanh-vao-ngay-19-8-2025.htm", "https://tienphong.vn/can-canh-cau-day-vang-6810-ty-dong-bac-qua-song-tien-post1764558.tpo", "roads QL60B: " + CC, OSM], confidence="verified",
-    notes="About 3.8 km upstream of Rạch Miễu 1. Opened 19/8/2025. Sources disagree on length (1,954 m vs 1,971.2 m) and width (17.5 m vs 21.5 m). No free image found.")
+    sources=["https://vi.wikipedia.org/wiki/C%E1%BA%A7u_R%E1%BA%A1ch_Mi%E1%BB%85u_2", "https://vneconomy.vn/cau-rach-mieu-2-se-khanh-thanh-vao-ngay-19-8-2025.htm", "https://tienphong.vn/can-canh-cau-day-vang-6810-ty-dong-bac-qua-song-tien-post1764558.tpo",
+             "https://giaothong.tapchixaydung.vn/du-an-cau-rach-mieu-2-bat-dau-thi-cong-keo-cang-he-thong-cap-day-vang-183240731113933198.htm",
+             "https://trungnamec.com.vn/cau-rach-mieu-2/", "roads QL60B: " + CC, OSM], confidence="verified",
+    notes="About 3.8 km upstream of Rạch Miễu 1. Opened 19/8/2025. Sources disagree on length (1,954 m vs 1,971.2 m). "
+          "Spans 120 + 270 + 120 (Tạp chí GTVT; contractor scope Km5+913–Km6+423 = 510 m); Wikipedia's 117 + 270 + 117 is the original Rạch Miễu's arrangement. "
+          "Pylon 116.5 m (contractor) / 113 m (press). 112 stays in 2 planes. "
+          "Width: 17.5 m (Wikipedia, ground-breaking; photo-measured) vs 21.5 m (VnExpress, Trung Nam closure note).")
 
 add(id="cau-binh", name_vi="Cầu Bính", name_en="Bính Bridge", status="completed",
     province="Hải Phòng", province_former=["Hải Phòng"], crosses="Sông Cấm",
@@ -387,8 +393,8 @@ M3D = {
     notes="Spans 149.5+300+149.5 and pylon 135.8 m from the foundations (VEC); the press 155 m is Bình Khánh's. Geometry in research/shapes/cau-phuoc-khanh.json (round 7)."),
  "cau-rach-mieu": m3d([117, 270, 117], "inverted_Y", [110, 110], "total", 2, "fan", 12.0, "concrete",
     notes="Spans 117+270+117 (Wikipedia). Inverted-Y (A with single head) pylons and fan stays read from Commons photos. Pylon height estimated; the Wikipedia 'height 117 m' looks like the side span."),
- "cau-rach-mieu-2": m3d([125, 270, 125], "H", [113, 113], "total", 2, "semi_fan", 17.5, "concrete",
-    notes="Side spans not published (estimated). H pylons from VnExpress hợp long photo (4/2025). Pylon height 113 m per press."),
+ "cau-rach-mieu-2": m3d([120, 270, 120], "H", [113, 113], "total", 2, "semi_fan", 17.5, "concrete",
+    notes="Spans 120 + 270 + 120 (Tạp chí GTVT). H pylons with one upper strut (VnExpress hợp long photos, 4/2025); no auxiliary piers."),
  "cau-binh": m3d([100, 260, 100], "inverted_Y", [101.6, 101.6], "total", 2, "fan", 22.5, "composite",
     notes="260 m main span; side spans estimated. Pylon height 101.6 m and composite steel–concrete girder per press. Pylon shape read from photos."),
  "cau-bach-dang": m3d([110, 240, 240, 110], "H", [94.5, 99.74, 94.5], "total", 2, "semi_fan", 25.0, "concrete",
@@ -785,7 +791,6 @@ PHASE6 = {
     "cau-hoa-son": {"pylon_colour": "white", "stay_colour": "red"},         # "red and white" render; split assumed
     "cau-thuan-an": {"pylon_colour": "white", "stay_colour": "red"},
     "cau-can-tho": {"auxiliary_piers_m": [40, 80, 930, 970]},                # 2×40 m end spans each side
-    "cau-rach-mieu-2": {"auxiliary_piers_m": [60, 460]},                     # ≈60 m from each end pier (estimated)
     "cau-ba-son": {"pylon_custom": {"crown": "rounded"}},
     "cau-cat-lai": {"pylon_custom": {"crown": "rounded"}},
     "cau-phuoc-an": {"pylon_custom": {"crown": "rounded"}},
@@ -881,7 +886,8 @@ REVIEW_R1 = {
         "note": "Deck 15 m and pylon 117 m (vi.wikipedia)."},
     "cau-rach-mieu-2": {"set": {"pylon_heights_m": [116.5, 116.5]},
         "nav": nav(37.5, 220, "contractor: channel 220 m × 30 m, 37.5 m at mid-channel", "https://trungnamec.com.vn/cau-rach-mieu-2/"),
-        "bridge": {"pylons": "2 tháp hai cột (chữ H), cao 116,5 m", "pylons_en": "2 twin-column (H) pylons, 116.5 m"},
+        "bridge": {"pylons": "2 tháp chữ H (hai cột đứng, dầm ngang trên ở khoảng giữa chiều cao), cao 116,5 m",
+                   "pylons_en": "2 H-shaped pylons (two vertical columns, one upper cross-beam at about mid-height), 116.5 m"},
         "note": "Pylon 116.5 m (Trung Nam E&C)."},
     "cau-bach-dang": {"scale_y": 0.74, "set": {"cables_per_side": 12, "pylon_colour": "grey", "stay_colour": "orange"},
         "pylon_custom": {"crossbeams_y_m": [-3, 22], "anchor_zone": [{"y_from_m": 28, "y_to_m": 45, "leg": 0}, {"y_from_m": 28, "y_to_m": 45, "leg": 1}]},
@@ -962,7 +968,7 @@ EXPECT_R1 = {
                         "confidence": "verified"},
     "cau-cua-hoi": {"pylon_colour": "white", "stay_colour": "red"}, "cau-ben-rung": {"pylon_colour": "white", "stay_colour": "red"},
     "cau-thuan-an": {"pylon_colour": "white", "stay_colour": "red", "deck_elevation_m": 40},
-    "cau-rach-mieu-2": {"auxiliary_piers_m": [60, 460]}, "cau-can-tho": {"auxiliary_piers_m": [40, 80, 930, 970], "cables_per_side": 27},
+    "cau-can-tho": {"auxiliary_piers_m": [40, 80, 930, 970], "cables_per_side": 27},
     "cau-may-chai": {"cable_pattern": "harp", "pylon_colour": "yellow", "deck_colour": "red"},
     "cau-phu-my-2": {"spans_m": [210, 450, 210]},
     # round 2 (research/model-review/brief-round2-thuong-cat.md)
@@ -1100,6 +1106,16 @@ for b in B:
         assert pc["pile_cap"]["top_y_m"] == -10.5 and b["width_m"] == 34.5 and b["confidence"] == "verified", b["id"]
         assert b["nav_clearance"]["height_m"] == 7 and b["nav_clearance"]["width_m"] == 50, b["nav_clearance"]
         assert "120 m" not in m.get("notes", "") and "Geometry unchanged" not in m.get("notes", ""), m["notes"]
+    if b["id"] == "cau-rach-mieu-2":  # round 7: H pylon with an upper strut, no aux piers, crested deck, pile cap
+        pc = m["pylon_custom"]
+        assert m["spans_m"] == [120, 270, 120] and "auxiliary_piers_m" not in m, m
+        assert m["cables_per_side"] == 14 and m["stay_colour"] == "white" and m["cable_pattern"] == "semi_fan", m
+        assert m["deck_elevation_m"] == 36 and m["deck_crest_m"] == 6 and m["deck_width_m"] == 17.5, m
+        assert len(pc["legs"]) == 2 and pc["crossbeams_y_m"] == [-3, 35] and pc["crossbeam_depth_m"] == 5, pc
+        assert all(l["centerline"][-1][1] == 66 and l["centerline"][0][1] == pc["pile_cap"]["top_y_m"] for l in pc["legs"]), pc
+        assert [(z["y_from_m"], z["y_to_m"]) for z in pc["anchor_zone"]] == [(31, 61), (31, 61)], pc
+        assert pc["pile_cap"]["rounded_ends"] is False and b["span_arrangement"] == "120 + 270 + 120 m", b
+        assert "No free image" not in b["notes"] and b["pylons"].startswith("2 tháp chữ H"), b
     if b["id"] == "cau-ben-rung":     # round 5: foundation (pile cap + columns), 22 m deck, 25° blades, 12 stays
         pc = m["pylon_custom"]
         assert m["deck_elevation_m"] == 22 and m["cables_per_side"] == 12 and m["cable_pattern"] == "semi_fan", m

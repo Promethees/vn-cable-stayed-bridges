@@ -72,6 +72,7 @@ export function pylonCustomProblems(v: unknown): string[] {
       if (l.twist_deg !== undefined && !isNum(l.twist_deg)) p.push(`legs[${i}].twist_deg`);
     });
   if (v.crossbeams_y_m !== undefined && !(Array.isArray(v.crossbeams_y_m) && v.crossbeams_y_m.every(isNum))) p.push('crossbeams_y_m');
+  if (v.crossbeam_depth_m !== undefined && !(isNum(v.crossbeam_depth_m) && v.crossbeam_depth_m > 0)) p.push('crossbeam_depth_m');
   const nLegs = Array.isArray(legs) ? legs.length : 0;
   if (
     !Array.isArray(v.anchor_zone) ||

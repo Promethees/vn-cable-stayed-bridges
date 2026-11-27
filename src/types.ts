@@ -28,6 +28,8 @@ export interface PylonCustom {
     twist_deg?: number;
   }[];
   crossbeams_y_m?: number[];
+  /** vertical depth of the crossbeams_y_m members (default: square, max(1.5, 0.8 × leg top width)) */
+  crossbeam_depth_m?: number;
   /** shape where legs merge at the apex */
   crown?: 'pointed' | 'rounded' | 'flat';
   /** extra straight members (pylon-local frame), e.g. a strut under the side span */

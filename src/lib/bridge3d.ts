@@ -17,6 +17,8 @@ export interface Member {
   a: Vec3;
   b: Vec3;
   size: number;
+  /** vertical depth of the section, when it differs from size (crossbeam_depth_m) */
+  depth?: number;
 }
 
 export interface SpanSeg {
@@ -350,8 +352,15 @@ export function buildBridgeGeometry(
   const navH = opts.navClearance?.height_m;
   const navMin = navH ? navH + deckDepth + 1 : 0;
   const givenE = m.deck_elevation_m && m.deck_elevation_m > 0 ? m.deck_elevation_m : undefined;
-  const E = Math.max(givenE ?? deckElevation(mainSpan), navMin);
-  if (givenE !== undefined && navMin > givenE) warnings.push('deck_elevation_m below navigation clearance');
+  // vertical curve: the deck rises by deck_crest_m at mid-unit (parabola, 0 at the unit ends).
+  const centre = totalLength / 2;
+  const crest = m.deck_crest_m ?? 0;
+  const crestAt = (x: number) => (crest && x > 0 && x < totalLength ? crest * (1 - ((x - centre) / centre) ** 2) : 0);
+  // the clearance is checked at the centre of the widest main span (the envelope's station), where the crest adds height
+  const mi = spans.reduce((best, s, i) => (main[i] && s > (main[best] ? spans[best] : -1) ? i : best), main.indexOf(true));
+  const crestMain = crestAt((edges[mi] + edges[mi + 1]) / 2);
+  const E = Math.max(givenE ?? deckElevation(mainSpan), navMin - crestMain);
+  if (givenE !== undefined && givenE + crestMain < navMin) warnings.push('deck_elevation_m below navigation clearance');
   const isPylonSupport = new Set(supports);
 
   // reach of the stays on each side of a support (§2)
@@ -386,7 +395,6 @@ export function buildBridgeGeometry(
 
   // ---- custom pylons (pylon_custom): swept legs in the pylon-local frame ----
   const custom = m.pylon_custom;
-  const centre = totalLength / 2;
   // per-pylon heights for a shared custom geometry: scale each pylon's above-deck y by h_i / max(h)
   const hs = m.pylon_heights_m;
   const hMax = hs.length ? Math.max(...hs) : 0;
@@ -473,7 +481,8 @@ export function buildBridgeGeometry(
           const y = y0 > 0 ? y0 * pylonScale(i) : y0;
           const a = pointAt(legs[k].pl, arcAtY(legs[k].pl, E + y));
           const b = pointAt(legs[k + 1].pl, arcAtY(legs[k + 1].pl, E + y));
-          members.push({ a, b, size: Math.max(1.5, legs[k].w1 * 0.8) });
+          const size = Math.max(1.5, legs[k].w1 * 0.8);
+          members.push(custom!.crossbeam_depth_m ? { a, b, size, depth: custom!.crossbeam_depth_m } : { a, b, size });
         }
       members.push(...legs.extra);
       // the label follows the data's reference: water-to-tip of the drawn pylon when heights are given as total
@@ -483,7 +492,8 @@ export function buildBridgeGeometry(
         x,
         support,
         heightAboveDeck: tip,
-        labelHeight: total ? tip + E : tip,
+        // the plan mapping lifts everything above E by the crest at the pylon, so the drawn tip includes it
+        labelHeight: total ? tip + E + crestAt(x) : tip,
         labelRef: total ? ('total' as const) : ('above_deck' as const),
         members,
         sweeps: legs.map((l) => l.mesh),
@@ -497,7 +507,7 @@ export function buildBridgeGeometry(
     if (given === undefined) {
       above = (extradosed ? 0.1 : 0.22) * adjMain;
       if (!derived.includes('pylon height')) derived.push('pylon height');
-    } else if (m.pylon_height_ref === 'total') above = Math.max(given - E, 0.3 * given);
+    } else if (m.pylon_height_ref === 'total') above = Math.max(given - E - crestAt(x), 0.3 * given);
     else above = given;
     const shape = buildPylon(m.pylon_shape, x, hw, E, E + above, planes);
     return {
@@ -687,7 +697,6 @@ export function buildBridgeGeometry(
   let clearanceStation: Omit<Clearance, 'box' | 'labelAt'> | undefined;
   const nav = opts.navClearance;
   if (nav && (nav.height_m || nav.width_m)) {
-    const mi = spans.reduce((best, s, i) => (main[i] && s > (main[best] ? spans[best] : -1) ? i : best), main.indexOf(true));
     const c = (edges[mi] + edges[mi + 1]) / 2;
     const width = Math.min(nav.width_m ?? 0.6 * spans[mi], spans[mi] * 0.95);
     const height = nav.height_m ?? E - deckDepth - 1;
@@ -696,10 +705,8 @@ export function buildBridgeGeometry(
 
   // ---- plan curvature: map straight station coordinates onto a horizontal arc ----
   const R = m.deck_plan_radius_m && m.deck_plan_radius_m > totalLength / Math.PI ? m.deck_plan_radius_m : undefined;
-  // vertical curve: the deck rises by deck_crest_m at mid-unit (parabola, 0 at the unit ends).
-  // Folded into the mapping, scaled by height so the footings stay in the water and the deck follows it.
-  const crest = m.deck_crest_m ?? 0;
-  const crestAt = (x: number) => (crest && x > 0 && x < totalLength ? crest * (1 - ((x - centre) / centre) ** 2) : 0);
+  // vertical curve (crest, crestAt above): folded into the mapping, scaled by height so the footings stay
+  // in the water and the deck follows it.
   const crestSlope = (x: number) => (crest && x > 0 && x < totalLength ? (-2 * crest * (x - centre)) / centre ** 2 : 0);
   const plan = (x: number, y: number, z: number): Vec3 => {
     const yy = y + crestAt(x) * Math.min(1, Math.max(0, y / E));

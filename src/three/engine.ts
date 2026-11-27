@@ -324,9 +324,15 @@ export class BridgeEngine {
     const a = new THREE.Vector3(...mb.a);
     const b = new THREE.Vector3(...mb.b);
     const len = a.distanceTo(b);
-    const m = this.addMesh(new THREE.BoxGeometry(mb.size, len, mb.size), mat);
+    const m = this.addMesh(new THREE.BoxGeometry(mb.size, len, mb.depth ?? mb.size), mat);
     m.position.copy(a).add(b).multiplyScalar(0.5);
-    m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), b.clone().sub(a).normalize());
+    const dir = b.clone().sub(a).normalize();
+    const side = mb.depth ? dir.clone().cross(new THREE.Vector3(0, 1, 0)) : undefined;
+    if (side && side.lengthSq() > 1e-6) {
+      // deep member (crossbeam_depth_m): orient the box so its depth axis (local z) is as vertical as possible
+      side.normalize();
+      m.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(side, dir, side.clone().cross(dir)));
+    } else m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir);
     return m;
   }
 

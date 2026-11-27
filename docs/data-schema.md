@@ -69,8 +69,9 @@ interface Model3D {
   extradosed?: boolean;          // low pylons, short stays
   deck_plan_radius_m?: number;   // horizontal curve radius of the deck (omit if straight)
   deck_crest_m?: number;         // vertical curve: deck rise at mid-unit (parabola, 0 at the unit ends)
-  deck_elevation_m?: number;     // deck height above water; replaces the clamp(0.1 × main span, 12, 45) heuristic.
-                                 //   Still raised to nav_clearance.height_m + deck depth + 1 if lower (with a warning).
+  deck_elevation_m?: number;     // deck height above water at the unit ends; replaces the clamp(0.1 × main span, 12, 45) heuristic.
+                                 //   Still raised if the deck at the centre of the widest main span (this + the crest there)
+                                 //   is below nav_clearance.height_m + deck depth + 1 (with a warning).
                                  //   Custom pylon tips are local y above this, so it sets their total height too.
   deck_section?: "box" | "truss";// girder: box (default) or a truss / double-deck girder (two chord slabs + Warren web)
   deck_depth_m?: number;         // girder depth; truss: distance between the chords (default 12 m)
@@ -104,6 +105,7 @@ interface PylonCustom {
     twist_deg?: number;                    // rotate the section about the centreline, 0 at the start → twist_deg at the tip
   }[];
   crossbeams_y_m?: number[];               // heights of cross-beams between legs
+  crossbeam_depth_m?: number;              // vertical depth of those cross-beams (default square, max(1.5, 0.8 × leg top width))
   crown?: "pointed" | "rounded" | "flat";  // legs whose tips meet: sharp apex (default), smooth arch, or a flat head beam
   struts?: { a: [number, number, number]; b: [number, number, number]; width: number }[]; // extra straight members
   pile_cap?: {                             // foundation block at the foot of every pylon (same local frame), drawn in plain

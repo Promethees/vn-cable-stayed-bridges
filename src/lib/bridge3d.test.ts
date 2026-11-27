@@ -802,3 +802,84 @@ describe('back-stay count and deck range (G11)', () => {
     expect(build({ ...plain, back_stay_count: 15 }).cables.filter((c) => c.back)).toHaveLength(30);
   });
 });
+
+describe('deck crest vs navigation clearance (G9) and crossbeam depth (G10)', () => {
+  const hPylon: Model3D['pylon_custom'] = {
+    description: 'H: two vertical columns, lower and upper crossbeams',
+    legs: [
+      { centerline: [[0, -34, -11], [0, 0, -11], [0, 35, -11], [0, 66, -11]], width_base_m: 4, width_top_m: 3 },
+      { centerline: [[0, -34, 11], [0, 0, 11], [0, 35, 11], [0, 66, 11]], width_base_m: 4, width_top_m: 3 },
+    ],
+    crossbeams_y_m: [-3, 35],
+    anchor_zone: [
+      { y_from_m: 31, y_to_m: 61, leg: 0 },
+      { y_from_m: 31, y_to_m: 61, leg: 1 },
+    ],
+  };
+  // Rạch Miễu 2-like: 120 + 270 + 120, deck 36 m at the ends + 6 m crest, 37.5 m channel
+  const rm2: Model3D = {
+    ...base,
+    spans_m: [120, 270, 120],
+    pylon_heights_m: [116.5, 116.5],
+    pylon_height_ref: 'total',
+    deck_width_m: 17.5,
+    deck_elevation_m: 36,
+    deck_crest_m: 6,
+    pylon_custom: hPylon,
+  };
+  const nav = { navClearance: { height_m: 37.5, width_m: 220 } };
+
+  it('the clearance is checked at the main-span centre including the crest: E stays at the given value, no warning', () => {
+    const g = buildBridgeGeometry(rm2, 'completed', nav)!;
+    expect(g.deckDepth).toBeCloseTo(2.25, 6);
+    expect(g.deckElevation).toBe(36);
+    expect(g.deckY(255)).toBeCloseTo(42, 1);
+    expect(g.deckY(255) - g.deckDepth).toBeGreaterThan(37.5 + 1 - 1e-9);
+    expect(g.warnings).not.toContain('deck_elevation_m below navigation clearance');
+  });
+
+  it('a given deck too low even with the crest is raised just enough at the main-span centre, with a warning', () => {
+    const g = buildBridgeGeometry({ ...rm2, deck_elevation_m: 30 }, 'completed', nav)!;
+    expect(g.deckY(255)).toBeCloseTo(37.5 + g.deckDepth + 1, 6);
+    expect(g.deckElevation).toBeCloseTo(37.5 + g.deckDepth + 1 - 6, 6);
+    expect(g.warnings).toContain('deck_elevation_m below navigation clearance');
+  });
+
+  it('the heuristic deck elevation is lowered by the crest at the main-span centre', () => {
+    const g = buildBridgeGeometry({ ...rm2, deck_elevation_m: undefined }, 'completed', { navClearance: { height_m: 50 } })!;
+    expect(g.deckElevation).toBeCloseTo(50 + g.deckDepth + 1 - 6, 6);
+  });
+
+  it('without a crest the clearance floor is unchanged', () => {
+    const g = buildBridgeGeometry({ ...base, deck_elevation_m: 25 }, 'completed', { navClearance: { height_m: 40 } })!;
+    expect(g.deckElevation).toBeCloseTo(40 + g.deckDepth + 1, 6);
+    const flat = buildBridgeGeometry({ ...rm2, deck_crest_m: undefined }, 'completed', nav)!;
+    expect(flat.deckElevation).toBeCloseTo(37.5 + flat.deckDepth + 1, 6);
+  });
+
+  it('pylon labels (total) include the crest at the pylon: label = drawn water-to-tip', () => {
+    const g = buildBridgeGeometry(rm2, 'completed', nav)!;
+    for (const p of g.pylons) {
+      const tip = Math.max(...p.sweeps.flatMap((sw) => sw.positions.filter((_, i) => i % 3 === 1)));
+      expect(p.labelHeight).toBeCloseTo(tip, 1); // sweep corners sit ±1.5 m off the pylon station, on a slightly different crest
+      expect(p.labelHeight).toBeCloseTo(66 + g.deckY(p.x), 1);
+    }
+    // built-in pylons: the drawn tip (lifted by the crest at the pylon) matches the given total height
+    const b = buildBridgeGeometry({ ...rm2, pylon_custom: undefined }, 'completed', nav)!;
+    for (const p of b.pylons) {
+      expect(p.labelHeight).toBe(116.5);
+      expect(b.deckY(p.x) + p.heightAboveDeck).toBeCloseTo(116.5, 6);
+    }
+  });
+
+  it('crossbeam_depth_m sets the vertical depth of the crossbeams (default: square members)', () => {
+    const g = buildBridgeGeometry({ ...rm2, pylon_custom: { ...hPylon, crossbeam_depth_m: 5 } }, 'completed', nav)!;
+    const beams = g.pylons[0].members;
+    expect(beams).toHaveLength(2);
+    expect(beams.every((mb) => mb.depth === 5 && Math.abs(mb.size - 2.4) < 1e-9)).toBe(true);
+    // the upper strut at local y 35 above the (crested) deck at the pylon
+    expect(Math.max(...beams.map((mb) => mb.a[1]))).toBeCloseTo(g.deckY(g.pylons[0].x) + 35, 1);
+    const plain = buildBridgeGeometry(rm2, 'completed', nav)!;
+    expect(plain.pylons[0].members.every((mb) => mb.depth === undefined)).toBe(true);
+  });
+});
