@@ -1,117 +1,155 @@
 {
- "pylons_vi": "2 tháp chữ H, dầm ngang đỉnh, cao 135 m",
- "pylons_en": "2 H-shaped pylons with a top cross-beam, 135 m",
+ "pylons_vi": "2 tháp chữ H hai cột đứng, dầm ngang ở khoảng 2/3 chiều cao trên mặt cầu, giằng chân sát mặt nước; dây neo yên ngựa; cao 155 m tính từ móng",
+ "pylons_en": "2 H pylons with two vertical legs, a crossbeam at ≈2/3 of the height above deck and a tie beam at the waterline; stays over saddles; 155 m from the foundations",
  "model3d": {
   "spans_m": [
-   194,
+   187.25,
    375,
-   194
+   187.25
   ],
   "pylon_shape": "H",
   "pylon_heights_m": [
-   135,
-   135
+   155,
+   155
   ],
   "pylon_height_ref": "total",
+  "deck_elevation_m": 60,
+  "deck_depth_m": 3,
+  "deck_width_m": 30.35,
+  "deck_type": "concrete",
   "cable_planes": 2,
   "cable_pattern": "fan",
-  "deck_width_m": 21.75,
+  "cables_per_side": 17,
+  "stay_colour": "white",
   "confidence": "estimated",
-  "notes": "Main section 763 m (press), so side spans are derived as (763 − 375)/2 ≈ 194. H pylons 135 m (most sources; one says 155 m). Fan stays per press.",
+  "notes": "Spans 187.25 + 375 + 187.25 m (VECC). Two PC edge box girders 3 m deep, 24.85 m apart, 30.35 m overall (21.75 m = roadway). 155 m pylons from foundations (VECC; 135 m = Phước Khánh). H legs at ±18.4 m just outside the deck, upper beam at ≈2/3 of the above-deck height, tie beam at the waterline, no beam under the deck (photos 2025). 17 stay pairs per pylon side, 68 cables over saddles, 58.7–197.6 m. Deck ≈60 m above water (55 m clearance).",
   "pylon_custom": {
-   "description": "Two vertical legs outside the deck, joined by a cross-beam close to the top and one under the deck; legs straight to the footing.",
+   "description": "H pylon: two vertical, slightly tapered rectangular legs just outside the 30.35 m deck, one crossbeam at about 2/3 of the height above deck, a deep tie beam linking the feet just above the waterline, no crossbeam under the deck; stays pass over saddles in the upper legs.",
    "legs": [
     {
      "centerline": [
       [
        0,
-       -38,
-       -12
+       -62,
+       -18.4
       ],
       [
        0,
        0,
-       -12
+       -18.4
       ],
       [
        0,
-       49.0,
-       -12
+       50,
+       -18.4
       ],
       [
        0,
-       98,
-       -12
+       93,
+       -18.4
       ]
      ],
-     "width_base_m": 5.0,
-     "width_top_m": 3.5
+     "width_base_m": 6.5,
+     "width_top_m": 3.5,
+     "depth_base_m": 9,
+     "depth_top_m": 7
     },
     {
      "centerline": [
       [
        0,
-       -38,
-       12
+       -62,
+       18.4
       ],
       [
        0,
        0,
-       12
+       18.4
       ],
       [
        0,
-       49.0,
-       12
+       50,
+       18.4
       ],
       [
        0,
-       98,
-       12
+       93,
+       18.4
       ]
      ],
-     "width_base_m": 5.0,
-     "width_top_m": 3.5
+     "width_base_m": 6.5,
+     "width_top_m": 3.5,
+     "depth_base_m": 9,
+     "depth_top_m": 7
     }
    ],
-   "crossbeams_y_m": [
-    -3,
-    90
+   "crossbeams_y_m": [],
+   "struts": [
+    {
+     "a": [
+      0,
+      61,
+      -18.4
+     ],
+     "b": [
+      0,
+      61,
+      18.4
+     ],
+     "width": 5
+    },
+    {
+     "a": [
+      0,
+      -53,
+      -18.4
+     ],
+     "b": [
+      0,
+      -53,
+      18.4
+     ],
+     "width": 6
+    }
    ],
    "anchor_zone": [
     {
-     "y_from_m": 55,
-     "y_to_m": 96,
+     "y_from_m": 53,
+     "y_to_m": 89,
      "leg": 0
     },
     {
-     "y_from_m": 55,
-     "y_to_m": 96,
+     "y_from_m": 53,
+     "y_to_m": 89,
      "leg": 1
     }
    ],
    "mirror_for_other_pylons": true,
    "reference_images": [
+    "https://cdn2.tuoitre.vn/plo/image/Uploaded/nhungoc/2025_12_19/cau-binh-khanh-4496-9552.jpg",
+    "https://cdn2.tuoitre.vn/plo/image/Uploaded/nhungoc/2025_12_19/cau-binh-khanh-1-4106-3884.jpg",
+    "https://cdn-i.vtcnews.vn/resize/ma/upload/2025/08/25/cau-binh-khanh-00092323.jpg",
+    "https://cdn2.tuoitre.vn/thesaigontimes/uploads/2025/02/bl2.jpg",
     "https://cdn2.tuoitre.vn/thesaigontimes/uploads/2025/07/DJI_20250710151804_0781_D-1.jpg"
    ]
   }
  },
- "notes": "Press aerial (Sài Gòn Times 7/2025) shows twin legs joined near the top.",
+ "notes": "Round 7 (research/model-review/brief-r7-binh-khanh.md): photos 2025 (PLO 12/2025, VTC 8/2025, Sài Gòn Times 2/2025 and 7/2025) show the upper beam at ≈2/3 height and the tie beam at the water; no auxiliary piers.",
  "id": "cau-binh-khanh",
  "review": [
   "Plain H, no beams",
-  "Twin vertical legs, under-deck beam + beam near the top (≈90 m above deck)",
-  "Medium: 1 press aerial + 1 Commons construction photo"
+  "Twin vertical legs at ±18.4 m outside the 30.35 m deck, upper beam at ≈2/3 of the above-deck height, tie beam at the waterline, no under-deck beam (r7)",
+  "Good: PLO / VTC / Sài Gòn Times aerials and deck-level photos 2025"
  ],
  "checklist": {
-  "foot below deck": "limited (no photo below deck)",
+  "foot below deck": "pass (legs reach the water, tie beam above the waterline)",
   "legs at deck": "pass",
   "merge height": "n/a",
-  "crossbeams": "pass (top beam)",
+  "crossbeams": "pass (upper beam ≈2/3, base tie beam, none under the deck)",
   "head": "pass",
   "proportions": "pass",
   "stays": "pass",
-  "deck / aux piers": "limited",
+  "deck / aux piers": "pass (none)",
   "colour": "pass"
  },
  "pass2": true,

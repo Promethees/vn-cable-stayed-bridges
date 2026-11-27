@@ -246,6 +246,52 @@ describe.each(files)('%s', (file) => {
     }
   });
 
+  it('Bình Khánh (round 7): H legs reach the water outside a 30.35 m deck, beam at ≈2/3, tie beam at the waterline, white fan stays', () => {
+    const b = bridges.find((x) => x.id === 'cau-binh-khanh');
+    if (!b?.model3d) return; // sample data
+    const g = buildBridgeGeometry(b.model3d, b.status, { navClearance: b.nav_clearance })!;
+    const E = g.deckElevation;
+    expect(E).toBe(60);
+    expect(g.deckWidth).toBe(30.35);
+    expect(b.width_m).toBe(21.75); // roadway; the girder is wider
+    expect(E - g.deckDepth).toBeGreaterThanOrEqual(55); // 55 × 242 m channel
+    expect(g.pylons.map((p) => p.x)).toEqual([187.25, 562.25]);
+    expect(g.auxiliaryPiers).toEqual([]);
+    expect(g.colours.stay).toBe('white');
+    for (const p of g.pylons) {
+      expect(p.labelRef).toBe('total');
+      expect(p.labelHeight).toBeGreaterThanOrEqual(151);
+      expect(p.labelHeight).toBeLessThanOrEqual(157);
+      // legs reach the water and stand fully outside the deck
+      let bottom = Infinity;
+      let inner = Infinity;
+      for (const sw of p.sweeps)
+        for (let i = 0; i < sw.positions.length; i += 3) {
+          const y = sw.positions[i + 1];
+          bottom = Math.min(bottom, y);
+          if (y >= E - g.deckDepth - 6 && y <= E + 6) inner = Math.min(inner, Math.abs(sw.positions[i + 2])); // at deck level
+        }
+      expect(bottom).toBeLessThanOrEqual(0);
+      expect(inner).toBeGreaterThan(g.deckWidth / 2);
+      expect(inner - g.deckWidth / 2).toBeLessThan(1.5);
+      // exactly two horizontal beams: the upper one at 0.64–0.68 of the above-deck height, a tie a few metres above water
+      const beams = p.members.map((mb) => mb.a[1]).sort((a, c) => a - c);
+      expect(beams).toHaveLength(2);
+      expect(beams[0]).toBeGreaterThan(0);
+      expect(beams[0]).toBeLessThan(15);
+      expect((beams[1] - E) / p.heightAboveDeck).toBeGreaterThanOrEqual(0.64);
+      expect((beams[1] - E) / p.heightAboveDeck).toBeLessThanOrEqual(0.68);
+      expect(p.members.every((mb) => Math.abs(mb.a[1] - E) > 10)).toBe(true); // no beam under the deck
+      // 2 planes × 17 per side, saddles over 53–89 m above deck, the lowest below the upper beam
+      const cs = g.cables.filter((c) => c.pylon === p.index);
+      expect(cs).toHaveLength(2 * 2 * 17);
+      const tops = cs.map((c) => c.top[1] - E);
+      expect(Math.min(...tops)).toBeGreaterThanOrEqual(52.5);
+      expect(Math.min(...tops)).toBeLessThan(beams[1] - E);
+      expect(Math.max(...tops)).toBeLessThanOrEqual(89.5);
+    }
+  });
+
   it('model3d has only schema keys, and harp bridges draw parallel stays (within 2°)', () => {
     const KEYS = new Set([
       'spans_m', 'pylon_shape', 'pylon_heights_m', 'pylon_height_ref', 'cable_planes', 'cable_pattern', 'cables_per_side',
