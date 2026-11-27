@@ -546,12 +546,20 @@ export function buildBridgeGeometry(
   const splitBack = planes === 1 && m.back_stay_planes === 2;
 
   /** anchor zone, leg curve and face offset serving a cable plane of a custom pylon */
-  const customZone = (pi: number, plane: number) => {
+  // per-side anchor zones (G8): when any zone names a side, stays on the main / back side use only the zones for
+  // that side (zones without a side serve both), and anchor on the leg's actual z even on a single-plane bridge
+  const sideZones = !!custom?.anchor_zone.some((z) => z.side);
+  const customZone = (pi: number, plane: number, back = false, nPl: number = planes) => {
     const legs = legCurves[pi]!;
-    const zones = custom!.anchor_zone;
+    let zones = custom!.anchor_zone;
+    if (sideZones) {
+      const want = back ? 'back' : 'main';
+      const mine = zones.filter((z) => (z.side ?? want) === want);
+      if (mine.length) zones = mine;
+    }
     let zone = zones[0];
     let zOffset = 0;
-    if (planes === 2) {
+    if (nPl === 2) {
       const sideSign = plane === 0 ? -1 : 1;
       const match = zones.find((z) => {
         const pts = legs[z.leg].pl.pts;
@@ -567,19 +575,21 @@ export function buildBridgeGeometry(
     const f = pylonScale(pi);
     return { leg: legs[zone.leg], from: zone.y_from_m * f, to: zone.y_to_m * f, zOffset };
   };
-  /** custom pylon anchor at local height y above deck (on the zone's leg); one plane → on the centreline */
-  const customAnchorAtY = (pi: number, plane: number, y: number): Vec3 => {
-    const { leg, zOffset } = customZone(pi, plane);
+  /** anchor z: single-plane bridges anchor on the centreline unless the zone was chosen by side (G8) */
+  const anchorZ = (p: Vec3, zOffset: number) => (planes === 1 && !sideZones ? 0 : p[2] + zOffset);
+  /** custom pylon anchor at local height y above deck (on the zone's leg) */
+  const customAnchorAtY = (pi: number, plane: number, y: number, back?: boolean, nPl?: number): Vec3 => {
+    const { leg, zOffset } = customZone(pi, plane, back, nPl);
     const p = pointAt(leg.pl, arcAtY(leg.pl, E + y));
-    return [p[0], p[1], planes === 1 ? 0 : p[2] + zOffset];
+    return [p[0], p[1], anchorZ(p, zOffset)];
   };
   /** custom pylon anchor distributed by arc length along the anchor zone (t = 0 lowest) */
-  const customAnchor = (pi: number, plane: number, t: number): Vec3 => {
-    const { leg, from, to, zOffset } = customZone(pi, plane);
+  const customAnchor = (pi: number, plane: number, t: number, back?: boolean, nPl?: number): Vec3 => {
+    const { leg, from, to, zOffset } = customZone(pi, plane, back, nPl);
     const s0 = arcAtY(leg.pl, E + from);
     const s1 = arcAtY(leg.pl, E + to);
     const p = pointAt(leg.pl, s0 + (s1 - s0) * t);
-    return [p[0], p[1], planes === 1 ? 0 : p[2] + zOffset];
+    return [p[0], p[1], anchorZ(p, zOffset)];
   };
   /** half the section width of a custom pylon's anchor leg at height y (for back stays split to both faces) */
   const customHalfWidth = (pi: number, y: number) => {
@@ -600,15 +610,19 @@ export function buildBridgeGeometry(
       const [f0, f1] = extradosed ? [0.15, 0.5] : [0.08, 1];
       const nPlanes = splitBack && back ? 2 : planes;
       for (let plane = 0; plane < nPlanes; plane++) {
-        const anchorPlane = nPlanes === planes ? plane : 0;
+        // per-side zones pick their own leg per plane; otherwise a split back side anchors on the faces of plane 0's leg
+        const bySide = p.custom && sideZones;
+        const anchorPlane = bySide || nPlanes === planes ? plane : 0;
+        const zN = bySide ? nPlanes : planes;
         /** pylon-side anchor at local height y above deck (harp), or by fan index t */
-        const atY = (y: number): Vec3 => (p.custom ? customAnchorAtY(pi, anchorPlane, y) : [p.x, yd + y, shapes[pi].anchorZ(anchorPlane, yd + y)]);
+        const atY = (y: number): Vec3 =>
+          p.custom ? customAnchorAtY(pi, anchorPlane, y, back, zN) : [p.x, yd + y, shapes[pi].anchorZ(anchorPlane, yd + y)];
         // harp: anchor heights linear from yLow to yTop; deck stations proportional to the height above deck, so
         // every stay on this side has the same slope (parallel). yLow = yTop·f0/f1 unless the anchor zone / 15%
         // floor is higher, in which case the deck stations start further out instead of bunching the stays.
         let harp: { yLow: number; yTop: number; k: number } | undefined;
         if (pattern === 'harp') {
-          const zone = p.custom ? customZone(pi, anchorPlane) : undefined;
+          const zone = p.custom ? customZone(pi, anchorPlane, back, zN) : undefined;
           const yTop = zone ? zone.to : H * hi;
           const yLow = Math.min(yTop, Math.max(zone ? zone.from : 0.15 * H, (yTop * f0) / f1));
           const outer = atY(yTop);
@@ -630,10 +644,10 @@ export function buildBridgeGeometry(
               if (near !== undefined) x = near;
             }
             // outer stays anchor highest (no crossing); fan: all at one point
-            top = p.custom ? customAnchor(pi, anchorPlane, t) : atY(H * (lo + (hi - lo) * t));
+            top = p.custom ? customAnchor(pi, anchorPlane, t, back, zN) : atY(H * (lo + (hi - lo) * t));
           }
           if (!onBuiltDeck(x)) continue;
-          if (nPlanes !== planes) {
+          if (nPlanes !== planes && !bySide) {
             // split back stays leave the mast from its two faces
             const half = p.custom ? customHalfWidth(pi, top[1]) : builtInHalf;
             top = [top[0], top[1], top[2] + (plane === 0 ? -half : half)];

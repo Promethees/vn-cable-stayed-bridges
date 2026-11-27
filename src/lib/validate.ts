@@ -73,7 +73,14 @@ export function pylonCustomProblems(v: unknown): string[] {
     !Array.isArray(v.anchor_zone) ||
     v.anchor_zone.length < 1 ||
     !v.anchor_zone.every(
-      (z) => isObj(z) && isNum(z.y_from_m) && isNum(z.y_to_m) && Number.isInteger(z.leg) && (z.leg as number) >= 0 && (z.leg as number) < nLegs,
+      (z) =>
+        isObj(z) &&
+        isNum(z.y_from_m) &&
+        isNum(z.y_to_m) &&
+        Number.isInteger(z.leg) &&
+        (z.leg as number) >= 0 &&
+        (z.leg as number) < nLegs &&
+        (z.side === undefined || z.side === 'main' || z.side === 'back'),
     )
   )
     p.push('anchor_zone');

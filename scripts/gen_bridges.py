@@ -238,11 +238,15 @@ add(id="cau-long-hung", name_vi="Cầu Long Hưng", name_en="Long Hưng Bridge",
 
 add(id="cau-nguyen-trai", name_vi="Cầu Nguyễn Trãi", name_en="Nguyễn Trãi Bridge", status="under_construction",
     province="Hải Phòng", province_former=["Hải Phòng"], crosses="Sông Cấm",
-    roads=[], construction_start=2024, opened=2027, main_span_m=300, total_length_m=1476, width_m=26.5,
-    cable_stayed_spans=1, span_arrangement="125 + 300 + 125 m", pylons="2 pylons, 111 m", cost="≈6,200–6,300 tỷ VND",
+    roads=[], construction_start=2024, opened=2027, main_span_m=300, total_length_m=1476, width_m=26.5, lanes=6,
+    cable_stayed_spans=1, span_arrangement="125 + 300 + 125 m", pylons="2 sail pylons of three columns, 107.5 m above the pile cap", cost="≈6,200–6,300 tỷ VND",
     lat=20.8707, lng=106.6940,
-    sources=["https://daibieunhandan.vn/hai-phong-toan-canh-du-an-cau-nguyen-trai-va-vung-phu-can-hon-6-300-ty-dong-10425773.html", "https://vneconomy.vn/hai-phong-khoi-cong-xay-dung-cau-nguyen-trai-hon-6-200-ty-dong.htm", "https://tienphong.vn/cau-6300-ty-dong-noi-vung-loi-hai-phong-voi-khu-do-thi-moi-bac-song-cam-post1872017.tpo", OSM], confidence="needs_check",
-    notes="Groundbreaking 18/12/2024. Cable-stayed main bridge due end-2027. One source says '550 m cable-stayed main bridge', which is the whole 125+300+125 unit.")
+    sources=["https://tedi.vn/khoi-cong-xay-dung-cau-nguyen-trai-do-tedi-thuc-hien-cong-tac-tu-van-thiet-ke/", "https://www.vietnam.vn/en/khoi-cong-xay-dung-cau-nguyen-trai",
+             "https://baolamdong.vn/cau-nguyen-trai-hon-6200-ty-dong-tai-hai-phong-kien-truc-canh-buom-cao-ngang-toa-nha-40-tang-440415.html",
+             "https://dantri.com.vn/thoi-su/hai-phong-khoi-cong-cau-nguyen-trai-bac-qua-song-cam-20241218182112695.htm",
+             "https://duyenhailand.vn/cap-nhat-tien-do-xay-dung-cau-nguyen-trai-thang-4-2026-dat-32-phan-dau-ve-dich-thang-9-2027/",
+             "https://daibieunhandan.vn/hai-phong-toan-canh-du-an-cau-nguyen-trai-va-vung-phu-can-hon-6-300-ty-dong-10425773.html", "https://vneconomy.vn/hai-phong-khoi-cong-xay-dung-cau-nguyen-trai-hon-6-200-ty-dong.htm", "https://tienphong.vn/cau-6300-ty-dong-noi-vung-loi-hai-phong-voi-khu-do-thi-moi-bac-song-cam-post1872017.tpo", OSM], confidence="needs_check",
+    notes="Groundbreaking 18/12/2024. Main bridge: 3-span continuous cable-stayed 125 + 300 + 125 m (550.6 m) in a 1,476.4 m bridge (TEDI, designer); 26.5 m prestressed-concrete box deck, 4 motor + 2 mixed lanes, 80 km/h; channel 165 × 25 m. Pylons: two 'sail' towers of three columns (curved central mast + two inclined rear columns, steel bracing at three levels), 107.5 m above the pile cap (111 m in press). Stays: semi-fan, 120 cables: one central plane of 20 per side over the main span, two planes of 20 over each side span (TEDI). Pylon form confirmed by the official render supplied by the user (2026-11-27), the TEDI renders and the ground-breaking stage screen. Progress 4/2026 ≈32% (all 88 bored piles, T11 pylon pile cap); opening target 2/9/2027.")
 
 add(id="cau-duong-sat-can-gio", name_vi="Cầu đường sắt vượt sông Soài Rạp (tuyến Bến Thành – Cần Giờ)", name_en="Soài Rạp rail bridge (Bến Thành – Cần Giờ line)",
     status="under_construction", usage=["metro"],
@@ -1022,6 +1026,13 @@ for b in B:
         assert [l["depth_base_m"] for l in legs[:4]] == [10.0, 10.0, 4.5, 4.5], legs
         assert legs[2]["width_base_m"] == 10.0 and legs[2]["width_top_m"] == 1.0, legs[2]
         assert [z["leg"] for z in m["pylon_custom"]["anchor_zone"]] == [2, 3]
+    if b["id"] == "cau-nguyen-trai":  # round 6: three-column sail pylons, main stays on the mast, side stays on rear columns
+        pc = m["pylon_custom"]
+        assert m["spans_m"] == [125, 300, 125] and m["cable_planes"] == 1 and m["back_stay_planes"] == 2, m
+        assert m["cables_per_side"] == 20 and m["deck_elevation_m"] == 30 and m["deck_crest_m"] == 4, m
+        assert len(pc["legs"]) == 3 and pc["crossbeams_y_m"] == [-4, 22, 42, 60], pc
+        assert [(z["leg"], z["side"]) for z in pc["anchor_zone"]] == [(1, "main"), (0, "back"), (2, "back")], pc
+        assert pc["pile_cap"]["top_y_m"] == -28 and b["lanes"] == 6
     if b["id"] == "cau-ben-rung":     # round 5: foundation (pile cap + columns), 22 m deck, 25° blades, 12 stays
         pc = m["pylon_custom"]
         assert m["deck_elevation_m"] == 22 and m["cables_per_side"] == 12 and m["cable_pattern"] == "semi_fan", m

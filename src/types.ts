@@ -34,7 +34,8 @@ export interface PylonCustom {
   struts?: { a: [number, number, number]; b: [number, number, number]; width: number }[];
   /** foundation block at the foot of every pylon (pylon-local frame), drawn in plain concrete */
   pile_cap?: PileCap;
-  anchor_zone: { y_from_m: number; y_to_m: number; leg: number }[];
+  /** where stays attach; `side` restricts a zone to the main-span or back-span stays (zones without it serve both) */
+  anchor_zone: { y_from_m: number; y_to_m: number; leg: number; side?: 'main' | 'back' }[];
   mirror_for_other_pylons?: boolean;
   reference_images?: string[];
 }

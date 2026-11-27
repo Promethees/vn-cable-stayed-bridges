@@ -654,3 +654,66 @@ describe('pile caps (pylon_custom.pile_cap)', () => {
     expect(build({}).pylons.every((p) => p.caps.length === 0)).toBe(true);
   });
 });
+
+describe('per-side anchor zones (G8)', () => {
+  const sail: Partial<Model3D> = {
+    spans_m: [125, 300, 125],
+    pylon_heights_m: [111, 111],
+    pylon_height_ref: 'total',
+    cable_planes: 1,
+    back_stay_planes: 2,
+    cable_pattern: 'semi_fan',
+    cables_per_side: 20,
+    deck_width_m: 26.5,
+    deck_elevation_m: 30,
+    pylon_custom: {
+      description: 'mast + two rear columns',
+      legs: [
+        { centerline: [[-9, -28, -11], [-9, 0, -12], [-8, 30, -8], [-6, 67, -2]], width_base_m: 2.5, width_top_m: 1.8 },
+        { centerline: [[7, -28, 0], [8, 0, 0], [8.5, 25, 0], [2, 68, 0], [-4, 79.5, 0]], width_base_m: 4, width_top_m: 2.5 },
+        { centerline: [[-9, -28, 11], [-9, 0, 12], [-8, 30, 8], [-6, 67, 2]], width_base_m: 2.5, width_top_m: 1.8 },
+      ],
+      anchor_zone: [
+        { y_from_m: 30, y_to_m: 76, leg: 1, side: 'main' },
+        { y_from_m: 24, y_to_m: 64, leg: 0, side: 'back' },
+        { y_from_m: 24, y_to_m: 64, leg: 2, side: 'back' },
+      ],
+    },
+  };
+
+  it('main-span stays anchor on the mast in the central plane; side-span stays on the rear columns in two planes', () => {
+    const g = build(sail);
+    const main = g.cables.filter((c) => !c.back);
+    const back = g.cables.filter((c) => c.back);
+    expect(main).toHaveLength(2 * 20); // 2 pylons × 1 plane × 20
+    expect(back).toHaveLength(2 * 2 * 20); // 2 pylons × 2 planes × 20
+    for (const c of main) {
+      expect(c.deck[2]).toBe(0);
+      expect(Math.abs(c.top[2])).toBeLessThan(1e-6); // the mast is on the centreline
+      expect(c.top[1] - g.deckElevation).toBeGreaterThanOrEqual(30 - 1e-6);
+    }
+    for (const c of back) {
+      expect(Math.abs(c.deck[2])).toBe(13.25);
+      // on the rear column of the same side: inside the deck edge, well away from the centreline
+      expect(Math.sign(c.top[2])).toBe(Math.sign(c.deck[2]));
+      expect(Math.abs(c.top[2])).toBeGreaterThan(1.5);
+      expect(Math.abs(c.top[2])).toBeLessThan(13);
+      expect(c.top[1] - g.deckElevation).toBeLessThanOrEqual(64 + 1e-6);
+    }
+    // rear-column anchors sit behind the mast (toward the side span), mast anchors in front of the columns at mid-height
+    const p0 = g.pylons[0];
+    const mainX = main.filter((c) => c.pylon === 0).map((c) => c.top[0]);
+    const backX = back.filter((c) => c.pylon === 0).map((c) => c.top[0]);
+    expect(Math.min(...backX)).toBeLessThan(p0.x - 4); // pylon 0 faces +x: rear columns at local −x
+    expect(Math.max(...mainX)).toBeGreaterThan(p0.x + 4);
+  });
+
+  it('zones without a side serve both sides; without any side the old single-plane behaviour holds', () => {
+    const noSide = build({
+      ...sail,
+      pylon_custom: { ...sail.pylon_custom!, anchor_zone: sail.pylon_custom!.anchor_zone.map((z) => ({ y_from_m: z.y_from_m, y_to_m: z.y_to_m, leg: z.leg })) },
+    });
+    // without sides, a single-plane bridge anchors on the centreline (plus the split-back face offset)
+    expect(noSide.cables.filter((c) => !c.back).every((c) => c.top[2] === 0)).toBe(true);
+  });
+});

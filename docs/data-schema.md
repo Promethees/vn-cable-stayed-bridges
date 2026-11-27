@@ -107,7 +107,12 @@ interface PylonCustom {
     top_y_m: number; thickness_m: number;  //   y ∈ [top − thickness, top] (top ≤ 0; the waterline is y = −deck elevation)
     rounded_ends?: boolean;                //   stadium plan: semicircular ends (diameter = length_x_m) on the ±z ends
   };
-  anchor_zone: { y_from_m: number; y_to_m: number; leg: number }[]; // where stays attach on each leg
+  anchor_zone: { y_from_m: number; y_to_m: number; leg: number;    // where stays attach on each leg
+                 side?: "main" | "back" }[];                      //   side: zone only for main-span or back-span stays
+                                                                   //   (zones without it serve both). Per-side zones anchor
+                                                                   //   on the leg's real z, even with one cable plane, so a
+                                                                   //   mast can carry the main plane and two rear legs the
+                                                                   //   split back planes (Nguyễn Trãi).
   mirror_for_other_pylons?: boolean;       // multi-pylon bridges: reuse mirrored
   reference_images?: string[];             // URLs used to derive the shape
 }

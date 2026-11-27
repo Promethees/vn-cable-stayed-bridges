@@ -198,6 +198,27 @@ describe.each(files)('%s', (file) => {
     expect(g.pattern).toBe('semi_fan');
   });
 
+  it('Nguyễn Trãi (round 6): sail pylons; main-span stays on the mast (1 plane), side-span stays on rear columns (2 planes)', () => {
+    const b = bridges.find((x) => x.id === 'cau-nguyen-trai');
+    if (!b?.model3d) return; // sample data
+    const g = buildBridgeGeometry(b.model3d, 'completed', { navClearance: b.nav_clearance })!;
+    expect(g.deckElevation).toBe(30);
+    expect(g.deckElevation - g.deckDepth).toBeGreaterThan(25); // 165 × 25 m channel
+    expect(g.pylons.map((p) => p.x)).toEqual([125, 425]);
+    for (const p of g.pylons) {
+      expect(p.labelRef).toBe('total');
+      expect(p.labelHeight).toBeGreaterThan(105);
+      expect(p.labelHeight).toBeLessThan(113);
+      expect(p.caps).toHaveLength(1);
+      const main = g.cables.filter((c) => c.pylon === p.index && !c.back);
+      const back = g.cables.filter((c) => c.pylon === p.index && c.back);
+      expect(main).toHaveLength(20);
+      expect(back).toHaveLength(40);
+      expect(main.every((c) => c.deck[2] === 0 && Math.abs(c.top[2]) < 1e-6)).toBe(true);
+      expect(back.every((c) => Math.abs(c.deck[2]) === 13.25 && Math.sign(c.top[2]) === Math.sign(c.deck[2]))).toBe(true);
+    }
+  });
+
   it('model3d has only schema keys, and harp bridges draw parallel stays (within 2°)', () => {
     const KEYS = new Set([
       'spans_m', 'pylon_shape', 'pylon_heights_m', 'pylon_height_ref', 'cable_planes', 'cable_pattern', 'cables_per_side',

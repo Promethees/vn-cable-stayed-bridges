@@ -1,30 +1,253 @@
 {
- "pylons_vi": "2 tháp, cao 111 m",
- "pylons_en": "2 pylons, 111 m",
+ "pylons_vi": "2 tháp hình cánh buồm gồm 3 cột (cột chính cong ở giữa, 2 cột sau nghiêng), giằng thép 3 tầng, cao ≈107,5 m từ bệ",
+ "pylons_en": "2 sail pylons of three columns (curved central mast, two inclined rear columns), steel bracing at 3 levels, ≈107.5 m above the pile cap",
  "model3d": {
   "spans_m": [
    125,
    300,
    125
   ],
-  "pylon_shape": "H",
+  "pylon_shape": "other",
   "pylon_heights_m": [
    111,
    111
   ],
   "pylon_height_ref": "total",
-  "cable_planes": 2,
+  "cable_planes": 1,
+  "back_stay_planes": 2,
   "cable_pattern": "semi_fan",
+  "cables_per_side": 20,
   "deck_width_m": 26.5,
+  "deck_type": "concrete",
+  "deck_elevation_m": 30,
+  "deck_crest_m": 4,
+  "pylon_colour": "white",
+  "stay_colour": "white",
   "confidence": "estimated",
-  "notes": "125+300+125 m, pylons 111 m, deck 26.5 m (press). Pylon shape and cable pattern not published (placeholder 'H')."
+  "notes": "125 + 300 + 125 m, 26.5 m prestressed-concrete box, 120 semi-fan stays: 20 per side in one central plane over the main span, 2 × 20 over each side span (TEDI). Three-column 'sail' pylons, 107.5 m above the pile cap (TEDI; 111 m in press), RC lower shafts and composite-steel upper section with steel bracing at three levels. Geometry scaled from the user-supplied official render, TEDI's near-elevation render and the ground-breaking stage screen; deck ≈30 m above water with a ≈4 m crest estimated.",
+  "pylon_custom": {
+   "description": "Sail pylon of three columns: a curved central mast (convex toward the main span, tip leaning back) carrying the single main-span stay plane, and two straighter rear columns at the deck edges, set back toward the side span and leaning inward, carrying the two side-span planes; joined by steel struts at three levels; RC lower shafts to a pile cap.",
+   "legs": [
+    {
+     "centerline": [
+      [
+       -9,
+       -28,
+       -11
+      ],
+      [
+       -9,
+       -3,
+       -11.5
+      ],
+      [
+       -9,
+       0,
+       -12
+      ],
+      [
+       -8,
+       30,
+       -8
+      ],
+      [
+       -7,
+       50,
+       -5
+      ],
+      [
+       -6,
+       67,
+       -2
+      ]
+     ],
+     "width_base_m": 2.5,
+     "width_top_m": 1.8,
+     "depth_base_m": 4.0,
+     "depth_top_m": 2.5
+    },
+    {
+     "centerline": [
+      [
+       7,
+       -28,
+       0
+      ],
+      [
+       8,
+       -3,
+       0
+      ],
+      [
+       8,
+       0,
+       0
+      ],
+      [
+       8.5,
+       25,
+       0
+      ],
+      [
+       7,
+       50,
+       0
+      ],
+      [
+       2,
+       68,
+       0
+      ],
+      [
+       -4,
+       79.5,
+       0
+      ]
+     ],
+     "width_base_m": 4.0,
+     "width_top_m": 2.5,
+     "depth_base_m": 6.0,
+     "depth_top_m": 3.0
+    },
+    {
+     "centerline": [
+      [
+       -9,
+       -28,
+       11
+      ],
+      [
+       -9,
+       -3,
+       11.5
+      ],
+      [
+       -9,
+       0,
+       12
+      ],
+      [
+       -8,
+       30,
+       8
+      ],
+      [
+       -7,
+       50,
+       5
+      ],
+      [
+       -6,
+       67,
+       2
+      ]
+     ],
+     "width_base_m": 2.5,
+     "width_top_m": 1.8,
+     "depth_base_m": 4.0,
+     "depth_top_m": 2.5
+    }
+   ],
+   "crossbeams_y_m": [
+    -4,
+    22,
+    42,
+    60
+   ],
+   "struts": [
+    {
+     "a": [
+      8.1,
+      32,
+      0
+     ],
+     "b": [
+      -8.6,
+      12,
+      -10.4
+     ],
+     "width": 1.2
+    },
+    {
+     "a": [
+      8.1,
+      32,
+      0
+     ],
+     "b": [
+      -8.6,
+      12,
+      10.4
+     ],
+     "width": 1.2
+    },
+    {
+     "a": [
+      6.4,
+      52,
+      0
+     ],
+     "b": [
+      -7.9,
+      32,
+      -7.7
+     ],
+     "width": 1.2
+    },
+    {
+     "a": [
+      6.4,
+      52,
+      0
+     ],
+     "b": [
+      -7.9,
+      32,
+      7.7
+     ],
+     "width": 1.2
+    }
+   ],
+   "anchor_zone": [
+    {
+     "y_from_m": 30,
+     "y_to_m": 76,
+     "leg": 1,
+     "side": "main"
+    },
+    {
+     "y_from_m": 24,
+     "y_to_m": 64,
+     "leg": 0,
+     "side": "back"
+    },
+    {
+     "y_from_m": 24,
+     "y_to_m": 64,
+     "leg": 2,
+     "side": "back"
+    }
+   ],
+   "pile_cap": {
+    "length_x_m": 32,
+    "width_z_m": 34,
+    "top_y_m": -28,
+    "thickness_m": 5,
+    "rounded_ends": false
+   },
+   "mirror_for_other_pylons": true,
+   "reference_images": [
+    "https://tedi.vn/wp-content/uploads/2024/12/KCCAU-NGUYEN-TRAI-2.jpg",
+    "https://tedi.vn/wp-content/uploads/2024/12/KCCAU-NGUYEN-TRAI-1.jpg"
+   ]
+  }
  },
- "notes": "No render or pylon photo found; geometry unchanged.",
+ "notes": "Round 6 (2026-11-27, research/model-review/brief-round6-nguyen-trai.md): rebuilt from the user-supplied official render, the TEDI renders and the ground-breaking stage screen.",
  "id": "cau-nguyen-trai",
  "review": [
-  "—",
-  "No change: only construction-site or no images",
-  "None usable"
+  "H placeholder, 2 planes",
+  "Three-column sail pylons; one central main-span plane on the mast, two side-span planes on the rear columns; deck 30 m with crest; pile cap",
+  "Good: user-supplied official render + 2 TEDI renders + stage screen"
  ],
  "checklist": {
   "foot below deck": "limited",
