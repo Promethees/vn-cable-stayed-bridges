@@ -958,6 +958,9 @@ REVIEW_R1["cau-long-hung"]["set"]["pylon_custom"] = {
     "reference_images": ["https://1thegioi.vn/cau-cat-lai-va-cau-long-hung-cong-nghe-gap-ngon-ngu-kien-truc-258897.html"],
 }
 del REVIEW_R1["cau-long-hung"]["pylon_custom"]
+# round 7 (G9 labels include the crest at the pylon): the drawn tip was 35 + 4.5 + 140 = 179.5 m;
+# scale the above-deck geometry so the tip lands at 175 m (175 − 35 − 4.5 = 135.5 m above the local deck)
+scale_custom(REVIEW_R1["cau-long-hung"]["set"]["pylon_custom"], 135.5 / 140)
 # keys that must reach data/bridges.json (a regression fails the build)
 EXPECT_R1 = {
     "cau-bai-chay": {"stay_colour": "yellow", "deck_crest_m": 8.0}, "cau-my-thuan": {"deck_crest_m": 6.0},
