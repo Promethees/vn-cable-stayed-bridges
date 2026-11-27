@@ -35,6 +35,10 @@ export function model3dProblems(v: unknown): string[] {
   if (v.deck_crest_m !== undefined && !(isNum(v.deck_crest_m) && v.deck_crest_m >= 0)) p.push('deck_crest_m');
   if (v.deck_elevation_m !== undefined && !(isNum(v.deck_elevation_m) && v.deck_elevation_m > 0)) p.push('deck_elevation_m');
   if (v.back_stay_planes !== undefined && v.back_stay_planes !== 1 && v.back_stay_planes !== 2) p.push('back_stay_planes');
+  if (v.back_stay_count !== undefined && !(Number.isInteger(v.back_stay_count) && (v.back_stay_count as number) >= 1 && (v.back_stay_count as number) <= 60))
+    p.push('back_stay_count');
+  if (v.back_stay_deck_m !== undefined && !(Array.isArray(v.back_stay_deck_m) && v.back_stay_deck_m.length === 2 && v.back_stay_deck_m.every((x) => isNum(x) && x >= 0)))
+    p.push('back_stay_deck_m');
   if (v.deck_section !== undefined && v.deck_section !== 'box' && v.deck_section !== 'truss') p.push('deck_section');
   if (v.deck_depth_m !== undefined && !(isNum(v.deck_depth_m) && v.deck_depth_m > 0)) p.push('deck_depth_m');
   if (v.auxiliary_piers_m !== undefined && !(Array.isArray(v.auxiliary_piers_m) && v.auxiliary_piers_m.every((x) => isNum(x) && x > 0)))

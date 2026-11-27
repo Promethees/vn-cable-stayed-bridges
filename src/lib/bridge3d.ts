@@ -544,6 +544,17 @@ export function buildBridgeGeometry(
   const deckZ = (plane: number, n: number = planes) => (n === 1 ? 0 : plane === 0 ? -hw : hw);
   // back stays split into two planes (cable_planes = 1, back_stay_planes = 2: Trần Thị Lý)
   const splitBack = planes === 1 && m.back_stay_planes === 2;
+  // G11: back sides may have their own stay count and a fixed deck-anchor range (Trần Thị Lý: 15 per plane, all
+  // converging on 181–195 m behind the pylon at abutment S1). Without the fields nothing changes.
+  const backCount = m.back_stay_count ?? perSide;
+  let backDeck: [number, number] | undefined = m.back_stay_deck_m ? [m.back_stay_deck_m[0], m.back_stay_deck_m[1]] : undefined;
+  if (backDeck && pattern === 'harp') {
+    warnings.push('back_stay_deck_m ignored for harp stays');
+    backDeck = undefined;
+  } else if (backDeck && backDeck[0] > backDeck[1]) {
+    warnings.push('back_stay_deck_m: from > to, swapped');
+    backDeck = [backDeck[1], backDeck[0]];
+  }
 
   /** anchor zone, leg curve and face offset serving a cable plane of a custom pylon */
   // per-side anchor zones (G8): when any zone names a side, stays on the main / back side use only the zones for
@@ -629,13 +640,21 @@ export function buildBridgeGeometry(
           const run = Math.abs(p.x + side * r * f1 - outer[0]);
           harp = { yLow, yTop, k: run / Math.max(1e-6, outer[1] - yd) };
         }
-        for (let j = 0; j < perSide; j++) {
-          const t = perSide === 1 ? 1 : j / (perSide - 1); // 0 = nearest the pylon
+        const n = back ? backCount : perSide;
+        for (let j = 0; j < n; j++) {
+          const t = n === 1 ? 1 : j / (n - 1); // 0 = nearest the pylon
           let top: Vec3;
           let x: number;
           if (harp) {
             top = atY(harp.yLow + (harp.yTop - harp.yLow) * t);
             x = top[0] + side * harp.k * (top[1] - yd);
+          } else if (back && backDeck) {
+            // G11: fixed back-side deck range, measured from the pylon station toward the unit end
+            const toEnd = side < 0 ? p.x : totalLength - p.x;
+            const lim = (d: number) => clamp(d, 1, Math.max(1, toEnd - 1));
+            const d0 = lim(backDeck[0]);
+            x = p.x + side * (d0 + (lim(backDeck[1]) - d0) * t);
+            top = p.custom ? customAnchor(pi, anchorPlane, t, back, zN) : atY(H * (lo + (hi - lo) * t));
           } else {
             x = p.x + side * r * (f0 + (f1 - f0) * t);
             // back-span anchors close to an auxiliary pier sit on it (the pier takes the back-stay force)

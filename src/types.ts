@@ -78,6 +78,11 @@ export interface Model3D {
   deck_elevation_m?: number;
   /** cable planes on the back side when cable_planes = 1 (2 = back stays split to the deck edges) */
   back_stay_planes?: 1 | 2;
+  /** G11: stays per plane on each back side (toward a unit end); defaults to cables_per_side */
+  back_stay_count?: number;
+  /** G11: back-side deck anchors spread linearly [from, to] metres from the pylon station toward the unit end
+   *  (t = 0 lowest pylon anchor ↔ from); no snapping to auxiliary piers; ignored for harp */
+  back_stay_deck_m?: [number, number];
   /** girder section: box (default) or a double-deck / truss girder drawn as two chords with a Warren web */
   deck_section?: 'box' | 'truss';
   /** girder depth in metres (truss: distance between the chords, default 12) */

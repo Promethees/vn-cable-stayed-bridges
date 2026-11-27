@@ -143,11 +143,14 @@ add(id="cau-bach-dang", name_vi="Cầu Bạch Đằng", name_en="Bạch Đằng 
 add(id="cau-tran-thi-ly", name_vi="Cầu Trần Thị Lý", name_en="Trần Thị Lý Bridge", status="completed",
     province="Đà Nẵng", province_former=["Đà Nẵng"], crosses="Sông Hàn",
     roads=["Đường Trần Thị Lý"], construction_start=2009, opened=2013, main_span_m=230, total_length_m=731,
-    width_m=35.5, cable_stayed_spans=1, pylons="1 inclined pylon, 145 m, leaning 12°", cost="497.7 tỷ VND (Wikipedia) / 1,709 tỷ VND (press, whole project)",
+    width_m=34.5, cable_stayed_spans=1, span_arrangement="4 × 50 + 230 m (cầu chính 430 m); toàn cầu 4×50 + 230 + 45 + 4×50 + 30 + 26 = 731 m",
+    pylons="1 inclined pylon, 145 m, leaning 12°", cost="497.7 tỷ VND (Wikipedia) / 1,709 tỷ VND (press, whole project)",
     lat=16.0504, lng=108.2300,
     images=[img(U+"2/2c/Tr%E1%BA%A7n_Th%E1%BB%8B_L%C3%BD_Bridge_at_daytime.jpg", "Tycho (shansov.net)", "CC BY-SA 3.0", C+"Tr%E1%BA%A7n_Th%E1%BB%8B_L%C3%BD_Bridge_at_daytime.jpg")],
-    sources=[W+"Trần_Thị_Lý_Bridge", LIST, "https://mia.vn/cam-nang-du-lich/cau-tran-thi-ly-da-nang-14983", "https://structurae.net/en/structures/nguyen-van-troi-tran-thi-ly-bridge"], confidence="needs_check",
-    notes="Single-pylon asymmetric cable-stayed bridge. The 230 m 'main span' (actually the cable-stayed span) comes from a travel site and the Wikipedia list. Construction start is given as 2003 (press, whole project) or 2009 (Wikipedia). Opened 29/3/2013.")
+    sources=["https://vecc.com.vn/project/cau-nguyen-van-troi-tran-thi-ly-thanh-pho-da-nang/?lang=en", "https://www.dccd.com/project/tran-thi-ly-bridge/", "https://itst.gov.vn/thanh-tuu-khcn-moi/doc-dao-cau-day-vang-ba-mat-phang/",
+             "https://danang.gov.vn/vi/w/cau-tran-thi-ly-canh-buom-cang-gio-ra-bien-lon-i", "https://vi.wikipedia.org/wiki/C%E1%BA%A7u_Tr%E1%BA%A7n_Th%E1%BB%8B_L%C3%BD",
+             W+"Trần_Thị_Lý_Bridge", LIST, "https://mia.vn/cam-nang-du-lich/cau-tran-thi-ly-da-nang-14983", "https://structurae.net/en/structures/nguyen-van-troi-tran-thi-ly-bridge"], confidence="verified",
+    notes="Single-pylon asymmetric cable-stayed bridge. The cable-stayed unit is 4 × 50 m + 230 m (430 m, S1–S6) with the pylon at S5 (VECC general elevation; DCCD: '4 side spans of the main bridge at 50 m each… main span (cable-stayed) of 230 m'; ITST). Whole bridge 731 m. Pylon 145 m above sea level, 134 m above the deck, leaning 12° west; 33 main-span stays in one central plane and 30 back stays in two planes anchored at abutment S1 (ITST). Deck 34.5 m (VECC; 35.5 m elsewhere does not add up). Navigation clearance 50 × 7 m (VECC). Construction start is given as 2003 (press, whole project) or 2009 (Wikipedia). Opened 29/3/2013.")
 
 add(id="cau-kien", name_vi="Cầu Kiền", name_en="Kiền Bridge", status="completed",
     province="Hải Phòng", province_former=["Hải Phòng"], crosses="Sông Cấm",
@@ -386,8 +389,8 @@ M3D = {
     notes="260 m main span; side spans estimated. Pylon height 101.6 m and composite steel–concrete girder per press. Pylon shape read from photos."),
  "cau-bach-dang": m3d([110, 240, 240, 110], "H", [94.5, 99.74, 94.5], "total", 2, "semi_fan", 25.0, "concrete",
     notes="110+240+240+110 per Thanh Tra / VSL ≈700 m unit (240 m client-confirmed). Pylon heights per Báo Lâm Đồng (centre ≈99.7 m, sides 94.5 m). H shape per Wikipedia. Cable planes/pattern and deck type estimated."),
- "cau-tran-thi-ly": m3d([230, 120], "single", [145], "total", 1, "fan", 35.5, "concrete",
-    notes="Single 145 m pylon leaning 12° (press). The 230 m cable-stayed span is from the press; the back span (120 m) is estimated. Single central cable plane read from photos."),
+ "cau-tran-thi-ly": m3d([200, 230], "single", [145], "total", 1, "semi_fan", 34.5, "concrete", conf="verified", cps=33,
+    notes="4 × 50 + 230 m stayed unit with the pylon at S5 (VECC, DCCD). Single 145 m pylon (134 m above deck) leaning 12° west. 33 main stays in one central plane, 2 × 15 back stays (ITST)."),
  "cau-kien": m3d([85, 200, 85], "H", [80, 80], "total", 2, "harp", 16.0,
     notes="200 m main span; harp stays per Wikipedia. Side spans, pylon shape/height and deck width estimated from photos."),
  "cau-ba-son": m3d([200, 115], "other", [113], "total", 2, "fan", 27.5, "composite",
@@ -612,6 +615,28 @@ NAV = {
 # All values were measured off side-on / oblique photos and renders, scaled with known pylon heights,
 # deck widths and spans. They are approximate ("estimated").
 CW = "https://commons.wikimedia.org/wiki/File:"
+# Trần Thị Lý (round 7, research/model-review/brief-r7-tran-thi-ly.md): leaning blade mast (leg 0) on an oval
+# S5 pier (leg 1) and a low rounded pile cap; shared by PYLON, the shape file and REVIEW_R1.
+TTL_PYLON = {
+    "description": "Single straight RC blade on the deck centreline at pier S5, leaning 12° west (back, away from the 230 m span); V-section tapering from ≈11 m deep along the bridge at deck level to ≈4.5 m at the flat top (glass lantern, 134 m above deck). Rigid with the deck, seated on a wide oval pier and pile cap at the waterline. Main span: one central plane of 33 white stays anchored 48–126 m up the mast. Back side: 2 × 15 red stays from the mast faces (68–126 m) to the two deck edges, all converging on the last ≈15 m of deck at abutment S1 (≈181–195 m behind the pylon) — the twisted red 'sail'.",
+    "legs": [
+        {"centerline": [[0.4, -2, 0], [-13.8, 65, 0], [-28.5, 134, 0]],
+         "width_base_m": 6, "width_top_m": 4, "depth_base_m": 11, "depth_top_m": 4.5},
+        {"centerline": [[0, -10.5, 0], [0, -6, 0], [0, -2, 0]],
+         "width_base_m": 12, "width_top_m": 12, "depth_base_m": 15, "depth_top_m": 15},
+    ],
+    "anchor_zone": [
+        {"y_from_m": 48, "y_to_m": 126, "leg": 0, "side": "main"},
+        {"y_from_m": 68, "y_to_m": 126, "leg": 0, "side": "back"},
+    ],
+    "pile_cap": {"length_x_m": 22, "width_z_m": 30, "top_y_m": -10.5, "thickness_m": 3, "rounded_ends": True},
+    "reference_images": [
+        "https://vecc.com.vn/project/cau-nguyen-van-troi-tran-thi-ly-thanh-pho-da-nang/?lang=en (general elevation)",
+        "https://commons.wikimedia.org/wiki/File:Tran_Thi_Ly_Br%C3%BCcke.jpeg",
+        "https://commons.wikimedia.org/wiki/File:Tr%E1%BA%A7n_Th%E1%BB%8B_L%C3%BD_Bridge_at_daytime.jpg",
+        "https://commons.wikimedia.org/wiki/File:C%E1%BA%A7u_Tr%E1%BA%A7n_Th%E1%BB%8B_L%C3%BD.jpeg",
+    ],
+}
 PYLON = {
  "cau-ba-son": {
     "description": "Single pointed-arch pylon (two legs straddling the deck, curving inward and meeting at the tip, like an inverted 'U'/dragon spine). The whole arch is curved in elevation and leans BACK, away from the 200 m main span, toward the Thủ Thiêm back span. The main-span stays fan from the upper arch to both deck edges; a smaller set of back-stays anchors in the 115 m back span.",
@@ -632,14 +657,7 @@ PYLON = {
     "mirror_for_other_pylons": True,
     "reference_images": [CW + "4am_view_of_Nhat_Tan_Bridge_in_Hanoi.jpg", CW + "Cau_Nhat_Tan,_Ha_Noi,_VN_02.jpg"],
  },
- "cau-tran-thi-ly": {
-    "description": "Single straight concrete mast leaning ~12° back, away from the 230 m cable-stayed span ('sail' shape). One central cable plane fans from the upper mast to the deck centreline on the main-span side; red back-stays run from the same zone down to the back span / ground anchorage.",
-    "legs": [
-        {"centerline": [[0, -8, 0], [-10, 40, 0], [-20, 88, 0], [-27, 120, 0]], "width_base_m": 6.0, "width_top_m": 2.5, "depth_base_m": 5.0, "depth_top_m": 2.0},
-    ],
-    "anchor_zone": [{"y_from_m": 55, "y_to_m": 118, "leg": 0}],
-    "reference_images": [CW + "Trần_Thị_Lý_Bridge_at_daytime.jpg", CW + "Trần_Thị_Lý_Bridge,_Da_Nang.jpg"],
- },
+ "cau-tran-thi-ly": TTL_PYLON,
  "cau-tu-lien": {
     # Client feedback on the official render (11/2026). Pylon-local frame: x along the bridge (+ toward the
     # main span), y up from deck (water ≈ -45 m), z across (deck edges at ±21.5 m).
@@ -862,8 +880,16 @@ REVIEW_R1 = {
     "cau-bach-dang": {"scale_y": 0.74, "set": {"cables_per_side": 12, "pylon_colour": "grey", "stay_colour": "orange"},
         "pylon_custom": {"crossbeams_y_m": [-3, 22], "anchor_zone": [{"y_from_m": 28, "y_to_m": 45, "leg": 0}, {"y_from_m": 28, "y_to_m": 45, "leg": 1}]},
         "note": "Pylons ≈43–46 m above a deck ≈52 m above water (crown +99.74 / +94.5 m); beam at ≈50% of the above-deck height; 48 stay bundles per pylon (baolamdong). Per-pylon heights scale the custom pylon (centre taller)."},
-    "cau-tran-thi-ly": {"set": {"back_stay_planes": 2},
-        "note": "Main-span stays in one central plane; back stays split into two planes to the deck edges (VECC 'triple-plane', CafeF)."},
+    "cau-tran-thi-ly": {"set": {"spans_m": [200, 230], "auxiliary_piers_m": [50, 100, 150], "pylon_shape": "single",
+                                "pylon_heights_m": [145], "pylon_height_ref": "total", "deck_elevation_m": 11,
+                                "deck_width_m": 34.5, "deck_type": "concrete", "cable_planes": 1, "back_stay_planes": 2,
+                                "cable_pattern": "semi_fan", "cables_per_side": 33, "back_stay_count": 15, "back_stay_deck_m": [181, 195],
+                                "pylon_colour": "white", "stay_colour": "white", "back_stay_colour": "red", "confidence": "verified",
+                                "pylon_custom": TTL_PYLON},
+        "nav": nav(7, 50, "navigation clearance BxH = 50 × 7 m", "https://vecc.com.vn/project/cau-nguyen-van-troi-tran-thi-ly-thanh-pho-da-nang/?lang=en"),
+        "bridge": {"pylons": "1 tháp BTCT nghiêng 12° về phía Tây, tiết diện chữ V, cao 145 m (134 m trên mặt cầu); dây văng 3 mặt phẳng: 33 dây nhịp chính (1 mặt phẳng giữa), 30 dây neo sau màu đỏ (2 mặt phẳng) hội tụ về mố S1",
+                   "pylons_en": "1 RC pylon leaning 12° west, V-section, 145 m (134 m above deck); three stay planes: 33 main-span stays in one central plane, 30 red back stays in two planes converging on abutment S1"},
+        "note": "Round 7 (brief-r7-tran-thi-ly.md): geometry from the VECC general elevation; back stays use G11 (back_stay_count 15, back_stay_deck_m 181–195)."},
     "cau-kien": {"set": {"cables_per_side": 9, "deck_width_m": 16.7}, "note": "36 stay pairs = 9 per side per plane; deck 16.7 m (vi.wikipedia)."},
     "cau-ba-son": {"scale_y": 0.92, "set": {"cables_per_side": 14}, "note": "56 stay bundles = 14 per side per plane; 113 m (vi.wikipedia)."},
     "cau-may-chai": {"set": {"cable_pattern": "harp"}, "note": "Harp stays ('dây văng kiểu đàn hạc', baohaiphong / congly)."},
@@ -924,7 +950,10 @@ del REVIEW_R1["cau-long-hung"]["pylon_custom"]
 EXPECT_R1 = {
     "cau-bai-chay": {"stay_colour": "yellow", "deck_crest_m": 8.0}, "cau-my-thuan": {"deck_crest_m": 6.0},
     "cau-bach-dang": {"stay_colour": "orange"}, "cau-rach-mieu": {"stay_colour": "orange"},
-    "cau-tran-thi-ly": {"pylon_colour": "white", "stay_colour": "white", "back_stay_colour": "red", "back_stay_planes": 2},
+    "cau-tran-thi-ly": {"pylon_colour": "white", "stay_colour": "white", "back_stay_colour": "red", "back_stay_planes": 2,
+                        "spans_m": [200, 230], "auxiliary_piers_m": [50, 100, 150], "deck_elevation_m": 11, "deck_width_m": 34.5,
+                        "cable_pattern": "semi_fan", "cables_per_side": 33, "back_stay_count": 15, "back_stay_deck_m": [181, 195],
+                        "confidence": "verified"},
     "cau-cua-hoi": {"pylon_colour": "white", "stay_colour": "red"}, "cau-ben-rung": {"pylon_colour": "white", "stay_colour": "red"},
     "cau-thuan-an": {"pylon_colour": "white", "stay_colour": "red", "deck_elevation_m": 40},
     "cau-rach-mieu-2": {"auxiliary_piers_m": [60, 460]}, "cau-can-tho": {"auxiliary_piers_m": [40, 80, 930, 970], "cables_per_side": 27},
@@ -1033,6 +1062,16 @@ for b in B:
         assert len(pc["legs"]) == 3 and pc["crossbeams_y_m"] == [-4, 22, 42, 60], pc
         assert [(z["leg"], z["side"]) for z in pc["anchor_zone"]] == [(1, "main"), (0, "back"), (2, "back")], pc
         assert pc["pile_cap"]["top_y_m"] == -28 and b["lanes"] == 6
+    if b["id"] == "cau-tran-thi-ly":  # round 7: 4×50 + 230 unit, leaning blade at S5, back stays converging on S1 (G11)
+        pc = m["pylon_custom"]
+        assert m["spans_m"] == [200, 230] and m["auxiliary_piers_m"] == [50, 100, 150], m
+        assert m["cable_planes"] == 1 and m["back_stay_planes"] == 2 and m["cables_per_side"] == 33, m
+        assert m["back_stay_count"] == 15 and m["back_stay_deck_m"] == [181, 195] and m["deck_elevation_m"] == 11, m
+        assert pc["legs"][0]["centerline"][-1] == [-28.5, 134, 0] and pc["legs"][0]["depth_base_m"] == 11, pc
+        assert [(z["leg"], z["side"], z["y_from_m"], z["y_to_m"]) for z in pc["anchor_zone"]] == [(0, "main", 48, 126), (0, "back", 68, 126)], pc
+        assert pc["pile_cap"]["top_y_m"] == -10.5 and b["width_m"] == 34.5 and b["confidence"] == "verified", b["id"]
+        assert b["nav_clearance"]["height_m"] == 7 and b["nav_clearance"]["width_m"] == 50, b["nav_clearance"]
+        assert "120 m" not in m.get("notes", "") and "Geometry unchanged" not in m.get("notes", ""), m["notes"]
     if b["id"] == "cau-ben-rung":     # round 5: foundation (pile cap + columns), 22 m deck, 25° blades, 12 stays
         pc = m["pylon_custom"]
         assert m["deck_elevation_m"] == 22 and m["cables_per_side"] == 12 and m["cable_pattern"] == "semi_fan", m
