@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { Model3D } from '../types';
-import { buildBridgeGeometry, choosePylonSupports, deckElevation, defaultCablesPerSide, stayLightness } from './bridge3d';
+import { buildBridgeGeometry, choosePylonSupports, deckElevation, defaultCablesPerSide, pileCapMesh, stayLightness } from './bridge3d';
 
 const base: Model3D = {
   spans_m: [150, 550, 150],
@@ -591,5 +591,66 @@ describe('model review round 1: deck elevation, harp, back-stay planes, per-pylo
     expect(stayLightness(0.4, false)).toBe(0.4);
     expect(stayLightness(0.2, true)).toBe(0.45);
     expect(stayLightness(0.9, true)).toBe(0.9);
+  });
+});
+
+describe('pile caps (pylon_custom.pile_cap)', () => {
+  const ext = (pos: number[]) => {
+    const r = { x: [Infinity, -Infinity], y: [Infinity, -Infinity], z: [Infinity, -Infinity] };
+    for (let i = 0; i < pos.length; i += 3)
+      (['x', 'y', 'z'] as const).forEach((k, a) => {
+        r[k][0] = Math.min(r[k][0], pos[i + a]);
+        r[k][1] = Math.max(r[k][1], pos[i + a]);
+      });
+    return r;
+  };
+  it('box and stadium prisms span the given extents, with valid indices', () => {
+    for (const rounded of [false, true]) {
+      const m = pileCapMesh(20, 32, -25, -20, rounded);
+      const e = ext(m.positions);
+      expect(e.x[0]).toBeCloseTo(-10, 6);
+      expect(e.x[1]).toBeCloseTo(10, 6);
+      expect(e.z[0]).toBeCloseTo(-16, 6);
+      expect(e.z[1]).toBeCloseTo(16, 6);
+      expect(e.y).toEqual([-25, -20]);
+      expect(Math.max(...m.indices)).toBeLessThan(m.positions.length / 3);
+      expect(m.indices.length % 3).toBe(0);
+    }
+    // stadium: the ±z ends are semicircles, so a corner point (x = ±L/2, z = ±W/2) is not part of the outline
+    const st = pileCapMesh(20, 32, -25, -20, true).positions;
+    let corner = false;
+    for (let i = 0; i < st.length; i += 3) if (Math.abs(Math.abs(st[i]) - 10) < 1e-6 && Math.abs(Math.abs(st[i + 2]) - 16) < 1e-6) corner = true;
+    expect(corner).toBe(false);
+  });
+
+  it('drawn at every custom pylon in the pylon frame, included in the bounds; plain pylons have none', () => {
+    const g = build({
+      spans_m: [90, 160, 160, 90],
+      pylon_heights_m: [18, 18, 18],
+      deck_elevation_m: 22,
+      deck_width_m: 21.5,
+      pylon_custom: {
+        description: 'columns on a cap',
+        legs: [
+          { centerline: [[0, -20, -11], [0, 0, -12], [0, 18, -20]], width_base_m: 2.5, width_top_m: 2, depth_base_m: 5, depth_top_m: 5.5 },
+          { centerline: [[0, -20, 11], [0, 0, 12], [0, 18, 20]], width_base_m: 2.5, width_top_m: 2, depth_base_m: 5, depth_top_m: 5.5 },
+        ],
+        pile_cap: { length_x_m: 20, width_z_m: 32, top_y_m: -20, thickness_m: 5, rounded_ends: true },
+        anchor_zone: [
+          { y_from_m: 6, y_to_m: 17, leg: 0 },
+          { y_from_m: 6, y_to_m: 17, leg: 1 },
+        ],
+      },
+    });
+    expect(g.pylons.every((p) => p.caps.length === 1)).toBe(true);
+    for (const p of g.pylons) {
+      const e = ext(p.caps[0].positions);
+      expect(e.y[1]).toBeCloseTo(2, 6); // 22 m deck, top 20 m below it
+      expect(e.y[0]).toBeCloseTo(-3, 6);
+      expect(e.x[0]).toBeCloseTo(p.x - 10, 6);
+      expect(e.x[1]).toBeCloseTo(p.x + 10, 6);
+    }
+    expect(g.bounds.max[2]).toBeGreaterThanOrEqual(16 - 1e-6);
+    expect(build({}).pylons.every((p) => p.caps.length === 0)).toBe(true);
   });
 });

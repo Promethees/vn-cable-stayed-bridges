@@ -1022,6 +1022,15 @@ for b in B:
         assert [l["depth_base_m"] for l in legs[:4]] == [10.0, 10.0, 4.5, 4.5], legs
         assert legs[2]["width_base_m"] == 10.0 and legs[2]["width_top_m"] == 1.0, legs[2]
         assert [z["leg"] for z in m["pylon_custom"]["anchor_zone"]] == [2, 3]
+    if b["id"] == "cau-ben-rung":     # round 5: foundation (pile cap + columns), 22 m deck, 25° blades, 12 stays
+        pc = m["pylon_custom"]
+        assert m["deck_elevation_m"] == 22 and m["cables_per_side"] == 12 and m["cable_pattern"] == "semi_fan", m
+        assert pc["pile_cap"]["top_y_m"] == -20 and pc["pile_cap"]["rounded_ends"] is True, pc
+        assert all(l["centerline"][0][1] == pc["pile_cap"]["top_y_m"] for l in pc["legs"]), "columns stand on the cap"
+        assert m["pylon_colour"] == "white" and m["stay_colour"] == "red"
+    if "pylon_custom" in m and "pile_cap" in m["pylon_custom"]:
+        c = m["pylon_custom"]["pile_cap"]
+        assert min(c["length_x_m"], c["width_z_m"], c["thickness_m"]) > 0 and c["top_y_m"] <= 0, b["id"]
     aux = m.get("auxiliary_piers_m", [])
     assert all(0 < x < sum(m["spans_m"]) for x in aux), b["id"]
 

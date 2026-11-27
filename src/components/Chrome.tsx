@@ -1,7 +1,11 @@
 import { FILTER_USAGES, STATUSES, type Status, type Usage } from '../types';
 import { STATUS_LABEL, STRINGS, USAGE_LABEL, type Lang } from '../lib/i18n';
 import { pylonSvg } from '../lib/status';
+import { useState } from 'react';
+import { readStored, writeStored } from '../lib/hooks';
 import { Chevron, PylonGlyph, UsageIcon } from './Glyph';
+
+const LEGEND_STORAGE_KEY = 'legend';
 
 export function Header({
   lang,
@@ -66,9 +70,33 @@ export function Legend({
   isSample: boolean;
 }) {
   const t = STRINGS[lang];
+  const [open, setOpen] = useState(() => readStored(LEGEND_STORAGE_KEY, ['open', 'closed'] as const) !== 'closed');
+  const toggleOpen = () => {
+    setOpen((o) => {
+      writeStored(LEGEND_STORAGE_KEY, o ? 'closed' : 'open');
+      return !o;
+    });
+  };
+  const filtered = active.size < STATUSES.length || activeUsage.size < FILTER_USAGES.length;
   return (
-    <section className="legend" aria-labelledby="legend-title">
-      <h2 id="legend-title">{t.statusTitle}</h2>
+    <section className={`legend${open ? '' : ' is-collapsed'}`} aria-labelledby="legend-title">
+      <h2 id="legend-title" className="legend-heading">
+        <button
+          type="button"
+          className="legend-toggle"
+          aria-expanded={open}
+          aria-controls="legend-body"
+          title={open ? t.legendCollapse : t.legendExpand}
+          onClick={toggleOpen}
+        >
+          <span className="legend-toggle-label">{t.statusTitle}</span>
+          {!open && filtered && <span className="legend-filtered">{t.legendFiltered}</span>}
+          <span className="legend-chevron" aria-hidden="true">
+            <Chevron />
+          </span>
+        </button>
+      </h2>
+      <div id="legend-body" className="legend-body" hidden={!open}>
       <div className="legend-items" role="group" aria-labelledby="legend-title">
         {STATUSES.map((s) => (
           <button
@@ -100,6 +128,7 @@ export function Legend({
         {t.filterFootnote}
         {isSample && <> · {t.sampleNote}</>}
       </p>
+      </div>
     </section>
   );
 }

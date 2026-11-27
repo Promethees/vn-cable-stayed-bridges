@@ -85,6 +85,20 @@ export function pylonCustomProblems(v: unknown): string[] {
   )
     p.push('struts');
   if (v.reference_images !== undefined && !isStrArr(v.reference_images)) p.push('reference_images');
+  if (v.pile_cap !== undefined) {
+    const c = v.pile_cap;
+    const pos = (x: unknown) => isNum(x) && x > 0;
+    if (
+      !isObj(c) ||
+      !pos(c.length_x_m) ||
+      !pos(c.width_z_m) ||
+      !pos(c.thickness_m) ||
+      !isNum(c.top_y_m) ||
+      c.top_y_m > 0 ||
+      (c.rounded_ends !== undefined && typeof c.rounded_ends !== 'boolean')
+    )
+      p.push('pile_cap');
+  }
   return p;
 }
 

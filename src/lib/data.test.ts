@@ -170,6 +170,34 @@ describe.each(files)('%s', (file) => {
       for (const mb of p.members) expect(Math.max(mb.a[1], mb.b[1]) <= 2.5 || Math.min(mb.a[1], mb.b[1]) > g.deckElevation - 15).toBe(true);
   });
 
+  it('Bến Rừng (round 5): every pylon stands on a pile cap at the waterline; columns, 22 m deck, ≈25° blades, 12 stays', () => {
+    const b = bridges.find((x) => x.id === 'cau-ben-rung');
+    if (!b?.model3d) return; // sample data
+    const g = buildBridgeGeometry(b.model3d, b.status, { navClearance: b.nav_clearance })!;
+    expect(g.deckElevation).toBe(22);
+    expect(g.deckElevation - g.deckDepth).toBeGreaterThan(11); // 11 m navigation clearance
+    expect(g.pylons).toHaveLength(3);
+    for (const p of g.pylons) {
+      expect(p.caps).toHaveLength(1);
+      let top = -Infinity;
+      for (let i = 1; i < p.caps[0].positions.length; i += 3) top = Math.max(top, p.caps[0].positions[i]);
+      expect(Math.abs(top)).toBeLessThanOrEqual(3); // cap top within ±3 m of the waterline
+      // the legs reach down to the cap (no floating pylon)
+      let legBottom = Infinity;
+      for (const sw of p.sweeps) for (let i = 1; i < sw.positions.length; i += 3) legBottom = Math.min(legBottom, sw.positions[i]);
+      expect(legBottom).toBeLessThanOrEqual(top + 0.5);
+    }
+    // blades lean out ≈25° from vertical above the deck
+    const leg = b.model3d.pylon_custom!.legs[1].centerline;
+    const [, y0, z0] = leg[3];
+    const [, y1, z1] = leg[leg.length - 1];
+    const lean = (Math.atan2(z1 - z0, y1 - y0) * 180) / Math.PI;
+    expect(lean).toBeGreaterThan(22);
+    expect(lean).toBeLessThan(28);
+    expect(g.cablesPerSide).toBe(12);
+    expect(g.pattern).toBe('semi_fan');
+  });
+
   it('model3d has only schema keys, and harp bridges draw parallel stays (within 2°)', () => {
     const KEYS = new Set([
       'spans_m', 'pylon_shape', 'pylon_heights_m', 'pylon_height_ref', 'cable_planes', 'cable_pattern', 'cables_per_side',

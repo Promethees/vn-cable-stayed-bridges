@@ -360,6 +360,8 @@ export class BridgeEngine {
     g.pylons.forEach((p) => {
       p.members.forEach((mb) => this.member(mb, pylonMat));
       p.sweeps.forEach((sw) => this.sweep(sw, pylonMat));
+      // footings read as plain concrete even when the pylon is coloured
+      p.caps.forEach((sw) => this.sweep(sw, M.concrete));
     });
     g.travellers.forEach((b) => this.box(b, M.traveller));
     void E;

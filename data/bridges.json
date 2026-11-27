@@ -2882,8 +2882,8 @@
     "width_m": 21.5,
     "cable_stayed_spans": 2,
     "span_arrangement": "90 + 2 × 160 + 90 m",
-    "pylons": "3 cặp tháp lưỡi chữ V (extradosed), dây văng đỏ",
-    "pylons_en": "3 pairs of V-blade pylons (extradosed), red stays",
+    "pylons": "3 trụ tháp chữ V (extradosed): hai cột trên bệ móng, phía trên mặt cầu thành hai lưỡi nghiêng ra ngoài ≈25°, dây văng đỏ",
+    "pylons_en": "3 V-shaped pylon piers (extradosed): two columns on a pile cap, continuing above the deck as blades leaning out ≈25°, red stays",
     "cost": "1,941 tỷ VND",
     "nav_clearance": {
       "height_m": 11,
@@ -2906,62 +2906,127 @@
       ],
       "pylon_height_ref": "above_deck",
       "cable_planes": 2,
-      "cable_pattern": "harp",
+      "cable_pattern": "semi_fan",
       "deck_width_m": 21.5,
       "deck_type": "concrete",
       "extradosed": true,
       "confidence": "estimated",
-      "notes": "Extradosed 90+2×160+90 m (press). Three pairs of red V-shaped low pylons ('V – Victory'). Pylon height above deck estimated from photos (≈18 m). Colour: white blades with red inner face; red stays. Confirmed by the VTC aerial.",
+      "notes": "Extradosed 90+2×160+90 m, 21.5 m concrete box (CONINCO, Hải Phòng portal). Three 'V – Victory' pylon piers. Round 5 (2026-11-27, research/model-review/brief-round5-ben-rung.md): foundation added (pile cap ≈20 × 32 × 5 m at the waterline, two near-vertical columns under the deck edges with a tie beam and an under-deck crossbeam); blades lean ≈25° outward (VnExpress / Tuổi Trẻ: tower inclined ≈65° from horizontal); deck ≈22 m above water at the pylons, blade sizes, 12 stays per side per blade and the semi-fan pattern estimated from the Tuổi Trẻ / VTC / VnExpress photos (7/2024). Pylon height above deck ≈18 m (estimated). Colour: white blades with red inner face; red stays. Confirmed by the VTC aerial. Round 5: foundation and V proportions corrected from photos.",
       "pylon_custom": {
-        "description": "At each of the 3 pylon piers, two separate flat 'blade' posts stand at the deck edges and lean OUTWARD, forming a V in cross-section (the 'V – Victory' motif), white with a red inner face. Short extradosed stays (red) in two planes run from each blade to the deck edge.",
+        "description": "Bến Rừng 'V – Victory' pier: two near-vertical columns stand on a large pile cap at the waterline, joined by a tie beam at mid-height and a crossbeam under the girder. Above the deck each column continues as a flat blade leaning outward about 25°, white with a red inner face, carrying a short fan of red extradosed stays to its deck edge.",
         "legs": [
           {
             "centerline": [
               [
                 0,
-                -2,
-                -10.5
+                -20,
+                -11
               ],
               [
                 0,
-                8,
-                -12.5
+                -10,
+                -11
+              ],
+              [
+                0,
+                -3,
+                -11.2
+              ],
+              [
+                0,
+                0,
+                -12.2
+              ],
+              [
+                0,
+                9,
+                -16.4
               ],
               [
                 0,
                 18,
-                -15
+                -20.6
               ]
             ],
-            "width_base_m": 2.0,
-            "width_top_m": 3.5,
-            "depth_base_m": 2.0,
-            "depth_top_m": 1.2
+            "width_base_m": 2.5,
+            "width_top_m": 2.0,
+            "depth_base_m": 5.0,
+            "depth_top_m": 5.5
           },
           {
             "centerline": [
               [
                 0,
-                -2,
-                10.5
+                -20,
+                11
               ],
               [
                 0,
-                8,
-                12.5
+                -10,
+                11
+              ],
+              [
+                0,
+                -3,
+                11.2
+              ],
+              [
+                0,
+                0,
+                12.2
+              ],
+              [
+                0,
+                9,
+                16.4
               ],
               [
                 0,
                 18,
-                15
+                20.6
               ]
             ],
-            "width_base_m": 2.0,
-            "width_top_m": 3.5,
-            "depth_base_m": 2.0,
-            "depth_top_m": 1.2
+            "width_base_m": 2.5,
+            "width_top_m": 2.0,
+            "depth_base_m": 5.0,
+            "depth_top_m": 5.5
           }
         ],
+        "struts": [
+          {
+            "a": [
+              0,
+              -11,
+              -11
+            ],
+            "b": [
+              0,
+              -11,
+              11
+            ],
+            "width": 2.0
+          },
+          {
+            "a": [
+              0,
+              -4.5,
+              -11.2
+            ],
+            "b": [
+              0,
+              -4.5,
+              11.2
+            ],
+            "width": 3.0
+          }
+        ],
+        "pile_cap": {
+          "length_x_m": 20,
+          "width_z_m": 32,
+          "top_y_m": -20,
+          "thickness_m": 5,
+          "rounded_ends": true
+        },
         "anchor_zone": [
           {
             "y_from_m": 6,
@@ -2976,9 +3041,13 @@
         ],
         "mirror_for_other_pylons": true,
         "reference_images": [
-          "https://cdn-i.vtcnews.vn/resize/1200x900//upload/2024/07/16/cau-ben-rung-truoc-ngay-thong-cau-5-10294993.jpg"
+          "https://cdn-i.vtcnews.vn/resize/1200x900//upload/2024/07/16/cau-ben-rung-truoc-ngay-thong-cau-5-10294993.jpg",
+          "https://iv1.vnecdn.net/vnexpress/images/web/2024/07/14/toan-canh-cau-ben-rung-1720935309.jpg?w=0&h=0&q=100&dpr=1&fit=crop&s=LTLqha5atJPnU9GbTxRRTw",
+          "https://cdn2.tuoitre.vn/tcdulichtphcm/media/upload/3-2024/images/2024-07-17/1721215597-h--nh----nh-10-1721215549-262-width1192height669.jpg"
         ]
       },
+      "deck_elevation_m": 22,
+      "cables_per_side": 12,
       "pylon_colour": "white",
       "stay_colour": "red"
     },
@@ -4478,7 +4547,7 @@
       "pylon_colour": "white",
       "stay_colour": "white",
       "confidence": "estimated",
-      "notes": "Spans 120 + 270 + 270 + 120 m, 35 m concrete box girder (Báo Đấu thầu, Dân Việt, TEDI). 'Cánh chim Hòa bình' V pylons from the TEDI renders (CTC_1–3) and the 2025 ground-breaking render; one pier per pylon with two diverging blade cages (Soha / VTC photos 11/2026). Heights 70 / 80 / 70 m above deck (centre ≈10 m taller; press 102–107 m total), deck ≈25 m above water, 13 stays per side per plane and the 3 m crest are estimated from the renders. Round 2 (2026-11-27): redesigned from the official spans and the TEDI 'Cánh chim Hòa bình' renders; see research/model-review/brief-round2-thuong-cat.md. Round 2b (2026-11-27): blade proportions corrected per research/model-review/feedback-round2.md (slender band in elevation flaring below the deck, wide wing across the bridge, low pile cap, curved under-deck beam, 13 stays). Round 3: blades slimmed along the bridge (flare 10 → 4.5 m, blade 4.5 → 3 m, beam 4.5 m) and a stronger outward flick at the tips (feedback-round3.md).",
+      "notes": "Spans 120 + 270 + 270 + 120 m, 35 m concrete box girder (Báo Đấu thầu, Dân Việt, TEDI). 'Cánh chim Hòa bình' V pylons from the TEDI renders (CTC_1–3) and the 2025 ground-breaking render; one pier per pylon with two diverging blade cages (Soha / VTC photos 11/2026). Heights 70 / 80 / 70 m above deck (centre ≈10 m taller; press 102–107 m total), deck ≈25 m above water, 13 stays per side per plane and the 3 m crest are estimated from the renders. Round 2 (2026-11-27): redesigned from the official spans and the TEDI 'Cánh chim Hòa bình' renders; see research/model-review/brief-round2-thuong-cat.md. Round 2b (2026-11-27): blade proportions corrected per research/model-review/feedback-round2.md (slender band in elevation flaring below the deck, wide wing across the bridge, low pile cap, curved under-deck beam, 13 stays). Round 3: blades slimmed along the bridge (flare 10 → 4.5 m, blade 4.5 → 3 m, beam 4.5 m) and a stronger outward flick at the tips (feedback-round3.md). Round 5: the pile cap uses the new pylon_custom.pile_cap (same 24 × 24 × 4 m block, now plain concrete).",
       "pylon_custom": {
         "description": "Dove-wing V pylon: two separate blades rise from one low pile cap and lean outward about 12°, curving slightly and flicking outward near the tip. In elevation each blade is a slender band (≈4.5 m wide, ≈3 m at the blunt top) flaring to ≈10 m at the waterline. Seen along the deck, each blade is a wide wing (≈10 m at deck level) tapering to a pointed tip. Stays anchor between ≈0.4 and 0.8 of the height; the top ≈20% is bare. A curved 'bird body' beam joins the blades under the deck; nothing above it. The centre pylon is about 10 m taller.",
         "legs": [
@@ -4650,27 +4719,18 @@
             "leg": 3
           }
         ],
-        "struts": [
-          {
-            "a": [
-              0,
-              -27,
-              0
-            ],
-            "b": [
-              0,
-              -23,
-              0
-            ],
-            "width": 24.0
-          }
-        ],
         "mirror_for_other_pylons": true,
         "reference_images": [
           "https://tedi.vn/wp-content/uploads/2024/08/CTC_1-scaled.jpg",
           "https://tedi.vn/wp-content/uploads/2024/08/CTC_2-scaled.jpg",
           "https://cdn-images.vtv.vn/thumb_w/1200/66349b6076cb4dee98746cf1/2025/10/08/package-media-65167276296726888939424-67085770528280992016896.png"
-        ]
+        ],
+        "pile_cap": {
+          "length_x_m": 24,
+          "width_z_m": 24,
+          "top_y_m": -23,
+          "thickness_m": 4
+        }
       }
     },
     "lat": 21.103,

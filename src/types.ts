@@ -32,9 +32,21 @@ export interface PylonCustom {
   crown?: 'pointed' | 'rounded' | 'flat';
   /** extra straight members (pylon-local frame), e.g. a strut under the side span */
   struts?: { a: [number, number, number]; b: [number, number, number]; width: number }[];
+  /** foundation block at the foot of every pylon (pylon-local frame), drawn in plain concrete */
+  pile_cap?: PileCap;
   anchor_zone: { y_from_m: number; y_to_m: number; leg: number }[];
   mirror_for_other_pylons?: boolean;
   reference_images?: string[];
+}
+
+/** Pile cap / footing: x ∈ ±length/2, z ∈ ±width/2, y ∈ [top − thickness, top] (y up from deck). */
+export interface PileCap {
+  length_x_m: number;
+  width_z_m: number;
+  top_y_m: number;
+  thickness_m: number;
+  /** stadium plan: semicircular ends (diameter = length_x_m) on the ±z ends */
+  rounded_ends?: boolean;
 }
 
 /** Tĩnh không thông thuyền. */

@@ -102,6 +102,11 @@ interface PylonCustom {
   crossbeams_y_m?: number[];               // heights of cross-beams between legs
   crown?: "pointed" | "rounded" | "flat";  // legs whose tips meet: sharp apex (default), smooth arch, or a flat head beam
   struts?: { a: [number, number, number]; b: [number, number, number]; width: number }[]; // extra straight members
+  pile_cap?: {                             // foundation block at the foot of every pylon (same local frame), drawn in plain
+    length_x_m: number; width_z_m: number; //   concrete whatever pylon_colour is. x ∈ ±length/2, z ∈ ±width/2,
+    top_y_m: number; thickness_m: number;  //   y ∈ [top − thickness, top] (top ≤ 0; the waterline is y = −deck elevation)
+    rounded_ends?: boolean;                //   stadium plan: semicircular ends (diameter = length_x_m) on the ±z ends
+  };
   anchor_zone: { y_from_m: number; y_to_m: number; leg: number }[]; // where stays attach on each leg
   mirror_for_other_pylons?: boolean;       // multi-pylon bridges: reuse mirrored
   reference_images?: string[];             // URLs used to derive the shape

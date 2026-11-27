@@ -40,6 +40,8 @@ export interface Pylon {
   /** swept meshes for custom (pylon_custom) pylons */
   sweeps: SweepMesh[];
   custom: boolean;
+  /** pile caps / footings (pylon_custom.pile_cap), drawn in plain concrete */
+  caps: SweepMesh[];
 }
 
 export interface Cable {
@@ -166,6 +168,40 @@ export function choosePylonSupports(spans: number[], k: number, warn?: (msg: str
  * light theme (white stays read as light grey), at least 0.45 in the dark theme.
  */
 export const stayLightness = (l: number, dark: boolean) => (dark ? Math.max(0.45, l) : Math.min(0.7, l));
+
+/**
+ * Pile-cap prism in a local frame: x ∈ ±L/2, z ∈ ±W/2, y ∈ [y0, y1]. With `rounded`, the plan is a stadium whose
+ * semicircular ends (diameter L) sit on the ±z ends (W is clamped to at least L).
+ */
+export function pileCapMesh(L: number, W: number, y0: number, y1: number, rounded = false, seg = 12): SweepMesh {
+  const r = L / 2;
+  const outline: [number, number][] = []; // (x, z), one closed loop in plan
+  if (rounded) {
+    const c = Math.max(0, W / 2 - r);
+    // -z end: x from +r to -r around (0, -c); +z end: x from -r to +r around (0, c)
+    for (let k = 0; k <= seg; k++) {
+      const t = (Math.PI * k) / seg;
+      outline.push([r * Math.cos(t), -c - r * Math.sin(t)]);
+    }
+    for (let k = 0; k <= seg; k++) {
+      const t = Math.PI + (Math.PI * k) / seg;
+      outline.push([r * Math.cos(t), c - r * Math.sin(t)]);
+    }
+  } else
+    outline.push([-r, -W / 2], [r, -W / 2], [r, W / 2], [-r, W / 2]);
+  const n = outline.length;
+  const positions: number[] = [];
+  for (const y of [y0, y1]) for (const [x, z] of outline) positions.push(x, y, z);
+  positions.push(0, y0, 0, 0, y1, 0); // centres for the fan-triangulated bottom / top
+  const indices: number[] = [];
+  for (let i = 0; i < n; i++) {
+    const j = (i + 1) % n;
+    indices.push(i, j, n + j, i, n + j, n + i);
+    indices.push(2 * n, j, i); // bottom
+    indices.push(2 * n + 1, n + i, n + j); // top
+  }
+  return { positions, indices };
+}
 
 /** Default stays per pylon per side per plane (§2). */
 export const defaultCablesPerSide = (reach: number) => clamp(Math.round(reach / 12), 6, 24);
@@ -409,7 +445,20 @@ export function buildBridgeGeometry(
     for (let k = 0; k + 1 < flatCuts.length; k++)
       crownMembers.push({ a: flatCuts[k], b: flatCuts[k + 1], size: Math.max(1.5, legs[0].w1) });
     const struts: Member[] = (custom.struts ?? []).map((st) => ({ a: toStation(st.a), b: toStation(st.b), size: st.width }));
-    return Object.assign(legs, { extra: [...crownMembers, ...struts] });
+    const caps: SweepMesh[] = [];
+    if (custom.pile_cap) {
+      const pc = custom.pile_cap;
+      const mesh = pileCapMesh(pc.length_x_m, pc.width_z_m, pc.top_y_m - pc.thickness_m, pc.top_y_m, !!pc.rounded_ends);
+      const pos = mesh.positions.slice();
+      for (let k = 0; k < pos.length; k += 3) {
+        const v = toStation([pos[k], pos[k + 1], pos[k + 2]]);
+        pos[k] = v[0];
+        pos[k + 1] = v[1];
+        pos[k + 2] = v[2];
+      }
+      caps.push({ positions: pos, indices: mesh.indices });
+    }
+    return Object.assign(legs, { extra: [...crownMembers, ...struts], caps });
   };
 
   const pylons: Pylon[] = supports.map((support, i) => {
@@ -439,6 +488,7 @@ export function buildBridgeGeometry(
         members,
         sweeps: legs.map((l) => l.mesh),
         custom: true,
+        caps: legs.caps,
       };
     }
     const adjMain = Math.max(main[support] ? spans[support] : 0, main[support + 1] ? spans[support + 1] : 0) || mainSpan;
@@ -460,6 +510,7 @@ export function buildBridgeGeometry(
       members: shape.members,
       sweeps: [],
       custom: false,
+      caps: [],
     };
   });
   const shapes = pylons.map((p) => buildPylon(m.pylon_shape, p.x, hw, E, E + p.heightAboveDeck, planes));
@@ -715,7 +766,7 @@ export function buildBridgeGeometry(
   ];
   for (const p of pylons) {
     p.members = p.members.map((mb) => ({ ...mb, a: mapV(mb.a), b: mapV(mb.b) }));
-    p.sweeps = p.sweeps.map((sw) => {
+    const mapMesh = (sw: SweepMesh): SweepMesh => {
       const pos = sw.positions.slice();
       for (let i = 0; i < pos.length; i += 3) {
         const v = plan(pos[i], pos[i + 1], pos[i + 2]);
@@ -724,7 +775,9 @@ export function buildBridgeGeometry(
         pos[i + 2] = v[2];
       }
       return { positions: pos, indices: sw.indices };
-    });
+    };
+    p.sweeps = p.sweeps.map(mapMesh);
+    p.caps = p.caps.map(mapMesh);
   }
   const cables = cablesStation.map((c) => ({ ...c, top: mapV(c.top), deck: mapV(c.deck) }));
   const clearance: Clearance | undefined = clearanceStation && {
@@ -742,7 +795,7 @@ export function buildBridgeGeometry(
   const pts: Vec3[] = [plan(0, 0, -hw), plan(0, 0, hw), plan(totalLength, 0, -hw), plan(totalLength, 0, hw), plan(centre, 0, -hw), plan(centre, 0, hw)];
   for (const p of pylons) {
     pts.push(plan(p.x, E + p.heightAboveDeck, 0));
-    for (const sw of p.sweeps) for (let i = 0; i < sw.positions.length; i += 3) pts.push([sw.positions[i], sw.positions[i + 1], sw.positions[i + 2]]);
+    for (const sw of [...p.sweeps, ...p.caps]) for (let i = 0; i < sw.positions.length; i += 3) pts.push([sw.positions[i], sw.positions[i + 1], sw.positions[i + 2]]);
   }
   const min: Vec3 = [Infinity, Infinity, Infinity];
   const max: Vec3 = [-Infinity, -Infinity, -Infinity];
