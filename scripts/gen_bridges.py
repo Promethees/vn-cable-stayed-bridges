@@ -58,7 +58,9 @@ add(id="cau-binh-khanh", name_vi="Cầu Bình Khánh", name_en="Bình Khánh Bri
     roads=["CT.01"], construction_start=2015, opened=2026, main_span_m=375, total_length_m=2763.5,
     width_m=21.75, lanes=4, cable_stayed_spans=1, lat=10.6598, lng=106.7388,
     images=[img(U+"b/b6/C%E1%BA%A7u_B%C3%ACnh_Kh%C3%A1nh_trong_qu%C3%A1_tr%C3%ACnh_x%C3%A2y_d%E1%BB%B1ng.jpg", "Lê Uy Lân", "CC BY-SA 4.0", C+"C%E1%BA%A7u_B%C3%ACnh_Kh%C3%A1nh_trong_qu%C3%A1_tr%C3%ACnh_x%C3%A2y_d%E1%BB%B1ng.jpg")],
-    sources=[W+"Bình_Khánh_Bridge", "https://tuoitre.vn/cao-toc-ben-luc-long-thanh.html", LIST, OSM], confidence="needs_check",
+    sources=[W+"Bình_Khánh_Bridge", "https://tuoitre.vn/cao-toc-ben-luc-long-thanh.html", LIST,
+             "https://vecc.com.vn/project/duong-cao-toc-ben-luc-long-thanh/?lang=en",
+             "https://www.tinnhanhchungkhoan.vn/khanh-thanh-cau-day-vang-binh-khanh-cau-co-tinh-khong-cao-nhat-viet-nam-post382393.html", OSM], confidence="needs_check",
     notes="On the Bến Lức–Long Thành expressway (OSM tags it CT.01; to confirm). Inaugurated 12/2025, but full traffic began only when Phước Khánh opened (1/10/2026 per Wikipedia).")
 
 add(id="cau-my-thuan", name_vi="Cầu Mỹ Thuận", name_en="Mỹ Thuận Bridge", status="completed",
@@ -366,8 +368,8 @@ M3D = {
     notes="Single-plane prestressed-concrete box girder (sources). Side spans 129 m from engineering literature memory, not a fetched source. Pylon height uses the Wikipedia infobox 'Height 150 m'."),
  "cau-phu-my": m3d([162.5, 380, 162.5], "H", [145, 145], "total", 2, "semi_fan", 27.0, "concrete",
     notes="162.5+380+162.5 = 705 m (Wikipedia list / JPCI). H pylons per press. Height 145 m per Wikipedia (Người Quan Sát says 162.5 m, which is probably the side span confused with height)."),
- "cau-binh-khanh": m3d([194, 375, 194], "H", [135, 135], "total", 2, "fan", 21.75,
-    notes="Main section 763 m (press), so side spans are derived as (763 − 375)/2 ≈ 194. H pylons 135 m (most sources; one says 155 m). Fan stays per press."),
+ "cau-binh-khanh": m3d([187.25, 375, 187.25], "H", [155, 155], "total", 2, "fan", 30.35,
+    notes="Placeholder; replaced by research/shapes/cau-binh-khanh.json (round 7)."),
  "cau-my-thuan": m3d([150, 350, 150], "H", [120, 120], "total", 2, "semi_fan", 23.66, "concrete", cps=16,
     notes="150+350+150 m; H pylons ≈120 m above high water (Wikipedia; counted here as total). 128 stays in total, so 16 per pylon side per plane. Concrete deck."),
  "cau-my-thuan-2": m3d([150, 350, 150], "inverted_Y", [125, 125], "total", 2, "semi_fan", 28.0, "concrete",
@@ -588,7 +590,7 @@ NAV = {
  "cau-can-tho": nav(39, None, "for 10,000 DWT ships; reference level not stated", "https://nguoiquansat.vn/sieu-cau-noi-2-vung-dbscl-ket-thuc-su-menh-nhung-ben-pha-hon-100-nam-tuoi-thong-xe-15-nam-van-nam-giu-ky-luc-dong-nam-a-top-the-gioi-194312.html"),
  "cau-vam-cong": nav(37.5, None, None, "https://vov.vn/kinh-te/khanh-thanh-cau-vam-cong-bac-qua-song-hau-911038.vov"),
  "cau-phu-my": nav(45, 200, "width 200 m from a travel blog only (mytour.vn)", "https://24hmoney.vn/news/tp-hcm-de-xuat-mo-rong-cau-phu-my-len-it-nhat-8-lan-c27a2807656.html"),
- "cau-binh-khanh": nav(55, None, "for 30,000–50,000 DWT ships", "https://tienphong.vn/cau-nghin-ty-co-tinh-khong-cao-nhat-viet-nam-sap-ve-dich-post1849789.tpo"),
+ "cau-binh-khanh": nav(55, 242, "VECC: 55 m, L = 242 m; 20,000 DWT design vessel", "https://vecc.com.vn/project/duong-cao-toc-ben-luc-long-thanh/?lang=en"),
  "cau-my-thuan": nav(37.5, 110, None, "https://mytour.vn/vi/blog/bai-viet/cau-my-thuan.html"),
  "cau-cao-lanh": nav(37.5, None, None, "https://vtcnews.vn/thong-xe-cay-cau-lon-thu-2-o-mien-tay-d401815.html"),
  "cau-phuoc-khanh": nav(55, None, None, "https://tuoitre.vn/cao-toc-ben-luc-long-thanh.html"),
@@ -841,8 +843,10 @@ REVIEW_R1 = {
         "bridge": {"pylons": "2 tháp một cột (một mặt phẳng dây), cao 91,5 m trên mặt cầu; dây văng bọc vàng", "pylons_en": "2 single-column pylons (one cable plane), 91.5 m above deck; yellow stay sheaths"},
         "note": "Pylon 91.5 m above deck (IABSE / ResearchGate); 28 stays per side per pylon (112 total, Freyssinet)."},
     "cau-phu-my": {"scale_y": 0.96, "note": "Custom pylon scaled to 145 m total (Wikipedia)."},
-    "cau-binh-khanh": {"set": {"spans_m": [187.25, 375, 187.25], "pylon_heights_m": [155, 155], "cables_per_side": 17, "deck_type": "concrete"},
-        "bridge": {"pylons": "2 tháp chữ H, dầm ngang đỉnh, cao 155 m", "pylons_en": "2 H-shaped pylons with a top cross-beam, 155 m",
+    "cau-binh-khanh": {"set": {"spans_m": [187.25, 375, 187.25], "pylon_heights_m": [155, 155], "cables_per_side": 17, "deck_type": "concrete",
+                               "deck_width_m": 30.35},
+        "bridge": {"pylons": "2 tháp chữ H hai cột đứng, dầm ngang ở khoảng 2/3 chiều cao trên mặt cầu, giằng chân sát mặt nước; dây neo yên ngựa; cao 155 m tính từ móng",
+                   "pylons_en": "2 H pylons with two vertical legs, a crossbeam at ≈2/3 of the height above deck and a tie beam at the waterline; stays over saddles; 155 m from the foundations",
                    "span_arrangement": "187,25 + 375 + 187,25 m"},
         "note": "Spans 187.25 + 375 + 187.25 m, 155 m pylons, 17 stay pairs per pylon side (vi.wikipedia, VnExpress)."},
     "cau-phuoc-khanh": {"scale_y": 0.877, "set": {"cables_per_side": 14, "deck_type": "concrete"},
@@ -1033,6 +1037,17 @@ for b in B:
         assert len(pc["legs"]) == 3 and pc["crossbeams_y_m"] == [-4, 22, 42, 60], pc
         assert [(z["leg"], z["side"]) for z in pc["anchor_zone"]] == [(1, "main"), (0, "back"), (2, "back")], pc
         assert pc["pile_cap"]["top_y_m"] == -28 and b["lanes"] == 6
+    if b["id"] == "cau-binh-khanh":   # round 7: H legs reach the water outside a 30.35 m deck, beam at 2/3, tie at the waterline
+        pc = m["pylon_custom"]
+        assert m["spans_m"] == [187.25, 375, 187.25] and "auxiliary_piers_m" not in m, m
+        assert m["deck_elevation_m"] == 60 and m["deck_depth_m"] == 3 and m["deck_width_m"] == 30.35 and b["width_m"] == 21.75, m
+        assert m["cable_planes"] == 2 and m["cables_per_side"] == 17 and m["stay_colour"] == "white", m
+        assert pc["crossbeams_y_m"] == [] and [s["a"][1] for s in pc["struts"]] == [61, -53], pc
+        assert all(l["centerline"][0][1] == -62 and l["centerline"][-1][1] == 93 for l in pc["legs"]), pc
+        assert sorted(l["centerline"][0][2] for l in pc["legs"]) == [-18.4, 18.4], pc
+        assert [(z["leg"], z["y_from_m"], z["y_to_m"]) for z in pc["anchor_zone"]] == [(0, 53, 89), (1, 53, 89)], pc
+        assert b["nav_clearance"]["height_m"] == 55 and b["nav_clearance"]["width_m"] == 242, b["nav_clearance"]
+        assert "194" not in m["notes"] and "135 m H" not in m["notes"] and "top cross-beam" not in b["pylons_en"], m["notes"]
     if b["id"] == "cau-ben-rung":     # round 5: foundation (pile cap + columns), 22 m deck, 25° blades, 12 stays
         pc = m["pylon_custom"]
         assert m["deck_elevation_m"] == 22 and m["cables_per_side"] == 12 and m["cable_pattern"] == "semi_fan", m
