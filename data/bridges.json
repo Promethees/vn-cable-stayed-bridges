@@ -1584,108 +1584,150 @@
     "width_m": 21.75,
     "lanes": 4,
     "cable_stayed_spans": 1,
-    "pylons": "2 tháp chữ H, dầm ngang đỉnh, cao ≈155 m",
-    "pylons_en": "2 H-shaped pylons with a top cross-beam, ≈155 m",
+    "pylons": "2 tháp chữ H (2 cột đứng, 1 xà ngang trên ở khoảng 2/3 chiều cao), cao 135,8 m tính từ móng",
+    "pylons_en": "2 H-shaped pylons (two vertical legs, one upper crossbeam about two-thirds up), 135.8 m from the foundation",
     "nav_clearance": {
       "height_m": 55,
-      "source": "https://tuoitre.vn/cao-toc-ben-luc-long-thanh.html"
+      "width_m": 242,
+      "source": "https://vecc.com.vn/project/duong-cao-toc-ben-luc-long-thanh/?lang=en"
     },
     "model3d": {
       "spans_m": [
-        150,
+        149.5,
         300,
-        150
+        149.5
       ],
       "pylon_shape": "H",
       "pylon_heights_m": [
-        155,
-        155
+        135.8,
+        135.8
       ],
       "pylon_height_ref": "total",
       "cable_planes": 2,
-      "cable_pattern": "fan",
+      "cable_pattern": "semi_fan",
       "deck_width_m": 21.75,
       "confidence": "estimated",
-      "notes": "Side spans not published (estimated 150). H pylons from press photos (CafeF 9/2026). Height 155 m per press (Wikipedia gives 135 m). 48 stays reported. Construction photo (2017) shows twin legs and a top frame; press aerial shows the completed span. Review r1: Custom pylon scaled to 155 m total; 56 stay bundles = 14 per side per plane (vietnamnet).",
+      "notes": "Spans 149.5 + 300 + 149.5 m and pylon height 135.8 m from the foundations per VEC (the consultant); the 155 m quoted in the press is Bình Khánh's. Measured on Dân Trí 9/2026 photos: ≈67 m above deck and ≈127 m water to tip (the drawn label), so 'foundations' is ≈8 m below water (pile-cap underside). Upper crossbeam ≈43 m above deck (≈63 %), free posts with flat tops above it, no top beam. 56 saddle-anchored stays (VnExpress) = 14 per side per plane, anchored y ≈47–66 m. Deck 58.5 m above water with a ≈2.5 m crest; clears 55 × 242 m (VEC). Round 7 (research/model-review/brief-r7-phuoc-khanh.md): proportions measured on Dân Trí / VietnamNet / Tiền Phong 9/2026 photos; pile cap and under-deck beam from the 2017 Commons construction photo. Review r1: Pylon 135.8 m from foundations (VEC); 155 m in the press is Bình Khánh's.",
       "pylon_custom": {
-        "description": "Two vertical legs outside the deck, cross-beam at the top and under the deck.",
+        "description": "H portal: two vertical concrete legs just outside the deck edges on one pile cap; a deep lower crossbeam under the deck and one upper crossbeam at about 63% of the height above deck; above it the legs rise as free-standing posts with flat tops that carry the saddle-anchored stays.",
         "legs": [
           {
             "centerline": [
               [
                 0,
-                -38,
-                -12
+                -55,
+                -13
               ],
               [
                 0,
                 0,
-                -12
+                -13
               ],
               [
                 0,
-                48.235,
-                -12
+                43,
+                -13
               ],
               [
                 0,
-                96.47,
-                -12
+                68,
+                -13
               ]
             ],
-            "width_base_m": 5.0,
-            "width_top_m": 3.5
+            "width_base_m": 4.5,
+            "width_top_m": 3.3,
+            "depth_base_m": 7.0,
+            "depth_top_m": 4.5
           },
           {
             "centerline": [
               [
                 0,
-                -38,
-                12
+                -55,
+                13
               ],
               [
                 0,
                 0,
-                12
+                13
               ],
               [
                 0,
-                48.235,
-                12
+                43,
+                13
               ],
               [
                 0,
-                96.47,
-                12
+                68,
+                13
               ]
             ],
-            "width_base_m": 5.0,
-            "width_top_m": 3.5
+            "width_base_m": 4.5,
+            "width_top_m": 3.3,
+            "depth_base_m": 7.0,
+            "depth_top_m": 4.5
           }
         ],
-        "crossbeams_y_m": [
-          -3,
-          91.21
+        "crossbeams_y_m": [],
+        "struts": [
+          {
+            "a": [
+              0,
+              43,
+              -13
+            ],
+            "b": [
+              0,
+              43,
+              13
+            ],
+            "width": 4.5
+          },
+          {
+            "a": [
+              0,
+              -5.5,
+              -13
+            ],
+            "b": [
+              0,
+              -5.5,
+              13
+            ],
+            "width": 6.0
+          }
         ],
         "anchor_zone": [
           {
-            "y_from_m": 52.62,
-            "y_to_m": 92.96,
+            "y_from_m": 47,
+            "y_to_m": 66,
             "leg": 0
           },
           {
-            "y_from_m": 52.62,
-            "y_to_m": 92.96,
+            "y_from_m": 47,
+            "y_to_m": 66,
             "leg": 1
           }
         ],
+        "pile_cap": {
+          "length_x_m": 22,
+          "width_z_m": 36,
+          "top_y_m": -55,
+          "thickness_m": 8
+        },
         "mirror_for_other_pylons": true,
         "reference_images": [
+          "https://cdnphoto.dantri.com.vn/I8TtJ-2qxvYcQmo_ZyTOilwPlHU=/thumb_w/1920/2026/09/12/djifly2026091010270803901789022653901photo-1789232067058.jpg",
+          "https://dantri.com.vn/thoi-su/hai-cau-day-vang-cao-nhat-viet-nam-sap-noi-doi-bo-20260913000004022.htm",
+          "https://vietnamnet.vn/cau-day-vang-cao-nhat-viet-nam-tren-tuyen-ben-luc-long-thanh-sap-hop-long-2517148.html",
           "https://commons.wikimedia.org/wiki/File:Cầu_Phước_Khánh_2017.jpg"
         ]
       },
       "cables_per_side": 14,
-      "deck_type": "concrete"
+      "deck_type": "concrete",
+      "deck_elevation_m": 58.5,
+      "deck_crest_m": 2.5,
+      "stay_colour": "white"
     },
     "lat": 10.6659,
     "lng": 106.7988,
@@ -1707,6 +1749,8 @@
       "https://en.wikipedia.org/wiki/Phước_Khánh_Bridge",
       "https://tuoitre.vn/cao-toc-ben-luc-long-thanh.html",
       "https://cafef.vn/nhung-cong-doan-cuoi-cung-truoc-khi-thong-xe-cau-phuoc-khanh-188260911101103844.chn",
+      "https://vecc.com.vn/project/duong-cao-toc-ben-luc-long-thanh/?lang=en",
+      "https://www.jica.go.jp/english/about/policy/environment/id/asia/southeast/a_b_fi/vietnam/__icsFiles/afieldfile/2026/09/29/Result_of_Environmental_Monitoring_(2026Q2).pdf",
       "https://www.openstreetmap.org (Overpass query, bridge way centre, retrieved 2026-11-25)"
     ],
     "confidence": "needs_check",

@@ -100,9 +100,11 @@ add(id="cau-nhat-tan", name_vi="Cầu Nhật Tân", name_en="Nhật Tân Bridge"
 add(id="cau-phuoc-khanh", name_vi="Cầu Phước Khánh", name_en="Phước Khánh Bridge", status="completed",
     province="TP. Hồ Chí Minh – Đồng Nai", province_former=["TP. Hồ Chí Minh", "Đồng Nai"], crosses="Sông Lòng Tàu",
     roads=["CT.01"], construction_start=2015, opened=2026, main_span_m=300, total_length_m=3186,
-    width_m=21.75, lanes=4, cable_stayed_spans=1, pylons="2 pylons, ≈135 m", lat=10.6659, lng=106.7988,
+    width_m=21.75, lanes=4, cable_stayed_spans=1, pylons="2 tháp chữ H (2 cột đứng, 1 xà ngang trên ở khoảng 2/3 chiều cao), cao 135,8 m tính từ móng", lat=10.6659, lng=106.7988,
     images=[img(U+"a/ac/C%E1%BA%A7u_Ph%C6%B0%E1%BB%9Bc_Kh%C3%A1nh_2017.jpg", "Pieceofmetalwork", "CC0", C+"C%E1%BA%A7u_Ph%C6%B0%E1%BB%9Bc_Kh%C3%A1nh_2017.jpg")],
-    sources=[W+"Phước_Khánh_Bridge", "https://tuoitre.vn/cao-toc-ben-luc-long-thanh.html", "https://cafef.vn/nhung-cong-doan-cuoi-cung-truoc-khi-thong-xe-cau-phuoc-khanh-188260911101103844.chn", OSM], confidence="needs_check",
+    sources=[W+"Phước_Khánh_Bridge", "https://tuoitre.vn/cao-toc-ben-luc-long-thanh.html", "https://cafef.vn/nhung-cong-doan-cuoi-cung-truoc-khi-thong-xe-cau-phuoc-khanh-188260911101103844.chn",
+             "https://vecc.com.vn/project/duong-cao-toc-ben-luc-long-thanh/?lang=en",
+             "https://www.jica.go.jp/english/about/policy/environment/id/asia/southeast/a_b_fi/vietnam/__icsFiles/afieldfile/2026/09/29/Result_of_Environmental_Monitoring_(2026Q2).pdf", OSM], confidence="needs_check",
     notes="Opening 1/10/2026 per en-Wikipedia. Press only gives a 30/9/2026 target; no press report of the opening ceremony was found. 55 m navigation clearance. Photo dates from 2017 (construction). On the Bến Lức–Long Thành expressway (OSM tags it CT.01; to confirm).")
 
 add(id="cau-rach-mieu", name_vi="Cầu Rạch Miễu", name_en="Rạch Miễu Bridge", status="completed",
@@ -376,8 +378,8 @@ M3D = {
     notes="Spans, H-shaped 120 m towers and deck width per Wikipedia. Cable pattern (semi-fan) from photos."),
  "cau-nhat-tan": m3d([150, 300, 300, 300, 300, 150], "A", [110, 110, 110, 110, 110], "total", 2, "fan", 33.2, "composite",
     notes="150+4×300+150 m, five A-shaped pylons ≈110 m (Wikipedia). Steel–concrete composite girder. Fan pattern from photos."),
- "cau-phuoc-khanh": m3d([150, 300, 150], "H", [155, 155], "total", 2, "fan", 21.75,
-    notes="Side spans not published (estimated 150). H pylons from press photos (CafeF 9/2026). Height 155 m per press (Wikipedia gives 135 m). 48 stays reported."),
+ "cau-phuoc-khanh": m3d([149.5, 300, 149.5], "H", [135.8, 135.8], "total", 2, "semi_fan", 21.75,
+    notes="Spans 149.5+300+149.5 and pylon 135.8 m from the foundations (VEC); the press 155 m is Bình Khánh's. Geometry in research/shapes/cau-phuoc-khanh.json (round 7)."),
  "cau-rach-mieu": m3d([117, 270, 117], "inverted_Y", [110, 110], "total", 2, "fan", 12.0, "concrete",
     notes="Spans 117+270+117 (Wikipedia). Inverted-Y (A with single head) pylons and fan stays read from Commons photos. Pylon height estimated; the Wikipedia 'height 117 m' looks like the side span."),
  "cau-rach-mieu-2": m3d([125, 270, 125], "H", [113, 113], "total", 2, "semi_fan", 17.5, "concrete",
@@ -591,7 +593,7 @@ NAV = {
  "cau-binh-khanh": nav(55, None, "for 30,000–50,000 DWT ships", "https://tienphong.vn/cau-nghin-ty-co-tinh-khong-cao-nhat-viet-nam-sap-ve-dich-post1849789.tpo"),
  "cau-my-thuan": nav(37.5, 110, None, "https://mytour.vn/vi/blog/bai-viet/cau-my-thuan.html"),
  "cau-cao-lanh": nav(37.5, None, None, "https://vtcnews.vn/thong-xe-cay-cau-lon-thu-2-o-mien-tay-d401815.html"),
- "cau-phuoc-khanh": nav(55, None, None, "https://tuoitre.vn/cao-toc-ben-luc-long-thanh.html"),
+ "cau-phuoc-khanh": nav(55, 242, None, "https://vecc.com.vn/project/duong-cao-toc-ben-luc-long-thanh/?lang=en"),
  "cau-rach-mieu": nav(37.5, 70, None, "https://nguoiquansat.vn/cay-cau-day-vang-dau-tien-do-viet-nam-xay-dung-se-cam-o-to-trong-3-ngay-150152.html"),
  "cau-rach-mieu-2": nav(37.5, 110, "main channel; secondary channel 220 m × 30 m", "https://daibieunhandan.vn/du-an-cau-rach-mieu-2-dua-vao-khai-thac-som-hon-5-thang-10383788.html"),
  "cau-binh": nav(25, None, "for 3,000 DWT ships; travel blog only", "https://mytour.vn/vi/blog/bai-viet/cau-binh.html"),
@@ -845,8 +847,9 @@ REVIEW_R1 = {
         "bridge": {"pylons": "2 tháp chữ H, dầm ngang đỉnh, cao 155 m", "pylons_en": "2 H-shaped pylons with a top cross-beam, 155 m",
                    "span_arrangement": "187,25 + 375 + 187,25 m"},
         "note": "Spans 187.25 + 375 + 187.25 m, 155 m pylons, 17 stay pairs per pylon side (vi.wikipedia, VnExpress)."},
-    "cau-phuoc-khanh": {"scale_y": 0.877, "set": {"cables_per_side": 14, "deck_type": "concrete"},
-        "note": "Custom pylon scaled to 155 m total; 56 stay bundles = 14 per side per plane (vietnamnet)."},
+    # round 7 (research/model-review/brief-r7-phuoc-khanh.md): scale_y 0.877 removed; the shape file now holds measured geometry
+    "cau-phuoc-khanh": {"set": {"cables_per_side": 14, "deck_type": "concrete"},
+        "note": "Pylon 135.8 m from foundations (VEC); 155 m in the press is Bình Khánh's."},
     "cau-my-thuan-2": {"scale_y": 0.967, "set": {"cables_per_side": 16, "pylon_heights_m": [125.5, 125.5]},
         "note": "128 stay bundles = 16 per side per plane (VnExpress); crest 125.5 m (Tiền Phong)."},
     "cau-nhat-tan": {"set": {"cables_per_side": 11, "pylon_heights_m": [111] * 5, "pylon_colour": "grey"},
@@ -1033,6 +1036,17 @@ for b in B:
         assert len(pc["legs"]) == 3 and pc["crossbeams_y_m"] == [-4, 22, 42, 60], pc
         assert [(z["leg"], z["side"]) for z in pc["anchor_zone"]] == [(1, "main"), (0, "back"), (2, "back")], pc
         assert pc["pile_cap"]["top_y_m"] == -28 and b["lanes"] == 6
+    if b["id"] == "cau-phuoc-khanh":  # round 7: H portal, upper beam ≈63 % up, free posts, stays only above the beam
+        pc = m["pylon_custom"]
+        assert m["spans_m"] == [149.5, 300, 149.5] and m["pylon_heights_m"] == [135.8, 135.8], m
+        assert m["deck_elevation_m"] == 58.5 and m["deck_crest_m"] == 2.5 and m["stay_colour"] == "white", m
+        assert m["cables_per_side"] == 14 and m["cable_pattern"] == "semi_fan" and m["cable_planes"] == 2, m
+        assert [l["centerline"][-1][1] for l in pc["legs"]] == [68, 68], "free posts end 68 m above deck (not rescaled)"
+        assert [l["centerline"][0][2] for l in pc["legs"]] == [-13, 13] and pc["crossbeams_y_m"] == [], pc
+        assert sorted(st["a"][1] for st in pc["struts"]) == [-5.5, 43], pc["struts"]
+        assert all(z["y_from_m"] > 43 and z["y_to_m"] < 68 for z in pc["anchor_zone"]), "stays only above the upper beam"
+        assert all(l["centerline"][0][1] == pc["pile_cap"]["top_y_m"] == -55 for l in pc["legs"]), "legs stand on the cap"
+        assert b["nav_clearance"]["width_m"] == 242 and "135,8" in b["pylons"] and "135.8" in b["pylons_en"], b
     if b["id"] == "cau-ben-rung":     # round 5: foundation (pile cap + columns), 22 m deck, 25° blades, 12 stays
         pc = m["pylon_custom"]
         assert m["deck_elevation_m"] == 22 and m["cables_per_side"] == 12 and m["cable_pattern"] == "semi_fan", m

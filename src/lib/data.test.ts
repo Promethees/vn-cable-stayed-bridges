@@ -219,6 +219,33 @@ describe.each(files)('%s', (file) => {
     }
   });
 
+  it('Phước Khánh (round 7): ≈68 m H portal on a pile cap, stays only above the upper beam, deck clears 55 × 242 m', () => {
+    const b = bridges.find((x) => x.id === 'cau-phuoc-khanh');
+    if (!b?.model3d) return; // sample data
+    const g = buildBridgeGeometry(b.model3d, 'completed', { navClearance: b.nav_clearance })!;
+    expect(g.warnings).toEqual([]);
+    expect(g.deckElevation).toBe(58.5);
+    expect(g.pylons.map((p) => p.x)).toEqual([149.5, 449.5]);
+    expect(g.cables).toHaveLength(112); // 14 per side per plane × 2 sides × 2 planes × 2 pylons
+    for (const p of g.pylons) {
+      expect(p.heightAboveDeck).toBeGreaterThan(64);
+      expect(p.heightAboveDeck).toBeLessThan(71);
+      expect(p.heightAboveDeck / g.deckElevation).toBeGreaterThan(1.05); // photo ratio 1.08–1.13 (was 1.65)
+      expect(p.heightAboveDeck / g.deckElevation).toBeLessThan(1.2);
+      expect(p.labelRef).toBe('total');
+      expect(p.labelHeight).toBeGreaterThan(124); // ≈127 m water → tip, not the old 155
+      expect(p.labelHeight).toBeLessThan(130);
+      expect(p.caps).toHaveLength(1);
+      const own = g.cables.filter((c) => c.pylon === p.index);
+      expect(own).toHaveLength(56);
+      for (const c of own) {
+        const above = c.top[1] - g.deckY(p.x);
+        expect(above, 'anchor above the upper crossbeam (43 m)').toBeGreaterThan(45);
+        expect(above).toBeLessThan(68);
+      }
+    }
+  });
+
   it('model3d has only schema keys, and harp bridges draw parallel stays (within 2°)', () => {
     const KEYS = new Set([
       'spans_m', 'pylon_shape', 'pylon_heights_m', 'pylon_height_ref', 'cable_planes', 'cable_pattern', 'cables_per_side',
