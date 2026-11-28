@@ -60,3 +60,29 @@ Implements `brief-r12-cua-hoi.md`. The brief's optional engine items (round/elli
 ## Deviations
 - `investor` reads "Ban QLDA 6 (Bộ GTVT); designer TEDI" instead of the bare "Ban QLDA 6 (Bộ GTVT)". This follows the Đại Ngãi 1 pattern (client; contractor) and records TEDI as the brief asks.
 - No other deviations.
+
+## Round 12b (feedback-r12-cua-hoi-1.md)
+
+The researcher re-measured the head on high-resolution crops (`nq1_pyl`, `ns3_p`, `ns4_p`). The brief's shaft and bud were too fat. Everything else from iteration 1 is accepted unchanged.
+
+**Shape file** (`research/shapes/cau-cua-hoi.json`):
+- `pylon_custom.legs[0..4]` are replaced verbatim by the feedback's legs:
+  - stem 3.0 × 3.2 → 3.2 × 3.4 m (deck to 18.5 m);
+  - gradual bud swell to 5.5 m at 23.5 m (≈1.7× the shaft);
+  - 5.5 → 5.0 m to 25.5 m;
+  - rounded shoulder 5.0 → 2.6 m (25.5–26.8 m);
+  - pink-red cone 2.6 → 0.3 m (26.8–29 m).
+- Leg 5 (pier), the cap and the 7–18.5 m anchor zone (still on leg 0) are unchanged.
+- `pylon_custom.description` and `model3d.notes` now give a ≈2.5–3 m shaft and a ≈5.5 m bud (no longer ≈6 m) and describe the gradual swell, the shoulder and the cone. `pylons_*` and `colour` gave no size, so they are unchanged.
+
+**Generator** (`scripts/gen_bridges.py`): the round-12 block gains two asserts:
+- stem top width 3.2 and widest bud leg 5.5;
+- swell ending at 23.5 m and cone starting at 26.8 m.
+
+**Test** (`src/lib/data.test.ts`): the round-12 test gains the same checks. No existing value depended on the old widths; "every sweep within 4 m of the centreline" still holds.
+
+**Verification:**
+- Generator asserts pass. Typecheck, lint, 143/143 tests and the build pass.
+- Renders in `scratchpad/views-ch-impl2/`: the 5 standard views, az 30 el 1 unit, az 0 el 2 unit, and az −20 el −3 pylon0.
+- `top`, `front`, az30-el1-unit and az-20-el-3-pylon0 are **byte-identical** to the researcher's `chwork/r4/` prototype.
+- Against `nq1` / `nq1_pyl`, the head now reads as a slim stem, a bud widest at ≈0.8 H, a rounded shoulder and a short pink cone, with no tall straight-sided block. The section is still rectangular (the round-section engine gap, P2).

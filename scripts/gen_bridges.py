@@ -1351,6 +1351,8 @@ for b in B:
         assert len(pc["legs"]) == 6 and all(p[2] == 0 for l in pc["legs"] for p in l["centerline"]), "all on the centreline"
         assert max(p[1] for l in pc["legs"] for p in l["centerline"]) == 29, "bud tip 29 m above the deck"
         assert "colour" in pc["legs"][4] and pc["legs"][5]["centerline"][0] == [0, -23.7, 0], "pink-red tip; pier on the cap"
+        assert pc["legs"][0]["width_top_m"] == 3.2 and max(l["width_top_m"] for l in pc["legs"][:5]) == 5.5, "r12b: slim stem, bud ≈5.5 m (≈1.7× the shaft)"
+        assert pc["legs"][1]["centerline"][-1][1] == 23.5 and pc["legs"][4]["centerline"][0][1] == 26.8, "r12b: gradual swell to 23.5 m, pink cone 26.8–29 m"
         assert pc["pile_cap"] == {"length_x_m": 12, "width_z_m": 23, "top_y_m": -23.7, "thickness_m": 4.0, "chamfer_m": 3.5}, pc["pile_cap"]
         assert pc["anchor_zone"] == [{"y_from_m": 7.0, "y_to_m": 18.5, "leg": 0}], pc["anchor_zone"]
         assert b["nav_clearance"]["height_m"] == 24.5 and "vtv.vn" in b["nav_clearance"]["source"], b["nav_clearance"]

@@ -37,9 +37,9 @@
   "pylon_colour": "white",
   "stay_colour": "#d0313d",
   "confidence": "estimated",
-  "notes": "Extradosed unit 86 + 153 + 86 m (infra.global; designer TEDI, client PMU 6), the 153 m span the longest extradosed span in Viet Nam when it opened (press). Prestressed-concrete continuous box girder built by balanced cantilever, haunched (≈5 m deep at the pylons, ≈3 m at mid-span, read from a side-on construction photo; drawn with deck_haunch, G17); main-bridge deck 18.5 m (16 m on the Super-T approaches), 2 motor + 2 mixed lanes. Navigation clearance 120 × 20.5 m, 24.5 m within 40 m of the channel centreline, 2,000 DWT (VTV). Pylons: a single white concrete shaft in the median ('cột bê tông') rising ≈19 m above the deck and widening slightly upward, crowned by a lotus bud ('chóp búp sen', ≈6 m across, white with a pink-red tip and a ≈2 m finial) to ≈29 m above the deck (kinhtedothi 12/2019: 'khoảng 25/29 m tháp'; side photos ≈28–29 m). One central plane of red stays (each position a pair of strands ≈1 m apart, 15 cm sheaths; anchors in a maintenance gallery in the box), 11 per side per pylon, anchored on the shaft over ≈7–18.5 m and on the median ≈14–58 m from the pylon. Below the deck a rectangular pier (≈6 × 8 m) on a chamfered pile cap ≈12 × 23 m just above the water. Deck ≈26 m above the water at the unit ends, ≈28 m at the pylons, ≈28.6 m at mid-span (crest 2.6 m; heights from side photos, set so that the 24.5 m clearance fits under a 3 m girder).",
+  "notes": "Extradosed unit 86 + 153 + 86 m (infra.global; designer TEDI, client PMU 6), the 153 m span the longest extradosed span in Viet Nam when it opened (press). Prestressed-concrete continuous box girder built by balanced cantilever, haunched (≈5 m deep at the pylons, ≈3 m at mid-span, read from a side-on construction photo; drawn with deck_haunch, G17); main-bridge deck 18.5 m (16 m on the Super-T approaches), 2 motor + 2 mixed lanes. Navigation clearance 120 × 20.5 m, 24.5 m within 40 m of the channel centreline, 2,000 DWT (VTV). Pylons: a single white concrete shaft in the median ('cột bê tông') ≈2.5–3 m wide, rising ≈18.5 m above the deck, crowned by a lotus bud ('chóp búp sen', ≈5.5 m across, swelling gradually to its widest at ≈23.5 m, a rounded shoulder and a short pink-red cone; white with a pink-red tip and a ≈2 m finial) to ≈29 m above the deck (kinhtedothi 12/2019: 'khoảng 25/29 m tháp'; side photos ≈28–29 m). One central plane of red stays (each position a pair of strands ≈1 m apart, 15 cm sheaths; anchors in a maintenance gallery in the box), 11 per side per pylon, anchored on the shaft over ≈7–18.5 m and on the median ≈14–58 m from the pylon. Below the deck a rectangular pier (≈6 × 8 m) on a chamfered pile cap ≈12 × 23 m just above the water. Deck ≈26 m above the water at the unit ends, ≈28 m at the pylons, ≈28.6 m at mid-span (crest 2.6 m; heights from side photos, set so that the 24.5 m clearance fits under a 3 m girder).",
   "pylon_custom": {
-   "description": "Lotus-bud pylon ('búp sen'): one concrete shaft on the deck centreline, ≈3.4 m across × 4.2 m along the bridge at the deck, widening to ≈4 × 5 m at ≈19 m, then a bud that swells to ≈6 m (19–21.5 m), stays full (21.5–24.5 m) and closes to a point at 29 m above the deck; the top ≈1.7 m is pink-red (finial not modelled). Stays: one central plane anchored on the shaft over 7–18.5 m. Below the deck a rectangular pier ≈6 m along × 8 m across the bridge on a chamfered pile cap ≈12 × 23 m whose top is ≈2.5 m above the water.",
+   "description": "Lotus-bud pylon ('búp sen'): one concrete shaft on the deck centreline, ≈3.0 m across × 3.2 m along at the deck, ≈3.2 × 3.4 m at 18.5 m; the bud swells gradually to ≈5.5 m at 23.5 m, rounds over a shoulder at 25.5–26.8 m and ends in a pink-red cone to 29 m above the deck (finial not modelled). Stays: one central plane anchored on the shaft over 7–18.5 m. Below the deck a rectangular pier ≈6 m along × 8 m across the bridge on a chamfered pile cap ≈12 × 23 m whose top is ≈2.5 m above the water.",
    "legs": [
     {
      "centerline": [
@@ -55,94 +55,94 @@
       ],
       [
        0,
-       19.0,
+       18.5,
        0
       ]
      ],
-     "width_base_m": 3.4,
-     "width_top_m": 4.0,
-     "depth_base_m": 4.2,
+     "width_base_m": 3.0,
+     "width_top_m": 3.2,
+     "depth_base_m": 3.2,
+     "depth_top_m": 3.4
+    },
+    {
+     "centerline": [
+      [
+       0,
+       18.5,
+       0
+      ],
+      [
+       0,
+       21.0,
+       0
+      ],
+      [
+       0,
+       23.5,
+       0
+      ]
+     ],
+     "width_base_m": 3.2,
+     "width_top_m": 5.5,
+     "depth_base_m": 3.4,
+     "depth_top_m": 5.5
+    },
+    {
+     "centerline": [
+      [
+       0,
+       23.5,
+       0
+      ],
+      [
+       0,
+       24.5,
+       0
+      ],
+      [
+       0,
+       25.5,
+       0
+      ]
+     ],
+     "width_base_m": 5.5,
+     "width_top_m": 5.0,
+     "depth_base_m": 5.5,
      "depth_top_m": 5.0
     },
     {
      "centerline": [
       [
        0,
-       19.0,
+       25.5,
        0
       ],
       [
        0,
-       20.25,
+       26.15,
        0
       ],
       [
        0,
-       21.5,
+       26.8,
        0
       ]
      ],
-     "width_base_m": 4.0,
-     "width_top_m": 6.0,
+     "width_base_m": 5.0,
+     "width_top_m": 2.6,
      "depth_base_m": 5.0,
-     "depth_top_m": 6.0
+     "depth_top_m": 2.6
     },
     {
      "centerline": [
       [
        0,
-       21.5,
+       26.8,
        0
       ],
       [
        0,
-       23.0,
-       0
-      ],
-      [
-       0,
-       24.5,
-       0
-      ]
-     ],
-     "width_base_m": 6.0,
-     "width_top_m": 6.0,
-     "depth_base_m": 6.0,
-     "depth_top_m": 6.0
-    },
-    {
-     "centerline": [
-      [
-       0,
-       24.5,
-       0
-      ],
-      [
-       0,
-       26.0,
-       0
-      ],
-      [
-       0,
-       27.3,
-       0
-      ]
-     ],
-     "width_base_m": 6.0,
-     "width_top_m": 2.0,
-     "depth_base_m": 6.0,
-     "depth_top_m": 2.0
-    },
-    {
-     "centerline": [
-      [
-       0,
-       27.3,
-       0
-      ],
-      [
-       0,
-       28.2,
+       27.9,
        0
       ],
       [
@@ -151,9 +151,9 @@
        0
       ]
      ],
-     "width_base_m": 2.0,
+     "width_base_m": 2.6,
      "width_top_m": 0.3,
-     "depth_base_m": 2.0,
+     "depth_base_m": 2.6,
      "depth_top_m": 0.3,
      "colour": "#c8505a"
     },

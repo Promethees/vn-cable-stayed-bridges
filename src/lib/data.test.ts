@@ -1079,6 +1079,11 @@ describe.each(files)('%s', (file) => {
     expect(m.deck_haunch).toEqual({ depth_at_pylon_m: 5, length_m: 60 });
     expect(pc.pile_cap).toEqual({ length_x_m: 12, width_z_m: 23, top_y_m: -23.7, thickness_m: 4, chamfer_m: 3.5 });
     expect(pc.legs).toHaveLength(6);
+    // round 12b: slim stem (≈3 m) and a bud ≈5.5 m across (≈1.7× the shaft), widest at 23.5 m; pink cone 26.8–29 m
+    expect(pc.legs[0].width_base_m).toBe(3);
+    expect(Math.max(...pc.legs.slice(0, 5).map((l) => l.width_top_m))).toBe(5.5);
+    expect(pc.legs[1].centerline.at(-1)).toEqual([0, 23.5, 0]);
+    expect(pc.legs[4].centerline[0]).toEqual([0, 26.8, 0]);
     const g = buildBridgeGeometry(m, b.status, { navClearance: b.nav_clearance })!;
     expect(g.warnings).toEqual([]);
     // deck 26 at the unit ends (not raised by the 24.5 m clearance), ≈28.0 at the pylons, 28.6 at mid-span
