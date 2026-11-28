@@ -212,10 +212,17 @@ add(id="cau-hoa-son", name_vi="Cầu Hòa Sơn", name_en="Hòa Sơn Bridge", sta
 add(id="cau-tu-lien", name_vi="Cầu Tứ Liên", name_en="Tứ Liên Bridge", status="under_construction",
     province="Hà Nội", province_former=["Hà Nội"], crosses="Sông Hồng",
     roads=[], construction_start=2025, opened=2027, main_span_m=500, total_length_m=1000, width_m=43,
-    cable_stayed_spans=1, pylons="2 pylons, ≈185 m", cost="≈20,100 tỷ VND", investor="Liên danh Vingroup (BT)",
+    cable_stayed_spans=1, span_arrangement="50 + 200 + 500 + 200 + 50 m",
+    pylons="2 tháp kim cương – hai chân đan chéo (chữ X) phía trên mặt cầu, tiếp tục thành hai cột song song nối bằng thanh giằng ngắn gần đỉnh, đỉnh lệch cao; đỉnh tháp +185,0 m",
+    pylons_en="2 diamond-X pylons: legs cross above the deck and continue as two parallel posts with a short link near the top and staggered tops; top level +185.0 m",
+    cost="≈20,100 tỷ VND", investor="Liên danh Vingroup (BT)",
     lat=21.0709, lng=105.8513,
-    sources=["https://baolamdong.vn/cau-tu-lien-hon-20100-ty-dong-tien-do-thi-cong-va-lo-trinh-hop-long-nam-2027-455142.html", "https://cafef.vn/cau-day-vang-gan-20000-ty-dong-o-ha-noi-dang-thay-doi-dien-mao-the-nao-188261101071700319.chn", OSM], confidence="verified",
-    notes="Started 19/5/2025. Main-span closure target 30/7/2027, opening target ≈10/2027. Total length is for the main cable-stayed bridge only. Connects Tây Hồ (Nghi Tàm) and Đông Anh; road name not set.")
+    sources=["https://baolamdong.vn/cau-tu-lien-hon-20100-ty-dong-tien-do-thi-cong-va-lo-trinh-hop-long-nam-2027-455142.html", "https://cafef.vn/cau-day-vang-gan-20000-ty-dong-o-ha-noi-dang-thay-doi-dien-mao-the-nao-188261101071700319.chn",
+             "https://vov.gov.vn/toan-canh-cau-tu-lien-bieu-tuong-moi-ben-song-hong-cua-ha-noi-dang-thanh-hinh-dtnew-1150575",   # general elevation drawing, deck, lanes
+             "https://tienphong.vn/toan-canh-tien-do-sieu-du-an-cau-tu-lien-gan-20000-ty-dong-post1835217.tpo",   # 185 m, D2.5 m piles
+             "https://soha.vn/sieu-cong-trinh-gan-20000-ty-dong-so-huu-thiet-ke-van-xoan-doc-dao-do-lien-danh-vingroup-cua-ty-phu-pham-nhat-vuong-xay-dat-tien-do-ra-sao-sau-hon-mot-nam-khoi-cong-198261112162043713.htm",   # progress end-10/2026
+             OSM], confidence="verified",
+    notes="Started 19/5/2025. Main-span closure target 30/7/2027, opening target 10/10/2027. Total length is for the main cable-stayed bridge only. Connects Tây Hồ (Nghi Tàm) and Đông Anh; road name not set. Progress end-10/2026: 26.85 %; pylons P37 6/37 lifts, P38 5/37. The 158 m / 60 m / 8-lane figures belong to the 2024 WATG 'dragon' competition scheme, not the built design.")
 
 add(id="cau-dai-ngai-1", name_vi="Cầu Đại Ngãi 1", name_en="Đại Ngãi 1 Bridge", status="under_construction",
     province="Vĩnh Long – Cần Thơ", province_former=["Trà Vinh", "Sóc Trăng"], crosses="Sông Hậu",
@@ -413,8 +420,8 @@ M3D = {
     notes="Extradosed main span 218 m; A-topped red pylons 32 m above deck (72 m from water) per Người Quan Sát. Side spans and the single central cable plane estimated from photos. Number of extradosed spans unclear."),
  "cau-hoa-son": m3d([220, 550, 220], "inverted_Y", [187, 187], "total", 2, "fan", 21.0,
     notes="550 m main span, 187 m pylons, ≈1.2 km bridge (press). Side spans, deck width and inverted-Y shape read from official renders (Báo Lâm Đồng / Người Quan Sát)."),
- "cau-tu-lien": m3d([250, 500, 250], "other", [185, 185], "total", 2, "semi_fan", 43.0, "steel", cps=18,
-    notes="1,000 m main bridge, 500 m span, 185 m pylons, 43 m steel deck (press). Side spans derived. Pylon form per the official render (client feedback 11/2026): diamond foot below the deck, legs merge ~38% up, then two separated, slightly twisted blades with staggered tops carrying a dense semi-fan in two planes. Modelled with pylon_custom (tip ≈ 170 m above deck)."),
+ "cau-tu-lien": m3d([250, 500, 250], "other", [185, 185], "total", 2, "semi_fan", 43.0, "steel", cps=19,
+    notes="1,000 m main bridge, 50 + 200 + 500 + 200 + 50 m with an auxiliary pier in each side span (VOV general elevation), 185 m pylons (top level +185.0), 43 m steel deck. Diamond-X pylons per the official render: legs cross above the deck and continue as two parallel posts with a short link near the top and staggered tops. 19 stays per side per plane at 12 m (152 total). Deck levels +24.5 (ends) / +25.6 (pylons) / +26.2 (mid-span); water modelled at datum 0 (dry season ≈ +1 to +3). Round 8: diamond-X pylon, spans/aux piers/stays from the VOV general elevation drawing; the earlier 'client feedback 11/2026' reading (legs merging into two twisted blades, 170/155 m tops) is superseded by the user's official render."),
  "cau-dai-ngai-1": m3d([210, 450, 210], "A", [110, 110], "above_deck", 2, "fan", 21.5, "composite",
     notes="210+450+210 m, A-shaped pylons 110 m above deck, composite steel girder (Báo Đầu tư). Fan pattern from the render. Another source gives 164 m total height."),
  "cau-cat-lai": m3d([190, 450, 190], "inverted_Y", [170, 170], "total", 2, "fan", 38.0, "composite",
@@ -449,7 +456,9 @@ PRESS = {
     press("https://nqs.1cdn.vn/thumbs/1200x630/2026/06/18/16C5_cau-hoa-son-17817714084611872675758-0-6-563-907-crop-17817714775621826758988.jpg", "Người Quan Sát", "https://nguoiquansat.vn/tay-bac-sap-co-cay-cau-moi-lap-ky-luc-viet-nam-quy-mo-3-100-ty-cam-hung-thiet-ke-tu-nui-rung-dia-phuong-298648.html", "render")],
  "cau-tu-lien": [
     press("https://daknong.1cdn.vn/thumbs/1200x630/2026/07/23/img_afa3cf01.jpg", "Báo Lâm Đồng", "https://baolamdong.vn/cau-tu-lien-hon-20100-ty-dong-tien-do-thi-cong-va-lo-trinh-hop-long-nam-2027-455142.html", "render"),
-    press("https://cafefcdn.com/thumb_w/1200/203337114487263232/2026/11/1/avatar1793492171852-17934921724821426072177.jpg", "CafeF / Hà Nội Mới", "https://cafef.vn/cau-day-vang-gan-20000-ty-dong-o-ha-noi-dang-thay-doi-dien-mao-the-nao-188261101071700319.chn", "construction 11/2026")],
+    press("https://cafefcdn.com/thumb_w/1200/203337114487263232/2026/11/1/avatar1793492171852-17934921724821426072177.jpg", "CafeF / Hà Nội Mới", "https://cafef.vn/cau-day-vang-gan-20000-ty-dong-o-ha-noi-dang-thay-doi-dien-mao-the-nao-188261101071700319.chn", "construction 11/2026"),
+    press("https://admin.vov.gov.vn/UploadFolder/KhoTin/Images/UploadFolder/VOVVN/Images/sites/default/files/styles/large_watermark/public/2026-06/cau_tu_lien_ve_dich_22_0.jpg", "VOV", "https://vov.gov.vn/toan-canh-cau-tu-lien-bieu-tuong-moi-ben-song-hong-cua-ha-noi-dang-thanh-hinh-dtnew-1150575", "render"),
+    press("https://admin.vov.gov.vn/UploadFolder/KhoTin/Images/UploadFolder/VOVVN/Images/sites/default/files/styles/large/public/2026-06/cau_tu_lien.jpg", "VOV", "https://vov.gov.vn/toan-canh-cau-tu-lien-bieu-tuong-moi-ben-song-hong-cua-ha-noi-dang-thanh-hinh-dtnew-1150575", "general elevation")],
  "cau-dai-ngai-1": [
     press("https://media.baodautu.vn/thumb_x470x250/Images/anhminh/2024/12/04/he-lo-nha-thau-thi-cong-sieu-cau-day-vang-dai-ngai-1-tri-gia-3900-ty-dong1733300762.jpg", "Báo Đầu tư", "https://baodautu.vn/he-lo-nha-thau-thi-cong-sieu-cau-day-vang-dai-ngai-1-tri-gia-3900-ty-dong-d231683.html", "render"),
     press("https://cdn.daidoanket.vn/1200x630/uploaded/images/2026/03/18/e3af5231-140e-4454-aa79-b6fdb4a3625f.jpg", "Báo Đại Đoàn Kết", "https://daidoanket.vn/can-canh-cong-trinh-cau-day-vang-co-nhip-chinh-dai-thu-2-viet-nam.html", "construction 3/2026")],
@@ -617,6 +626,7 @@ NAV = {
  "cau-can-tho-2": nav(40, 110, "main channel, above H5%; total navigable width 300 m incl. two 95 m × 31 m side channels", "https://baodautu.vn/phan-dau-khoi-cong-xay-dung-cau-can-tho-2-von-28500-ty-dong-vao-nam-2027-d388354.html"),
  "cau-ba-son": nav(11, None, None, "https://en.wikipedia.org/wiki/Ba_Son_Bridge"),
  "cau-can-gio": nav(55, None, None, "https://plo.vn/cau-can-gio-mang-hinh-tuong-cay-duoc-post515884.html"),
+ "cau-tu-lien": nav(10, 80, "BxH = 80 × 10 m above the 5% design flood level H5% = +9.55 m (general elevation drawing)", "https://vov.gov.vn/toan-canh-cau-tu-lien-bieu-tuong-moi-ben-song-hong-cua-ha-noi-dang-thanh-hinh-dtnew-1150575"),
 }
 
 
@@ -669,27 +679,40 @@ PYLON = {
  },
  "cau-tran-thi-ly": TTL_PYLON,
  "cau-tu-lien": {
-    # Client feedback on the official render (11/2026). Pylon-local frame: x along the bridge (+ toward the
-    # main span), y up from deck (water ≈ -45 m), z across (deck edges at ±21.5 m).
-    # 1) below deck: diamond foot - legs start ~0.45 × deck width apart at the footing and splay out to just
-    #    outside the deck edges at deck level; 2) above deck: legs lean in and merge at ~38% of the height,
-    #    no crossbeam; 3) above the merge: two slender blades with a clear ~2.5 m slot, slightly twisted
-    #    (opposite x-offsets) and with staggered flat tops (170 m vs 155 m); 4) dense semi-fan from the blades.
-    "description": "Diamond-foot pylon: legs splay from the footing to just outside the deck edges, lean in and merge at ~38% of the height (no crossbeam), then split into two thick, slightly twisted blades (≈8.5 m wide × ≈12.75 m deep, ≈0.05 × / 0.075 × the above-deck height) separated by a ~2.5 m slot, with staggered tops (≈170 m and ≈155 m above deck). Dense semi-fan stays in two planes anchor along the blades (top ~45%).",
+    # Round 8 (research/model-review/brief-r8-tu-lien.md), per the user's official render and the VOV general
+    # elevation drawing. Supersedes the earlier "client feedback 11/2026" merge + twisted-blades reading.
+    # Pylon-local frame: x along the bridge (+ toward the main span), y up from the deck at the pylon (waterline at
+    # y = -24.5), z across (deck edges ±21.5). Real scale: tip 159.5 + E 24.5 + crest at the pylon ≈1.3 → label ≈185 m.
+    # Legs 0/1: separate feet (±16) splay out to a knee just outside the deck (±33, y -8.5, under-deck beam), lean
+    #   in and CROSS at the centreline at y 62 (≈0.39 H), then turn vertical as the OPPOSITE post (leg from -z ends
+    #   at the +z post). The two sweeps intersecting at (0, 62, 0) is intended.
+    # Legs 2/3: the parallel posts (8.5 m c/c, ±1.5 m x-offset "twist"), flat tops staggered 159.5 / 150. They are
+    #   separate legs so each stay plane anchors on its own post (customZone matches planes by the leg's mean z;
+    #   a crossing leg would average to the wrong side). Struts, not crossbeams_y_m: with four legs that would join
+    #   consecutive legs diagonally.
+    "description": "Diamond-X pylon (Tứ Liên official render): two straight legs rise from separate feet in the river, splay outward to a knee just outside the deck edges where a deep crossbeam carries the girder, then lean inward through the deck and CROSS at the centreline (X) ≈ 40% of the above-deck height; each leg continues past the crossing and turns vertical as the opposite upper post. Two slender parallel posts ≈ 8.5 m apart (≈4 m slot), offset ±1.5 m along the bridge (slight twist), with flat tops staggered ≈9.5 m and a short link just below the lower top. Semi-fan stays in two inclined planes from the posts to the deck edges.",
     "legs": [
-        {"centerline": [[0, -45, -9.7], [0, -25, -17.5], [0, -3, -24.8], [0, 3, -24.5], [0, 35, -11], [0, 65, -5.5]],
-         "width_base_m": 6.0, "width_top_m": 4.5, "depth_base_m": 8.0, "depth_top_m": 6.0},
-        {"centerline": [[0, -45, 9.7], [0, -25, 17.5], [0, -3, 24.8], [0, 3, 24.5], [0, 35, 11], [0, 65, 5.5]],
-         "width_base_m": 6.0, "width_top_m": 4.5, "depth_base_m": 8.0, "depth_top_m": 6.0},
-        # upper blades start at the merge point (legs may start above the deck)
-        {"centerline": [[0.6, 65, -5.5], [0.4, 110, -5.5], [-0.6, 170, -5.5]],
-         "width_base_m": 8.5, "width_top_m": 7.5, "depth_base_m": 12.75, "depth_top_m": 10.0, "twist_deg": 18},
-        {"centerline": [[-0.6, 65, 5.5], [-0.4, 105, 5.5], [0.6, 155, 5.5]],
-         "width_base_m": 8.5, "width_top_m": 7.5, "depth_base_m": 12.75, "depth_top_m": 10.0, "twist_deg": -18},
+        {"centerline": [[0, -25.0, -16], [0, -17, -24.5], [0, -8.5, -33], [0, 0, -29.0], [0, 30, -15.0], [0, 62, 0], [0.9, 68, 2.4], [1.5, 74, 4.25]],
+         "width_base_m": 8.0, "width_top_m": 5.5, "depth_base_m": 11.0, "depth_top_m": 8.5},
+        {"centerline": [[0, -25.0, 16], [0, -17, 24.5], [0, -8.5, 33], [0, 0, 29.0], [0, 30, 15.0], [0, 62, 0], [-0.9, 68, -2.4], [-1.5, 74, -4.25]],
+         "width_base_m": 8.0, "width_top_m": 5.5, "depth_base_m": 11.0, "depth_top_m": 8.5},
+        {"centerline": [[-1.5, 74, -4.25], [-1.5, 115, -4.25], [-1.5, 159.5, -4.25]],
+         "width_base_m": 5.0, "width_top_m": 4.5, "depth_base_m": 8.5, "depth_top_m": 7.5},
+        {"centerline": [[1.5, 74, 4.25], [1.5, 112, 4.25], [1.5, 150, 4.25]],
+         "width_base_m": 5.0, "width_top_m": 4.5, "depth_base_m": 8.5, "depth_top_m": 7.5},
     ],
-    "anchor_zone": [{"y_from_m": 94, "y_to_m": 167, "leg": 2}, {"y_from_m": 94, "y_to_m": 152, "leg": 3}],
+    "struts": [
+        {"a": [0, -8.5, -31.5], "b": [0, -8.5, 31.5], "width": 8.0},     # deep under-deck crossbeam between the knees
+        {"a": [-1.5, 145, -4.25], "b": [1.5, 145, 4.25], "width": 3.0},  # short link just below the lower top
+    ],
+    "anchor_zone": [{"y_from_m": 92, "y_to_m": 141, "leg": 2}, {"y_from_m": 92, "y_to_m": 141, "leg": 3}],
+    "pile_cap": {"length_x_m": 30, "width_z_m": 48, "top_y_m": -25.0, "thickness_m": 6, "rounded_ends": False},
     "mirror_for_other_pylons": True,
-    "reference_images": ["https://daknong.1cdn.vn/thumbs/1200x630/2026/07/23/img_afa3cf01.jpg"],
+    "reference_images": [
+        "https://admin.vov.gov.vn/UploadFolder/KhoTin/Images/UploadFolder/VOVVN/Images/sites/default/files/styles/large_watermark/public/2026-06/cau_tu_lien_ve_dich_22_0.jpg",
+        "https://admin.vov.gov.vn/UploadFolder/KhoTin/Images/UploadFolder/VOVVN/Images/sites/default/files/styles/large/public/2026-06/cau_tu_lien.jpg",
+        "https://daknong.1cdn.vn/thumbs/1200x630/2026/07/23/img_afa3cf01.jpg",
+    ],
  },
  "cau-can-gio": {
     "description": "Current two-pylon 'mangrove tree' (cây đước) design per the 1/2026 render: each pylon has two splayed 'root' legs that rise from the water outside the deck, curve inward under/through the deck and join into one trunk about a third of the way up; the trunk continues as a single mast carrying fan stays in two planes.",
@@ -909,7 +932,9 @@ REVIEW_R1 = {
         "pylon_custom": None,   # filled below
         "note": "Deck ≈40 m above water: pylon 32 m above deck and 72 m above water (Tiền Phong). A-head on the pier head (legs from the deck edges), single central plane."},
     "cau-hoa-son": {"set": {"deck_elevation_m": 40}, "note": "Deck elevation 40 m estimated (reservoir crossing)."},
-    "cau-tu-lien": {"scale_y": 0.94, "set": {"deck_elevation_m": 25}, "note": "Deck ≈25 m above water (estimated) and blades scaled so the total is ≈185 m (VOV, CafeF)."},
+    # round 8 (research/model-review/brief-r8-tu-lien.md): scale_y 0.94 removed, the diamond-X pylon is at real scale
+    "cau-tu-lien": {"set": {"deck_elevation_m": 24.5, "deck_crest_m": 1.7, "auxiliary_piers_m": [50, 950], "cables_per_side": 19,
+                            "back_stay_deck_m": [28, 244], "pylon_colour": "#e8e0cc", "stay_colour": "white"}},  # note lives in M3D
     "cau-long-hung": {"set": {"deck_crest_m": 6, "deck_width_m": 37, "auxiliary_piers_m": [60, 640]},
         "pylon_custom": None,   # filled below
         "bridge": {"pylons": "2 tháp 'song kiếm hợp bích': hai lưỡi mảnh giữa dải phân cách, chụm nhọn ở đỉnh, chân choãi dưới mặt cầu, cao 175 m",
@@ -1016,9 +1041,6 @@ for b in B:
         b["model3d"] = m
         b["pylons"] = sp["pylons_vi"]
         b["pylons_en"] = sp["pylons_en"]
-    if bid == "cau-tu-lien":
-        b["pylons"] = "2 tháp chân kim cương, tách hai lưỡi xoắn phía trên, cao ≈185 m"
-        b["pylons_en"] = "2 diamond-foot pylons splitting into two twisted blades, ≈185 m"
     # PHASE6 for every bridge; keys the pass-2 shape file sets itself win (Máy Chai keeps its refined legs/struts)
     if bid in PHASE6:
         shape_m = SHAPES.get(bid, {}).get("model3d", {}) if SHAPES.get(bid, {}).get("pass2") else {}
@@ -1120,6 +1142,23 @@ for b in B:
         assert [(z["y_from_m"], z["y_to_m"]) for z in pc["anchor_zone"]] == [(31, 61), (31, 61)], pc
         assert pc["pile_cap"]["rounded_ends"] is False and b["span_arrangement"] == "120 + 270 + 120 m", b
         assert "No free image" not in b["notes"] and b["pylons"].startswith("2 tháp chữ H"), b
+    if b["id"] == "cau-tu-lien":  # round 8: diamond-X pylon, aux piers, 19 stays per side per plane (VOV elevation drawing)
+        pc = m["pylon_custom"]
+        assert m["spans_m"] == [250, 500, 250] and m["auxiliary_piers_m"] == [50, 950], m
+        assert m["deck_elevation_m"] == 24.5 and m["deck_crest_m"] == 1.7 and m["deck_width_m"] == 43.0, m
+        assert m["cables_per_side"] == 19 and m["back_stay_deck_m"] == [28, 244] and m["cable_planes"] == 2, m
+        assert m["pylon_colour"] == "#e8e0cc" and m["stay_colour"] == "white", m
+        assert len(pc["legs"]) == 4 and "crossbeams_y_m" not in pc and "twist_deg" not in str(pc), "no scale/blades"
+        assert [l["centerline"][-1][1] for l in pc["legs"]] == [74, 74, 159.5, 150], "not rescaled (scale_y removed)"
+        assert pc["legs"][0]["centerline"][5] == [0, 62, 0] == pc["legs"][1]["centerline"][5], "legs cross at y 62"
+        assert pc["legs"][0]["centerline"][-1] == pc["legs"][3]["centerline"][0], "leg from -z continues as the +z post"
+        assert pc["legs"][1]["centerline"][-1] == pc["legs"][2]["centerline"][0], "leg from +z continues as the -z post"
+        assert sorted(st["a"][1] for st in pc["struts"]) == [-8.5, 145], pc["struts"]
+        assert [(z["leg"], z["y_from_m"], z["y_to_m"]) for z in pc["anchor_zone"]] == [(2, 92, 141), (3, 92, 141)], pc
+        assert pc["pile_cap"]["top_y_m"] == -25.0 and all(l["centerline"][0][1] == -25.0 for l in pc["legs"][:2]), pc
+        assert b["nav_clearance"]["height_m"] == 10 and b["nav_clearance"]["width_m"] == 80, b["nav_clearance"]
+        assert b["span_arrangement"] == "50 + 200 + 500 + 200 + 50 m" and "+185" in b["pylons_en"] and "đan chéo" in b["pylons"], b
+        assert "twisted blades" not in b["pylons_en"] and "superseded" in m["notes"] and "Review r1" not in m["notes"], m["notes"]
     if b["id"] == "cau-ben-rung":     # round 5: foundation (pile cap + columns), 22 m deck, 25° blades, 12 stays
         pc = m["pylon_custom"]
         assert m["deck_elevation_m"] == 22 and m["cables_per_side"] == 12 and m["cable_pattern"] == "semi_fan", m

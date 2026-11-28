@@ -364,6 +364,70 @@ describe.each(files)('%s', (file) => {
     expect(g.colours.stay).toBe('white');
   });
 
+  it('Tứ Liên (round 8): diamond-X pylons crossing at y 62, staggered posts, aux piers, 19 stays per side per plane', () => {
+    const b = bridges.find((x) => x.id === 'cau-tu-lien');
+    if (!b?.model3d || file.endsWith('.sample.json')) return; // the sample keeps an older record
+    const m = b.model3d;
+    const pc = m.pylon_custom!;
+    expect(m.spans_m).toEqual([250, 500, 250]);
+    expect(b.span_arrangement).toBe('50 + 200 + 500 + 200 + 50 m');
+    const g = buildBridgeGeometry(m, 'completed', { navClearance: b.nav_clearance })!;
+    expect(g.warnings).toEqual([]);
+    expect(g.deckElevation).toBe(24.5);
+    expect(g.auxiliaryPiers).toEqual([50, 950]);
+    expect(g.pylons.map((p) => p.x)).toEqual([250, 750]);
+    expect(g.deckY(500)).toBeCloseTo(26.2, 1);
+    expect(g.clearance?.height).toBe(10);
+    // legs 0/1 cross at the centreline at y 62 and continue to the opposite post (2 is at −z, 3 at +z)
+    const [l0, l1, l2, l3] = pc.legs.map((l) => l.centerline);
+    expect(l0[5]).toEqual([0, 62, 0]);
+    expect(l1[5]).toEqual([0, 62, 0]);
+    expect(l0[0][2]).toBeLessThan(0);
+    expect(l0[l0.length - 1]).toEqual(l3[0]);
+    expect(l1[l1.length - 1]).toEqual(l2[0]);
+    expect(l3[0][2] - l2[0][2]).toBeCloseTo(8.5, 5);
+    expect(l2[l2.length - 1][1]).toBe(159.5);
+    expect(l3[l3.length - 1][1]).toBe(150);
+    expect(l3[l3.length - 1][1] / l2[l2.length - 1][1]).toBeCloseTo(0.94, 2);
+    // knee half-spacing / (crossing − knee) ≈ 0.47; post c/c / knee spacing ≈ 0.13
+    expect(33 / (62 - l0[2][1])).toBeCloseTo(0.47, 1);
+    expect(Math.abs(l0[2][2])).toBe(33);
+    for (const p of g.pylons) {
+      expect(p.custom).toBe(true);
+      expect(p.labelRef).toBe('total');
+      expect(p.labelHeight).toBeGreaterThan(184.5);
+      expect(p.labelHeight).toBeLessThan(186);
+      expect(g.deckY(p.x)).toBeGreaterThan(25.5);
+      expect(g.deckY(p.x)).toBeLessThan(26);
+      expect(p.heightAboveDeck).toBeCloseTo(159.5, 0);
+      expect(p.caps).toHaveLength(1);
+      // under-deck crossbeam at the knees (8 m deep) and the short link at y 145
+      const ys = p.members.map((mb) => (mb.a[1] + mb.b[1]) / 2 - g.deckY(p.x)).sort((a, c) => a - c);
+      expect(ys).toHaveLength(2);
+      expect(ys[0]).toBeCloseTo(-8.5, 0);
+      expect(ys[1]).toBeCloseTo(145, 0);
+      // 19 per side per plane, anchored 92–141 m on the posts; no stay crosses between the posts
+      const cs = g.cables.filter((c) => c.pylon === p.index);
+      expect(cs).toHaveLength(19 * 2 * 2);
+      for (const c of cs) {
+        const y = c.top[1] - g.deckY(p.x);
+        expect(y).toBeGreaterThan(91);
+        expect(y).toBeLessThan(142);
+        expect(Math.sign(c.top[2])).toBe(Math.sign(c.deck[2]));
+        expect(Math.abs(c.top[2])).toBeLessThan(7);
+        expect(Math.abs(c.deck[2])).toBeGreaterThan(17);
+      }
+      // the back fan lands 28–244 m from the pylon (toward the unit end)
+      const back = cs.filter((c) => Math.sign(c.deck[0] - p.x) !== Math.sign(500 - p.x));
+      expect(back).toHaveLength(19 * 2);
+      const d = back.map((c) => Math.abs(c.deck[0] - p.x));
+      expect(Math.min(...d)).toBeCloseTo(28, 0);
+      expect(Math.max(...d)).toBeCloseTo(244, 0);
+    }
+    expect(g.colours.pylon).toBe('#e8e0cc');
+    expect(g.colours.stay).toBe('white');
+  });
+
   it('model3d has only schema keys, and harp bridges draw parallel stays (within 2°)', () => {
     const KEYS = new Set([
       'spans_m', 'pylon_shape', 'pylon_heights_m', 'pylon_height_ref', 'cable_planes', 'cable_pattern', 'cables_per_side',

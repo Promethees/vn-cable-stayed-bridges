@@ -3573,10 +3573,17 @@
     "total_length_m": 1000,
     "width_m": 43,
     "cable_stayed_spans": 1,
-    "pylons": "2 tháp chân kim cương, tách hai lưỡi xoắn phía trên, cao ≈185 m",
-    "pylons_en": "2 diamond-foot pylons splitting into two twisted blades, ≈185 m",
+    "span_arrangement": "50 + 200 + 500 + 200 + 50 m",
+    "pylons": "2 tháp kim cương – hai chân đan chéo (chữ X) phía trên mặt cầu, tiếp tục thành hai cột song song nối bằng thanh giằng ngắn gần đỉnh, đỉnh lệch cao; đỉnh tháp +185,0 m",
+    "pylons_en": "2 diamond-X pylons: legs cross above the deck and continue as two parallel posts with a short link near the top and staggered tops; top level +185.0 m",
     "investor": "Liên danh Vingroup (BT)",
     "cost": "≈20,100 tỷ VND",
+    "nav_clearance": {
+      "height_m": 10,
+      "width_m": 80,
+      "reference": "BxH = 80 × 10 m above the 5% design flood level H5% = +9.55 m (general elevation drawing)",
+      "source": "https://vov.gov.vn/toan-canh-cau-tu-lien-bieu-tuong-moi-ben-song-hong-cua-ha-noi-dang-thanh-hinh-dtnew-1150575"
+    },
     "model3d": {
       "spans_m": [
         250,
@@ -3591,157 +3598,223 @@
       "pylon_height_ref": "total",
       "cable_planes": 2,
       "cable_pattern": "semi_fan",
-      "cables_per_side": 18,
+      "cables_per_side": 19,
       "deck_width_m": 43.0,
       "deck_type": "steel",
       "confidence": "estimated",
-      "notes": "1,000 m main bridge, 500 m span, 185 m pylons, 43 m steel deck (press). Side spans derived. Pylon form per the official render (client feedback 11/2026): diamond foot below the deck, legs merge ~38% up, then two separated, slightly twisted blades with staggered tops carrying a dense semi-fan in two planes. Modelled with pylon_custom (tip ≈ 170 m above deck). Review r1: Deck ≈25 m above water (estimated) and blades scaled so the total is ≈185 m (VOV, CafeF).",
+      "notes": "1,000 m main bridge, 50 + 200 + 500 + 200 + 50 m with an auxiliary pier in each side span (VOV general elevation), 185 m pylons (top level +185.0), 43 m steel deck. Diamond-X pylons per the official render: legs cross above the deck and continue as two parallel posts with a short link near the top and staggered tops. 19 stays per side per plane at 12 m (152 total). Deck levels +24.5 (ends) / +25.6 (pylons) / +26.2 (mid-span); water modelled at datum 0 (dry season ≈ +1 to +3). Round 8: diamond-X pylon, spans/aux piers/stays from the VOV general elevation drawing; the earlier 'client feedback 11/2026' reading (legs merging into two twisted blades, 170/155 m tops) is superseded by the user's official render.",
       "pylon_custom": {
-        "description": "Diamond-foot pylon: legs splay from the footing to just outside the deck edges, lean in and merge at ~38% of the height (no crossbeam), then split into two thick, slightly twisted blades (≈8.5 m wide × ≈12.75 m deep, ≈0.05 × / 0.075 × the above-deck height) separated by a ~2.5 m slot, with staggered tops (≈170 m and ≈155 m above deck). Dense semi-fan stays in two planes anchor along the blades (top ~45%).",
+        "description": "Diamond-X pylon (Tứ Liên official render): two straight legs rise from separate feet in the river, splay outward to a knee just outside the deck edges where a deep crossbeam carries the girder, then lean inward through the deck and CROSS at the centreline (X) ≈ 40% of the above-deck height; each leg continues past the crossing and turns vertical as the opposite upper post. Two slender parallel posts ≈ 8.5 m apart (≈4 m slot), offset ±1.5 m along the bridge (slight twist), with flat tops staggered ≈9.5 m and a short link just below the lower top. Semi-fan stays in two inclined planes from the posts to the deck edges.",
         "legs": [
           {
             "centerline": [
               [
                 0,
-                -45,
-                -9.7
+                -25.0,
+                -16
               ],
               [
                 0,
-                -25,
-                -17.5
-              ],
-              [
-                0,
-                -3,
-                -24.8
-              ],
-              [
-                0,
-                2.82,
+                -17,
                 -24.5
               ],
               [
                 0,
-                32.9,
-                -11
+                -8.5,
+                -33
               ],
               [
                 0,
-                61.1,
-                -5.5
+                0,
+                -29.0
+              ],
+              [
+                0,
+                30,
+                -15.0
+              ],
+              [
+                0,
+                62,
+                0
+              ],
+              [
+                0.9,
+                68,
+                2.4
+              ],
+              [
+                1.5,
+                74,
+                4.25
               ]
             ],
-            "width_base_m": 6.0,
-            "width_top_m": 4.5,
-            "depth_base_m": 8.0,
-            "depth_top_m": 6.0
+            "width_base_m": 8.0,
+            "width_top_m": 5.5,
+            "depth_base_m": 11.0,
+            "depth_top_m": 8.5
           },
           {
             "centerline": [
               [
                 0,
-                -45,
-                9.7
+                -25.0,
+                16
               ],
               [
                 0,
-                -25,
-                17.5
-              ],
-              [
-                0,
-                -3,
-                24.8
-              ],
-              [
-                0,
-                2.82,
+                -17,
                 24.5
               ],
               [
                 0,
-                32.9,
-                11
+                -8.5,
+                33
               ],
               [
                 0,
-                61.1,
-                5.5
+                0,
+                29.0
+              ],
+              [
+                0,
+                30,
+                15.0
+              ],
+              [
+                0,
+                62,
+                0
+              ],
+              [
+                -0.9,
+                68,
+                -2.4
+              ],
+              [
+                -1.5,
+                74,
+                -4.25
               ]
             ],
-            "width_base_m": 6.0,
+            "width_base_m": 8.0,
+            "width_top_m": 5.5,
+            "depth_base_m": 11.0,
+            "depth_top_m": 8.5
+          },
+          {
+            "centerline": [
+              [
+                -1.5,
+                74,
+                -4.25
+              ],
+              [
+                -1.5,
+                115,
+                -4.25
+              ],
+              [
+                -1.5,
+                159.5,
+                -4.25
+              ]
+            ],
+            "width_base_m": 5.0,
             "width_top_m": 4.5,
-            "depth_base_m": 8.0,
-            "depth_top_m": 6.0
+            "depth_base_m": 8.5,
+            "depth_top_m": 7.5
           },
           {
             "centerline": [
               [
-                0.6,
-                61.1,
-                -5.5
+                1.5,
+                74,
+                4.25
               ],
               [
-                0.4,
-                103.4,
-                -5.5
+                1.5,
+                112,
+                4.25
               ],
               [
-                -0.6,
-                159.8,
-                -5.5
+                1.5,
+                150,
+                4.25
               ]
             ],
-            "width_base_m": 8.5,
-            "width_top_m": 7.5,
-            "depth_base_m": 12.75,
-            "depth_top_m": 10.0,
-            "twist_deg": 18
+            "width_base_m": 5.0,
+            "width_top_m": 4.5,
+            "depth_base_m": 8.5,
+            "depth_top_m": 7.5
+          }
+        ],
+        "struts": [
+          {
+            "a": [
+              0,
+              -8.5,
+              -31.5
+            ],
+            "b": [
+              0,
+              -8.5,
+              31.5
+            ],
+            "width": 8.0
           },
           {
-            "centerline": [
-              [
-                -0.6,
-                61.1,
-                5.5
-              ],
-              [
-                -0.4,
-                98.7,
-                5.5
-              ],
-              [
-                0.6,
-                145.7,
-                5.5
-              ]
+            "a": [
+              -1.5,
+              145,
+              -4.25
             ],
-            "width_base_m": 8.5,
-            "width_top_m": 7.5,
-            "depth_base_m": 12.75,
-            "depth_top_m": 10.0,
-            "twist_deg": -18
+            "b": [
+              1.5,
+              145,
+              4.25
+            ],
+            "width": 3.0
           }
         ],
         "anchor_zone": [
           {
-            "y_from_m": 88.36,
-            "y_to_m": 156.98,
+            "y_from_m": 92,
+            "y_to_m": 141,
             "leg": 2
           },
           {
-            "y_from_m": 88.36,
-            "y_to_m": 142.88,
+            "y_from_m": 92,
+            "y_to_m": 141,
             "leg": 3
           }
         ],
+        "pile_cap": {
+          "length_x_m": 30,
+          "width_z_m": 48,
+          "top_y_m": -25.0,
+          "thickness_m": 6,
+          "rounded_ends": false
+        },
         "mirror_for_other_pylons": true,
         "reference_images": [
+          "https://admin.vov.gov.vn/UploadFolder/KhoTin/Images/UploadFolder/VOVVN/Images/sites/default/files/styles/large_watermark/public/2026-06/cau_tu_lien_ve_dich_22_0.jpg",
+          "https://admin.vov.gov.vn/UploadFolder/KhoTin/Images/UploadFolder/VOVVN/Images/sites/default/files/styles/large/public/2026-06/cau_tu_lien.jpg",
           "https://daknong.1cdn.vn/thumbs/1200x630/2026/07/23/img_afa3cf01.jpg"
         ]
       },
-      "deck_elevation_m": 25
+      "deck_elevation_m": 24.5,
+      "deck_crest_m": 1.7,
+      "auxiliary_piers_m": [
+        50,
+        950
+      ],
+      "back_stay_deck_m": [
+        28,
+        244
+      ],
+      "pylon_colour": "#e8e0cc",
+      "stay_colour": "white"
     },
     "lat": 21.0709,
     "lng": 105.8513,
@@ -3757,15 +3830,30 @@
         "credit": "CafeF / Hà Nội Mới",
         "license": "unknown",
         "source": "https://cafef.vn/cau-day-vang-gan-20000-ty-dong-o-ha-noi-dang-thay-doi-dien-mao-the-nao-188261101071700319.chn"
+      },
+      {
+        "url": "https://admin.vov.gov.vn/UploadFolder/KhoTin/Images/UploadFolder/VOVVN/Images/sites/default/files/styles/large_watermark/public/2026-06/cau_tu_lien_ve_dich_22_0.jpg",
+        "credit": "VOV",
+        "license": "unknown",
+        "source": "https://vov.gov.vn/toan-canh-cau-tu-lien-bieu-tuong-moi-ben-song-hong-cua-ha-noi-dang-thanh-hinh-dtnew-1150575"
+      },
+      {
+        "url": "https://admin.vov.gov.vn/UploadFolder/KhoTin/Images/UploadFolder/VOVVN/Images/sites/default/files/styles/large/public/2026-06/cau_tu_lien.jpg",
+        "credit": "VOV",
+        "license": "unknown",
+        "source": "https://vov.gov.vn/toan-canh-cau-tu-lien-bieu-tuong-moi-ben-song-hong-cua-ha-noi-dang-thanh-hinh-dtnew-1150575"
       }
     ],
     "sources": [
       "https://baolamdong.vn/cau-tu-lien-hon-20100-ty-dong-tien-do-thi-cong-va-lo-trinh-hop-long-nam-2027-455142.html",
       "https://cafef.vn/cau-day-vang-gan-20000-ty-dong-o-ha-noi-dang-thay-doi-dien-mao-the-nao-188261101071700319.chn",
+      "https://vov.gov.vn/toan-canh-cau-tu-lien-bieu-tuong-moi-ben-song-hong-cua-ha-noi-dang-thanh-hinh-dtnew-1150575",
+      "https://tienphong.vn/toan-canh-tien-do-sieu-du-an-cau-tu-lien-gan-20000-ty-dong-post1835217.tpo",
+      "https://soha.vn/sieu-cong-trinh-gan-20000-ty-dong-so-huu-thiet-ke-van-xoan-doc-dao-do-lien-danh-vingroup-cua-ty-phu-pham-nhat-vuong-xay-dat-tien-do-ra-sao-sau-hon-mot-nam-khoi-cong-198261112162043713.htm",
       "https://www.openstreetmap.org (Overpass query, bridge way centre, retrieved 2026-11-25)"
     ],
     "confidence": "verified",
-    "notes": "Started 19/5/2025. Main-span closure target 30/7/2027, opening target ≈10/2027. Total length is for the main cable-stayed bridge only. Connects Tây Hồ (Nghi Tàm) and Đông Anh; road name not set. Link-only images (press/official, license unknown): Báo Lâm Đồng – render; CafeF / Hà Nội Mới – construction 11/2026."
+    "notes": "Started 19/5/2025. Main-span closure target 30/7/2027, opening target 10/10/2027. Total length is for the main cable-stayed bridge only. Connects Tây Hồ (Nghi Tàm) and Đông Anh; road name not set. Progress end-10/2026: 26.85 %; pylons P37 6/37 lifts, P38 5/37. The 158 m / 60 m / 8-lane figures belong to the 2024 WATG 'dragon' competition scheme, not the built design. Link-only images (press/official, license unknown): Báo Lâm Đồng – render; CafeF / Hà Nội Mới – construction 11/2026; VOV – render; VOV – general elevation."
   },
   {
     "id": "cau-dai-ngai-1",

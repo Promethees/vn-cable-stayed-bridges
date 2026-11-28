@@ -3,20 +3,23 @@
  "pass2": true,
  "review_only": true,
  "checklist": {
-  "foot below deck": "pass (diamond, engineer's model)",
-  "legs at deck": "pass (outside edges)",
-  "merge height": "pass (≈38%)",
-  "crossbeams": "pass (none)",
-  "head": "fixed (blades thickened to ≈8.5 × 12.75 m; slot 2.5 m)",
-  "proportions": "pass",
-  "stays": "pass (semi-fan, 2 planes)",
-  "deck / aux piers": "limited",
-  "colour": "pass"
+  "foot below deck": "pass (separate feet ±16 m in the river, submerged pile cap)",
+  "legs at deck": "pass (knees ±33 m just outside the 43 m deck, deep under-deck crossbeam at y −8.5)",
+  "merge height": "fixed (legs CROSS (X) at y 62 ≈ 0.39 H and continue as the opposite posts; no merge)",
+  "crossbeams": "fixed (under-deck crossbeam + short link at y 145 between the posts, both struts)",
+  "head": "fixed (two parallel posts 8.5 m c/c, ±1.5 m x-offset, flat staggered tops 159.5 / 150 m; old twisted blades removed)",
+  "proportions": "pass (knee/(crossing−knee) ≈ 0.47; post c/c / knee spacing ≈ 0.13; lower/taller top 0.94; label ≈185 m, scale_y removed)",
+  "stays": "fixed (19 per side per plane, two planes from the posts to the deck edges, anchored 92–141 m, back stays 28–244 m)",
+  "deck / aux piers": "fixed (aux piers at 50 / 950 m; deck +24.5 with 1.7 m crest; nav box 80 × 10 m)",
+  "colour": "fixed (cream #e8e0cc pylons, white stays)"
  },
  "compare": "scratchpad only (press/render images, licence unknown)",
  "review": [
   "Blades looked like sticks",
   "Blades thickened (0.05 × / 0.075 × the above-deck height)",
-  "Official render + construction photo"
+  "Official render + construction photo",
+  "Round 8 (brief-r8-tu-lien.md): the user's official render shows a diamond-X pylon; the 'client feedback 11/2026' merge + twisted blades reading is superseded",
+  "Diamond-X: legs cross at ≈0.39 H, continue as the opposite parallel posts, link near the top, staggered tops; under-deck crossbeam at the knees",
+  "Spans 50 + 200 + 500 + 200 + 50 m (aux piers), 19 stays per side per plane and nav box 80 × 10 m from the VOV general elevation drawing"
  ]
 }
