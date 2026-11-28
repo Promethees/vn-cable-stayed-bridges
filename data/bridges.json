@@ -3713,10 +3713,20 @@
     "construction_start": 2019,
     "opened": 2021,
     "main_span_m": 153,
+    "total_length_m": 1728,
     "width_m": 18.5,
+    "lanes": 4,
     "span_arrangement": "86 + 153 + 86 m",
-    "pylons": "2 tháp thấp một cột giữa (extradosed), dây văng đỏ",
-    "pylons_en": "2 low single-column pylons (extradosed), red stays",
+    "pylons": "2 tháp búp sen: cột bê tông màu trắng giữa dải phân cách, cao ≈29 m trên mặt cầu, đỉnh là búp sen (đầu hồng đỏ); dây văng đỏ một mặt phẳng giữa, 11 dây mỗi bên, dạng nửa rẻ quạt",
+    "pylons_en": "2 white lotus-bud pylons: one median concrete shaft ≈29 m above the deck crowned by a lotus bud with a pink-red tip; one central plane of red semi-fan stays, 11 per side",
+    "investor": "Ban QLDA 6 (Bộ GTVT); designer TEDI",
+    "cost": "950 tỷ VND",
+    "nav_clearance": {
+      "height_m": 24.5,
+      "width_m": 80,
+      "reference": "navigation opening 120 m × 20.5 m; 24.5 m within 40 m either side of the channel centreline; 2,000 DWT",
+      "source": "https://vtv.vn/xa-hoi/cau-cua-hoi-chinh-thuc-duoc-dua-vao-su-dung-tu-ngay-15-3-2021031402344628.htm"
+    },
     "model3d": {
       "spans_m": [
         86,
@@ -3725,19 +3735,202 @@
       ],
       "pylon_shape": "single",
       "pylon_heights_m": [
-        18,
-        18
+        29,
+        29
       ],
       "pylon_height_ref": "above_deck",
+      "deck_elevation_m": 26.0,
+      "deck_crest_m": 2.6,
+      "deck_depth_m": 3.0,
+      "deck_haunch": {
+        "depth_at_pylon_m": 5.0,
+        "length_m": 60
+      },
       "cable_planes": 1,
-      "cable_pattern": "harp",
+      "cable_pattern": "semi_fan",
+      "cables_per_side": 11,
+      "main_stay_deck_m": [
+        14,
+        58
+      ],
+      "back_stay_deck_m": [
+        14,
+        58
+      ],
       "deck_width_m": 18.5,
       "deck_type": "concrete",
       "extradosed": true,
-      "confidence": "estimated",
-      "notes": "Extradosed 86+153+86 m (infra.global). Low red pylons; one central plane assumed from press aerials. Pylon height estimated. Colour: white mast; red stays. Aerial shows two low central masts with red single-plane stays.",
       "pylon_colour": "white",
-      "stay_colour": "red"
+      "stay_colour": "#d0313d",
+      "confidence": "estimated",
+      "notes": "Extradosed unit 86 + 153 + 86 m (infra.global; designer TEDI, client PMU 6), the 153 m span the longest extradosed span in Viet Nam when it opened (press). Prestressed-concrete continuous box girder built by balanced cantilever, haunched (≈5 m deep at the pylons, ≈3 m at mid-span, read from a side-on construction photo; drawn with deck_haunch, G17); main-bridge deck 18.5 m (16 m on the Super-T approaches), 2 motor + 2 mixed lanes. Navigation clearance 120 × 20.5 m, 24.5 m within 40 m of the channel centreline, 2,000 DWT (VTV). Pylons: a single white concrete shaft in the median ('cột bê tông') rising ≈19 m above the deck and widening slightly upward, crowned by a lotus bud ('chóp búp sen', ≈6 m across, white with a pink-red tip and a ≈2 m finial) to ≈29 m above the deck (kinhtedothi 12/2019: 'khoảng 25/29 m tháp'; side photos ≈28–29 m). One central plane of red stays (each position a pair of strands ≈1 m apart, 15 cm sheaths; anchors in a maintenance gallery in the box), 11 per side per pylon, anchored on the shaft over ≈7–18.5 m and on the median ≈14–58 m from the pylon. Below the deck a rectangular pier (≈6 × 8 m) on a chamfered pile cap ≈12 × 23 m just above the water. Deck ≈26 m above the water at the unit ends, ≈28 m at the pylons, ≈28.6 m at mid-span (crest 2.6 m; heights from side photos, set so that the 24.5 m clearance fits under a 3 m girder). Colour: white lotus-bud pylons with a pink-red tip; red stays (one central plane); grey concrete deck and piers. Single central plane of red stays from two white lotus-bud ('búp sen') pylons ≈29 m above the deck.",
+      "pylon_custom": {
+        "description": "Lotus-bud pylon ('búp sen'): one concrete shaft on the deck centreline, ≈3.4 m across × 4.2 m along the bridge at the deck, widening to ≈4 × 5 m at ≈19 m, then a bud that swells to ≈6 m (19–21.5 m), stays full (21.5–24.5 m) and closes to a point at 29 m above the deck; the top ≈1.7 m is pink-red (finial not modelled). Stays: one central plane anchored on the shaft over 7–18.5 m. Below the deck a rectangular pier ≈6 m along × 8 m across the bridge on a chamfered pile cap ≈12 × 23 m whose top is ≈2.5 m above the water.",
+        "legs": [
+          {
+            "centerline": [
+              [
+                0,
+                -0.5,
+                0
+              ],
+              [
+                0,
+                9.0,
+                0
+              ],
+              [
+                0,
+                19.0,
+                0
+              ]
+            ],
+            "width_base_m": 3.4,
+            "width_top_m": 4.0,
+            "depth_base_m": 4.2,
+            "depth_top_m": 5.0
+          },
+          {
+            "centerline": [
+              [
+                0,
+                19.0,
+                0
+              ],
+              [
+                0,
+                20.25,
+                0
+              ],
+              [
+                0,
+                21.5,
+                0
+              ]
+            ],
+            "width_base_m": 4.0,
+            "width_top_m": 6.0,
+            "depth_base_m": 5.0,
+            "depth_top_m": 6.0
+          },
+          {
+            "centerline": [
+              [
+                0,
+                21.5,
+                0
+              ],
+              [
+                0,
+                23.0,
+                0
+              ],
+              [
+                0,
+                24.5,
+                0
+              ]
+            ],
+            "width_base_m": 6.0,
+            "width_top_m": 6.0,
+            "depth_base_m": 6.0,
+            "depth_top_m": 6.0
+          },
+          {
+            "centerline": [
+              [
+                0,
+                24.5,
+                0
+              ],
+              [
+                0,
+                26.0,
+                0
+              ],
+              [
+                0,
+                27.3,
+                0
+              ]
+            ],
+            "width_base_m": 6.0,
+            "width_top_m": 2.0,
+            "depth_base_m": 6.0,
+            "depth_top_m": 2.0
+          },
+          {
+            "centerline": [
+              [
+                0,
+                27.3,
+                0
+              ],
+              [
+                0,
+                28.2,
+                0
+              ],
+              [
+                0,
+                29.0,
+                0
+              ]
+            ],
+            "width_base_m": 2.0,
+            "width_top_m": 0.3,
+            "depth_base_m": 2.0,
+            "depth_top_m": 0.3,
+            "colour": "#c8505a"
+          },
+          {
+            "centerline": [
+              [
+                0,
+                -23.7,
+                0
+              ],
+              [
+                0,
+                -12.0,
+                0
+              ],
+              [
+                0,
+                -1.0,
+                0
+              ]
+            ],
+            "width_base_m": 8.0,
+            "width_top_m": 8.0,
+            "depth_base_m": 6.0,
+            "depth_top_m": 6.0
+          }
+        ],
+        "crown": "pointed",
+        "pile_cap": {
+          "length_x_m": 12,
+          "width_z_m": 23,
+          "top_y_m": -23.7,
+          "thickness_m": 4.0,
+          "chamfer_m": 3.5
+        },
+        "anchor_zone": [
+          {
+            "y_from_m": 7.0,
+            "y_to_m": 18.5,
+            "leg": 0
+          }
+        ],
+        "mirror_for_other_pylons": true,
+        "reference_images": [
+          "https://cdn-images.vtv.vn/thumb_w/1200/2021/3/14/cau-cua-hoi-vgp-161566274594474766141.jpg",
+          "https://ngoisao.vnexpress.net/cau-gan-1-000-ty-dong-vuot-song-lam-4205350.html",
+          "https://nguoiquansat.vn/cau-dep-nhat-bac-mien-trung-kien-truc-bup-sen-an-tuong-cua-ngo-ket-noi-2-tinh-nghe-tinh-244543.html",
+          "https://cafebiz.vn/nhin-tu-tren-cao-cay-cau-950-ty-dong-noi-nghe-an-va-ha-tinh-20210206135616766.chn"
+        ]
+      },
+      "colour_mode": "vivid"
     },
     "lat": 18.751,
     "lng": 105.7469,
@@ -3747,15 +3940,34 @@
         "credit": "VinWonders",
         "license": "unknown",
         "source": "https://vinwonders.com/vi/wonderpedia/news/cau-cua-hoi-bieu-tuong-ket-noi-nghe-an-va-ha-tinh/"
+      },
+      {
+        "url": "https://cdn-images.vtv.vn/thumb_w/1200/2021/3/14/cau-cua-hoi-vgp-161566274594474766141.jpg",
+        "credit": "VTV",
+        "license": "unknown",
+        "source": "https://vtv.vn/xa-hoi/cau-cua-hoi-chinh-thuc-duoc-dua-vao-su-dung-tu-ngay-15-3-2021031402344628.htm"
+      },
+      {
+        "url": "https://nqs.1cdn.vn/2025/09/21/250921202902055_cau-cua-hoi-1-1758448014694782117873.jpg",
+        "credit": "Người Quan Sát",
+        "license": "unknown",
+        "source": "https://nguoiquansat.vn/cau-dep-nhat-bac-mien-trung-kien-truc-bup-sen-an-tuong-cua-ngo-ket-noi-2-tinh-nghe-tinh-244543.html"
       }
     ],
     "sources": [
       "https://infra.global/projects/cua-hoi-bridge/",
       "https://vinwonders.com/vi/wonderpedia/news/cau-cua-hoi-bieu-tuong-ket-noi-nghe-an-va-ha-tinh/",
+      "https://vtv.vn/xa-hoi/cau-cua-hoi-chinh-thuc-duoc-dua-vao-su-dung-tu-ngay-15-3-2021031402344628.htm",
+      "https://ngoisao.vnexpress.net/cau-gan-1-000-ty-dong-vuot-song-lam-4205350.html",
+      "https://cafebiz.vn/nhin-tu-tren-cao-cay-cau-950-ty-dong-noi-nghe-an-va-ha-tinh-20210206135616766.chn",
+      "https://kinhtedothi.vn/can-canh-cong-truong-cau-cua-hoi-noi-nghe-an-ha-tinh.html",
+      "https://nguoiquansat.vn/cau-dep-nhat-bac-mien-trung-kien-truc-bup-sen-an-tuong-cua-ngo-ket-noi-2-tinh-nghe-tinh-244543.html",
+      "https://vnexpress.net/hon-65-ty-dong-trang-tri-cau-cua-hoi-4642773.html",
+      "https://vi.wikipedia.org/wiki/C%E1%BA%A7u_C%E1%BB%ADa_H%E1%BB%99i",
       "https://www.openstreetmap.org (Overpass query, bridge way centre, retrieved 2026-11-25)"
     ],
     "confidence": "needs_check",
-    "notes": "EXTRADOSED. The 153 m main span comes from a single source (infra.global) and is borderline (just above 150). Inaugurated 14/3/2021. Link-only images (press/official, license unknown): VinWonders – aerial photo."
+    "notes": "EXTRADOSED. 86 + 153 + 86 m (infra.global; 153 m in VnExpress, Ngôi Sao, CafeBiz). Designer TEDI, client Ban QLDA 6. Bridge 1,728 m (route 5.271 km), 18.5 m main / 16 m approaches (Super-T). Navigation 120 × 20.5 m, 24.5 m within 40 m of the channel centreline (2,000 DWT). Ground-breaking 15/2/2019, closure 13/10/2020, temporary use 6/2/2021, opened 14/3/2021. Lotus-bud pylons ≈29 m above the deck (Kinh tế & Đô thị: 'khoảng 25/29 m tháp'). Decorative lighting of pylons, buds and stays (> 65 tỷ) approved 8/2023. Link-only images (press/official, license unknown): VinWonders – aerial photo; VTV – side elevation during construction (2020); Người Quan Sát – completed bridge, lotus-bud pylons."
   },
   {
     "id": "cau-thuan-an",

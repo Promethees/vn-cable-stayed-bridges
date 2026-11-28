@@ -1,6 +1,6 @@
 {
- "pylons_vi": "2 tháp thấp một cột giữa (extradosed), dây văng đỏ",
- "pylons_en": "2 low single-column pylons (extradosed), red stays",
+ "pylons_vi": "2 tháp búp sen: cột bê tông màu trắng giữa dải phân cách, cao ≈29 m trên mặt cầu, đỉnh là búp sen (đầu hồng đỏ); dây văng đỏ một mặt phẳng giữa, 11 dây mỗi bên, dạng nửa rẻ quạt",
+ "pylons_en": "2 white lotus-bud pylons: one median concrete shaft ≈29 m above the deck crowned by a lotus bud with a pink-red tip; one central plane of red semi-fan stays, 11 per side",
  "model3d": {
   "spans_m": [
    86,
@@ -9,37 +9,223 @@
   ],
   "pylon_shape": "single",
   "pylon_heights_m": [
-   18,
-   18
+   29,
+   29
   ],
   "pylon_height_ref": "above_deck",
+  "deck_elevation_m": 26.0,
+  "deck_crest_m": 2.6,
+  "deck_depth_m": 3.0,
+  "deck_haunch": {
+   "depth_at_pylon_m": 5.0,
+   "length_m": 60
+  },
   "cable_planes": 1,
-  "cable_pattern": "harp",
+  "cable_pattern": "semi_fan",
+  "cables_per_side": 11,
+  "main_stay_deck_m": [
+   14,
+   58
+  ],
+  "back_stay_deck_m": [
+   14,
+   58
+  ],
   "deck_width_m": 18.5,
   "deck_type": "concrete",
   "extradosed": true,
+  "pylon_colour": "white",
+  "stay_colour": "#d0313d",
   "confidence": "estimated",
-  "notes": "Extradosed 86+153+86 m (infra.global). Low red pylons; one central plane assumed from press aerials. Pylon height estimated."
+  "notes": "Extradosed unit 86 + 153 + 86 m (infra.global; designer TEDI, client PMU 6), the 153 m span the longest extradosed span in Viet Nam when it opened (press). Prestressed-concrete continuous box girder built by balanced cantilever, haunched (≈5 m deep at the pylons, ≈3 m at mid-span, read from a side-on construction photo; drawn with deck_haunch, G17); main-bridge deck 18.5 m (16 m on the Super-T approaches), 2 motor + 2 mixed lanes. Navigation clearance 120 × 20.5 m, 24.5 m within 40 m of the channel centreline, 2,000 DWT (VTV). Pylons: a single white concrete shaft in the median ('cột bê tông') rising ≈19 m above the deck and widening slightly upward, crowned by a lotus bud ('chóp búp sen', ≈6 m across, white with a pink-red tip and a ≈2 m finial) to ≈29 m above the deck (kinhtedothi 12/2019: 'khoảng 25/29 m tháp'; side photos ≈28–29 m). One central plane of red stays (each position a pair of strands ≈1 m apart, 15 cm sheaths; anchors in a maintenance gallery in the box), 11 per side per pylon, anchored on the shaft over ≈7–18.5 m and on the median ≈14–58 m from the pylon. Below the deck a rectangular pier (≈6 × 8 m) on a chamfered pile cap ≈12 × 23 m just above the water. Deck ≈26 m above the water at the unit ends, ≈28 m at the pylons, ≈28.6 m at mid-span (crest 2.6 m; heights from side photos, set so that the 24.5 m clearance fits under a 3 m girder).",
+  "pylon_custom": {
+   "description": "Lotus-bud pylon ('búp sen'): one concrete shaft on the deck centreline, ≈3.4 m across × 4.2 m along the bridge at the deck, widening to ≈4 × 5 m at ≈19 m, then a bud that swells to ≈6 m (19–21.5 m), stays full (21.5–24.5 m) and closes to a point at 29 m above the deck; the top ≈1.7 m is pink-red (finial not modelled). Stays: one central plane anchored on the shaft over 7–18.5 m. Below the deck a rectangular pier ≈6 m along × 8 m across the bridge on a chamfered pile cap ≈12 × 23 m whose top is ≈2.5 m above the water.",
+   "legs": [
+    {
+     "centerline": [
+      [
+       0,
+       -0.5,
+       0
+      ],
+      [
+       0,
+       9.0,
+       0
+      ],
+      [
+       0,
+       19.0,
+       0
+      ]
+     ],
+     "width_base_m": 3.4,
+     "width_top_m": 4.0,
+     "depth_base_m": 4.2,
+     "depth_top_m": 5.0
+    },
+    {
+     "centerline": [
+      [
+       0,
+       19.0,
+       0
+      ],
+      [
+       0,
+       20.25,
+       0
+      ],
+      [
+       0,
+       21.5,
+       0
+      ]
+     ],
+     "width_base_m": 4.0,
+     "width_top_m": 6.0,
+     "depth_base_m": 5.0,
+     "depth_top_m": 6.0
+    },
+    {
+     "centerline": [
+      [
+       0,
+       21.5,
+       0
+      ],
+      [
+       0,
+       23.0,
+       0
+      ],
+      [
+       0,
+       24.5,
+       0
+      ]
+     ],
+     "width_base_m": 6.0,
+     "width_top_m": 6.0,
+     "depth_base_m": 6.0,
+     "depth_top_m": 6.0
+    },
+    {
+     "centerline": [
+      [
+       0,
+       24.5,
+       0
+      ],
+      [
+       0,
+       26.0,
+       0
+      ],
+      [
+       0,
+       27.3,
+       0
+      ]
+     ],
+     "width_base_m": 6.0,
+     "width_top_m": 2.0,
+     "depth_base_m": 6.0,
+     "depth_top_m": 2.0
+    },
+    {
+     "centerline": [
+      [
+       0,
+       27.3,
+       0
+      ],
+      [
+       0,
+       28.2,
+       0
+      ],
+      [
+       0,
+       29.0,
+       0
+      ]
+     ],
+     "width_base_m": 2.0,
+     "width_top_m": 0.3,
+     "depth_base_m": 2.0,
+     "depth_top_m": 0.3,
+     "colour": "#c8505a"
+    },
+    {
+     "centerline": [
+      [
+       0,
+       -23.7,
+       0
+      ],
+      [
+       0,
+       -12.0,
+       0
+      ],
+      [
+       0,
+       -1.0,
+       0
+      ]
+     ],
+     "width_base_m": 8.0,
+     "width_top_m": 8.0,
+     "depth_base_m": 6.0,
+     "depth_top_m": 6.0
+    }
+   ],
+   "crown": "pointed",
+   "pile_cap": {
+    "length_x_m": 12,
+    "width_z_m": 23,
+    "top_y_m": -23.7,
+    "thickness_m": 4.0,
+    "chamfer_m": 3.5
+   },
+   "anchor_zone": [
+    {
+     "y_from_m": 7.0,
+     "y_to_m": 18.5,
+     "leg": 0
+    }
+   ],
+   "mirror_for_other_pylons": true,
+   "reference_images": [
+    "https://cdn-images.vtv.vn/thumb_w/1200/2021/3/14/cau-cua-hoi-vgp-161566274594474766141.jpg",
+    "https://ngoisao.vnexpress.net/cau-gan-1-000-ty-dong-vuot-song-lam-4205350.html",
+    "https://nguoiquansat.vn/cau-dep-nhat-bac-mien-trung-kien-truc-bup-sen-an-tuong-cua-ngo-ket-noi-2-tinh-nghe-tinh-244543.html",
+    "https://cafebiz.vn/nhin-tu-tren-cao-cay-cau-950-ty-dong-noi-nghe-an-va-ha-tinh-20210206135616766.chn"
+   ]
+  },
+  "colour_mode": "vivid"
  },
- "notes": "Aerial shows two low central masts with red single-plane stays.",
- "colour": "white mast; red stays",
+ "notes": "Single central plane of red stays from two white lotus-bud ('búp sen') pylons ≈29 m above the deck.",
+ "colour": "white lotus-bud pylons with a pink-red tip; red stays (one central plane); grey concrete deck and piers",
  "id": "cau-cua-hoi",
  "review": [
   "Pylon type 'other' with no detail",
   "Single low central column, single plane, red stays",
-  "Weak: 1 aerial photo"
+  "Weak: 1 aerial photo",
+  "Round 12: lotus-bud shaft and bud to 29 m, pier and chamfered cap; deck 26 + crest 2.6, haunch 5 → 3 m; 24.5 m clearance; semi-fan 11 per side, 7–18.5 m on the shaft, 14–58 m on the deck; vivid red stays"
  ],
  "checklist": {
-  "foot below deck": "limited",
-  "legs at deck": "limited",
-  "merge height": "limited",
-  "crossbeams": "limited",
-  "head": "limited (no pylon reference: construction-site photos only)",
-  "proportions": "limited",
-  "stays": "limited",
-  "deck / aux piers": "limited",
-  "colour": "limited"
+  "foot below deck": "pass (photos)",
+  "legs at deck": "pass (photos)",
+  "merge height": "n/a, single shaft",
+  "crossbeams": "none, correct",
+  "head": "pass (bud approximated by rectangular sweeps; finial not modelled)",
+  "proportions": "pass (photos)",
+  "stays": "pass (photos)",
+  "deck / aux piers": "no aux piers, correct",
+  "colour": "pass (photos)"
  },
  "pass2": true,
- "compare": "scratchpad only (press/render images, licence unknown)"
+ "compare": "VTV side elevation (2020) and Người Quan Sát oblique (2025); renders brief-r12"
 }

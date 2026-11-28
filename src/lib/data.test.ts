@@ -504,7 +504,7 @@ describe.each(files)('%s', (file) => {
     expect(m.colour_mode).toBe('vivid');
     expect(g.colours.vivid).toBe(true);
     // G14 is opt-in: only the listed bridges are vivid (the others render byte-identically)
-    expect(bridges.filter((x) => x.model3d?.colour_mode === 'vivid').map((x) => x.id).sort()).toEqual(['cau-dai-ngai-1', 'cau-ngoc-hoi', 'cau-vam-cong']);
+    expect(bridges.filter((x) => x.model3d?.colour_mode === 'vivid').map((x) => x.id).sort()).toEqual(['cau-cua-hoi', 'cau-dai-ngai-1', 'cau-ngoc-hoi', 'cau-vam-cong']);
     for (const p of g.pylons) {
       const deck = g.deckY(p.x);
       // ≈27.4 m deck at the pylons, tips 98.5 m above it, label 126 m
@@ -784,7 +784,7 @@ describe.each(files)('%s', (file) => {
     expect(Math.min(...mainXs.filter((x) => x > 262.5)) - Math.max(...mainXs.filter((x) => x < 262.5))).toBeCloseTo(40, 6);
     // G15/G16 are opt-in: G16 deck_closed only Phước An; G15 main_stay_deck_m Phước An, Cát Lái and Thuận An (r10)
     expect(bridges.filter((x) => x.model3d?.deck_closed).map((x) => x.id)).toEqual(['cau-phuoc-an']);
-    expect(bridges.filter((x) => x.model3d?.main_stay_deck_m).map((x) => x.id).sort()).toEqual(['cau-cat-lai', 'cau-phuoc-an', 'cau-thuan-an']);
+    expect(bridges.filter((x) => x.model3d?.main_stay_deck_m).map((x) => x.id).sort()).toEqual(['cau-cat-lai', 'cau-cua-hoi', 'cau-phuoc-an', 'cau-thuan-an']);
   });
 
   it('Cát Lái (round 10): TEDI "giọt nước" pylon straddling the 33.5 m deck, loop below, two separate tips, 22 semi-fan stays', () => {
@@ -1058,6 +1058,79 @@ describe.each(files)('%s', (file) => {
     }
     function g0() {
       return buildBridgeGeometry(m, 'completed', { navClearance: b!.nav_clearance })!;
+    }
+  });
+
+  it('Cửa Hội (round 12): lotus-bud median shaft to 29 m, pier on a chamfered cap (G18), haunch 5 → 3 m (G17), 11 red semi-fan stays 14–58 m', () => {
+    const b = bridges.find((x) => x.id === 'cau-cua-hoi');
+    if (!b?.model3d?.pylon_custom || file.endsWith('.sample.json')) return;
+    const m = b.model3d;
+    const pc = m.pylon_custom!;
+    expect(b.status).toBe('completed');
+    expect(b.opened).toBe(2021);
+    expect(b.total_length_m).toBe(1728);
+    expect(b.lanes).toBe(4);
+    expect(b.span_arrangement).toBe('86 + 153 + 86 m');
+    expect(b.notes).not.toContain('single source');
+    expect(b.pylons).toContain('búp sen');
+    expect(b.nav_clearance?.height_m).toBe(24.5);
+    expect(m.deck_closed).toBeUndefined();
+    expect(m.auxiliary_piers_m).toBeUndefined();
+    expect(m.deck_haunch).toEqual({ depth_at_pylon_m: 5, length_m: 60 });
+    expect(pc.pile_cap).toEqual({ length_x_m: 12, width_z_m: 23, top_y_m: -23.7, thickness_m: 4, chamfer_m: 3.5 });
+    expect(pc.legs).toHaveLength(6);
+    const g = buildBridgeGeometry(m, b.status, { navClearance: b.nav_clearance })!;
+    expect(g.warnings).toEqual([]);
+    // deck 26 at the unit ends (not raised by the 24.5 m clearance), ≈28.0 at the pylons, 28.6 at mid-span
+    expect(g.deckElevation).toBe(26);
+    expect(g.pylons.map((p) => p.x)).toEqual([86, 239]);
+    expect(g.deckY(162.5)).toBeCloseTo(28.6, 6);
+    expect(g.deckY(162.5) - g.deckDepthAt(162.5)).toBeGreaterThanOrEqual(24.5 + 1);
+    expect(g.colours.pylon).toBe('white');
+    expect(g.colours.stay).toBe('#d0313d');
+    expect(g.colours.vivid).toBe(true);
+    for (const p of g.pylons) {
+      const deck = g.deckY(p.x);
+      expect(deck).toBeCloseTo(28.02, 1);
+      // G17: 5 m deep at the pier, 3 m by 60 m out
+      expect(g.deckDepthAt(p.x)).toBeCloseTo(5, 6);
+      expect(g.deckDepthAt(p.x + 60)).toBeCloseTo(3, 6);
+      expect(p.heightAboveDeck).toBeCloseTo(29, 6);
+      // bud tip ≈57 m above the water; the whole pylon stays on the centreline, narrower than the deck
+      let tip = -Infinity;
+      for (const sw of p.sweeps) {
+        for (let i = 1; i < sw.positions.length; i += 3) tip = Math.max(tip, sw.positions[i]);
+        for (let i = 2; i < sw.positions.length; i += 3) expect(Math.abs(sw.positions[i])).toBeLessThanOrEqual(4 + 1e-6);
+      }
+      expect(tip).toBeCloseTo(57.0, 0);
+      // G18: an octagonal cap ≈2.5 m above the water, 23 m across (wider than the 18.5 m deck)
+      expect(p.caps).toHaveLength(1);
+      const cap = p.caps[0].positions;
+      expect(cap.length / 3).toBe(2 * 8 + 2);
+      let capTop = -Infinity;
+      let capZ = 0;
+      for (let i = 0; i < cap.length; i += 3) {
+        capTop = Math.max(capTop, cap[i + 1]);
+        capZ = Math.max(capZ, Math.abs(cap[i + 2]));
+      }
+      expect(capTop).toBeGreaterThan(1.5);
+      expect(capTop).toBeLessThan(3.5);
+      expect(capZ).toBeCloseTo(11.5, 6);
+      // pylon above the deck : deck above the cap top ≈ 1.05–1.2
+      expect(29 / (deck - capTop)).toBeGreaterThan(0.95);
+      expect(29 / (deck - capTop)).toBeLessThan(1.25);
+      // 11 stays per side in one central plane, deck anchors 14–58 m from the pylon, pylon anchors 7–18.5 m above the deck
+      const own = g.cables.filter((c) => c.pylon === p.index);
+      expect(own.filter((c) => c.back)).toHaveLength(11);
+      expect(own.filter((c) => !c.back)).toHaveLength(11);
+      for (const c of own) {
+        expect(Math.abs(c.deck[2])).toBeLessThan(1e-6);
+        const d = Math.abs(c.deck[0] - p.x);
+        expect(d).toBeGreaterThan(14 - 1e-6);
+        expect(d).toBeLessThan(58 + 1e-6);
+        expect(c.top[1] - deck).toBeGreaterThan(7 - 0.5);
+        expect(c.top[1] - deck).toBeLessThan(18.5 + 0.5);
+      }
     }
   });
 
