@@ -504,7 +504,7 @@ describe.each(files)('%s', (file) => {
     expect(m.colour_mode).toBe('vivid');
     expect(g.colours.vivid).toBe(true);
     // G14 is opt-in: only the listed bridges are vivid (the others render byte-identically)
-    expect(bridges.filter((x) => x.model3d?.colour_mode === 'vivid').map((x) => x.id).sort()).toEqual(['cau-ngoc-hoi', 'cau-vam-cong']);
+    expect(bridges.filter((x) => x.model3d?.colour_mode === 'vivid').map((x) => x.id).sort()).toEqual(['cau-dai-ngai-1', 'cau-ngoc-hoi', 'cau-vam-cong']);
     for (const p of g.pylons) {
       const deck = g.deckY(p.x);
       // ≈27.4 m deck at the pylons, tips 98.5 m above it, label 126 m
@@ -989,6 +989,76 @@ describe.each(files)('%s', (file) => {
     const mainXs = g.cables.filter((c) => !c.back).map((c) => c.deck[0]);
     expect(Math.min(...mainXs.filter((x) => x > 229)) - Math.max(...mainXs.filter((x) => x < 229))).toBeCloseTo(40, 6);
     expect(JSON.stringify(m)).not.toContain('king-post');
+  });
+
+  it('Đại Ngãi 1 (round 11): A legs on a chamfered cap (G18), merge 68 m, slotted blades, 20 red semi-fan stays, crest 8.5', () => {
+    const b = bridges.find((x) => x.id === 'cau-dai-ngai-1');
+    if (!b?.model3d?.pylon_custom || file.endsWith('.sample.json')) return;
+    const m = b.model3d;
+    const pc = m.pylon_custom!;
+    expect(b.status).toBe('under_construction');
+    expect(m.deck_closed).toBeUndefined();
+    expect(b.span_arrangement).toBe('210 + 450 + 210 m');
+    expect(b.width_m).toBe(21.5);
+    expect(b.lanes).toBe(4);
+    expect(b.nav_clearance?.height_m).toBe(45);
+    expect(b.nav_clearance?.width_m).toBe(160);
+    expect(b.notes).not.toContain('disagree');
+    expect(m.deck_depth_m).toBe(3);
+    expect(m.auxiliary_piers_m).toEqual([60, 810]);
+    expect(pc.pile_cap).toEqual({ length_x_m: 30, width_z_m: 60, top_y_m: -37.5, thickness_m: 6, chamfer_m: 9 });
+    for (const status of [b.status, 'completed'] as const) {
+      const g = buildBridgeGeometry(m, status, { navClearance: b.nav_clearance })!;
+      expect(g.warnings).toEqual([]);
+      // deck 41 at the unit ends (not raised by the 45 m clearance), ≈47.2 at the pylons, 49.5 at mid-span
+      expect(g.deckElevation).toBe(41);
+      expect(g.pylons.map((p) => p.x)).toEqual([210, 660]);
+      expect(g.colours.pylon).toBe('white');
+      expect(g.colours.stay).toBe('#c8262c');
+      expect(g.colours.vivid).toBe(true);
+      for (const p of g.pylons) {
+        const deck = g.deckY(p.x);
+        expect(deck).toBeCloseTo(47.23, 1);
+        expect(p.heightAboveDeck).toBeCloseTo(110, 6);
+        let tip = -Infinity;
+        for (const sw of p.sweeps) for (let i = 1; i < sw.positions.length; i += 3) tip = Math.max(tip, sw.positions[i]);
+        expect(tip).toBeCloseTo(157.2, 0);
+        // G18: an octagonal cap ≈4 m above the water, 60 m across
+        expect(p.caps).toHaveLength(1);
+        const cap = p.caps[0].positions;
+        expect(cap.length / 3).toBe(2 * 8 + 2);
+        let capTop = -Infinity;
+        let capZ = 0;
+        for (let i = 0; i < cap.length; i += 3) {
+          capTop = Math.max(capTop, cap[i + 1]);
+          capZ = Math.max(capZ, Math.abs(cap[i + 2]));
+        }
+        expect(capTop).toBeGreaterThan(3);
+        expect(capTop).toBeLessThan(5.5);
+        expect(capZ).toBeCloseTo(30, 6);
+        // pylon above the deck : deck above the cap top ≈ 2.6
+        expect(110 / (deck - capTop)).toBeGreaterThan(2.3);
+        expect(110 / (deck - capTop)).toBeLessThan(2.9);
+      }
+    }
+    expect(g0().deckY(435)).toBeCloseTo(49.5, 6);
+    expect(g0().deckY(435) - g0().deckDepthAt(435)).toBeGreaterThanOrEqual(45 + 1);
+    // completed state: 20 stays per side per plane, anchored on the blades 63–97 m above the deck, on the matching side
+    const g = g0();
+    for (const p of g.pylons) {
+      const own = g.cables.filter((c) => c.pylon === p.index);
+      expect(own).toHaveLength(20 * 2 * 2);
+      const deck = g.deckY(p.x);
+      for (const c of own) {
+        expect(c.top[1] - deck).toBeGreaterThan(63 - 1);
+        expect(c.top[1] - deck).toBeLessThan(97 + 1);
+        expect(Math.abs(c.top[2])).toBeLessThan(3.5);
+        expect(Math.sign(c.top[2])).toBe(Math.sign(c.deck[2]));
+      }
+    }
+    function g0() {
+      return buildBridgeGeometry(m, 'completed', { navClearance: b!.nav_clearance })!;
+    }
   });
 
   it('pylon_custom has only schema keys (incl. G12 colours and G13 panels)', () => {

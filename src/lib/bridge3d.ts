@@ -183,7 +183,7 @@ export const stayLightness = (l: number, dark: boolean) => (dark ? Math.max(0.45
  * Pile-cap prism in a local frame: x ∈ ±L/2, z ∈ ±W/2, y ∈ [y0, y1]. With `rounded`, the plan is a stadium whose
  * semicircular ends (diameter L) sit on the ±z ends (W is clamped to at least L).
  */
-export function pileCapMesh(L: number, W: number, y0: number, y1: number, rounded = false, seg = 12): SweepMesh {
+export function pileCapMesh(L: number, W: number, y0: number, y1: number, rounded = false, seg = 12, chamfer = 0): SweepMesh {
   const r = L / 2;
   const outline: [number, number][] = []; // (x, z), one closed loop in plan
   if (rounded) {
@@ -197,6 +197,22 @@ export function pileCapMesh(L: number, W: number, y0: number, y1: number, rounde
       const t = Math.PI + (Math.PI * k) / seg;
       outline.push([r * Math.cos(t), c - r * Math.sin(t)]);
     }
+  } else if (chamfer > 0) {
+    // G18: the four vertical corners cut at 45° by c along each axis (c ≤ min(L, W) / 2): an octagon, or an
+    // elongated hexagon with pointed ends when c reaches half a side; coincident vertices are dropped
+    const c = Math.min(chamfer, L / 2, W / 2);
+    const h = W / 2;
+    const pts: [number, number][] = [
+      [-r + c, -h], [r - c, -h], [r, -h + c], [r, h - c],
+      [r - c, h], [-r + c, h], [-r, h - c], [-r, -h + c],
+    ];
+    for (const p of pts) {
+      const q = outline[outline.length - 1];
+      if (!q || Math.abs(q[0] - p[0]) > 1e-9 || Math.abs(q[1] - p[1]) > 1e-9) outline.push(p);
+    }
+    const f = outline[0];
+    const l = outline[outline.length - 1];
+    if (Math.abs(f[0] - l[0]) <= 1e-9 && Math.abs(f[1] - l[1]) <= 1e-9) outline.pop();
   } else
     outline.push([-r, -W / 2], [r, -W / 2], [r, W / 2], [-r, W / 2]);
   const n = outline.length;
@@ -479,7 +495,7 @@ export function buildBridgeGeometry(
     const caps: SweepMesh[] = [];
     if (custom.pile_cap) {
       const pc = custom.pile_cap;
-      const mesh = pileCapMesh(pc.length_x_m, pc.width_z_m, pc.top_y_m - pc.thickness_m, pc.top_y_m, !!pc.rounded_ends);
+      const mesh = pileCapMesh(pc.length_x_m, pc.width_z_m, pc.top_y_m - pc.thickness_m, pc.top_y_m, !!pc.rounded_ends, 12, pc.chamfer_m ?? 0);
       const pos = mesh.positions.slice();
       for (let k = 0; k < pos.length; k += 3) {
         const v = toStation([pos[k], pos[k + 1], pos[k + 2]]);

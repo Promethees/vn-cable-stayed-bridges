@@ -4647,11 +4647,21 @@
     "construction_start": 2025,
     "opened": 2028,
     "main_span_m": 450,
+    "total_length_m": 2560,
+    "width_m": 21.5,
+    "lanes": 4,
     "cable_stayed_spans": 1,
-    "pylons": "2 tháp chữ Y ngược, đầu cao, dây văng đỏ (phối cảnh), cao 110 m trên mặt cầu",
-    "pylons_en": "2 inverted-Y pylons with tall heads, red stays (render), 110 m above deck",
+    "span_arrangement": "210 + 450 + 210 m",
+    "pylons": "2 tháp chữ A (Y ngược) màu trắng, cao 110 m trên mặt cầu (≈164 m toàn tháp): hai chân đứng trên bệ cọc, giao nhau ở ≈68 m rồi vươn thành hai bản song song có khe hẹp đến đỉnh tháp xuyên lỗ; dây văng đỏ hai mặt phẳng, dạng nửa rẻ quạt",
+    "pylons_en": "2 white 'A' (inverted-Y) pylons, 110 m above the deck (≈164 m overall): legs on a large pile cap meet at ≈68 m and continue as two slotted blades to a pierced crown; red semi-fan stays in two planes",
     "investor": "Bộ Xây dựng (Ban QLDA 85); contractor Đèo Cả",
     "cost": "≈3,900 tỷ VND (package)",
+    "nav_clearance": {
+      "height_m": 45,
+      "width_m": 160,
+      "reference": "160 × 45 m (B × H); 2019 brief: H 45 m, B ≥ 300 m for 10,000 t ships (Định An channel)",
+      "source": "https://baodautu.vn/nhat-san-tai-du-an-cau-dai-ngai-d648135.html"
+    },
     "model3d": {
       "spans_m": [
         210,
@@ -4664,106 +4674,198 @@
         110
       ],
       "pylon_height_ref": "above_deck",
+      "deck_elevation_m": 41.0,
+      "deck_crest_m": 8.5,
+      "deck_depth_m": 3.0,
       "cable_planes": 2,
-      "cable_pattern": "fan",
+      "cable_pattern": "semi_fan",
+      "cables_per_side": 20,
       "deck_width_m": 21.5,
       "deck_type": "composite",
+      "auxiliary_piers_m": [
+        60,
+        810
+      ],
+      "pylon_colour": "white",
+      "stay_colour": "#c8262c",
       "confidence": "estimated",
-      "notes": "210+450+210 m, A-shaped pylons 110 m above deck, composite steel girder (Báo Đầu tư). Fan pattern from the render. Another source gives 164 m total height. Colour: grey concrete; red stays (render). Báo Đầu tư render.",
+      "notes": "Cable-stayed unit 210 + 450 + 210 m (2nd-longest span in Viet Nam), steel–concrete composite girder (twin red steel edge girders under a concrete slab), two stay planes, deck 21.5 m (4 lanes). Navigation clearance 160 × 45 m (Báo Đầu tư / KTNN; 2019 brief: H 45 m, B ≥ 300 m, 10,000 t). Pylons P23/P24 per the official render: white 'chữ A' / inverted-Y towers, 110 m above the deck (press); the legs stand on square plinths on a chamfered pile cap (≈60 × 30 m, corners cut 9 m (G18 chamfer_m), 32 Ø2.5 m piles up to 116 m), pass outside the deck edges with a deck-level crossbeam under the girder, converge at ≈68 m above the deck and rise as two blades with a narrow slot to a capital at ≈98 m, topped by a pierced crown and spike. SGGP's 164 m is the whole tower from the cap (render: ≈152 m cap top to tip, deck ≈47 m above the water at the pylons). Red semi-fan stays (#c8262c with G14 vivid, so they read red rather than brick), ≈20 per side per plane (read from the render), anchored over ≈63–97 m. One auxiliary pier per back span ≈60 m from each unit end (render). Deck ≈41 m above the water at the unit ends, ≈47.2 m at the pylons, ≈49.5 m at mid-span (crest 8.5 m). Colour: white pylons; grey deck with red steel edge girders; red stays (official render). Official render supplied by the user (2026-11-28) is authoritative (round 11); also Báo Đầu tư render and Tuổi Trẻ construction photos 27/11/2026.",
       "pylon_custom": {
-        "description": "Inverted Y from the render: legs straddle the deck and converge slowly, merging ≈70% up into a short head with a small 'eye' slot and a pointed tip; red stays fan in two planes from the head.",
+        "description": "Inverted Y / 'chữ A' across the bridge (official render): two straight legs on square plinths on a chamfered pile cap, z ±20 m at the cap, passing outside the 21.5 m deck at z ±14 with a 5 m deep crossbeam under the girder; they converge to ±2.1 m at ≈68 m above the deck (small link, the dark 'eye'), rise as two parallel blades with a ≈1.2 m slot to a capital at ≈98.5 m, and close into a pointed crown at 110 m (the real crown is pierced, with a spike). Stays anchor on both blades in two planes running to the deck edges.",
         "legs": [
           {
             "centerline": [
               [
                 0,
-                -35,
-                -11
+                -37.5,
+                -20.0
               ],
               [
                 0,
                 0,
-                -13
-              ],
-              [
-                0,
-                40,
-                -7
-              ],
-              [
-                0,
-                78,
-                -1.5
-              ]
-            ],
-            "width_base_m": 5.0,
-            "width_top_m": 3.5
-          },
-          {
-            "centerline": [
-              [
-                0,
-                -35,
-                11
-              ],
-              [
-                0,
-                0,
-                13
+                -14.0
               ],
               [
                 0,
                 40,
-                7
+                -6.9
               ],
               [
                 0,
-                78,
-                1.5
-              ]
-            ],
-            "width_base_m": 5.0,
-            "width_top_m": 3.5
-          },
-          {
-            "centerline": [
-              [
-                0,
-                78,
-                0
+                68,
+                -2.1
               ],
               [
                 0,
-                95,
-                0
+                84,
+                -2.0
+              ],
+              [
+                0,
+                99,
+                -2.0
               ],
               [
                 0,
                 110,
-                0
+                -0.2
               ]
             ],
-            "width_base_m": 5.0,
-            "width_top_m": 2.0
+            "width_base_m": 7.0,
+            "width_top_m": 1.2,
+            "depth_base_m": 10.0,
+            "depth_top_m": 4.0
+          },
+          {
+            "centerline": [
+              [
+                0,
+                -37.5,
+                20.0
+              ],
+              [
+                0,
+                0,
+                14.0
+              ],
+              [
+                0,
+                40,
+                6.9
+              ],
+              [
+                0,
+                68,
+                2.1
+              ],
+              [
+                0,
+                84,
+                2.0
+              ],
+              [
+                0,
+                99,
+                2.0
+              ],
+              [
+                0,
+                110,
+                0.2
+              ]
+            ],
+            "width_base_m": 7.0,
+            "width_top_m": 1.2,
+            "depth_base_m": 10.0,
+            "depth_top_m": 4.0
           }
         ],
-        "crossbeams_y_m": [
-          -3
-        ],
         "crown": "pointed",
+        "crossbeams_y_m": [
+          -5.5
+        ],
+        "crossbeam_depth_m": 5.0,
+        "struts": [
+          {
+            "a": [
+              0,
+              68,
+              -2.1
+            ],
+            "b": [
+              0,
+              68,
+              2.1
+            ],
+            "width": 2.5
+          },
+          {
+            "a": [
+              0,
+              98.5,
+              -2.0
+            ],
+            "b": [
+              0,
+              98.5,
+              2.0
+            ],
+            "width": 3.5
+          },
+          {
+            "a": [
+              0,
+              -37.5,
+              -20.0
+            ],
+            "b": [
+              0,
+              -35.0,
+              -20.0
+            ],
+            "width": 11.0
+          },
+          {
+            "a": [
+              0,
+              -37.5,
+              20.0
+            ],
+            "b": [
+              0,
+              -35.0,
+              20.0
+            ],
+            "width": 11.0
+          }
+        ],
+        "pile_cap": {
+          "length_x_m": 30,
+          "width_z_m": 60,
+          "top_y_m": -37.5,
+          "thickness_m": 6.0,
+          "chamfer_m": 9.0
+        },
         "anchor_zone": [
           {
-            "y_from_m": 70,
-            "y_to_m": 108,
-            "leg": 2
+            "y_from_m": 63,
+            "y_to_m": 97,
+            "leg": 0
+          },
+          {
+            "y_from_m": 63,
+            "y_to_m": 97,
+            "leg": 1
           }
         ],
         "mirror_for_other_pylons": true,
         "reference_images": [
-          "https://media.baodautu.vn/thumb_x470x250/Images/anhminh/2024/12/04/he-lo-nha-thau-thi-cong-sieu-cau-day-vang-dai-ngai-1-tri-gia-3900-ty-dong1733300762.jpg"
+          "official render supplied by the user (2026-11-28)",
+          "https://tuoitre.vn/cau-dai-ngai-1-dan-thanh-hinh-nhip-chinh-lon-thu-hai-viet-nam-100261127102308467.htm",
+          "https://baodautu.vn/he-lo-nha-thau-thi-cong-sieu-cau-day-vang-dai-ngai-1-tri-gia-3900-ty-dong-d231683.html"
         ]
       },
-      "stay_colour": "red"
+      "colour_mode": "vivid"
     },
     "lat": 9.7069,
     "lng": 106.1506,
@@ -4791,10 +4893,15 @@
       "https://moc.gov.vn/vn/tin-tuc/1252/92886/day-nhanh-tien-do-cong-trinh-cau-dai-ngai-1-bac-qua-song-hau.aspx",
       "https://tienphong.vn/cau-dai-ngai-1-dat-hon-63-khoi-luong-phan-dau-thong-tuyen-trong-nam-2027-post1851319.tpo",
       "https://vneconomy.vn/bo-giao-thong-van-tai-neu-nguyen-nhan-lui-tien-do-cau-day-vang-lon-thu-2-viet-nam.htm",
+      "https://tuoitre.vn/cau-dai-ngai-1-dan-thanh-hinh-nhip-chinh-lon-thu-hai-viet-nam-100261127102308467.htm",
+      "https://baodautu.vn/nhat-san-tai-du-an-cau-dai-ngai-d648135.html",
+      "https://www.sggp.org.vn/cau-dai-ngai-1-lui-tien-do-2-nam-do-phu-thuoc-tu-van-nuoc-ngoai-post780870.html",
+      "https://vnexpress.net/khoi-cong-cau-day-vang-4-000-ty-vuot-song-hau-4825716.html",
+      "https://cafef.vn/viet-nam-dang-xay-cau-day-vang-cap-dac-biet-nhip-chinh-dai-thu-2-ca-nuoc-tru-thap-cao-ngang-toa-nha-35-tang-tong-von-hang-nghin-ty-dong-188261121192312191.chn",
       "https://www.openstreetmap.org (Overpass query, bridge way centre, retrieved 2026-11-25)"
     ],
     "confidence": "verified",
-    "notes": "Construction from 12/1/2025. Completion target: 'thông tuyến 2027' (Tiền Phong) or 6/2028 (Đèo Cả package). Sources disagree on pylon height (110 m vs 164 m). Commons image 'Cầu Đại Ngãi 1.jpg' is tagged CC0, but its source is given as Báo Lao Động, so the free license is doubtful; it shows approach-viaduct construction and is categorised on Commons as an unidentified bridge. Link-only images (press/official, license unknown): Báo Đầu tư – render; Báo Đại Đoàn Kết – construction 3/2026."
+    "notes": "Construction from 12/1/2025. Completion target: 'thông tuyến 2027' (Tiền Phong) or 6/2028 (Đèo Cả package). 110 m above the deck (press) and 164 m for the whole tower (SGGP) are consistent: the render puts the deck ≈47 m above the water at the pylons. Progress 27/11/2026 (Tuổi Trẻ): ≈65 % of the contract, pylon P23 at segment 25 and P24 at segment 18; towers due 4/2027, stays from 5/2027, closure end-2027, contract completion 6/2028. Each pylon stands on 32 bored piles Ø2.5 m up to 116 m deep. Total length ≈2,559.6 m (Báo Đầu tư). Commons image 'Cầu Đại Ngãi 1.jpg' is tagged CC0, but its source is given as Báo Lao Động, so the free license is doubtful; it shows approach-viaduct construction and is categorised on Commons as an unidentified bridge. Link-only images (press/official, license unknown): Báo Đầu tư – render; Báo Đại Đoàn Kết – construction 3/2026."
   },
   {
     "id": "cau-cat-lai",

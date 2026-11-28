@@ -135,6 +135,10 @@ interface PylonCustom {
     length_x_m: number; width_z_m: number; //   concrete whatever pylon_colour is. x ∈ ±length/2, z ∈ ±width/2,
     top_y_m: number; thickness_m: number;  //   y ∈ [top − thickness, top] (top ≤ 0; the waterline is y = −deck elevation)
     rounded_ends?: boolean;                //   stadium plan: semicircular ends (diameter = length_x_m) on the ±z ends
+    chamfer_m?: number;                    //   G18: box cap only (not with rounded_ends). Cuts the four vertical corners at
+                                           //   45° by chamfer_m along each axis, 0 < chamfer_m ≤ min(length, width) / 2:
+                                           //   an octagon, or with length_x_m / 2 an elongated hexagon pointed at ±z.
+                                           //   Absent = plain box (unchanged). Đại Ngãi 1 (round 11)
   };
   anchor_zone: { y_from_m: number; y_to_m: number; leg: number;    // where stays attach on each leg
                  side?: "main" | "back" }[];                      //   side: zone only for main-span or back-span stays

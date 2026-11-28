@@ -240,11 +240,20 @@ add(id="cau-tu-lien", name_vi="Cầu Tứ Liên", name_en="Tứ Liên Bridge", s
 
 add(id="cau-dai-ngai-1", name_vi="Cầu Đại Ngãi 1", name_en="Đại Ngãi 1 Bridge", status="under_construction",
     province="Vĩnh Long – Cần Thơ", province_former=["Trà Vinh", "Sóc Trăng"], crosses="Sông Hậu",
-    roads=["QL60"], construction_start=2025, opened=2028, main_span_m=450, cable_stayed_spans=1,
-    pylons="2 A-shaped pylons (110 m or 164 m per source)", cost="≈3,900 tỷ VND (package)", investor="Bộ Xây dựng (Ban QLDA 85); contractor Đèo Cả",
+    roads=["QL60"], construction_start=2025, opened=2028, main_span_m=450, total_length_m=2560, width_m=21.5, lanes=4,
+    cable_stayed_spans=1, span_arrangement="210 + 450 + 210 m",
+    pylons="2 tháp chữ A (Y ngược) màu trắng, cao 110 m trên mặt cầu (tháp 164 m)",
+    pylons_en="2 white 'A' (inverted-Y) pylons, 110 m above the deck (≈164 m overall): legs on a large pile cap meet at ≈68 m and continue as two slotted blades to a pierced crown; red semi-fan stays in two planes",
+    cost="≈3,900 tỷ VND (package)", investor="Bộ Xây dựng (Ban QLDA 85); contractor Đèo Cả",
     lat=9.7069, lng=106.1506,
-    sources=["https://moc.gov.vn/vn/tin-tuc/1252/92886/day-nhanh-tien-do-cong-trinh-cau-dai-ngai-1-bac-qua-song-hau.aspx", "https://tienphong.vn/cau-dai-ngai-1-dat-hon-63-khoi-luong-phan-dau-thong-tuyen-trong-nam-2027-post1851319.tpo", "https://vneconomy.vn/bo-giao-thong-van-tai-neu-nguyen-nhan-lui-tien-do-cau-day-vang-lon-thu-2-viet-nam.htm", OSM], confidence="verified",
-    notes="Construction from 12/1/2025. Completion target: 'thông tuyến 2027' (Tiền Phong) or 6/2028 (Đèo Cả package). Sources disagree on pylon height (110 m vs 164 m). Commons image 'Cầu Đại Ngãi 1.jpg' is tagged CC0, but its source is given as Báo Lao Động, so the free license is doubtful; it shows approach-viaduct construction and is categorised on Commons as an unidentified bridge.")
+    sources=["https://moc.gov.vn/vn/tin-tuc/1252/92886/day-nhanh-tien-do-cong-trinh-cau-dai-ngai-1-bac-qua-song-hau.aspx", "https://tienphong.vn/cau-dai-ngai-1-dat-hon-63-khoi-luong-phan-dau-thong-tuyen-trong-nam-2027-post1851319.tpo", "https://vneconomy.vn/bo-giao-thong-van-tai-neu-nguyen-nhan-lui-tien-do-cau-day-vang-lon-thu-2-viet-nam.htm",
+             "https://tuoitre.vn/cau-dai-ngai-1-dan-thanh-hinh-nhip-chinh-lon-thu-hai-viet-nam-100261127102308467.htm",   # 27/11/2026 progress
+             "https://baodautu.vn/nhat-san-tai-du-an-cau-dai-ngai-d648135.html",   # KTNN: 2,559.6 m, composite girder, chữ A, 160 × 45 m
+             "https://www.sggp.org.vn/cau-dai-ngai-1-lui-tien-do-2-nam-do-phu-thuoc-tu-van-nuoc-ngoai-post780870.html",   # tower 164 m
+             "https://vnexpress.net/khoi-cong-cau-day-vang-4-000-ty-vuot-song-hau-4825716.html",   # 21.5 m, 110 m above the deck
+             "https://cafef.vn/viet-nam-dang-xay-cau-day-vang-cap-dac-biet-nhip-chinh-dai-thu-2-ca-nuoc-tru-thap-cao-ngang-toa-nha-35-tang-tong-von-hang-nghin-ty-dong-188261121192312191.chn",   # 210 + 450 + 210
+             OSM], confidence="verified",
+    notes="Construction from 12/1/2025. Completion target: 'thông tuyến 2027' (Tiền Phong) or 6/2028 (Đèo Cả package). 110 m above the deck (press) and 164 m for the whole tower (SGGP) are consistent: the render puts the deck ≈47 m above the water at the pylons. Progress 27/11/2026 (Tuổi Trẻ): ≈65 % of the contract, pylon P23 at segment 25 and P24 at segment 18; towers due 4/2027, stays from 5/2027, closure end-2027, contract completion 6/2028. Each pylon stands on 32 bored piles Ø2.5 m up to 116 m deep. Total length ≈2,559.6 m (Báo Đầu tư). Commons image 'Cầu Đại Ngãi 1.jpg' is tagged CC0, but its source is given as Báo Lao Động, so the free license is doubtful; it shows approach-viaduct construction and is categorised on Commons as an unidentified bridge.")
 
 add(id="cau-cat-lai", name_vi="Cầu Cát Lái", name_en="Cát Lái Bridge", status="under_construction",
     province="TP. Hồ Chí Minh – Đồng Nai", province_former=["TP. Hồ Chí Minh", "Đồng Nai"], crosses="Sông Đồng Nai",
@@ -452,8 +461,9 @@ M3D = {
     notes="Main bridge (40 + 40 + 150 + 550 + 150 + 40 + 40) m, L = 1,010 m (TEDI); 550 m main span, 187 m inverted-Y 'mountain peak' pylons (press). 21.0 m hybrid PC / steel-composite deck. 22 stays per side per plane (estimated)."),
  "cau-tu-lien": m3d([250, 500, 250], "other", [185, 185], "total", 2, "semi_fan", 43.0, "steel", cps=19,
     notes="1,000 m main bridge, 50 + 200 + 500 + 200 + 50 m with an auxiliary pier in each side span (VOV general elevation), 185 m pylons (top level +185.0), 43 m steel deck. Diamond-X pylons per the official render: legs cross above the deck and continue as two parallel posts with a short link near the top and staggered tops. 19 stays per side per plane at 12 m (152 total). Deck levels +24.5 (ends) / +25.6 (pylons) / +26.2 (mid-span); water modelled at datum 0 (dry season ≈ +1 to +3). Round 8: diamond-X pylon, spans/aux piers/stays from the VOV general elevation drawing; the earlier 'client feedback 11/2026' reading (legs merging into two twisted blades, 170/155 m tops) is superseded by the user's official render."),
- "cau-dai-ngai-1": m3d([210, 450, 210], "A", [110, 110], "above_deck", 2, "fan", 21.5, "composite",
-    notes="210+450+210 m, A-shaped pylons 110 m above deck, composite steel girder (Báo Đầu tư). Fan pattern from the render. Another source gives 164 m total height."),
+ # fallback only: research/shapes/cau-dai-ngai-1.json (pass 2) wins; kept in step with it (round 11)
+ "cau-dai-ngai-1": m3d([210, 450, 210], "inverted_Y", [110, 110], "above_deck", 2, "semi_fan", 21.5, "composite", cps=20,
+    notes="Fallback; see research/shapes/cau-dai-ngai-1.json (round 11: official render, A legs merging at ≈68 m, deck 41 + crest 8.5)."),
  # fallback only: research/shapes/cau-cat-lai.json (pass 2) wins; kept in step with it (round 10)
  "cau-cat-lai": m3d([190, 450, 190], "other", [175, 175], "total", 2, "semi_fan", 33.5, "composite", cps=22,
     notes="Spans 190 + 450 + 190 m and a ≥230 × 55 m navigation clearance (cafeland.vn). TEDI SD01 'water drop' pylons ≈175 m above water (measured on renders), 33.5 m composite deck, 22 stays per side per plane (estimated). Geometry in research/shapes/cau-cat-lai.json (round 10)."),
@@ -646,6 +656,7 @@ def nav(h=None, b=None, ref=None, src=None):
 NAV = {
  "cau-can-tho": nav(39, None, "for 10,000 DWT ships; reference level not stated", "https://nguoiquansat.vn/sieu-cau-noi-2-vung-dbscl-ket-thuc-su-menh-nhung-ben-pha-hon-100-nam-tuoi-thong-xe-15-nam-van-nam-giu-ky-luc-dong-nam-a-top-the-gioi-194312.html"),
  "cau-vam-cong": nav(37.5, None, "for 10,000 DWT ships", "https://tedi.vn/project/cau-vam-cong/"),
+ "cau-dai-ngai-1": nav(45, 160, "160 × 45 m (B × H); 2019 brief: H 45 m, B ≥ 300 m for 10,000 t ships (Định An channel)", "https://baodautu.vn/nhat-san-tai-du-an-cau-dai-ngai-d648135.html"),
  "cau-thuan-an": nav(40, None, "5,000 DWT; 218 m navigation span", "https://datphuong.com.vn/tin-tuc/cau-thuan-an-thong-xe-ky-thuat-dau-an-nguoi-dat-phuong-tren-cong-trinh-vuot-bien-dai-nhat-mien-trung"),
  "cau-phu-my": nav(45, 250, "45 m within a 250 m wide navigation zone", "https://www.tandfonline.com/doi/abs/10.2749/101686610792016664"),
  "cau-binh-khanh": nav(55, 242, "VECC: 55 m, L = 242 m; 20,000 DWT design vessel", "https://vecc.com.vn/project/duong-cao-toc-ben-luc-long-thanh/?lang=en"),
@@ -837,7 +848,7 @@ PHASE6 = {
                        {"a": [-5, -20, 14], "b": [-38, -3, 9], "width": 2.0}],
         },
     },
-    "cau-dai-ngai-1": {"stay_colour": "red"},
+    "cau-dai-ngai-1": {"pylon_colour": "white", "stay_colour": "#c8262c", "colour_mode": "vivid"},   # round 11: red stays per the official render (shape file sets them too)
     "cau-cua-hoi": {"pylon_colour": "white", "stay_colour": "red"},
     "cau-ben-rung": {"pylon_colour": "white", "stay_colour": "red"},        # white blades, red inner face, red stays
     "cau-hoa-son": {"pylon_colour": "white", "stay_colour": "#cfdbe6"},     # white pylons, light stays per the official render (TEDI); red stays = alternative aerial scheme
@@ -1031,6 +1042,8 @@ EXPECT_R1 = {
     "cau-cua-hoi": {"pylon_colour": "white", "stay_colour": "red"}, "cau-ben-rung": {"pylon_colour": "white", "stay_colour": "red"},
     "cau-thuan-an": {"pylon_colour": "white", "stay_colour": "red", "deck_elevation_m": 40.5, "deck_crest_m": 5.0,
                      "cables_per_side": 17, "cable_pattern": "semi_fan", "main_stay_deck_m": [26, 89]},  # round 10
+    "cau-dai-ngai-1": {"pylon_colour": "white", "stay_colour": "#c8262c", "colour_mode": "vivid", "deck_elevation_m": 41.0, "deck_crest_m": 8.5,
+                       "deck_depth_m": 3.0, "cables_per_side": 20, "cable_pattern": "semi_fan", "auxiliary_piers_m": [60, 810]},  # round 11
     "cau-can-tho": {"auxiliary_piers_m": [40, 80, 930, 970], "cables_per_side": 27},
     "cau-may-chai": {"cable_pattern": "harp", "pylon_colour": "yellow", "deck_colour": "red"},
     "cau-phu-my-2": {"spans_m": [210, 450, 210]},
@@ -1118,7 +1131,7 @@ for b in B:
         assert b["model3d"].get("extradosed") is True, bid
     assert sum(b["model3d"]["spans_m"]) > 0 and max(b["model3d"]["spans_m"]) >= b["main_span_m"] - 1, bid
 
-VIVID_OK = {"cau-ngoc-hoi", "cau-vam-cong"}   # G14 colour_mode "vivid" is opt-in per bridge (r8 Ngọc Hồi, r9 Vàm Cống)
+VIVID_OK = {"cau-ngoc-hoi", "cau-vam-cong", "cau-dai-ngai-1"}   # G14 colour_mode "vivid" is opt-in per bridge (r8 Ngọc Hồi, r9 Vàm Cống, r11 Đại Ngãi 1)
 for b in B:
     m = b["model3d"]
     for k in NON_SCHEMA: assert k not in m, (b["id"], k)
@@ -1289,6 +1302,28 @@ for b in B:
         assert "red pylons" not in b["pylons"] + b["pylons_en"] and "phương dọc cầu" in b["pylons"] and "along the bridge axis" in b["pylons_en"], b
         assert "2/9/2025" in b["notes"] and "32 m" in b["notes"] and "32 m" in m["notes"], (b["notes"], m["notes"])
         assert any("datphuong" in u for u in b["sources"]) and any("baoxaydung" in u for u in b["sources"]), b["sources"]
+    assert b["id"] == "cau-dai-ngai-1" or "chamfer_m" not in m.get("pylon_custom", {}).get("pile_cap", {}), (b["id"], "G18 opt-in")
+    if b["id"] == "cau-dai-ngai-1":   # round 11 (brief-r11-dai-ngai.md): official render, A legs on a chamfered cap, slotted blades
+        pc = m["pylon_custom"]
+        assert m["spans_m"] == [210, 450, 210] and b["span_arrangement"] == "210 + 450 + 210 m" and b["width_m"] == 21.5 and b["lanes"] == 4, b
+        assert m["pylon_shape"] == "inverted_Y" and m["pylon_heights_m"] == [110, 110] and m["pylon_height_ref"] == "above_deck", m
+        assert m["deck_width_m"] == 21.5 and m["deck_type"] == "composite" and m["cable_planes"] == 2, m
+        assert b["status"] == "under_construction" and b["opened"] == 2028 and "deck_closed" not in m and "main_stay_deck_m" not in m, b
+        assert "deck_haunch" not in m and "back_stay_deck_m" not in m, m
+        assert len(pc["legs"]) == 2 and [l["centerline"][0] for l in pc["legs"]] == [[0, -37.5, -20.0], [0, -37.5, 20.0]], "straight A legs from the cap"
+        assert all(l["centerline"][-1][1] == 110 for l in pc["legs"]), "tips at 110 m above the deck"
+        assert [0, 68, -2.1] in pc["legs"][0]["centerline"] and [0, 68, 2.1] in pc["legs"][1]["centerline"], "merge at 68 m"
+        assert pc["crossbeams_y_m"] == [-5.5] and pc["crossbeam_depth_m"] == 5.0 and pc["crown"] == "pointed", pc
+        assert [s["a"][1] for s in pc["struts"]] == [68, 98.5, -37.5, -37.5], "eye link, capital, two plinths"
+        cap = pc["pile_cap"]
+        assert (cap["length_x_m"], cap["width_z_m"], cap["top_y_m"], cap["thickness_m"], cap["chamfer_m"]) == (30, 60, -37.5, 6.0, 9.0), cap
+        assert "rounded_ends" not in cap, "G18 chamfer is box-only"
+        assert [(z["leg"], z["y_from_m"], z["y_to_m"]) for z in pc["anchor_zone"]] == [(0, 63, 97), (1, 63, 97)], pc
+        assert b["nav_clearance"]["height_m"] == 45 and b["nav_clearance"]["width_m"] == 160 and "baodautu" in b["nav_clearance"]["source"], b["nav_clearance"]
+        assert "164" in b["notes"] and "disagree" not in b["notes"] and "116 m" in b["notes"] and "segment 25" in b["notes"], b["notes"]
+        assert "chữ A" in b["pylons"] and "white" in b["pylons_en"] and "68 m" in b["pylons_en"], b
+        assert "164" in m["notes"] and "official render" in m["notes"], m["notes"]
+        assert any("tuoitre.vn" in u for u in b["sources"]) and any("sggp.org.vn" in u for u in b["sources"]) and any("cafef.vn" in u for u in b["sources"]), b["sources"]
     if b["id"] == "cau-ben-rung":     # round 5: foundation (pile cap + columns), 22 m deck, 25° blades, 12 stays
         pc = m["pylon_custom"]
         assert m["deck_elevation_m"] == 22 and m["cables_per_side"] == 12 and m["cable_pattern"] == "semi_fan", m

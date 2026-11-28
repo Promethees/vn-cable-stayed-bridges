@@ -68,6 +68,8 @@ export interface PileCap {
   thickness_m: number;
   /** stadium plan: semicircular ends (diameter = length_x_m) on the ±z ends */
   rounded_ends?: boolean;
+  /** G18: cut the four vertical corners of a box cap at 45° by this many metres along each axis (≤ min(L, W) / 2) */
+  chamfer_m?: number;
 }
 
 /** Tĩnh không thông thuyền. */

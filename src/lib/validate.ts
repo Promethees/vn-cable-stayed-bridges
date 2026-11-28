@@ -128,7 +128,12 @@ export function pylonCustomProblems(v: unknown): string[] {
       !pos(c.thickness_m) ||
       !isNum(c.top_y_m) ||
       c.top_y_m > 0 ||
-      (c.rounded_ends !== undefined && typeof c.rounded_ends !== 'boolean')
+      (c.rounded_ends !== undefined && typeof c.rounded_ends !== 'boolean') ||
+      // G18: positive, at most half the shorter side, and only on a box cap (not with rounded_ends)
+      (c.chamfer_m !== undefined &&
+        (!pos(c.chamfer_m) ||
+          c.rounded_ends === true ||
+          (c.chamfer_m as number) > Math.min(c.length_x_m as number, c.width_z_m as number) / 2))
     )
       p.push('pile_cap');
   }

@@ -670,6 +670,80 @@ describe('pile caps (pylon_custom.pile_cap)', () => {
   });
 });
 
+describe('G18 pile_cap.chamfer_m', () => {
+  const outline = (pos: number[]) => {
+    // top ring: the vertices at y1 except the trailing centre points
+    const n = (pos.length / 3 - 2) / 2;
+    const pts: [number, number][] = [];
+    for (let i = 0; i < n; i++) pts.push([pos[3 * (n + i)], pos[3 * (n + i) + 2]]);
+    return pts;
+  };
+  it('no chamfer (absent or 0) is the plain box, identical arrays', () => {
+    const a = pileCapMesh(30, 60, -43.5, -37.5);
+    expect(pileCapMesh(30, 60, -43.5, -37.5, false, 12, 0)).toEqual(a);
+    expect(outline(a.positions)).toHaveLength(4);
+  });
+  it('octagon: 8 vertices, corners cut by c, extents kept, valid indices', () => {
+    const m = pileCapMesh(30, 60, -43.5, -37.5, false, 12, 8);
+    const pts = outline(m.positions);
+    expect(pts).toHaveLength(8);
+    expect(Math.max(...pts.map((p) => p[0]))).toBeCloseTo(15, 9);
+    expect(Math.max(...pts.map((p) => p[1]))).toBeCloseTo(30, 9);
+    // no point at a full corner, and the cut corner points lie on the 45° chamfer
+    expect(pts.some(([x, z]) => Math.abs(x) === 15 && Math.abs(z) === 30)).toBe(false);
+    expect(pts).toContainEqual([15, -22]);
+    expect(pts).toContainEqual([7, -30]);
+    expect(Math.max(...m.indices)).toBeLessThan(m.positions.length / 3);
+    expect(m.indices.length % 3).toBe(0);
+    expect(m.indices.length / 3).toBe(8 * 4);
+  });
+  it('c = L/2 gives an elongated hexagon pointed at ±z; larger c is clamped', () => {
+    for (const c of [15, 40]) {
+      const pts = outline(pileCapMesh(30, 60, -43.5, -37.5, false, 12, c).positions);
+      expect(pts).toHaveLength(6);
+      expect(pts).toContainEqual([0, -30]);
+      expect(pts).toContainEqual([0, 30]);
+    }
+  });
+  it('validation: positive, ≤ min(L, W)/2, box caps only', () => {
+    const leg = { centerline: [[0, -20, 0], [0, 50, 0], [0, 100, 0]], width_base_m: 3, width_top_m: 3 };
+    const pc = (cap: Record<string, unknown>) => ({
+      description: 'x',
+      legs: [leg],
+      anchor_zone: [{ y_from_m: 40, y_to_m: 90, leg: 0 }],
+      pile_cap: { length_x_m: 30, width_z_m: 60, top_y_m: -20, thickness_m: 6, ...cap },
+    });
+    expect(pylonCustomProblems(pc({}))).toEqual([]);
+    expect(pylonCustomProblems(pc({ chamfer_m: 9 }))).toEqual([]);
+    expect(pylonCustomProblems(pc({ chamfer_m: 15 }))).toEqual([]);
+    expect(pylonCustomProblems(pc({ chamfer_m: 15.5 }))).toEqual(['pile_cap']);
+    expect(pylonCustomProblems(pc({ chamfer_m: 0 }))).toEqual(['pile_cap']);
+    expect(pylonCustomProblems(pc({ chamfer_m: '9' }))).toEqual(['pile_cap']);
+    expect(pylonCustomProblems(pc({ chamfer_m: 9, rounded_ends: true }))).toEqual(['pile_cap']);
+  });
+  it('carried to the drawn caps: 8-sided at every pylon', () => {
+    const g = build({
+      spans_m: [90, 160, 90],
+      pylon_heights_m: [40, 40],
+      deck_elevation_m: 22,
+      deck_width_m: 21.5,
+      pylon_custom: {
+        description: 'A on a chamfered cap',
+        legs: [
+          { centerline: [[0, -20, -12], [0, 0, -12], [0, 40, -1]], width_base_m: 3, width_top_m: 2 },
+          { centerline: [[0, -20, 12], [0, 0, 12], [0, 40, 1]], width_base_m: 3, width_top_m: 2 },
+        ],
+        pile_cap: { length_x_m: 20, width_z_m: 34, top_y_m: -20, thickness_m: 4, chamfer_m: 5 },
+        anchor_zone: [
+          { y_from_m: 25, y_to_m: 38, leg: 0 },
+          { y_from_m: 25, y_to_m: 38, leg: 1 },
+        ],
+      },
+    });
+    for (const p of g.pylons) expect(p.caps[0].positions.length / 3).toBe(2 * 8 + 2);
+  });
+});
+
 describe('per-side anchor zones (G8)', () => {
   const sail: Partial<Model3D> = {
     spans_m: [125, 300, 125],
