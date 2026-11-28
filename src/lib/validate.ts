@@ -45,6 +45,12 @@ export function model3dProblems(v: unknown): string[] {
   if (v.deck_closed !== undefined && typeof v.deck_closed !== 'boolean') p.push('deck_closed');
   if (v.deck_section !== undefined && v.deck_section !== 'box' && v.deck_section !== 'truss') p.push('deck_section');
   if (v.deck_depth_m !== undefined && !(isNum(v.deck_depth_m) && v.deck_depth_m > 0)) p.push('deck_depth_m');
+  if (v.deck_haunch !== undefined) {
+    const h = v.deck_haunch as Record<string, unknown> | null;
+    if (!(h && typeof h === 'object' && !Array.isArray(h) && isNum(h.depth_at_pylon_m) && (h.depth_at_pylon_m as number) > 0 && isNum(h.length_m) && (h.length_m as number) > 0
+      && Object.keys(h).every((k) => k === 'depth_at_pylon_m' || k === 'length_m')))
+      p.push('deck_haunch');
+  }
   if (v.auxiliary_piers_m !== undefined && !(Array.isArray(v.auxiliary_piers_m) && v.auxiliary_piers_m.every((x) => isNum(x) && x > 0)))
     p.push('auxiliary_piers_m');
   for (const k of ['pylon_colour', 'stay_colour', 'back_stay_colour', 'deck_colour'])

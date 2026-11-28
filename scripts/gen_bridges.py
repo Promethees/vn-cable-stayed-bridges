@@ -198,10 +198,12 @@ add(id="cau-cua-hoi", name_vi="Cầu Cửa Hội", name_en="Cửa Hội Bridge",
 
 add(id="cau-thuan-an", name_vi="Cầu vượt cửa biển Thuận An", name_en="Thuận An Sea-mouth Bridge", status="completed", structure_type="extradosed",
     province="Huế", province_former=["Thừa Thiên Huế"], crosses="Cửa biển Thuận An (phá Tam Giang)",
-    roads=["Đường bộ ven biển"], opened=2026, main_span_m=218, total_length_m=2360, width_m=20,
-    pylons="A-shaped red pylons, ≈40 m", lat=16.5687, lng=107.6234,
-    sources=["https://baolamdong.vn/chinh-thuc-thong-xe-cau-vuot-cua-bien-dai-nhat-mien-trung-tai-tp-hue-truoc-ngay-307-456100.html", "https://baodautu.vn/hue-hop-long-cau-vuot-cua-bien-thuan-an-d275266.html", OSM], confidence="needs_check",
-    notes="EXTRADOSED. Technical opening 30/4/2026, official operation 30/7/2026. Construction start year not confirmed.")
+    roads=["Đường bộ ven biển"], construction_start=2022, opened=2026, main_span_m=218, total_length_m=2360, width_m=20,
+    span_arrangement="120 + 218 + 120 m",
+    pylons="2 white median pylons, A along the bridge axis, 72 m from the water", lat=16.5687, lng=107.6234,
+    sources=["https://baolamdong.vn/chinh-thuc-thong-xe-cau-vuot-cua-bien-dai-nhat-mien-trung-tai-tp-hue-truoc-ngay-307-456100.html", "https://baodautu.vn/hue-hop-long-cau-vuot-cua-bien-thuan-an-d275266.html",
+             "https://tienphong.vn/chiem-nguong-cau-day-do-vuot-cua-bien-dai-nhat-mien-trung-post1810259.tpo", "https://baoxaydung.com.vn/thua-thien-hue-quyet-tam-thong-tuyen-cau-vuot-cua-bien-thuan-an-trong-nam-2024-370939.html", "https://datphuong.com.vn/tin-tuc/cau-thuan-an-thong-xe-ky-thuat-dau-an-nguoi-dat-phuong-tren-cong-trinh-vuot-bien-dai-nhat-mien-trung", "https://vnexpress.net/thong-xe-cau-vuot-cua-bien-dai-nhat-mien-trung-5068581.html", "https://nguoiquansat.vn/ngay-mai-cau-vuot-cua-bien-dai-nhat-mien-trung-chinh-thuc-thong-xe-240880.html", OSM], confidence="needs_check",
+    notes="EXTRADOSED. Main unit 120 + 218 + 120 m on piers T26/T27 (Báo Xây dựng); 2.36 km, 50 piers + 2 abutments. Started 26/3/2022; closure 30/4/2025; technical opening of the bridge 2/9/2025 (Báo Đầu tư); route opened to traffic 30/4/2026 (VnExpress); official operation 30/7/2026 (Báo Lâm Đồng). Press gives the pylon as 32 m (Tiền Phong, Đạt Phương) or 34 m (Người Quan Sát) and 72 m from the water to the tip; side photos put it at ≈27.5 m above the deck (see the model notes).")
 
 # ---------------- UNDER CONSTRUCTION ----------------
 add(id="cau-hoa-son", name_vi="Cầu Hòa Sơn", name_en="Hòa Sơn Bridge", status="under_construction",
@@ -432,8 +434,9 @@ M3D = {
     notes="Extradosed 90+2×160+90 m (press). Three pairs of red V-shaped low pylons ('V – Victory'). Pylon height above deck estimated from photos (≈18 m)."),
  "cau-cua-hoi": m3d([86, 153, 86], "other", [18, 18], "above_deck", 1, "harp", 18.5, "concrete", extradosed=True,
     notes="Extradosed 86+153+86 m (infra.global). Low red pylons; one central plane assumed from press aerials. Pylon height estimated."),
- "cau-thuan-an": m3d([120, 218, 120], "A", [32, 32], "above_deck", 1, "harp", 23.5, "concrete", extradosed=True,
-    notes="Extradosed main span 218 m; A-topped red pylons 32 m above deck (72 m from water) per Người Quan Sát. Side spans and the single central cable plane estimated from photos. Number of extradosed spans unclear."),
+ # fallback only: research/shapes/cau-thuan-an.json (pass 2) wins; kept in step with it (round 10)
+ "cau-thuan-an": m3d([120, 218, 120], "A", [27.5, 27.5], "above_deck", 1, "semi_fan", 23.5, "concrete", cps=17, extradosed=True,
+    notes="Fallback; see research/shapes/cau-thuan-an.json (round 10: longitudinal A median shaft, 27.5 m above the deck, 72 m from the water)."),
  # fallback only: research/shapes/cau-hoa-son.json (pass 2) wins; kept in step with it (round 9)
  "cau-hoa-son": m3d([40, 40, 150, 550, 150, 40, 40], "inverted_Y", [187, 187], "total", 2, "fan", 21.0, "composite", cps=22,
     notes="Main bridge (40 + 40 + 150 + 550 + 150 + 40 + 40) m, L = 1,010 m (TEDI); 550 m main span, 187 m inverted-Y 'mountain peak' pylons (press). 21.0 m hybrid PC / steel-composite deck. 22 stays per side per plane (estimated)."),
@@ -630,6 +633,7 @@ def nav(h=None, b=None, ref=None, src=None):
 NAV = {
  "cau-can-tho": nav(39, None, "for 10,000 DWT ships; reference level not stated", "https://nguoiquansat.vn/sieu-cau-noi-2-vung-dbscl-ket-thuc-su-menh-nhung-ben-pha-hon-100-nam-tuoi-thong-xe-15-nam-van-nam-giu-ky-luc-dong-nam-a-top-the-gioi-194312.html"),
  "cau-vam-cong": nav(37.5, None, "for 10,000 DWT ships", "https://tedi.vn/project/cau-vam-cong/"),
+ "cau-thuan-an": nav(40, None, "5,000 DWT; 218 m navigation span", "https://datphuong.com.vn/tin-tuc/cau-thuan-an-thong-xe-ky-thuat-dau-an-nguoi-dat-phuong-tren-cong-trinh-vuot-bien-dai-nhat-mien-trung"),
  "cau-phu-my": nav(45, 200, "width 200 m from a travel blog only (mytour.vn)", "https://24hmoney.vn/news/tp-hcm-de-xuat-mo-rong-cau-phu-my-len-it-nhat-8-lan-c27a2807656.html"),
  "cau-binh-khanh": nav(55, 242, "VECC: 55 m, L = 242 m; 20,000 DWT design vessel", "https://vecc.com.vn/project/duong-cao-toc-ben-luc-long-thanh/?lang=en"),
  "cau-my-thuan": nav(37.5, 110, None, "https://mytour.vn/vi/blog/bai-viet/cau-my-thuan.html"),
@@ -957,9 +961,8 @@ REVIEW_R1 = {
     "cau-kien": {"set": {"cables_per_side": 9, "deck_width_m": 16.7}, "note": "36 stay pairs = 9 per side per plane; deck 16.7 m (vi.wikipedia)."},
     "cau-ba-son": {"scale_y": 0.92, "set": {"cables_per_side": 14}, "note": "56 stay bundles = 14 per side per plane; 113 m (vi.wikipedia)."},
     "cau-may-chai": {"set": {"cable_pattern": "harp"}, "note": "Harp stays ('dây văng kiểu đàn hạc', baohaiphong / congly)."},
-    "cau-thuan-an": {"set": {"deck_elevation_m": 40},
-        "pylon_custom": None,   # filled below
-        "note": "Deck ≈40 m above water: pylon 32 m above deck and 72 m above water (Tiền Phong). A-head on the pier head (legs from the deck edges), single central plane."},
+    # cau-thuan-an: round-1 override (deck 40, transverse A + king-post) removed in round 10 (brief-r10-thuan-an.md);
+    # the shape file carries the longitudinal A, the deck and the notes
     # round 9 (research/model-review/brief-r9-hoa-son.md): deck 55 m above full-pool water (deck ≈0.30 of the 187 m
     # water-to-tip height in the official elevation render); the note lives in the shape file, not as "Review r1:"
     "cau-hoa-son": {"set": {"deck_elevation_m": 55}},
@@ -987,20 +990,6 @@ REVIEW_R1["cau-rach-mieu"]["pylon_custom"]["legs"] = [
     {"centerline": [[0, -30, 14], [0, 0, 9.5], [0, 40, 3], [0, 58, 0]], "width_base_m": 3.5, "width_top_m": 2.5},
     {"centerline": [[0, 58, 0], [0, 66, 0], [0, 75, 0]], "width_base_m": 3.5, "width_top_m": 2.8},
 ]
-REVIEW_R1["cau-thuan-an"]["set"]["pylon_custom"] = {
-    "description": "Low A-head on each pier: two legs rise from the pier head at the deck edges and lean in to an apex 32 m above the deck, with a central king-post from the upper third through the apex to a short head that carries the single central plane of red extradosed stays. A single pier column carries the pier head below the deck.",
-    "legs": [
-        {"centerline": [[0, -3, -10.5], [0, 0, -10], [0, 16, -5], [0, 32, 0]], "width_base_m": 2.5, "width_top_m": 2.0},
-        {"centerline": [[0, -3, 10.5], [0, 0, 10], [0, 16, 5], [0, 32, 0]], "width_base_m": 2.5, "width_top_m": 2.0},
-        # central king-post carrying the single stay plane (saddles), rising through the apex to a short head
-        {"centerline": [[0, 16, 0], [0, 26, 0], [0, 36, 0]], "width_base_m": 2.4, "width_top_m": 1.6, "depth_base_m": 3.0, "depth_top_m": 2.2},
-    ],
-    "struts": [{"a": [0, -40, 0], "b": [0, -3, 0], "width": 8.0}, {"a": [0, -3, -10.5], "b": [0, -3, 10.5], "width": 3.0}],
-    "anchor_zone": [{"y_from_m": 18, "y_to_m": 33, "leg": 2}],
-    "mirror_for_other_pylons": True,
-    "reference_images": ["https://tienphong.vn/chiem-nguong-cau-day-do-vuot-cua-bien-dai-nhat-mien-trung-post1810259.tpo"],
-}
-del REVIEW_R1["cau-thuan-an"]["pylon_custom"]
 REVIEW_R1["cau-long-hung"]["set"]["pylon_custom"] = {
     "description": "Twin swords ('song kiếm hợp bích'): two slim legs in the median, separate for the full height with a narrow slot, meeting at a pointed tip; below the deck they flare out to a wider footing. Single central plane of stays anchored along both blades.",
     "legs": [
@@ -1026,7 +1015,8 @@ EXPECT_R1 = {
                         "cable_pattern": "semi_fan", "cables_per_side": 33, "back_stay_count": 15, "back_stay_deck_m": [181, 195],
                         "confidence": "verified"},
     "cau-cua-hoi": {"pylon_colour": "white", "stay_colour": "red"}, "cau-ben-rung": {"pylon_colour": "white", "stay_colour": "red"},
-    "cau-thuan-an": {"pylon_colour": "white", "stay_colour": "red", "deck_elevation_m": 40},
+    "cau-thuan-an": {"pylon_colour": "white", "stay_colour": "red", "deck_elevation_m": 40.5, "deck_crest_m": 5.0,
+                     "cables_per_side": 17, "cable_pattern": "semi_fan", "main_stay_deck_m": [26, 89]},  # round 10
     "cau-can-tho": {"auxiliary_piers_m": [40, 80, 930, 970], "cables_per_side": 27},
     "cau-may-chai": {"cable_pattern": "harp", "pylon_colour": "yellow", "deck_colour": "red"},
     "cau-phu-my-2": {"spans_m": [210, 450, 210]},
@@ -1238,7 +1228,29 @@ for b in B:
         assert any("thanhtra.com.vn" in u for u in b["sources"]) and any("trungnamec" in u for u in b["sources"]), b["sources"]
         assert sum("Báo Xây dựng / CafeF" == im["credit"] for im in b["images"]) == 3, b["images"]
         assert "Placeholder" not in m["notes"] and "137.5 + 250 + 137.5" in b["notes"], (m["notes"], b["notes"])
-    assert b["id"] == "cau-phuoc-an" or not ({"deck_closed", "main_stay_deck_m"} & set(m)), (b["id"], "G15/G16 opt-in")
+    assert b["id"] == "cau-phuoc-an" or "deck_closed" not in m, (b["id"], "G16 opt-in")
+    assert b["id"] in ("cau-phuoc-an", "cau-thuan-an") or "main_stay_deck_m" not in m, (b["id"], "G15 opt-in")
+    assert b["id"] == "cau-thuan-an" or "deck_haunch" not in m, (b["id"], "G17 opt-in")
+    if b["id"] == "cau-thuan-an":   # round 10 (brief-r10-thuan-an.md): longitudinal A median shaft, twin wall piers, haunch
+        pc = m["pylon_custom"]
+        assert m["spans_m"] == [120, 218, 120] and "auxiliary_piers_m" not in m and b["span_arrangement"] == "120 + 218 + 120 m", m
+        assert m["pylon_heights_m"] == [27.5, 27.5] and m["pylon_height_ref"] == "above_deck", m
+        assert m["deck_elevation_m"] == 40.5 and m["deck_crest_m"] == 5.0 and m["deck_depth_m"] == 4.0 and m["deck_width_m"] == 23.5, m
+        assert m["deck_haunch"] == {"depth_at_pylon_m": 9.5, "length_m": 85}, "G17"
+        assert m["cable_planes"] == 1 and m["cable_pattern"] == "semi_fan" and m["cables_per_side"] == 17, m
+        assert m["main_stay_deck_m"] == [26, 89] and m["back_stay_deck_m"] == [26, 89] and "deck_closed" not in m, m
+        assert b["status"] == "completed" and m["extradosed"] is True, b
+        assert len(pc["legs"]) == 4 and all(l["centerline"][0][2] == 0 == l["centerline"][-1][2] for l in pc["legs"]), "all in the median"
+        assert [l["centerline"][0][0] for l in pc["legs"][:2]] == [-3.1, 3.1] and all(l["centerline"][-1] == [0, 27.5, 0] for l in pc["legs"][:2]), "fore-and-aft A legs"
+        assert [l["centerline"][0] for l in pc["legs"][2:]] == [[-3.25, -36.7, 0], [3.25, -36.7, 0]], "twin wall piers on the cap"
+        assert pc["pile_cap"]["top_y_m"] == -36.7 and (pc["pile_cap"]["length_x_m"], pc["pile_cap"]["width_z_m"]) == (30, 22), pc["pile_cap"]
+        assert len(pc["struts"]) == 1 and pc["struts"][0]["a"] == [0, 4.6, 0], "fill strut above the deck-level opening"
+        assert [(z["leg"], z["side"], z["y_from_m"], z["y_to_m"]) for z in pc["anchor_zone"]] == [(1, "main", 6.9, 20.1), (0, "back", 6.9, 20.1)], pc
+        assert "king-post" not in json.dumps(m) and "Review r1" not in m["notes"], "round-1 override removed"
+        assert b["nav_clearance"]["height_m"] == 40 and "datphuong" in b["nav_clearance"]["source"], b["nav_clearance"]
+        assert "red pylons" not in b["pylons"] + b["pylons_en"] and "phương dọc cầu" in b["pylons"] and "along the bridge axis" in b["pylons_en"], b
+        assert "2/9/2025" in b["notes"] and "32 m" in b["notes"] and "32 m" in m["notes"], (b["notes"], m["notes"])
+        assert any("datphuong" in u for u in b["sources"]) and any("baoxaydung" in u for u in b["sources"]), b["sources"]
     if b["id"] == "cau-ben-rung":     # round 5: foundation (pile cap + columns), 22 m deck, 25° blades, 12 stays
         pc = m["pylon_custom"]
         assert m["deck_elevation_m"] == 22 and m["cables_per_side"] == 12 and m["cable_pattern"] == "semi_fan", m

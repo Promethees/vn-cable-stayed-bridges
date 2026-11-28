@@ -113,6 +113,10 @@ export interface Model3D {
   deck_section?: 'box' | 'truss';
   /** girder depth in metres (truss: distance between the chords, default 12) */
   deck_depth_m?: number;
+  /** G17: haunched box girder. The deck top is unchanged; the soffit deepens toward each pylon on a parabola from
+   *  deck_depth_m at length_m from the pylon to depth_at_pylon_m at the pylon (length clamped to half-way to the next
+   *  pylon, or to the unit end). Box section only (ignored with a warning for truss); approaches are not haunched. */
+  deck_haunch?: { depth_at_pylon_m: number; length_m: number };
   /** auxiliary piers, distances from the unit start, metres */
   auxiliary_piers_m?: number[];
   /** colours: hex (#rrggbb) or a named colour; rendered muted */

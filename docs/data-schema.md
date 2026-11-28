@@ -75,6 +75,11 @@ interface Model3D {
                                  //   Custom pylon tips are local y above this, so it sets their total height too.
   deck_section?: "box" | "truss";// girder: box (default) or a truss / double-deck girder (two chord slabs + Warren web)
   deck_depth_m?: number;         // girder depth; truss: distance between the chords (default 12 m)
+  deck_haunch?: { depth_at_pylon_m: number; length_m: number }; // G17: haunched box girder. The deck top is unchanged; at
+                                 //   distance s < length_m from a pylon the girder depth is deck_depth + (depth_at_pylon_m − deck_depth)
+                                 //   · (1 − s/length_m)², with length_m clamped per side to half-way to the next pylon or to the unit
+                                 //   end (warning). Box section only (truss: ignored, warning); ignored (warning) if not deeper than
+                                 //   the deck; approaches are not haunched; the nav check uses the plain depth. Thuận An: {9.5, 85}
   back_stay_planes?: 1 | 2;      // with cable_planes = 1: 2 splits the back-span stays to both deck edges (Trần Thị Lý);
                                  //   main-span stays stay in the central plane
   back_stay_count?: number;      // G11: stays per plane on each back side (toward a unit end), integer 1–60; default cables_per_side
