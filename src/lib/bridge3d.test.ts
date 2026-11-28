@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import type { Model3D } from '../types';
 import { buildBridgeGeometry, choosePylonSupports, deckElevation, defaultCablesPerSide, pileCapMesh, stayLightness } from './bridge3d';
+import { panelSmoothAt, panelYAt } from './sweep';
+import { pylonCustomProblems } from './validate';
 
 const base: Model3D = {
   spans_m: [150, 550, 150],
@@ -881,5 +883,149 @@ describe('deck crest vs navigation clearance (G9) and crossbeam depth (G10)', ()
     expect(Math.max(...beams.map((mb) => mb.a[1]))).toBeCloseTo(g.deckY(g.pylons[0].x) + 35, 1);
     const plain = buildBridgeGeometry(rm2, 'completed', nav)!;
     expect(plain.pylons[0].members.every((mb) => mb.depth === undefined)).toBe(true);
+  });
+});
+
+describe('per-member colours (G12) and gate panels (G13)', () => {
+  type PC = NonNullable<Model3D['pylon_custom']>;
+  const legs: PC['legs'] = [
+    { centerline: [[0, -25, -20], [0, 40, -20], [0, 100, -20]], width_base_m: 3, width_top_m: 3, colour: '#cf5a32' },
+    { centerline: [[0, -25, 20], [0, 40, 20], [0, 100, 20]], width_base_m: 3, width_top_m: 3 },
+  ];
+  const gate = (extra: Partial<PC> = {}): Partial<Model3D> => ({
+    spans_m: [165, 350, 165],
+    pylon_heights_m: [100, 100],
+    pylon_shape: 'H',
+    deck_elevation_m: 25,
+    pylon_custom: {
+      description: 'two free posts with a gate panel',
+      legs,
+      struts: [
+        { a: [-8, -25, -20], b: [0, 0, -20], width: 3, colour: 'grey' },
+        { a: [8, -25, 20], b: [0, 0, 20], width: 3 },
+      ],
+      panels: [
+        {
+          depth_m: 4,
+          colour: '#cf5a32',
+          top: [[-20, 70], [-15, 40], [0, 28], [15, 40], [20, 70]],
+          bottom: [[-20, 0], [-15, 0], [-14, 10], [0, 23], [14, 10], [15, 0], [20, 0]],
+        },
+      ],
+      anchor_zone: [
+        { y_from_m: 36, y_to_m: 90, leg: 0 },
+        { y_from_m: 36, y_to_m: 90, leg: 1 },
+      ],
+      mirror_for_other_pylons: true,
+      ...extra,
+    },
+  });
+
+  it('G12: a coloured leg gives exactly one coloured sweep; struts carry their own colour; the rest fall back', () => {
+    const g = build(gate({ panels: undefined }));
+    for (const p of g.pylons) {
+      expect(p.sweeps).toHaveLength(2);
+      expect(p.sweeps.filter((sw) => sw.colour === '#cf5a32')).toHaveLength(1);
+      expect(p.sweeps[1].colour).toBeUndefined();
+      expect(p.members.map((mb) => mb.colour)).toEqual(['grey', undefined]);
+    }
+  });
+
+  it('G12: pylons without per-member colours carry no colour field at all (render unchanged)', () => {
+    const g = build(gate({ panels: undefined, struts: undefined, legs: legs.map((l) => ({ ...l, colour: undefined })) }));
+    for (const p of g.pylons) {
+      expect(p.sweeps.every((sw) => sw.colour === undefined && !('colour' in sw))).toBe(true);
+      expect(p.members.every((mb) => !('colour' in mb))).toBe(true);
+    }
+  });
+
+  it('G13: one panel mesh per pylon after the legs, between its curves, extruded over depth_m, inside the bounds', () => {
+    const g = build(gate());
+    for (const p of g.pylons) {
+      expect(p.sweeps).toHaveLength(3);
+      const pn = p.sweeps[2];
+      expect(pn.colour).toBe('#cf5a32');
+      expect(pn.positions.every(Number.isFinite)).toBe(true);
+      expect(Math.max(...pn.indices)).toBeLessThan(pn.positions.length / 3);
+      const v = Array.from({ length: pn.positions.length / 3 }, (_, i) => pn.positions.slice(i * 3, i * 3 + 3));
+      const xs = v.map((q) => q[0] - p.x);
+      expect(Math.min(...xs)).toBeCloseTo(-2, 6);
+      expect(Math.max(...xs)).toBeCloseTo(2, 6);
+      const ys = v.map((q) => q[1] - g.deckY(p.x));
+      expect(Math.max(...ys)).toBeCloseTo(70, 0);
+      expect(Math.min(...ys)).toBeCloseTo(0, 0);
+      // the opening at z = 0 runs from the arch crown (23 m) to the bottom of the U (28 m)
+      const mid = v.filter((q) => Math.abs(q[2]) < 1e-9).map((q) => q[1] - g.deckY(p.x));
+      expect(Math.min(...mid)).toBeCloseTo(23, 0);
+      expect(Math.max(...mid)).toBeCloseTo(28, 0);
+      expect(v.every((q) => q[2] >= -20 - 1e-9 && q[2] <= 20 + 1e-9)).toBe(true);
+      for (const q of v) {
+        expect(q[0]).toBeGreaterThanOrEqual(g.bounds.min[0] - 1e-6);
+        expect(q[0]).toBeLessThanOrEqual(g.bounds.max[0] + 1e-6);
+        expect(q[1]).toBeLessThanOrEqual(g.bounds.max[1] + 1e-6);
+      }
+    }
+    // panels never set the tip: it still comes from the legs
+    expect(g.pylons[0].heightAboveDeck).toBeCloseTo(100, 0);
+  });
+
+  it('G13: the bottom of the U is smoothed without overshoot (flat at the low point, never below the data)', () => {
+    const g = build(gate());
+    const p = g.pylons[0];
+    const pn = p.sweeps[2];
+    // every column is 4 vertices: front bottom, front top, back bottom, back top
+    const tops: number[][] = [];
+    for (let i = 0; i < pn.positions.length; i += 12) tops.push([pn.positions[i + 2], pn.positions[i + 4] - g.deckY(p.x)]);
+    const inner = tops.filter(([z]) => Math.abs(z) < 15);
+    expect(Math.min(...inner.map((t) => t[1]))).toBeGreaterThanOrEqual(28 - 1e-6);
+    // just beside the low point the edge is nearly flat (the linear edge rises 0.8 m per m)
+    const near = inner.filter(([z]) => Math.abs(z) > 0 && Math.abs(z) < 3);
+    expect(near.length).toBeGreaterThan(0);
+    for (const [z, y] of near) expect((y - 28) / Math.abs(z)).toBeLessThan(0.5);
+  });
+
+  it('G13: panels follow the per-pylon height scale like the legs', () => {
+    const g = build({ ...gate(), pylon_heights_m: [100, 50] });
+    const top = (pi: number) => {
+      const p = g.pylons[pi];
+      return Math.max(...p.sweeps[2].positions.filter((_, i) => i % 3 === 1)) - g.deckY(p.x);
+    };
+    expect(top(0)).toBeCloseTo(70, 0);
+    expect(top(1)).toBeCloseTo(35, 0);
+  });
+});
+
+describe('validation of G12 colours and G13 panels', () => {
+  const leg = { centerline: [[0, 0, 0], [0, 50, 0], [0, 100, 0]], width_base_m: 3, width_top_m: 3 };
+  const pc = (extra: Record<string, unknown>) => ({ description: 'x', legs: [leg], anchor_zone: [{ y_from_m: 40, y_to_m: 90, leg: 0 }], ...extra });
+  const panel = { depth_m: 4, top: [[-10, 30], [0, 20], [10, 30]], bottom: [[-10, 0], [0, 15], [10, 0]] };
+
+  it('accepts colours and a well-formed panel', () => {
+    expect(pylonCustomProblems(pc({ panels: [panel], struts: [{ a: [0, 0, 0], b: [0, 1, 0], width: 1, colour: 'red' }] }))).toEqual([]);
+    expect(pylonCustomProblems(pc({ legs: [{ ...leg, colour: '#cf5a32' }] }))).toEqual([]);
+  });
+
+  it('rejects bad colours and malformed panels', () => {
+    expect(pylonCustomProblems(pc({ legs: [{ ...leg, colour: 'copper' }] }))).toEqual(['legs[0].colour']);
+    expect(pylonCustomProblems(pc({ struts: [{ a: [0, 0, 0], b: [0, 1, 0], width: 1, colour: '#12' }] }))).toEqual(['struts']);
+    expect(pylonCustomProblems(pc({ panels: [{ ...panel, colour: 'nope' }] }))).toEqual(['panels[0].colour']);
+    expect(pylonCustomProblems(pc({ panels: [{ ...panel, top: [[-10, 30], [9, 30]] }] }))).toEqual(['panels[0].ends']);
+    expect(pylonCustomProblems(pc({ panels: [{ ...panel, top: [[0, 30], [-10, 30], [10, 30]] }] }))).toEqual(['panels[0].top']);
+    expect(pylonCustomProblems(pc({ panels: [{ ...panel, top: [[-10, 30]] }] }))).toEqual(['panels[0].top']);
+    expect(pylonCustomProblems(pc({ panels: [{ ...panel, top: [[-10, 30], [0, 10], [10, 30]] }] }))).toEqual(['panels[0].top below bottom']);
+    expect(pylonCustomProblems(pc({ panels: [{ ...panel, depth_m: 0 }] }))).toEqual(['panels[0].depth_m']);
+    expect(pylonCustomProblems(pc({ panels: {} }))).toEqual(['panels']);
+  });
+
+  it('panelYAt takes vertical steps from either side; panelSmoothAt passes through the points', () => {
+    const c: [number, number][] = [[0, 0], [5, 0], [5, 10], [10, 10]];
+    expect(panelYAt(c, 5, -1)).toBe(0);
+    expect(panelYAt(c, 5, 1)).toBe(10);
+    expect(panelYAt(c, 2.5)).toBe(0);
+    expect(panelYAt(c, 20)).toBe(10);
+    const u: [number, number][] = [[-10, 30], [-5, 22], [0, 20], [5, 22], [10, 30]];
+    for (const [z, y] of u) expect(panelSmoothAt(u, z)).toBeCloseTo(y, 9);
+    expect(panelSmoothAt(u, 0.5)).toBeGreaterThanOrEqual(20);
+    expect(panelSmoothAt(u, 0.5)).toBeLessThan(panelYAt(u, 0.5));
   });
 });

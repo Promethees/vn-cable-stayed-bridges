@@ -103,11 +103,20 @@ interface PylonCustom {
                                            // point above the deck, e.g. twin blades rising from a merge point (Tứ Liên).
     width_base_m: number; width_top_m: number; depth_base_m?: number; depth_top_m?: number;
     twist_deg?: number;                    // rotate the section about the centreline, 0 at the start → twist_deg at the tip
+    colour?: string;                       // G12: this leg's colour (same values as pylon_colour); default pylon_colour
   }[];
   crossbeams_y_m?: number[];               // heights of cross-beams between legs
   crossbeam_depth_m?: number;              // vertical depth of those cross-beams (default square, max(1.5, 0.8 × leg top width))
   crown?: "pointed" | "rounded" | "flat";  // legs whose tips meet: sharp apex (default), smooth arch, or a flat head beam
-  struts?: { a: [number, number, number]; b: [number, number, number]; width: number }[]; // extra straight members
+  struts?: { a: [number, number, number]; b: [number, number, number]; width: number;   // extra straight members
+             colour?: string }[];          //   G12: per-strut colour; default pylon_colour
+  panels?: {                               // G13: flat infill between legs (a gate, a wall), in the cross-bridge plane:
+    top: [number, number][];               //   (z, y) polylines, >= 2 points each, z non-decreasing (equal z = vertical step),
+    bottom: [number, number][];            //   both starting and ending at the same z; top >= bottom everywhere.
+    depth_m: number;                       //   The region between them is extruded along x over x_m ± depth_m / 2.
+    x_m?: number;                          //   default 0. Edges are drawn smooth (shape-preserving cubic) through the points.
+    colour?: string;                       //   G12: default pylon_colour. Panels do not set the tip, anchors or crossbeams.
+  }[];                                     //   Ngọc Hồi: the red "Sun Gate" (U upper edge, round-headed arch below)
   pile_cap?: {                             // foundation block at the foot of every pylon (same local frame), drawn in plain
     length_x_m: number; width_z_m: number; //   concrete whatever pylon_colour is. x ∈ ±length/2, z ∈ ±width/2,
     top_y_m: number; thickness_m: number;  //   y ∈ [top − thickness, top] (top ≤ 0; the waterline is y = −deck elevation)

@@ -1,3 +1,4 @@
+import { panelYAt } from './sweep';
 import { PYLON_SHAPES, STATUSES, STRUCTURE_TYPES, USAGES, type Bridge, type BridgeImage, type Model3D } from '../types';
 
 export const MIN_MAIN_SPAN_M = 150;
@@ -70,6 +71,7 @@ export function pylonCustomProblems(v: unknown): string[] {
       for (const k of ['depth_base_m', 'depth_top_m'])
         if (l[k] !== undefined && !(isNum(l[k]) && (l[k] as number) > 0)) p.push(`legs[${i}].${k}`);
       if (l.twist_deg !== undefined && !isNum(l.twist_deg)) p.push(`legs[${i}].twist_deg`);
+      if (l.colour !== undefined && !isColour(l.colour)) p.push(`legs[${i}].colour`);
     });
   if (v.crossbeams_y_m !== undefined && !(Array.isArray(v.crossbeams_y_m) && v.crossbeams_y_m.every(isNum))) p.push('crossbeams_y_m');
   if (v.crossbeam_depth_m !== undefined && !(isNum(v.crossbeam_depth_m) && v.crossbeam_depth_m > 0)) p.push('crossbeam_depth_m');
@@ -93,9 +95,18 @@ export function pylonCustomProblems(v: unknown): string[] {
   if (v.crown !== undefined && !['pointed', 'rounded', 'flat'].includes(v.crown as string)) p.push('crown');
   if (
     v.struts !== undefined &&
-    !(Array.isArray(v.struts) && v.struts.every((st) => isObj(st) && isVec3(st.a) && isVec3(st.b) && isNum(st.width) && (st.width as number) > 0))
+    !(
+      Array.isArray(v.struts) &&
+      v.struts.every(
+        (st) => isObj(st) && isVec3(st.a) && isVec3(st.b) && isNum(st.width) && (st.width as number) > 0 && (st.colour === undefined || isColour(st.colour)),
+      )
+    )
   )
     p.push('struts');
+  if (v.panels !== undefined) {
+    if (!Array.isArray(v.panels)) p.push('panels');
+    else v.panels.forEach((pn, i) => p.push(...panelProblems(pn).map((x) => `panels[${i}]${x ? '.' + x : ''}`)));
+  }
   if (v.reference_images !== undefined && !isStrArr(v.reference_images)) p.push('reference_images');
   if (v.pile_cap !== undefined) {
     const c = v.pile_cap;
@@ -111,6 +122,32 @@ export function pylonCustomProblems(v: unknown): string[] {
     )
       p.push('pile_cap');
   }
+  return p;
+}
+
+const isZY = (a: unknown) => Array.isArray(a) && a.length === 2 && a.every(isNum);
+
+/** G13 panel: two (z, y) curves with ≥ 2 points, z non-decreasing, same end z, top never below bottom. */
+function panelProblems(v: unknown): string[] {
+  if (!isObj(v)) return [''];
+  const p: string[] = [];
+  const curve = (c: unknown) =>
+    Array.isArray(c) && c.length >= 2 && c.every(isZY) && c.every((q, k) => k === 0 || (q as number[])[0] >= (c[k - 1] as number[])[0]);
+  const top = v.top as [number, number][];
+  const bottom = v.bottom as [number, number][];
+  if (!curve(top)) p.push('top');
+  if (!curve(bottom)) p.push('bottom');
+  if (!p.length) {
+    const ends = (c: [number, number][]) => [c[0][0], c[c.length - 1][0]];
+    const [t0, t1] = ends(top);
+    const [b0, b1] = ends(bottom);
+    if (Math.abs(t0 - b0) > 1e-6 || Math.abs(t1 - b1) > 1e-6 || !(t1 > t0)) p.push('ends');
+    else if ([...top, ...bottom].some(([z]) => panelYAt(top, z, 1) < panelYAt(bottom, z, 1) - 1e-6 || panelYAt(top, z, -1) < panelYAt(bottom, z, -1) - 1e-6))
+      p.push('top below bottom');
+  }
+  if (!(isNum(v.depth_m) && v.depth_m > 0)) p.push('depth_m');
+  if (!optNum(v.x_m)) p.push('x_m');
+  if (v.colour !== undefined && !isColour(v.colour)) p.push('colour');
   return p;
 }
 

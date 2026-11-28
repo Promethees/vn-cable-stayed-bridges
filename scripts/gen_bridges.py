@@ -235,11 +235,15 @@ add(id="cau-cat-lai", name_vi="Cầu Cát Lái", name_en="Cát Lái Bridge", sta
 
 add(id="cau-ngoc-hoi", name_vi="Cầu Ngọc Hồi", name_en="Ngọc Hồi Bridge", status="under_construction",
     province="Hà Nội – Hưng Yên", province_former=["Hà Nội", "Hưng Yên"], crosses="Sông Hồng",
-    roads=[], construction_start=2025, opened=2027, main_span_m=350, total_length_m=680, width_m=33,
-    lanes=8, cable_stayed_spans=1, pylons="2 H-shaped pylons, ≈126 m", cost="≈11,770–11,844 tỷ VND",
+    roads=[], construction_start=2025, opened=2027, main_span_m=350, total_length_m=680, width_m=38.3,
+    lanes=8, cable_stayed_spans=1, span_arrangement="165 + 350 + 165 m", pylons="2 H-shaped pylons, ≈126 m", cost="≈11,770–11,844 tỷ VND",
+    investor="Ban QLDA ĐTXD các công trình giao thông TP. Hà Nội",
     lat=20.9600, lng=105.8950,
-    sources=["https://cafef.vn/dai-cong-truong-cau-ngoc-hoi-sau-15-thang-thi-cong-188261103143452699.chn", "https://tienphong.vn/cau-ngoc-hoi-noi-ha-noi-voi-hung-yen-tang-toc-thi-cong-hai-tru-cau-thap-day-vang-post1817163.html", "https://tuoitre.vn/cong-truong-lam-cau-day-vang-hon-11-800-ti-dong-noi-ha-noi-va-hung-yen-20260128211946328.htm"], confidence="needs_check",
-    notes="COORDINATES APPROXIMATE: the exact river-crossing location was not found (the OSM 'Cầu Ngọc Hồi' is an old QL1 bridge). Started 19/8/2025; target 8/2027. 680 m is the main river bridge. Width 32.3–38.3 m per source.")
+    sources=["https://cafef.vn/dai-cong-truong-cau-ngoc-hoi-sau-15-thang-thi-cong-188261103143452699.chn", "https://tienphong.vn/cau-ngoc-hoi-noi-ha-noi-voi-hung-yen-tang-toc-thi-cong-hai-tru-cau-thap-day-vang-post1817163.html", "https://tuoitre.vn/cong-truong-lam-cau-day-vang-hon-11-800-ti-dong-noi-ha-noi-va-hung-yen-20260128211946328.htm",
+             "https://vncnec.com.vn/vi/du-an-dau-tu-xay-dung-cau-ngoc-hoi/", "https://baoxaydung.vn/phuong-an-kien-truc-cau-ngoc-hoi-doat-giai-nhat-co-gi-dac-biet-192250423083854733.htm",
+             "https://nhandan.vn/anh-cau-ngoc-hoi-tang-toc-thi-cong-huong-toi-thong-xe-ky-thuat-truoc-apec-2027-post995411.html",
+             "https://kenh14.vn/toan-canh-cau-day-vang-gan-12000-ty-dong-bac-qua-song-hong-tru-thap-cao-tuong-duong-toa-nha-40-tang-nhip-day-vang-350m-ket-noi-ha-noi-voi-sieu-san-van-dong-lon-thu-2-viet-nam-215261104074107024.chn"], confidence="needs_check",
+    notes="COORDINATES APPROXIMATE: the exact river-crossing location was not found (the OSM 'Cầu Ngọc Hồi' is an old QL1 bridge). Started 19/8/2025; target 8/2027. 680 m is the main river bridge. 32.3 m between parapets, 38.3 m incl. stay anchorage (vncnec); approaches 33 m. Architecture: 'Cổng Mặt Trời', first prize, Công ty CP Tư vấn Thiết kế Cầu lớn – Hầm (approved 4/2025). Pylon piles 40 × Ø2.0 m × 75 m (T41).")
 
 add(id="cau-long-hung", name_vi="Cầu Long Hưng", name_en="Long Hưng Bridge", status="under_construction",
     province="TP. Hồ Chí Minh – Đồng Nai", province_former=["TP. Hồ Chí Minh", "Đồng Nai"], crosses="Sông Đồng Nai",
@@ -422,7 +426,7 @@ M3D = {
  "cau-duong-sat-can-gio": m3d([280, 360, 280], "other", [130, 130], "total", 2, "semi_fan", 14.0,
     notes="920 m cable-stayed bridge with a 360 m span (24hMoney). Side spans derived. Pylon shape/height and deck width (double-track) unknown; placeholder values."),
  "cau-ngoc-hoi": m3d([165, 350, 165], "H", [126, 126], "total", 2, "semi_fan", 33.0,
-    notes="Main river bridge ≈680 m with a 350 m span, so side spans are derived. H-shaped pylons ≈126 m (press). Deck 32.3–38.3 m by source."),
+    notes="Spans 165 + 350 + 165 m (vncnec). H-shaped pylons ≈126 m (press). Deck 38.3 m incl. stay anchorage (vncnec)."),
  "cau-long-hung": m3d([175, 350, 175], "single", [175, 175], "total", 1, "fan", 38.0,
     notes="350 m span, single cable plane, 175 m pylons (VietnamNet EN). Side spans and deck width (8 lanes) estimated. Single-mast pylons from renders."),
  "cau-nguyen-trai": m3d([125, 300, 125], "H", [111, 111], "total", 2, "semi_fan", 26.5,
@@ -822,6 +826,21 @@ def sanitize_model3d(m):
         L = sum(m["spans_m"])
         m["auxiliary_piers_m"] = sorted(set(fe) | {round(L - d, 3) for d in fe})
 
+def check_panels(m, bid):
+    """G13 panels: >= 2 points per curve, z non-decreasing, equal end z on both curves; invalid ones are skipped."""
+    pc = m.get("pylon_custom")
+    if not pc or "panels" not in pc: return
+    ok = []
+    for i, pn in enumerate(pc["panels"]):
+        t, bt = pn.get("top", []), pn.get("bottom", [])
+        good = (len(t) >= 2 and len(bt) >= 2 and pn.get("depth_m", 0) > 0
+                and all(c[k][0] >= c[k - 1][0] for c in (t, bt) for k in range(1, len(c)))
+                and t[0][0] == bt[0][0] and t[-1][0] == bt[-1][0] and t[-1][0] > t[0][0])
+        if good: ok.append(pn)
+        else: print(f"warning: {bid}: skipping invalid pylon_custom.panels[{i}]", file=sys.stderr)
+    if ok: pc["panels"] = ok
+    else: del pc["panels"]
+
 def scale_custom(pc, f):
     for leg in pc["legs"]:
         leg["centerline"] = [[x, y * f if y > 0 else y, z] for x, y, z in leg["centerline"]]
@@ -1037,6 +1056,7 @@ for b in B:
             elif k not in shape_m:
                 m[k] = v
     sanitize_model3d(b["model3d"])
+    check_panels(b["model3d"], bid)
     if bid in REVIEW_R1:
         apply_review(b, REVIEW_R1[bid])
     for frag in DROP_IMAGES.get(bid, []):
@@ -1126,6 +1146,23 @@ for b in B:
         assert pc["pile_cap"]["top_y_m"] == -20 and pc["pile_cap"]["rounded_ends"] is True, pc
         assert all(l["centerline"][0][1] == pc["pile_cap"]["top_y_m"] for l in pc["legs"]), "columns stand on the cap"
         assert m["pylon_colour"] == "white" and m["stay_colour"] == "red"
+    if b["id"] == "cau-ngoc-hoi":   # round 8: 'Cổng Mặt Trời' (brief-r8-ngoc-hoi.md)
+        pc = m["pylon_custom"]
+        assert m["spans_m"] == [165, 350, 165] and "auxiliary_piers_m" not in m, m
+        assert m["deck_elevation_m"] == 24.5 and m["deck_crest_m"] == 4 and m["deck_width_m"] == 38.3, m
+        assert m["cables_per_side"] == 16 and m["cable_planes"] == 2 and m["cable_pattern"] == "semi_fan", m
+        assert m["stay_colour"] == "#d4a24c" and "pylon_colour" not in m, m
+        assert [l.get("colour") for l in pc["legs"]] == ["#cf5a32", "#cf5a32", None, None], "red inner posts, concrete outer skin"
+        assert all(l["centerline"][-1][1] == 98.5 for l in pc["legs"]) and "crossbeams_y_m" not in pc, pc
+        assert len(pc["struts"]) == 4 and all(st["a"][1] == pc["pile_cap"]["top_y_m"] == -23.5 and st["b"][1] == 21 for st in pc["struts"])
+        assert len(pc["panels"]) == 1 and pc["panels"][0]["colour"] == "#cf5a32", pc["panels"]
+        pn = pc["panels"][0]
+        assert min(y for _, y in pn["top"]) == 27.9 and max(y for _, y in pn["bottom"]) == 23.2, pn
+        assert [(z["leg"], z["y_from_m"], z["y_to_m"]) for z in pc["anchor_zone"]] == [(0, 36, 87), (1, 36, 87)], pc
+        assert (pc["pile_cap"]["length_x_m"], pc["pile_cap"]["width_z_m"]) == (24, 50), pc["pile_cap"]
+        assert b["width_m"] == 38.3 and b["span_arrangement"] == "165 + 350 + 165 m" and b["lanes"] == 8, b
+        assert "Cổng Mặt Trời" in b["pylons"] and "Sun Gate" in b["pylons_en"] and b["confidence"] == "needs_check", b
+        assert "derived" not in m["notes"] and "Width 32.3–38.3" not in b["notes"], (m["notes"], b["notes"])
     if "pylon_custom" in m and "pile_cap" in m["pylon_custom"]:
         c = m["pylon_custom"]["pile_cap"]
         assert min(c["length_x_m"], c["width_z_m"], c["thickness_m"]) > 0 and c["top_y_m"] <= 0, b["id"]

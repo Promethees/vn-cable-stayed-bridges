@@ -26,6 +26,8 @@ export interface PylonCustom {
     depth_top_m?: number;
     /** rotation of the section about the centreline from base to tip, degrees */
     twist_deg?: number;
+    /** G12: colour of this leg (overrides pylon_colour) */
+    colour?: string;
   }[];
   crossbeams_y_m?: number[];
   /** vertical depth of the crossbeams_y_m members (default: square, max(1.5, 0.8 × leg top width)) */
@@ -33,13 +35,29 @@ export interface PylonCustom {
   /** shape where legs merge at the apex */
   crown?: 'pointed' | 'rounded' | 'flat';
   /** extra straight members (pylon-local frame), e.g. a strut under the side span */
-  struts?: { a: [number, number, number]; b: [number, number, number]; width: number }[];
+  struts?: { a: [number, number, number]; b: [number, number, number]; width: number; /** G12 */ colour?: string }[];
+  /** G13: flat infill panels in the cross-bridge plane, bounded by a top and a bottom (z, y) curve */
+  panels?: PylonPanel[];
   /** foundation block at the foot of every pylon (pylon-local frame), drawn in plain concrete */
   pile_cap?: PileCap;
   /** where stays attach; `side` restricts a zone to the main-span or back-span stays (zones without it serve both) */
   anchor_zone: { y_from_m: number; y_to_m: number; leg: number; side?: 'main' | 'back' }[];
   mirror_for_other_pylons?: boolean;
   reference_images?: string[];
+}
+
+/**
+ * G13 panel: the region between two (z, y) polylines (local frame, y above deck; z non-decreasing, same end z),
+ * extruded along local x over x_m ± depth_m / 2.
+ */
+export interface PylonPanel {
+  top: [number, number][];
+  bottom: [number, number][];
+  depth_m: number;
+  /** centre along the bridge, local x (default 0) */
+  x_m?: number;
+  /** G12: colour of the panel (overrides pylon_colour) */
+  colour?: string;
 }
 
 /** Pile cap / footing: x ∈ ±length/2, z ∈ ±width/2, y ∈ [top − thickness, top] (y up from deck). */

@@ -363,9 +363,17 @@ export class BridgeEngine {
     else g.deckPieces.forEach((b) => (this.box(b, mainDeckMat).userData.deck = true));
     g.deckMembers.forEach((mb) => (this.member(mb, mainDeckMat).userData.deck = true));
     g.piers.forEach((b) => this.box(b, M.concrete));
+    // G12: per-member colours (custom legs, struts, panels) override pylon_colour; one material per colour
+    const memberMats = new Map<string, THREE.Material>();
+    const matFor = (colour?: string) => {
+      if (!colour) return pylonMat;
+      let mat = memberMats.get(colour);
+      if (!mat) memberMats.set(colour, (mat = this.tinted(M.concrete, colour)));
+      return mat;
+    };
     g.pylons.forEach((p) => {
-      p.members.forEach((mb) => this.member(mb, pylonMat));
-      p.sweeps.forEach((sw) => this.sweep(sw, pylonMat));
+      p.members.forEach((mb) => this.member(mb, matFor(mb.colour)));
+      p.sweeps.forEach((sw) => this.sweep(sw, matFor(sw.colour)));
       // footings read as plain concrete even when the pylon is coloured
       p.caps.forEach((sw) => this.sweep(sw, M.concrete));
     });

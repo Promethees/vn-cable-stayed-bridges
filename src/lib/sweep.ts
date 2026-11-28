@@ -132,3 +132,107 @@ export function sweepRect(pl: Polyline, w0: number, w1: number, d0: number, d1: 
   indices.push(0, 2, 1, 0, 3, 2, last, last + 1, last + 2, last, last + 2, last + 3);
   return { positions, indices };
 }
+
+// ---- G13 panels ----
+
+/**
+ * Linear interpolation of a z-monotone (z, y) polyline at z, clamped to its ends. Where the curve has a vertical
+ * step (two points at the same z), side −1 returns the value approached from the left and +1 from the right.
+ */
+export function panelYAt(c: [number, number][], z: number, side: -1 | 1 = 1): number {
+  if (z <= c[0][0]) return side < 0 || z < c[0][0] ? c[0][1] : c[firstAfter(c, z) - 1][1];
+  const n = c.length;
+  if (z >= c[n - 1][0]) return side > 0 || z > c[n - 1][0] ? c[n - 1][1] : c[lastBefore(c, z) + 1][1];
+  if (side > 0) {
+    // last point with z_k <= z, then interpolate toward the next one
+    const k = firstAfter(c, z) - 1;
+    const [z0, y0] = c[k];
+    const [z1, y1] = c[k + 1];
+    return z1 === z0 ? y1 : y0 + ((y1 - y0) * (z - z0)) / (z1 - z0);
+  }
+  const k = lastBefore(c, z) + 1; // first point with z_k >= z
+  const [z1, y1] = c[k];
+  const [z0, y0] = c[k - 1];
+  return z1 === z0 ? y0 : y0 + ((y1 - y0) * (z - z0)) / (z1 - z0);
+}
+/** index of the first point with z_k > z (n when none) */
+const firstAfter = (c: [number, number][], z: number) => {
+  let k = 0;
+  while (k < c.length && c[k][0] <= z) k++;
+  return k;
+};
+/** index of the last point with z_k < z (−1 when none) */
+const lastBefore = (c: [number, number][], z: number) => {
+  let k = c.length - 1;
+  while (k >= 0 && c[k][0] >= z) k--;
+  return k;
+};
+
+/**
+ * Shape-preserving cubic (PCHIP, Fritsch–Butland tangents) through a z-monotone (z, y) polyline, at z strictly
+ * between two of its points; elsewhere (on a point, outside, or across a vertical step) the linear value. Smooths
+ * the panel edges between the data points without overshoot: a local minimum (the bottom of a U) gets a flat tangent.
+ */
+export function panelSmoothAt(c: [number, number][], z: number): number {
+  const n = c.length;
+  const k = firstAfter(c, z) - 1; // last point with z_k <= z
+  if (k < 0 || k >= n - 1 || c[k][0] === z) return panelYAt(c, z, 1);
+  const slope = (i: number) => (c[i + 1][1] - c[i][1]) / (c[i + 1][0] - c[i][0]);
+  const h = (i: number) => c[i + 1][0] - c[i][0];
+  const tangent = (i: number) => {
+    const hasPrev = i > 0 && c[i][0] > c[i - 1][0];
+    const hasNext = i < n - 1 && c[i + 1][0] > c[i][0];
+    if (hasPrev && hasNext) {
+      const [d0, d1] = [slope(i - 1), slope(i)];
+      if (d0 * d1 <= 0) return 0;
+      const [w1, w2] = [2 * h(i) + h(i - 1), h(i) + 2 * h(i - 1)];
+      return (w1 + w2) / (w1 / d0 + w2 / d1);
+    }
+    return hasNext ? slope(i) : hasPrev ? slope(i - 1) : 0;
+  };
+  const hk = h(k);
+  const t = (z - c[k][0]) / hk;
+  const [t2, t3] = [t * t, t * t * t];
+  return (2 * t3 - 3 * t2 + 1) * c[k][1] + (t3 - 2 * t2 + t) * hk * tangent(k) + (-2 * t3 + 3 * t2) * c[k + 1][1] + (t3 - t2) * hk * tangent(k + 1);
+}
+
+/**
+ * G13: flat panel between a top and a bottom (z, y) curve (both z-monotone, same end z), extruded along x over
+ * [x0, x1]. Columns sit at the union of both curves' breakpoints (two columns where either curve steps vertically),
+ * each interval split into `sub` parts (edges smoothed between the data points, see panelSmoothAt). Vertices are (x, y, z) in the frame of the curves; the caller maps them.
+ */
+export function panelMesh(top: [number, number][], bottom: [number, number][], x0: number, x1: number, sub = 6): SweepMesh {
+  const zs = [...new Set([...top, ...bottom].map((q) => q[0]))].sort((a, b) => a - b);
+  const cols: [number, number, number][] = []; // z, y bottom, y top
+  const push = (z: number, side: -1 | 1) => {
+    const yb = panelYAt(bottom, z, side);
+    cols.push([z, yb, Math.max(yb, panelYAt(top, z, side))]);
+  };
+  const pushSmooth = (z: number) => {
+    const yb = panelSmoothAt(bottom, z);
+    cols.push([z, yb, Math.max(yb, panelSmoothAt(top, z))]);
+  };
+  zs.forEach((z, k) => {
+    if (k > 0) for (let s = 1; s < sub; s++) pushSmooth(zs[k - 1] + ((z - zs[k - 1]) * s) / sub);
+    push(z, -1);
+    const [, b, t] = cols[cols.length - 1];
+    if (Math.abs(panelYAt(bottom, z, 1) - b) > 1e-9 || Math.abs(Math.max(panelYAt(bottom, z, 1), panelYAt(top, z, 1)) - t) > 1e-9) push(z, 1);
+  });
+  const positions: number[] = [];
+  const indices: number[] = [];
+  // per column: 0 front bottom, 1 front top (x0), 2 back bottom, 3 back top (x1)
+  for (const [z, yb, yt] of cols) positions.push(x0, yb, z, x0, yt, z, x1, yb, z, x1, yt, z);
+  const quad = (a: number, b: number, c: number, d: number) => indices.push(a, b, c, a, c, d);
+  for (let k = 0; k + 1 < cols.length; k++) {
+    const i = k * 4;
+    const j = i + 4;
+    quad(i, j, j + 1, i + 1); // front face (x0)
+    quad(i + 2, i + 3, j + 3, j + 2); // back face (x1)
+    quad(i, i + 2, j + 2, j); // bottom edge
+    quad(i + 1, j + 1, j + 3, i + 3); // top edge
+  }
+  const l = (cols.length - 1) * 4;
+  quad(0, 1, 3, 2); // end caps
+  quad(l, l + 2, l + 3, l + 1);
+  return { positions, indices };
+}

@@ -1,6 +1,6 @@
 {
- "pylons_vi": "2 tháp chữ H, cao ≈126 m",
- "pylons_en": "2 H-shaped pylons, ≈126 m",
+ "pylons_vi": "2 tháp chữ H 'Cổng Mặt Trời' cao 126 m: hai cột đứng (mặt trong ốp gò đồng đỏ, mặt ngoài bê tông), dầm ngang dạng vòm cổng (vòm trên chữ U, vòm dưới cổng chào), chân trụ tách đôi",
+ "pylons_en": "2 'Sun Gate' H pylons, 126 m: two vertical posts (copper-clad red inner faces, concrete outside) joined by an arched gate (U above, portal arch below); each post splits into two legs at the base",
  "model3d": {
   "spans_m": [
    165,
@@ -13,30 +13,327 @@
    126
   ],
   "pylon_height_ref": "total",
+  "deck_elevation_m": 24.5,
+  "deck_crest_m": 4,
   "cable_planes": 2,
   "cable_pattern": "semi_fan",
-  "deck_width_m": 33.0,
+  "cables_per_side": 16,
+  "deck_width_m": 38.3,
+  "stay_colour": "#d4a24c",
+  "pylon_custom": {
+   "description": "'Cổng Mặt Trời' H pylon: two vertical posts rising free to flat tips, copper-clad (red) on their inner faces and concrete outside; between them a red gate whose upper edge is a deep U hanging from high on the posts to ≈28 m above the deck and whose lower edge is a round-headed arch over the carriageway (crown ≈23 m); below ≈21 m above the deck each post splits along the bridge into two splayed concrete legs down to a rectangular pile cap.",
+   "legs": [
+    {
+     "centerline": [
+      [
+       0,
+       19,
+       -20.25
+      ],
+      [
+       0,
+       60,
+       -20.25
+      ],
+      [
+       0,
+       98.5,
+       -20.25
+      ]
+     ],
+     "width_base_m": 2.5,
+     "width_top_m": 2.5,
+     "depth_base_m": 6.0,
+     "depth_top_m": 4.5,
+     "colour": "#cf5a32"
+    },
+    {
+     "centerline": [
+      [
+       0,
+       19,
+       20.25
+      ],
+      [
+       0,
+       60,
+       20.25
+      ],
+      [
+       0,
+       98.5,
+       20.25
+      ]
+     ],
+     "width_base_m": 2.5,
+     "width_top_m": 2.5,
+     "depth_base_m": 6.0,
+     "depth_top_m": 4.5,
+     "colour": "#cf5a32"
+    },
+    {
+     "centerline": [
+      [
+       0,
+       19,
+       -22.5
+      ],
+      [
+       0,
+       60,
+       -22.5
+      ],
+      [
+       0,
+       98.5,
+       -22.5
+      ]
+     ],
+     "width_base_m": 2.0,
+     "width_top_m": 2.0,
+     "depth_base_m": 6.0,
+     "depth_top_m": 4.5
+    },
+    {
+     "centerline": [
+      [
+       0,
+       19,
+       22.5
+      ],
+      [
+       0,
+       60,
+       22.5
+      ],
+      [
+       0,
+       98.5,
+       22.5
+      ]
+     ],
+     "width_base_m": 2.0,
+     "width_top_m": 2.0,
+     "depth_base_m": 6.0,
+     "depth_top_m": 4.5
+    }
+   ],
+   "struts": [
+    {
+     "a": [
+      -8,
+      -23.5,
+      -21.25
+     ],
+     "b": [
+      0,
+      21,
+      -21.25
+     ],
+     "width": 4.5
+    },
+    {
+     "a": [
+      8,
+      -23.5,
+      -21.25
+     ],
+     "b": [
+      0,
+      21,
+      -21.25
+     ],
+     "width": 4.5
+    },
+    {
+     "a": [
+      -8,
+      -23.5,
+      21.25
+     ],
+     "b": [
+      0,
+      21,
+      21.25
+     ],
+     "width": 4.5
+    },
+    {
+     "a": [
+      8,
+      -23.5,
+      21.25
+     ],
+     "b": [
+      0,
+      21,
+      21.25
+     ],
+     "width": 4.5
+    }
+   ],
+   "panels": [
+    {
+     "depth_m": 5.0,
+     "colour": "#cf5a32",
+     "top": [
+      [
+       -19.5,
+       72
+      ],
+      [
+       -18.2,
+       54
+      ],
+      [
+       -15.8,
+       41.4
+      ],
+      [
+       -12.4,
+       34.6
+      ],
+      [
+       -7.4,
+       29.6
+      ],
+      [
+       0,
+       27.9
+      ],
+      [
+       7.4,
+       29.6
+      ],
+      [
+       12.4,
+       34.6
+      ],
+      [
+       15.8,
+       41.4
+      ],
+      [
+       18.2,
+       54
+      ],
+      [
+       19.5,
+       72
+      ]
+     ],
+     "bottom": [
+      [
+       -19.5,
+       0
+      ],
+      [
+       -15.0,
+       0
+      ],
+      [
+       -14.8,
+       3.4
+      ],
+      [
+       -14.2,
+       10
+      ],
+      [
+       -13.3,
+       16
+      ],
+      [
+       -10,
+       20.3
+      ],
+      [
+       -5,
+       22.6
+      ],
+      [
+       0,
+       23.2
+      ],
+      [
+       5,
+       22.6
+      ],
+      [
+       10,
+       20.3
+      ],
+      [
+       13.3,
+       16
+      ],
+      [
+       14.2,
+       10
+      ],
+      [
+       14.8,
+       3.4
+      ],
+      [
+       15.0,
+       0
+      ],
+      [
+       19.5,
+       0
+      ]
+     ]
+    }
+   ],
+   "anchor_zone": [
+    {
+     "y_from_m": 36,
+     "y_to_m": 87,
+     "leg": 0
+    },
+    {
+     "y_from_m": 36,
+     "y_to_m": 87,
+     "leg": 1
+    }
+   ],
+   "pile_cap": {
+    "length_x_m": 24,
+    "width_z_m": 50,
+    "top_y_m": -23.5,
+    "thickness_m": 6,
+    "rounded_ends": false
+   },
+   "mirror_for_other_pylons": true,
+   "reference_images": [
+    "https://hanoionline.mediacdn.vn/2025/8/19/10/885562182_z692178457141797b25ad8b3910b52047298b3a4de84cc.webp.png (official aerial = user's render)",
+    "https://baoxaydung.mediacdn.vn/603483875699699712/2025/4/23/ea77780faca11fff46b0-1745371882515213675427.jpg (along-axis, gate geometry)",
+    "https://baoxaydung.mediacdn.vn/603483875699699712/2025/4/23/7fc16be6bc480f165659-1745371786274445331238.jpg (elevation)",
+    "https://baoxaydung.mediacdn.vn/603483875699699712/2025/4/23/043f8dd0447ef720ae6f-1745371800881577308906.jpg (split legs, two-tone post)"
+   ]
+  },
   "confidence": "estimated",
-  "notes": "Main river bridge ≈680 m with a 350 m span, so side spans are derived. H-shaped pylons ≈126 m (press). Deck 32.3–38.3 m by source."
+  "notes": "Round 8 (research/model-review/brief-r8-ngoc-hoi.md): Spans confirmed (vncnec). Pylon geometry measured from the official renders (user-supplied aerial, Báo Xây dựng along-axis and elevation renders). Stay count estimated (±2). Gate panel and two-tone posts use G12 / G13."
  },
- "notes": "No render or pylon photo found; geometry unchanged.",
+ "notes": "r8: official render supplied by the user; Sun Gate form.",
  "id": "cau-ngoc-hoi",
  "review": [
-  "—",
-  "No change: only construction-site or no images",
-  "None usable"
+  "'Sun Gate' H pylons: free posts, red U/arch gate panel, two-tone posts, split concrete legs on a pile cap; golden stays (round 8)",
+  "Plain grey H with a high square crossbeam and default blue stays",
+  "Good: user-supplied official render + 3 Báo Xây dựng renders"
  ],
  "checklist": {
-  "foot below deck": "limited",
-  "legs at deck": "limited",
-  "merge height": "limited",
-  "crossbeams": "limited",
-  "head": "limited (no pylon reference: construction-site photos only)",
-  "proportions": "limited",
-  "stays": "limited",
-  "deck / aux piers": "limited",
-  "colour": "limited"
+  "foot below deck": "pass (posts split ≈21 m above the deck into splayed legs on a 24 × 50 m cap, round 8)",
+  "legs at deck": "pass",
+  "merge height": "n/a (free posts, no top beam)",
+  "crossbeams": "pass (gate panel, G13: U top edge ≈28 m, arch soffit ≈23 m)",
+  "head": "pass (flat tips)",
+  "proportions": "pass (98.5 m above deck, 126 m label)",
+  "stays": "pass (2 planes semi-fan, 16 per side per plane, golden; count ±2)",
+  "deck / aux piers": "pass (no aux piers; E 24.5 m, crest 4 m)",
+  "colour": "pass (copper inner faces + gate via G12, concrete outer skin and legs)"
  },
  "pass2": true,
- "compare": "scratchpad only (press/render images, licence unknown)"
+ "compare": "scratchpad only (official renders, licence unknown)"
 }

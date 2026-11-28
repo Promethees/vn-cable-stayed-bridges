@@ -364,6 +364,77 @@ describe.each(files)('%s', (file) => {
     expect(g.colours.stay).toBe('white');
   });
 
+  it('Ngọc Hồi (round 8): Sun Gate pylons, red inner posts + gate panel (G12/G13), split concrete legs on a cap, golden stays', () => {
+    const b = bridges.find((x) => x.id === 'cau-ngoc-hoi');
+    if (!b?.model3d?.pylon_custom || file.endsWith('.sample.json')) return;
+    const m = b.model3d;
+    expect(m.spans_m).toEqual([165, 350, 165]);
+    expect(b.width_m).toBe(38.3);
+    expect(b.span_arrangement).toBe('165 + 350 + 165 m');
+    expect(b.confidence).toBe('needs_check');
+    const g = buildBridgeGeometry(m, 'completed', { navClearance: b.nav_clearance })!;
+    expect(g.warnings).toEqual([]);
+    expect(g.deckElevation).toBe(24.5);
+    expect(g.auxiliaryPiers).toEqual([]);
+    expect(g.pylons.map((p) => p.x)).toEqual([165, 515]);
+    expect(g.colours.stay).toBe('#d4a24c');
+    expect(g.colours.pylon).toBeUndefined();
+    for (const p of g.pylons) {
+      const deck = g.deckY(p.x);
+      // ≈27.4 m deck at the pylons, tips 98.5 m above it, label 126 m
+      expect(deck).toBeCloseTo(24.5 + 4 * (1 - (175 / 340) ** 2), 1);
+      expect(p.heightAboveDeck).toBeCloseTo(98.5, 0);
+      expect(Math.round(p.labelHeight)).toBe(126);
+      // 4 post legs (2 red inner, 2 concrete outer) + 1 red gate panel; no crossbeams, 4 concrete struts
+      expect(p.sweeps).toHaveLength(5);
+      expect(p.sweeps.map((sw) => sw.colour)).toEqual(['#cf5a32', '#cf5a32', undefined, undefined, '#cf5a32']);
+      expect(p.members).toHaveLength(4);
+      expect(p.members.every((mb) => mb.colour === undefined && mb.size === 4.5)).toBe(true);
+      // gate: top ≈ deck + 72 (above-deck y is lifted by the crest), soffit crown ≈ 23.2 m at the centreline
+      const pn = p.sweeps[4].positions;
+      const ys: number[] = [];
+      const mid: number[] = [];
+      for (let i = 0; i < pn.length; i += 3) {
+        expect(Number.isFinite(pn[i]) && Number.isFinite(pn[i + 1]) && Number.isFinite(pn[i + 2])).toBe(true);
+        ys.push(pn[i + 1] - deck);
+        if (Math.abs(pn[i + 2]) < 1e-9) mid.push(pn[i + 1] - deck);
+      }
+      expect(Math.max(...ys)).toBeCloseTo(72, 0);
+      expect(Math.min(...ys)).toBeCloseTo(0, 0);
+      expect(Math.min(...mid)).toBeCloseTo(23.2, 0);
+      expect(Math.max(...mid)).toBeCloseTo(27.9, 0);
+      // feet of the split legs on the 24 × 50 m cap, ≈1 m above the water
+      const feet = p.members.map((mb) => (mb.a[1] < mb.b[1] ? mb.a : mb.b));
+      expect(feet.every((f) => Math.abs(Math.abs(f[0] - p.x) - 8) < 1e-6 && f[1] > 0 && f[1] < 2)).toBe(true);
+      expect(p.caps).toHaveLength(1);
+      // 16 per side per plane, two planes, anchored ≈36–87 m above the deck on the red inner legs (|z| = 20.25)
+      const cs = g.cables.filter((c) => c.pylon === p.index);
+      expect(cs).toHaveLength(16 * 2 * 2);
+      for (const c of cs) {
+        expect(c.top[1] - deck).toBeGreaterThan(35);
+        expect(c.top[1] - deck).toBeLessThan(88);
+        expect(Math.abs(Math.abs(c.top[2]) - 20.25)).toBeLessThan(2);
+      }
+    }
+    // the gate panel is inside the unit bounds (bounds include every sweep)
+    expect(g.bounds.max[1]).toBeGreaterThan(g.deckY(165) + 98);
+  });
+
+  it('pylon_custom has only schema keys (incl. G12 colours and G13 panels)', () => {
+    const PC = new Set(['description', 'legs', 'crossbeams_y_m', 'crossbeam_depth_m', 'crown', 'struts', 'panels', 'pile_cap', 'anchor_zone', 'mirror_for_other_pylons', 'reference_images']);
+    const LEG = new Set(['centerline', 'width_base_m', 'width_top_m', 'depth_base_m', 'depth_top_m', 'twist_deg', 'colour']);
+    const STRUT = new Set(['a', 'b', 'width', 'colour']);
+    const PANEL = new Set(['top', 'bottom', 'depth_m', 'x_m', 'colour']);
+    for (const b of bridges) {
+      const pc = b.model3d?.pylon_custom;
+      if (!pc) continue;
+      for (const k of Object.keys(pc)) expect(PC.has(k), `${b.id}: ${k}`).toBe(true);
+      for (const l of pc.legs) for (const k of Object.keys(l)) expect(LEG.has(k), `${b.id}: legs.${k}`).toBe(true);
+      for (const s of pc.struts ?? []) for (const k of Object.keys(s)) expect(STRUT.has(k), `${b.id}: struts.${k}`).toBe(true);
+      for (const s of pc.panels ?? []) for (const k of Object.keys(s)) expect(PANEL.has(k), `${b.id}: panels.${k}`).toBe(true);
+    }
+  });
+
   it('model3d has only schema keys, and harp bridges draw parallel stays (within 2°)', () => {
     const KEYS = new Set([
       'spans_m', 'pylon_shape', 'pylon_heights_m', 'pylon_height_ref', 'cable_planes', 'cable_pattern', 'cables_per_side',
