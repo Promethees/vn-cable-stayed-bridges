@@ -100,3 +100,58 @@ Renders are in `scratchpad/views-nh-impl/`: the 5 presets plus `az55 el38 unit`,
 - **Regression (G12):**
   - Front and three-quarter views of `cau-thuong-cat`, `cau-ben-rung`, `cau-nguyen-trai` and `cau-rach-mieu-2` were rendered from HEAD (a `git archive` copy) and from this branch.
   - All 8 PNGs are **byte-identical**.
+
+## Round 8b (feedback `research/model-review/feedback-r8-ngoc-hoi-1.md`)
+
+Geometry was approved; the colour was not. The copper rendered as #7f5b55 (h 9°, s 0.20, l 0.42), a mauve-brown, because `mutedColour` caps the saturation at 0.45 in three's linear working space.
+
+### G14: `model3d.colour_mode: "muted" | "vivid"` (default muted)
+
+| File | Change |
+|---|---|
+| `src/types.ts` | New field. |
+| `src/lib/validate.ts` | The value must be `muted` or `vivid`. |
+| `src/lib/data.test.ts` | Added to the allowed-key list. |
+| `docs/data-schema.md` | Documented next to the other colour fields. |
+| `docs/design-3d.md` | New "Colour mode (G14)" rule; the stay-cable row is updated. |
+| `scripts/gen_bridges.py` | The value is validated. An assert keeps `vivid` opt-in, so only Ngọc Hồi can have it. |
+| `src/lib/bridge3d.ts` | `colours.vivid: true` is set only for vivid bridges. Other bridges get no new field. |
+| `src/three/engine.ts` | New `vividColour(value)`. Named colours keep their palette value. Hex colours are read as sRGB, keep their saturation, and only the sRGB lightness is clamped to 0.30–0.80. It is used for `tinted()`, so it covers the pylon, legs, struts, panels and deck. It is also used for the stays, which then go through the existing `stayLightness` sky clamp with their saturation kept. |
+
+### Data
+
+- `"colour_mode": "vivid"` is set on Ngọc Hồi.
+- **Copper changed** from `#cf5a32` to **`#e06a3e`** (h 16°, s 0.72, l 0.56).
+  - With `#cf5a32` and vivid mode, the lit front faces measured **#8c3d21: h 15.7°, s 0.62, l 0.339**. That is just under the 0.35 lightness floor, because Lambert shading darkens the front faces by about ×0.67.
+  - `#e06a3e` is still inside the hue range sampled from the user's render (12–18°).
+- The stays stay at `#d4a24c`. They now read clearly golden, so `#e0a83a` was not needed.
+
+### Measured pixels
+
+The renders are in `scratchpad/views-nh-impl2/`. HSL is in sRGB, measured with a stdlib PNG decoder in `scratchpad/px.py`.
+
+| What | Before (r8) | After (r8b) | Target |
+|---|---|---|---|
+| Front view: gate (600,470) | #7f5b55, h 8.6°, s 0.20, l 0.42 | **#97492a, h 17.1°, s 0.565, l 0.378** | h 8–22°, s ≥ 0.45, l 0.35–0.62 |
+| Front view: post (490,200) and (710,300) | same as the gate | **#98492a, h 16.9°, s 0.567, l 0.380** | same |
+| `az55 el38 unit`: near-pylon box, median of red pixels | h 22.6°, s 0.22, l 0.52 | **h 17.1°, s 0.565, l 0.378**; it reads orange-red | orange-red |
+| `az10 el2 unit`: stay lines against the sky, median of warm pixels | h 35.5°, s 0.32 | **h 39.4°, s 0.50** (left fan), **h 39.0°, s 0.57** (right fan) | h 30–48°, s ≥ 0.40 |
+| Concrete: outer skin (475,200), split leg (480,700), cap (600,760) | #919b9c, #adb4b5, #b7bcbe | identical | unchanged |
+
+**Regression.** Front and three-quarter views of 7 bridges were rendered from HEAD dc2b99d (a `git archive` copy) and from this branch, and all **14 PNGs are byte-identical**. The 7 bridges are:
+- the 4 from round 8: `cau-thuong-cat`, `cau-ben-rung`, `cau-nguyen-trai` and `cau-rach-mieu-2`;
+- 3 that use data colours: `cau-rach-mieu`, which has a hex pylon colour; `cau-may-chai`, which has yellow, red and white; and `cau-tran-thi-ly`, which has red back stays.
+
+### P2: the ticks on the U edge are fixed
+
+The ticks were notches, not z-fighting. At the bottom curve's breakpoints, the top edge was evaluated with linear interpolation instead of the smooth curve, so the chord dipped at each of those columns. `panelMesh` now uses a curve's exact value only at its own points, and the smooth value everywhere else. A new unit test checks every column of a panel against the smooth curve. In the front render, the U edge is clean.
+
+### Tests
+
+There are 110 tests in total. The new ones are:
+- `colour_mode` validation;
+- `colours.vivid` is present only when the bridge is vivid;
+- the panel edge has no notch at breakpoints that only the other curve has;
+- the Ngọc Hồi data test now also checks `colour_mode` and that no other bridge is vivid.
+
+`npm run typecheck`, `lint`, `test` and `build` all pass.

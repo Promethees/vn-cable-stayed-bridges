@@ -379,6 +379,10 @@ describe.each(files)('%s', (file) => {
     expect(g.pylons.map((p) => p.x)).toEqual([165, 515]);
     expect(g.colours.stay).toBe('#d4a24c');
     expect(g.colours.pylon).toBeUndefined();
+    expect(m.colour_mode).toBe('vivid');
+    expect(g.colours.vivid).toBe(true);
+    // G14 is opt-in: no other bridge is vivid (their renders stay byte-identical)
+    expect(bridges.filter((x) => x.model3d?.colour_mode === 'vivid').map((x) => x.id)).toEqual(['cau-ngoc-hoi']);
     for (const p of g.pylons) {
       const deck = g.deckY(p.x);
       // ≈27.4 m deck at the pylons, tips 98.5 m above it, label 126 m
@@ -387,7 +391,7 @@ describe.each(files)('%s', (file) => {
       expect(Math.round(p.labelHeight)).toBe(126);
       // 4 post legs (2 red inner, 2 concrete outer) + 1 red gate panel; no crossbeams, 4 concrete struts
       expect(p.sweeps).toHaveLength(5);
-      expect(p.sweeps.map((sw) => sw.colour)).toEqual(['#cf5a32', '#cf5a32', undefined, undefined, '#cf5a32']);
+      expect(p.sweeps.map((sw) => sw.colour)).toEqual(['#e06a3e', '#e06a3e', undefined, undefined, '#e06a3e']);
       expect(p.members).toHaveLength(4);
       expect(p.members.every((mb) => mb.colour === undefined && mb.size === 4.5)).toBe(true);
       // gate: top ≈ deck + 72 (above-deck y is lifted by the crest), soffit crown ≈ 23.2 m at the centreline
@@ -440,7 +444,7 @@ describe.each(files)('%s', (file) => {
       'spans_m', 'pylon_shape', 'pylon_heights_m', 'pylon_height_ref', 'cable_planes', 'cable_pattern', 'cables_per_side',
       'deck_width_m', 'deck_type', 'approach_length_m', 'extradosed', 'deck_plan_radius_m', 'deck_crest_m', 'deck_elevation_m',
       'auxiliary_piers_m', 'pylon_colour', 'stay_colour', 'back_stay_colour', 'deck_colour', 'back_stay_planes', 'back_stay_count', 'back_stay_deck_m', 'deck_section',
-      'deck_depth_m', 'pylon_custom', 'confidence', 'notes',
+      'deck_depth_m', 'colour_mode', 'pylon_custom', 'confidence', 'notes',
     ]);
     for (const b of bridges) {
       if (!b.model3d) continue;

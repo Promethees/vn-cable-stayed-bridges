@@ -4176,6 +4176,7 @@
       "cables_per_side": 16,
       "deck_width_m": 38.3,
       "stay_colour": "#d4a24c",
+      "colour_mode": "vivid",
       "pylon_custom": {
         "description": "'Cổng Mặt Trời' H pylon: two vertical posts rising free to flat tips, copper-clad (red) on their inner faces and concrete outside; between them a red gate whose upper edge is a deep U hanging from high on the posts to ≈28 m above the deck and whose lower edge is a round-headed arch over the carriageway (crown ≈23 m); below ≈21 m above the deck each post splits along the bridge into two splayed concrete legs down to a rectangular pile cap.",
         "legs": [
@@ -4201,7 +4202,7 @@
             "width_top_m": 2.5,
             "depth_base_m": 6.0,
             "depth_top_m": 4.5,
-            "colour": "#cf5a32"
+            "colour": "#e06a3e"
           },
           {
             "centerline": [
@@ -4225,7 +4226,7 @@
             "width_top_m": 2.5,
             "depth_base_m": 6.0,
             "depth_top_m": 4.5,
-            "colour": "#cf5a32"
+            "colour": "#e06a3e"
           },
           {
             "centerline": [
@@ -4331,7 +4332,7 @@
         "panels": [
           {
             "depth_m": 5.0,
-            "colour": "#cf5a32",
+            "colour": "#e06a3e",
             "top": [
               [
                 -19.5,

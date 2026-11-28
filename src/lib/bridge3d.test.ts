@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import type { Model3D } from '../types';
 import { buildBridgeGeometry, choosePylonSupports, deckElevation, defaultCablesPerSide, pileCapMesh, stayLightness } from './bridge3d';
-import { panelSmoothAt, panelYAt } from './sweep';
-import { pylonCustomProblems } from './validate';
+import { panelMesh, panelSmoothAt, panelYAt } from './sweep';
+import { model3dProblems, pylonCustomProblems } from './validate';
 
 const base: Model3D = {
   spans_m: [150, 550, 150],
@@ -1015,6 +1015,28 @@ describe('validation of G12 colours and G13 panels', () => {
     expect(pylonCustomProblems(pc({ panels: [{ ...panel, top: [[-10, 30], [0, 10], [10, 30]] }] }))).toEqual(['panels[0].top below bottom']);
     expect(pylonCustomProblems(pc({ panels: [{ ...panel, depth_m: 0 }] }))).toEqual(['panels[0].depth_m']);
     expect(pylonCustomProblems(pc({ panels: {} }))).toEqual(['panels']);
+  });
+
+  it('G14 colour_mode: muted | vivid, carried to the geometry only when vivid', () => {
+    expect(model3dProblems({ ...base, colour_mode: 'vivid' })).toEqual([]);
+    expect(model3dProblems({ ...base, colour_mode: 'muted' })).toEqual([]);
+    expect(model3dProblems({ ...base, colour_mode: 'bright' })).toEqual(['colour_mode']);
+    expect(build({ colour_mode: 'vivid', stay_colour: '#d4a24c' }).colours).toEqual({ stay: '#d4a24c', backStay: '#d4a24c', vivid: true });
+    expect('vivid' in build({ stay_colour: '#d4a24c' }).colours).toBe(false);
+    expect('vivid' in build({ colour_mode: 'muted' }).colours).toBe(false);
+  });
+
+  it('G13 panel edges have no notch where only the other curve has a breakpoint', () => {
+    const top: [number, number][] = [[-10, 40], [-5, 25], [0, 20], [5, 25], [10, 40]];
+    const bottom: [number, number][] = [[-10, 0], [-7, 0], [-3, 12], [3, 12], [7, 0], [10, 0]];
+    const m = panelMesh(top, bottom, -1, 1);
+    // every column's top lies on the smooth top curve (bottom-only breakpoints at ±7, ±3 included)
+    for (let i = 0; i < m.positions.length; i += 12) {
+      const z = m.positions[i + 2];
+      const yTop = m.positions[i + 4];
+      const own = top.some((q) => q[0] === z);
+      expect(yTop).toBeCloseTo(own ? panelYAt(top, z) : panelSmoothAt(top, z), 9);
+    }
   });
 
   it('panelYAt takes vertical steps from either side; panelSmoothAt passes through the points', () => {

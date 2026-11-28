@@ -129,7 +129,8 @@ export interface BridgeGeometry {
   auxiliaryPiers: number[];
   /** deck surface height at station x (includes the crest) */
   deckY: (x: number) => number;
-  colours: { pylon?: string; stay?: string; backStay?: string; deck?: string };
+  /** vivid: G14 colour_mode "vivid" (hex colours keep their sRGB saturation); absent = muted */
+  colours: { pylon?: string; stay?: string; backStay?: string; deck?: string; vivid?: true };
   /** world bounds of the stay-cabled unit (no approaches) */
   bounds: { min: Vec3; max: Vec3 };
   /** values derived because the data did not give them */
@@ -890,6 +891,7 @@ export function buildBridgeGeometry(
       stay: m.stay_colour,
       backStay: m.back_stay_colour ?? m.stay_colour,
       deck: m.deck_colour,
+      ...(m.colour_mode === 'vivid' ? { vivid: true as const } : {}),
     },
     cables,
     cablesPerSide: perSide,

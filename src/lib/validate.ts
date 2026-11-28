@@ -46,6 +46,7 @@ export function model3dProblems(v: unknown): string[] {
     p.push('auxiliary_piers_m');
   for (const k of ['pylon_colour', 'stay_colour', 'back_stay_colour', 'deck_colour'])
     if (v[k] !== undefined && !isColour(v[k])) p.push(k);
+  if (v.colour_mode !== undefined && v.colour_mode !== 'muted' && v.colour_mode !== 'vivid') p.push('colour_mode');
   if (v.pylon_custom !== undefined) p.push(...pylonCustomProblems(v.pylon_custom).map((x) => `pylon_custom.${x}`));
   return p;
 }

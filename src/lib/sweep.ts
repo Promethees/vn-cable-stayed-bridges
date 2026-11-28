@@ -204,19 +204,18 @@ export function panelSmoothAt(c: [number, number][], z: number): number {
 export function panelMesh(top: [number, number][], bottom: [number, number][], x0: number, x1: number, sub = 6): SweepMesh {
   const zs = [...new Set([...top, ...bottom].map((q) => q[0]))].sort((a, b) => a - b);
   const cols: [number, number, number][] = []; // z, y bottom, y top
-  const push = (z: number, side: -1 | 1) => {
-    const yb = panelYAt(bottom, z, side);
-    cols.push([z, yb, Math.max(yb, panelYAt(top, z, side))]);
-  };
-  const pushSmooth = (z: number) => {
-    const yb = panelSmoothAt(bottom, z);
-    cols.push([z, yb, Math.max(yb, panelSmoothAt(top, z))]);
+  // a curve's own points take its exact (one-sided) value; anywhere else, including the other curve's breakpoints,
+  // the smooth value, so the edge has no notch where only the other curve has a point
+  const at = (c: [number, number][], z: number, side: -1 | 1) => (c.some((q) => q[0] === z) ? panelYAt(c, z, side) : panelSmoothAt(c, z));
+  const col = (z: number, side: -1 | 1): [number, number, number] => {
+    const yb = at(bottom, z, side);
+    return [z, yb, Math.max(yb, at(top, z, side))];
   };
   zs.forEach((z, k) => {
-    if (k > 0) for (let s = 1; s < sub; s++) pushSmooth(zs[k - 1] + ((z - zs[k - 1]) * s) / sub);
-    push(z, -1);
-    const [, b, t] = cols[cols.length - 1];
-    if (Math.abs(panelYAt(bottom, z, 1) - b) > 1e-9 || Math.abs(Math.max(panelYAt(bottom, z, 1), panelYAt(top, z, 1)) - t) > 1e-9) push(z, 1);
+    if (k > 0) for (let s = 1; s < sub; s++) cols.push(col(zs[k - 1] + ((z - zs[k - 1]) * s) / sub, 1));
+    const [l, r] = [col(z, -1), col(z, 1)];
+    cols.push(l);
+    if (Math.abs(r[1] - l[1]) > 1e-9 || Math.abs(r[2] - l[2]) > 1e-9) cols.push(r);
   });
   const positions: number[] = [];
   const indices: number[] = [];

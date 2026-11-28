@@ -67,6 +67,19 @@ export function mutedColour(value: string): THREE.Color {
   return c.setHSL(hsl.h, Math.min(hsl.s, 0.45), Math.min(0.88, Math.max(0.35, hsl.l)));
 }
 
+/**
+ * G14 "vivid": named colour → its palette value; hex → read as sRGB, saturation kept, only the sRGB lightness
+ * clamped to 0.30–0.80 (so a signature colour such as copper reads as itself, not as the muted study-model tint).
+ */
+export function vividColour(value: string): THREE.Color {
+  const named = NAMED[value.toLowerCase()];
+  const c = new THREE.Color(named ?? value);
+  if (named) return c;
+  const hsl = { h: 0, s: 0, l: 0 };
+  c.getHSL(hsl, THREE.SRGBColorSpace);
+  return c.setHSL(hsl.h, hsl.s, Math.min(0.8, Math.max(0.3, hsl.l)), THREE.SRGBColorSpace);
+}
+
 export function webglAvailable(): boolean {
   try {
     const c = document.createElement('canvas');
@@ -303,7 +316,7 @@ export class BridgeEngine {
   /** a per-bridge clone of a base material in a muted version of the given colour */
   private tinted(base: THREE.Material, colour: string) {
     const mat = (base as THREE.MeshLambertMaterial).clone();
-    mat.color = mutedColour(colour);
+    mat.color = this.g?.colours.vivid ? vividColour(colour) : mutedColour(colour);
     this.extraMats.push(mat);
     return mat;
   }
@@ -412,7 +425,7 @@ export class BridgeEngine {
       const mat = (base as THREE.LineBasicMaterial).clone();
       if (colour && !planned) {
         // keep light stays (white) visible against the sky in either theme
-        const c = mutedColour(colour);
+        const c = g.colours.vivid ? vividColour(colour) : mutedColour(colour);
         const hsl = { h: 0, s: 0, l: 0 };
         // HSL in sRGB (what the eye sees); three's default working space is linear
         c.getHSL(hsl, THREE.SRGBColorSpace);

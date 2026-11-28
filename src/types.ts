@@ -114,6 +114,8 @@ export interface Model3D {
   stay_colour?: string;
   back_stay_colour?: string;
   deck_colour?: string;
+  /** G14: "vivid" keeps the sRGB saturation of hex colours (lightness clamped 0.30–0.80); default "muted" */
+  colour_mode?: 'muted' | 'vivid';
   pylon_custom?: PylonCustom;
   confidence: 'verified' | 'estimated';
   notes?: string;

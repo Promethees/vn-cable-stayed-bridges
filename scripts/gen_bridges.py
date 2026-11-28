@@ -1079,6 +1079,8 @@ for b in B:
 for b in B:
     m = b["model3d"]
     for k in NON_SCHEMA: assert k not in m, (b["id"], k)
+    assert m.get("colour_mode", "muted") in ("muted", "vivid"), b["id"]
+    assert b["id"] == "cau-ngoc-hoi" or "colour_mode" not in m, (b["id"], "G14 vivid is opt-in per bridge")
     for k, v in EXPECT_R1.get(b["id"], {}).items():
         assert m.get(k) == v, (b["id"], k, m.get(k))
     if "pylon_custom" in m:
@@ -1151,11 +1153,11 @@ for b in B:
         assert m["spans_m"] == [165, 350, 165] and "auxiliary_piers_m" not in m, m
         assert m["deck_elevation_m"] == 24.5 and m["deck_crest_m"] == 4 and m["deck_width_m"] == 38.3, m
         assert m["cables_per_side"] == 16 and m["cable_planes"] == 2 and m["cable_pattern"] == "semi_fan", m
-        assert m["stay_colour"] == "#d4a24c" and "pylon_colour" not in m, m
-        assert [l.get("colour") for l in pc["legs"]] == ["#cf5a32", "#cf5a32", None, None], "red inner posts, concrete outer skin"
+        assert m["stay_colour"] == "#d4a24c" and "pylon_colour" not in m and m["colour_mode"] == "vivid", m
+        assert [l.get("colour") for l in pc["legs"]] == ["#e06a3e", "#e06a3e", None, None], "red inner posts, concrete outer skin"
         assert all(l["centerline"][-1][1] == 98.5 for l in pc["legs"]) and "crossbeams_y_m" not in pc, pc
         assert len(pc["struts"]) == 4 and all(st["a"][1] == pc["pile_cap"]["top_y_m"] == -23.5 and st["b"][1] == 21 for st in pc["struts"])
-        assert len(pc["panels"]) == 1 and pc["panels"][0]["colour"] == "#cf5a32", pc["panels"]
+        assert len(pc["panels"]) == 1 and pc["panels"][0]["colour"] == "#e06a3e", pc["panels"]
         pn = pc["panels"][0]
         assert min(y for _, y in pn["top"]) == 27.9 and max(y for _, y in pn["bottom"]) == 23.2, pn
         assert [(z["leg"], z["y_from_m"], z["y_to_m"]) for z in pc["anchor_zone"]] == [(0, 36, 87), (1, 36, 87)], pc

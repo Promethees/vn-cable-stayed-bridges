@@ -86,6 +86,10 @@ interface Model3D {
   stay_colour?: string;          //   (all colours are rendered muted, study-model style)
   back_stay_colour?: string;     // back-span stays; defaults to stay_colour
   deck_colour?: string;
+  colour_mode?: "muted" | "vivid"; // G14, default "muted" (saturation ≤ 0.45, study-model tint). "vivid": hex colours on this
+                                 //   bridge (pylon/leg/strut/panel/stay/deck) keep their sRGB saturation; only the sRGB lightness
+                                 //   is clamped to 0.30–0.80 (stays then get the usual theme lightness). Named colours unchanged.
+                                 //   For signature colours that must read as themselves (Ngọc Hồi copper + golden stays)
   pylon_custom?: PylonCustom;    // for curved / leaning / sculptural pylons (Ba Son, Tứ Liên, Cần Giờ...)
   confidence: "verified" | "estimated";
   notes?: string;
