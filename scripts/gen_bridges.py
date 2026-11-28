@@ -82,10 +82,21 @@ add(id="cau-my-thuan-2", name_vi="Cầu Mỹ Thuận 2", name_en="Mỹ Thuận 2
     province="Đồng Tháp – Vĩnh Long", province_former=["Tiền Giang", "Vĩnh Long"], crosses="Sông Tiền",
     roads=["CT.01"], construction_start=2020, opened=2023, main_span_m=350, total_length_m=1906,
     width_m=28, lanes=6, cable_stayed_spans=1, span_arrangement="150 + 350 + 150 m (cable-stayed unit 650 m)",
-    cost="5,003 tỷ VND", lat=10.2755, lng=105.9067,
+    pylons="2 tháp chữ A (Y ngược): hai chân nghiêng vào nhau tới khe hẹp ở ≈0,8 chiều cao, đầu tháp đặc; chân kim cương dưới mặt cầu; đỉnh +125,5 m, 119,5 m từ đỉnh bệ",
+    cost="5,003 tỷ VND", investor="Ban QLDA 7 (Bộ GTVT); designer TEDI; main bridge (XL03B) Trung Nam E&C – Trung Chính – VNCN E&C JV", lat=10.2755, lng=105.9067,
     images=[img(U+"2/23/C%E1%BA%A7u_M%E1%BB%B9_Thu%E1%BA%ADn_2_%C4%91ang_thi_c%C3%B4ng.jpg", "Lehuunghi", "CC BY-SA 4.0", C+"C%E1%BA%A7u_M%E1%BB%B9_Thu%E1%BA%ADn_2_%C4%91ang_thi_c%C3%B4ng.jpg")],
-    sources=["https://vi.wikipedia.org/wiki/C%E1%BA%A7u_M%E1%BB%B9_Thu%E1%BA%ADn_2", LIST, "https://tuoitre.vn/cau-my-thuan-2-cang-cap-day-vang-cuoi-cung-du-kien-hop-long-trong-thang-10-20230915150909691.htm", OSM], confidence="needs_check",
-    notes="vi-Wikipedia and press say 'nhịp chính 650 m', which is the whole cable-stayed unit. The en-Wikipedia list gives a 350 m main span. Opened 24/12/2023. Photo shows it under construction (2023).")
+    sources=["https://vi.wikipedia.org/wiki/C%E1%BA%A7u_M%E1%BB%B9_Thu%E1%BA%ADn_2", LIST, "https://tuoitre.vn/cau-my-thuan-2-cang-cap-day-vang-cuoi-cung-du-kien-hop-long-trong-thang-10-20230915150909691.htm", OSM,
+             # round 13 (brief-r13-my-thuan-2.md)
+             "https://tedi.vn/project/my-thuan-2-bridge/?lang=en",   # 350 m, 37.5 m, 28 m, 6 lanes, opened 24/12/2023
+             "https://tedi.vn/khanh-thanh-cau-my-thuan-2-cau-day-vang-lon-nhat-cho-den-thoi-diem-hien-tai-do-tedi-thiet-ke/",   # designer, BIM
+             "https://tecco1.vn/xem-du-an/cau-my-thuan-2",   # 'trụ tháp dạng chữ A', Pi section, 2 planes
+             "https://tienphong.vn/hinh-hai-du-an-cau-day-vang-tru-chu-a-cao-nhat-vung-tay-nam-bo-post1504457.tpo",   # tip +125.5 m above datum
+             "https://nguoiquansat.vn/chiem-nguong-cay-cau-5-000-ty-noi-2-do-thi-lon-nhat-nam-bo-106606.html",   # 119.5 m cap top to tip
+             "https://vnexpress.net/cau-noi-cao-toc-my-thuan-can-tho-truoc-2-thang-thong-xe-4670076.html",   # 128 stays, 125.5 m
+             "https://vnexpress.net/nguoi-viet-lam-chu-cong-nghe-xay-cau-day-vang-4705799.html",   # 26 piles D2.5 m, 110–116 m
+             "https://baochinhphu.vn/hop-long-cau-my-thuan-2-cay-cau-cap-dac-biet-trong-diem-quoc-gia-mang-thuong-hieu-viet-102231014173751805.htm",   # Ban QLDA 7, closure
+             "https://trungnamgroup.com.vn/du-an/ha-tang-2/cau-my-thuan-2"], confidence="verified",
+    notes="Main span 350 m in a 150 + 350 + 150 m stayed unit (TEDI); vi-Wikipedia and press '650 m' is the whole unit. River crossing 1,906 m, route 6.61 km. Designer TEDI, client Ban QLDA 7, main bridge by a Trung Nam E&C-led JV. A-shaped pylons, tip +125.5 m (119.5 m above the pile cap), 128 blue stays, Pi-section concrete girder 28 m wide, clearance 37.5 m; 26 bored piles D2.5 m up to 116 m deep per pylon. Approaches started 27/2/2020, main bridge 19/8/2020, closure 14/10/2023, opened 24/12/2023.")
 
 add(id="cau-cao-lanh", name_vi="Cầu Cao Lãnh", name_en="Cao Lãnh Bridge", status="completed",
     province="Đồng Tháp", province_former=["Đồng Tháp"], crosses="Sông Tiền",
@@ -436,8 +447,9 @@ M3D = {
     notes="Placeholder; replaced by research/shapes/cau-binh-khanh.json (round 7)."),
  "cau-my-thuan": m3d([150, 350, 150], "H", [121, 121], "total", 2, "semi_fan", 23.66, "concrete", cps=16,
     notes="Spans 150 + 350 + 150 (TEDI), no auxiliary piers. H pylons 123.5 m above the pile-cap top and 84.43 m above the deck (TEDI); ≈120 m above high water (press), drawn ≈121 m above the water. 128 stays = 16 per side per plane. Concrete girder, 23.66 m deck. Geometry in research/shapes/cau-my-thuan.json (round 10)."),
- "cau-my-thuan-2": m3d([150, 350, 150], "inverted_Y", [125, 125], "total", 2, "semi_fan", 28.0, "concrete",
-    notes="Spans 150+350+150 (Wikipedia list; press '650 m' = whole unit). Inverted-Y pylons read from press photos (SGGP 2023). Pylon height not published (estimated). Deck 25–28 m by source."),
+ # fallback only: research/shapes/cau-my-thuan-2.json (pass 2) wins; kept in step with it (round 13)
+ "cau-my-thuan-2": m3d([150, 350, 150], "inverted_Y", [125.5, 125.5], "total", 2, "semi_fan", 28.0, "concrete", cps=16,
+    notes="Fallback; see research/shapes/cau-my-thuan-2.json (round 13: A pylons, tip 125.5 m above datum, 119.5 m above the cap; deck 28.5 + crest 13.5; 128 stays)."),
  "cau-cao-lanh": m3d([150, 350, 150], "H", [120, 120], "total", 2, "semi_fan", 24.5, "concrete", conf="verified",
     notes="Spans, H-shaped 120 m towers and deck width per Wikipedia. Cable pattern (semi-fan) from photos."),
  "cau-nhat-tan": m3d([150, 300, 300, 300, 300, 150], "A", [110, 110, 110, 110, 110], "total", 2, "fan", 33.2, "composite",
@@ -557,7 +569,9 @@ PRESS = {
  "cau-ba-son": [
     press("https://i2-vnexpress.vnecdn.net/2021/09/02/22cauthuthiem2-1630569460-5250-1630569471.jpg?w=1200&h=675&q=100&dpr=1&fit=crop&s=EGLmhFqYjwS-qcPamZwyng", "VnExpress", "https://vnexpress.net/hop-long-cau-thu-thiem-2-4350180.html", "photo 9/2021 (closure)")],
  "cau-my-thuan-2": [
-    press("https://image.sggp.org.vn/1200x630/Uploaded/2026/cdjwzdjwp/2023_10_14/cong-trinh-giao-thong-cau-my-thuan-2-sung-sung-noi-doi-bo-song-tien-9597.jpg.webp", "Sài Gòn Giải Phóng", "https://www.sggp.org.vn/khoanh-khac-cau-my-thuan-2-noi-lien-doi-bo-song-tien-post709756.html", "photo 10/2023 (closure)")],
+    press("https://image.sggp.org.vn/1200x630/Uploaded/2026/cdjwzdjwp/2023_10_14/cong-trinh-giao-thong-cau-my-thuan-2-sung-sung-noi-doi-bo-song-tien-9597.jpg.webp", "Sài Gòn Giải Phóng", "https://www.sggp.org.vn/khoanh-khac-cau-my-thuan-2-noi-lien-doi-bo-song-tien-post709756.html", "photo 10/2023 (closure)"),
+    press("https://tedi.vn/wp-content/uploads/2024/11/Mythuan2_1-1024x573.jpg", "TEDI", "https://tedi.vn/project/my-thuan-2-bridge/?lang=en", "completed pylon T16"),   # round 13
+    press("https://tecco1.vn/upload/source/cau-my-thuan-12.jpg", "Tecco1", "https://tecco1.vn/xem-du-an/cau-my-thuan-2", "drone near-elevation (completed)")],   # round 13
 }
 
 # ---------------- CURATED WIKIMEDIA COMMONS IMAGES (1280px thumbnails) ----------------
@@ -818,7 +832,7 @@ NAV["cau-may-chai"] = nav(25, 110, None, "https://cafef.vn/cau-2300-ty-dong-do-v
 PRESS["cau-may-chai"] = [
     press("https://cafefcdn.com/thumb_w/640/203337114487263232/2026/7/30/avatar1785383768277-1785383768904592996991.png", "CafeF", "https://cafef.vn/cau-2300-ty-dong-do-vingroup-cua-ty-phu-pham-nhat-vuong-dau-tu-xac-lap-ky-luc-chua-tung-co-ve-toc-do-xay-dung-cong-trinh-bac-qua-song-cam-188260730105702738.chn", "aerial (completed)"),
     press("https://cdn-i.vtcnews.vn/resize/1200x900/upload/2025/07/13/anh-2-18403346.jpg", "VTC News", "https://vtcnews.vn/can-canh-cau-hoang-gia-truoc-gio-g-bieu-tuong-moi-tai-hai-phong-sau-sap-nhap-ar954169.html", "photo 7/2025 (pylons)")]
-NAV["cau-my-thuan-2"] = nav(37.5, None, None, "https://www.sggp.org.vn/khoanh-khac-cau-my-thuan-2-noi-lien-doi-bo-song-tien-post709756.html")
+NAV["cau-my-thuan-2"] = nav(37.5, None, "navigation clearance 37.5 m above the highest water (channel width not published)", "https://tedi.vn/project/my-thuan-2-bridge/?lang=en")   # round 13: TEDI
 
 
 M3D["cau-cua-lon"] = m3d([110, 250, 110], "H", [100, 100], "total", 2, "semi_fan", 20.0,
@@ -970,8 +984,7 @@ REVIEW_R1 = {
         "note": "Spans 187.25 + 375 + 187.25 m, 155 m pylons, 17 stay pairs per pylon side (vi.wikipedia, VnExpress)."},
     # round 7 (research/model-review/brief-r7-phuoc-khanh.md): scale_y 0.877 removed; the shape file now holds measured geometry
     "cau-phuoc-khanh": {"set": {"cables_per_side": 14, "deck_type": "concrete"}},  # height note lives in the shape file
-    "cau-my-thuan-2": {"scale_y": 0.967, "set": {"cables_per_side": 16, "pylon_heights_m": [125.5, 125.5]},
-        "note": "128 stay bundles = 16 per side per plane (VnExpress); crest 125.5 m (Tiền Phong)."},
+    # round 13 (brief-r13-my-thuan-2.md): scale_y 0.967 removed; tip local 87.4 is the 125.5 m label
     "cau-nhat-tan": {"set": {"cables_per_side": 11, "pylon_heights_m": [111] * 5, "pylon_colour": "grey"},
         "note": "220 stays / 5 pylons = 11 per side per plane (JSCE); max pylon 111 m."},
     "cau-rach-mieu": {"set": {"deck_width_m": 15, "pylon_heights_m": [117, 117], "stay_colour": "orange", "pylon_colour": "#e6dcc3"},
@@ -1146,7 +1159,7 @@ for b in B:
         assert b["model3d"].get("extradosed") is True, bid
     assert sum(b["model3d"]["spans_m"]) > 0 and max(b["model3d"]["spans_m"]) >= b["main_span_m"] - 1, bid
 
-VIVID_OK = {"cau-ngoc-hoi", "cau-vam-cong", "cau-dai-ngai-1", "cau-cua-hoi"}   # G14 colour_mode "vivid" is opt-in per bridge (r8 Ngọc Hồi, r9 Vàm Cống, r11 Đại Ngãi 1, r12 Cửa Hội)
+VIVID_OK = {"cau-ngoc-hoi", "cau-vam-cong", "cau-dai-ngai-1", "cau-cua-hoi", "cau-my-thuan-2"}   # G14 colour_mode "vivid" is opt-in per bridge (r8 Ngọc Hồi, r9 Vàm Cống, r11 Đại Ngãi 1, r12 Cửa Hội, r13 Mỹ Thuận 2)
 for b in B:
     m = b["model3d"]
     for k in NON_SCHEMA: assert k not in m, (b["id"], k)
@@ -1293,7 +1306,7 @@ for b in B:
         assert "rounded" not in b["pylons_en"] and "twin swords" not in b["pylons_en"] and "song kiếm" not in b["pylons"], "no Long Hưng / old crown text"
         assert "24,003" in b["cost"] and "TEDI" in b["investor"] and "37 m" not in m["notes"], (b["cost"], m["notes"])
         assert any("dantri.com.vn" in u for u in b["sources"]) and any("152342" in u for u in b["sources"]), b["sources"]
-    G15_OK = {"cau-phuoc-an", "cau-cat-lai", "cau-thuan-an", "cau-cua-hoi"}   # G15 main_stay_deck_m opt-in (r9 Phước An, r10 Cát Lái, Thuận An, r12 Cửa Hội)
+    G15_OK = {"cau-phuoc-an", "cau-cat-lai", "cau-thuan-an", "cau-cua-hoi", "cau-my-thuan-2"}   # G15 main_stay_deck_m opt-in (r9 Phước An, r10 Cát Lái, Thuận An, r12 Cửa Hội, r13 Mỹ Thuận 2)
     assert b["id"] in G15_OK or "main_stay_deck_m" not in m, (b["id"], "G15 opt-in")
     assert b["id"] == "cau-phuoc-an" or "deck_closed" not in m, (b["id"], "G16 opt-in")
     assert b["id"] in ("cau-thuan-an", "cau-cua-hoi") or "deck_haunch" not in m, (b["id"], "G17 opt-in")
@@ -1317,7 +1330,7 @@ for b in B:
         assert "red pylons" not in b["pylons"] + b["pylons_en"] and "phương dọc cầu" in b["pylons"] and "along the bridge axis" in b["pylons_en"], b
         assert "2/9/2025" in b["notes"] and "32 m" in b["notes"] and "32 m" in m["notes"], (b["notes"], m["notes"])
         assert any("datphuong" in u for u in b["sources"]) and any("baoxaydung" in u for u in b["sources"]), b["sources"]
-    assert b["id"] in ("cau-dai-ngai-1", "cau-cua-hoi") or "chamfer_m" not in m.get("pylon_custom", {}).get("pile_cap", {}), (b["id"], "G18 opt-in")
+    assert b["id"] in ("cau-dai-ngai-1", "cau-cua-hoi", "cau-my-thuan-2") or "chamfer_m" not in m.get("pylon_custom", {}).get("pile_cap", {}), (b["id"], "G18 opt-in")
     if b["id"] == "cau-dai-ngai-1":   # round 11 (brief-r11-dai-ngai.md): official render, A legs on a chamfered cap, slotted blades
         pc = m["pylon_custom"]
         assert m["spans_m"] == [210, 450, 210] and b["span_arrangement"] == "210 + 450 + 210 m" and b["width_m"] == 21.5 and b["lanes"] == 4, b
@@ -1383,6 +1396,26 @@ for b in B:
         assert b["width_m"] == 38.3 and b["span_arrangement"] == "165 + 350 + 165 m" and b["lanes"] == 8, b
         assert "Cổng Mặt Trời" in b["pylons"] and "Sun Gate" in b["pylons_en"] and b["confidence"] == "needs_check", b
         assert "derived" not in m["notes"] and "Width 32.3–38.3" not in b["notes"], (m["notes"], b["notes"])
+    if b["id"] == "cau-my-thuan-2":   # round 13 (brief-r13-my-thuan-2.md): A legs to a flat-topped slot, solid head, diamond foot on a pointed-hexagon cap
+        pc = m["pylon_custom"]
+        assert m["spans_m"] == [150, 350, 150] and "auxiliary_piers_m" not in m, m
+        assert m["pylon_heights_m"] == [125.5, 125.5] and m["pylon_height_ref"] == "total", m
+        assert M3D["cau-my-thuan-2"]["pylon_heights_m"] == [125.5, 125.5], "fallback in step"
+        assert m["deck_elevation_m"] == 28.5 and m["deck_crest_m"] == 13.5 and m["deck_depth_m"] == 2.5 and "deck_haunch" not in m, m
+        assert m["cables_per_side"] == 16 and m["cable_planes"] == 2 and m["cable_pattern"] == "semi_fan", m
+        assert m["main_stay_deck_m"] == [17, 167] and m["back_stay_deck_m"] == [17, 145], m
+        assert m["colour_mode"] == "vivid" and m["stay_colour"] == "#2f80c8", m
+        assert len(pc["legs"]) == 3, pc
+        assert [l["centerline"][-1] for l in pc["legs"]] == [[0, 85.5, -2.4], [0, 85.5, 2.4], [0, 87.4, 0]], "not rescaled (scale_y removed)"
+        assert [l["centerline"][0] for l in pc["legs"][:2]] == [[0, -24.0, -11.5], [0, -24.0, 11.5]], "A legs stand on the cap"
+        assert pc["legs"][2]["centerline"][0][1] == 69.6, "head starts at the slot top"
+        assert pc["pile_cap"] == {"length_x_m": 24, "width_z_m": 52, "top_y_m": -24.0, "thickness_m": 6.0, "chamfer_m": 12}, pc["pile_cap"]
+        assert "crossbeams_y_m" not in pc and len(pc["panels"]) == 1, "under-deck beam is a panel"
+        assert [(z["leg"], z["y_from_m"], z["y_to_m"]) for z in pc["anchor_zone"]] == [(0, 50, 84), (1, 50, 84)], pc["anchor_zone"]
+        assert b["nav_clearance"]["height_m"] == 37.5 and "tedi.vn" in b["nav_clearance"]["source"], b["nav_clearance"]
+        assert "chữ A" in b["pylons"] and "125.5" in b["pylons_en"], b
+        assert "cau-my-thuan-2" not in REVIEW_R1, "scale_y entry removed"
+        assert "r13:" in m["notes"] and "not published" not in m["notes"], m["notes"]
     if b["id"] == "cau-my-thuan":   # round 10: H legs leaning in to one arched upper beam, posts above (brief-r10-my-thuan.md)
         pc = m["pylon_custom"]
         assert m["spans_m"] == [150, 350, 150] and "auxiliary_piers_m" not in m, m

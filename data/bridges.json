@@ -1551,12 +1551,14 @@
     "lanes": 6,
     "cable_stayed_spans": 1,
     "span_arrangement": "150 + 350 + 150 m (cable-stayed unit 650 m)",
-    "pylons": "2 tháp chữ Y ngược, chân kim cương dưới mặt cầu, cao ≈125 m",
-    "pylons_en": "2 inverted-Y pylons with diamond-shaped lower legs, ≈125 m",
+    "pylons": "2 tháp chữ A (Y ngược) bê tông: hai chân thẳng ôm ngoài mặt cầu, nghiêng vào nhau tới khe hẹp đỉnh bằng ở ≈0,8 chiều cao rồi liền thành đầu tháp đặc; dưới mặt cầu chân thu lại về bệ cọc lục giác (chân kim cương), có dầm ngang dưới dầm chủ; đỉnh tháp +125,5 m, cao 119,5 m từ đỉnh bệ (≈87 m trên mặt cầu); 128 dây văng màu xanh, 2 mặt phẳng nghiêng, 16 dây mỗi bên",
+    "pylons_en": "2 concrete A / inverted-Y pylons: straight legs straddling the deck lean in to a narrow flat-topped slot at ≈0.8 of the height and join in a solid head; below the deck they converge to a hexagonal pile cap (diamond foot), with a cross-beam under the girder; tip +125.5 m, 119.5 m above the cap (≈87 m above the deck); 128 blue stays in two inclined planes, 16 per side",
+    "investor": "Ban QLDA 7 (Bộ GTVT); designer TEDI; main bridge (XL03B) Trung Nam E&C – Trung Chính – VNCN E&C JV",
     "cost": "5,003 tỷ VND",
     "nav_clearance": {
       "height_m": 37.5,
-      "source": "https://www.sggp.org.vn/khoanh-khac-cau-my-thuan-2-noi-lien-doi-bo-song-tien-post709756.html"
+      "reference": "navigation clearance 37.5 m above the highest water (channel width not published)",
+      "source": "https://tedi.vn/project/my-thuan-2-bridge/?lang=en"
     },
     "model3d": {
       "spans_m": [
@@ -1570,123 +1572,213 @@
         125.5
       ],
       "pylon_height_ref": "total",
+      "deck_elevation_m": 28.5,
+      "deck_crest_m": 13.5,
+      "deck_depth_m": 2.5,
       "cable_planes": 2,
       "cable_pattern": "semi_fan",
+      "cables_per_side": 16,
+      "main_stay_deck_m": [
+        17,
+        167
+      ],
+      "back_stay_deck_m": [
+        17,
+        145
+      ],
       "deck_width_m": 28.0,
       "deck_type": "concrete",
+      "pylon_colour": "#d9d5cc",
+      "stay_colour": "#2f80c8",
+      "colour_mode": "vivid",
       "confidence": "estimated",
+      "notes": "r13: Spans 150 + 350 + 150 m (TEDI, Trung Nam, VnExpress; press '650 m' is the whole stayed unit), no auxiliary piers. Two A / inverted-Y pylons ('hình chữ A', Tiền Phong, Tecco1; 'hình kim cương', Dân trí): pylon top +125.5 m above datum (Tiền Phong, VnExpress), 119.5 m from the pile-cap top to the tip (Người Quan Sát), 33 pylon lifts. Drawn with the water at datum: tip 125.5 m, cap top 6 m above the water, deck 28.5 m at the unit ends, ≈38.1 m at the pylons and 42.0 m at mid-span (crest 13.5 m, rise pylon→mid-span ≈3.9 m measured on a Tecco1 drone elevation), so ≈87.4 m of pylon above the deck. Navigation clearance 37.5 m (TEDI). Legs: straight, ≈6.4 m wide across at the deck with inner faces just outside the 28 m deck (±14.6 m), leaning in to a flat-topped slot ≈5 m wide at ≈69.6 m (0.8 of the above-deck height), then a solid head ≈12 → 7.6 m wide to the tip; below the deck the legs converge to the cap (diamond foot, feet ≈±11.5 m) with a ≈5 m deep cross-beam under the girder. Pile cap an elongated hexagon pointed across the river (≈24 × 52 m, 26 bored piles D2.5 m, 110–116 m deep). 128 blue stays = 16 per side per plane, two inclined planes anchored over ≈50–84 m on the legs and head; deck anchors ≈17–167 m (main) and 17–145 m (side) from the pylon (closure 8 m at mid-span). Concrete Pi-section girder (two edge girders), 28 m (28.3 m) deck, 6 lanes. Geometry measured on TEDI and Tecco1 photos (brief-r13-my-thuan-2.md). A / inverted-Y pylons (legs to a flat-topped slot at ≈0.8 of the above-deck height, short solid head) on hexagonal caps; 128 blue stays in two inclined planes; deck crest ≈4 m over the main span.",
       "pylon_custom": {
-        "description": "Inverted Y with a diamond foot: two legs rise from a single narrow pier, splay outward to their widest at deck level (outside the deck), then converge above the deck to merge ≈45 m up into a single head carrying the stays. Below the deck the legs converge again to the footing, giving a diamond.",
+        "description": "A / inverted-Y pylon (Mỹ Thuận 2): two straight legs straddle the deck (inner faces just outside it) and lean in to a narrow flat-topped slot at ≈0.8 of the above-deck height, above which they are joined in one solid head tapering to a flat top; below the deck the legs converge again to a hexagonal pile cap (diamond foot), with a deep cross-beam under the girder. Stays in two inclined planes anchored on the upper legs and the head.",
         "legs": [
           {
             "centerline": [
               [
                 0,
-                -38,
-                -5
+                -24.0,
+                -11.5
               ],
               [
                 0,
-                -15,
-                -12
+                -12.0,
+                -14.65
+              ],
+              [
+                0,
+                -3.0,
+                -17.01
               ],
               [
                 0,
                 0,
-                -15.5
+                -17.8
               ],
               [
                 0,
-                24.175,
-                -9
+                3.0,
+                -17.22
               ],
               [
                 0,
-                45.449,
-                -1.5
+                35.0,
+                -11.01
+              ],
+              [
+                0,
+                69.6,
+                -4.3
+              ],
+              [
+                0,
+                78.0,
+                -3.0
+              ],
+              [
+                0,
+                85.5,
+                -2.4
               ]
             ],
-            "width_base_m": 6.0,
-            "width_top_m": 4.5,
-            "depth_base_m": 7.0,
-            "depth_top_m": 5.5
+            "width_base_m": 7.4,
+            "width_top_m": 3.0,
+            "depth_base_m": 8.0,
+            "depth_top_m": 5.0
           },
           {
             "centerline": [
               [
                 0,
-                -38,
-                5
+                -24.0,
+                11.5
               ],
               [
                 0,
-                -15,
-                12
+                -12.0,
+                14.65
+              ],
+              [
+                0,
+                -3.0,
+                17.01
               ],
               [
                 0,
                 0,
-                15.5
+                17.8
               ],
               [
                 0,
-                24.175,
-                9
+                3.0,
+                17.22
               ],
               [
                 0,
-                45.449,
-                1.5
+                35.0,
+                11.01
+              ],
+              [
+                0,
+                69.6,
+                4.3
+              ],
+              [
+                0,
+                78.0,
+                3.0
+              ],
+              [
+                0,
+                85.5,
+                2.4
               ]
             ],
-            "width_base_m": 6.0,
-            "width_top_m": 4.5,
-            "depth_base_m": 7.0,
-            "depth_top_m": 5.5
+            "width_base_m": 7.4,
+            "width_top_m": 3.0,
+            "depth_base_m": 8.0,
+            "depth_top_m": 5.0
           },
           {
             "centerline": [
               [
                 0,
-                45.449,
+                69.6,
                 0
               ],
               [
                 0,
-                67.69,
+                78.5,
                 0
               ],
               [
                 0,
-                84.129,
+                87.4,
                 0
               ]
             ],
-            "width_base_m": 7.5,
-            "width_top_m": 4.0,
-            "depth_base_m": 6.5,
-            "depth_top_m": 4.5
+            "width_base_m": 12.4,
+            "width_top_m": 7.6,
+            "depth_base_m": 6.2,
+            "depth_top_m": 5.4
           }
         ],
-        "crossbeams_y_m": [
-          -3
+        "panels": [
+          {
+            "top": [
+              [
+                -15.0,
+                -2.5
+              ],
+              [
+                15.0,
+                -2.5
+              ]
+            ],
+            "bottom": [
+              [
+                -15.0,
+                -7.5
+              ],
+              [
+                15.0,
+                -7.5
+              ]
+            ],
+            "depth_m": 6.0
+          }
         ],
+        "pile_cap": {
+          "length_x_m": 24,
+          "width_z_m": 52,
+          "top_y_m": -24.0,
+          "thickness_m": 6.0,
+          "chamfer_m": 12
+        },
         "anchor_zone": [
           {
-            "y_from_m": 53.18,
-            "y_to_m": 82.19,
-            "leg": 2
+            "y_from_m": 50,
+            "y_to_m": 84,
+            "leg": 0
+          },
+          {
+            "y_from_m": 50,
+            "y_to_m": 84,
+            "leg": 1
           }
         ],
         "mirror_for_other_pylons": true,
         "reference_images": [
-          "https://commons.wikimedia.org/wiki/File:Cầu_Mỹ_Thuận_1_và_2.jpg",
-          "https://commons.wikimedia.org/wiki/File:Cao_tốc_mỹ_thuận_cần_thơ.jpg",
-          "https://image.sggp.org.vn/1200x630/Uploaded/2026/cdjwzdjwp/2023_10_14/cong-trinh-giao-thong-cau-my-thuan-2-sung-sung-noi-doi-bo-song-tien-9597.jpg.webp"
+          "https://tedi.vn/wp-content/uploads/2024/11/Mythuan2_1-1024x573.jpg",
+          "https://tecco1.vn/upload/source/cau-my-thuan-06.jpg",
+          "https://tecco1.vn/upload/source/cau-my-thuan-12.jpg",
+          "https://tedi.vn/wp-content/uploads/2023/12/mt2_2.png",
+          "https://commons.wikimedia.org/wiki/File:C%E1%BA%A7u_M%E1%BB%B9_Thu%E1%BA%ADn_1_v%C3%A0_2.jpg"
         ]
-      },
-      "notes": "Diamond foot clearly visible in the SGGP closure photo and the Commons aerial (legs narrow toward the pile cap). Height not published; ≈125 m total estimated (≈87 m above deck). Review r1: 128 stay bundles = 16 per side per plane (VnExpress); crest 125.5 m (Tiền Phong).",
-      "cables_per_side": 16
+      }
     },
     "lat": 10.2755,
     "lng": 105.9067,
@@ -1714,16 +1806,37 @@
         "credit": "Sài Gòn Giải Phóng",
         "license": "unknown",
         "source": "https://www.sggp.org.vn/khoanh-khac-cau-my-thuan-2-noi-lien-doi-bo-song-tien-post709756.html"
+      },
+      {
+        "url": "https://tedi.vn/wp-content/uploads/2024/11/Mythuan2_1-1024x573.jpg",
+        "credit": "TEDI",
+        "license": "unknown",
+        "source": "https://tedi.vn/project/my-thuan-2-bridge/?lang=en"
+      },
+      {
+        "url": "https://tecco1.vn/upload/source/cau-my-thuan-12.jpg",
+        "credit": "Tecco1",
+        "license": "unknown",
+        "source": "https://tecco1.vn/xem-du-an/cau-my-thuan-2"
       }
     ],
     "sources": [
       "https://vi.wikipedia.org/wiki/C%E1%BA%A7u_M%E1%BB%B9_Thu%E1%BA%ADn_2",
       "https://en.wikipedia.org/wiki/List_of_bridges_in_Vietnam",
       "https://tuoitre.vn/cau-my-thuan-2-cang-cap-day-vang-cuoi-cung-du-kien-hop-long-trong-thang-10-20230915150909691.htm",
-      "https://www.openstreetmap.org (Overpass query, bridge way centre, retrieved 2026-11-25)"
+      "https://www.openstreetmap.org (Overpass query, bridge way centre, retrieved 2026-11-25)",
+      "https://tedi.vn/project/my-thuan-2-bridge/?lang=en",
+      "https://tedi.vn/khanh-thanh-cau-my-thuan-2-cau-day-vang-lon-nhat-cho-den-thoi-diem-hien-tai-do-tedi-thiet-ke/",
+      "https://tecco1.vn/xem-du-an/cau-my-thuan-2",
+      "https://tienphong.vn/hinh-hai-du-an-cau-day-vang-tru-chu-a-cao-nhat-vung-tay-nam-bo-post1504457.tpo",
+      "https://nguoiquansat.vn/chiem-nguong-cay-cau-5-000-ty-noi-2-do-thi-lon-nhat-nam-bo-106606.html",
+      "https://vnexpress.net/cau-noi-cao-toc-my-thuan-can-tho-truoc-2-thang-thong-xe-4670076.html",
+      "https://vnexpress.net/nguoi-viet-lam-chu-cong-nghe-xay-cau-day-vang-4705799.html",
+      "https://baochinhphu.vn/hop-long-cau-my-thuan-2-cay-cau-cap-dac-biet-trong-diem-quoc-gia-mang-thuong-hieu-viet-102231014173751805.htm",
+      "https://trungnamgroup.com.vn/du-an/ha-tang-2/cau-my-thuan-2"
     ],
-    "confidence": "needs_check",
-    "notes": "vi-Wikipedia and press say 'nhịp chính 650 m', which is the whole cable-stayed unit. The en-Wikipedia list gives a 350 m main span. Opened 24/12/2023. Photo shows it under construction (2023). Link-only images (press/official, license unknown): Sài Gòn Giải Phóng – photo 10/2023 (closure)."
+    "confidence": "verified",
+    "notes": "Main span 350 m in a 150 + 350 + 150 m stayed unit (TEDI); vi-Wikipedia and press '650 m' is the whole unit. River crossing 1,906 m, route 6.61 km. Designer TEDI, client Ban QLDA 7, main bridge by a Trung Nam E&C-led JV. A-shaped pylons, tip +125.5 m (119.5 m above the pile cap), 128 blue stays, Pi-section concrete girder 28 m wide, clearance 37.5 m; 26 bored piles D2.5 m up to 116 m deep per pylon. Approaches started 27/2/2020, main bridge 19/8/2020, closure 14/10/2023, opened 24/12/2023. Link-only images (press/official, license unknown): Sài Gòn Giải Phóng – photo 10/2023 (closure); TEDI – completed pylon T16; Tecco1 – drone near-elevation (completed)."
   },
   {
     "id": "cau-cao-lanh",

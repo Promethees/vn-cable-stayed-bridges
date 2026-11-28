@@ -1,6 +1,6 @@
 {
- "pylons_vi": "2 tháp chữ Y ngược, chân kim cương dưới mặt cầu, cao ≈125 m",
- "pylons_en": "2 inverted-Y pylons with diamond-shaped lower legs, ≈125 m",
+ "pylons_vi": "2 tháp chữ A (Y ngược) bê tông: hai chân thẳng ôm ngoài mặt cầu, nghiêng vào nhau tới khe hẹp đỉnh bằng ở ≈0,8 chiều cao rồi liền thành đầu tháp đặc; dưới mặt cầu chân thu lại về bệ cọc lục giác (chân kim cương), có dầm ngang dưới dầm chủ; đỉnh tháp +125,5 m, cao 119,5 m từ đỉnh bệ (≈87 m trên mặt cầu); 128 dây văng màu xanh, 2 mặt phẳng nghiêng, 16 dây mỗi bên",
+ "pylons_en": "2 concrete A / inverted-Y pylons: straight legs straddling the deck lean in to a narrow flat-topped slot at ≈0.8 of the height and join in a solid head; below the deck they converge to a hexagonal pile cap (diamond foot), with a cross-beam under the girder; tip +125.5 m, 119.5 m above the cap (≈87 m above the deck); 128 blue stays in two inclined planes, 16 per side",
  "model3d": {
   "spans_m": [
    150,
@@ -9,144 +9,237 @@
   ],
   "pylon_shape": "inverted_Y",
   "pylon_heights_m": [
-   125,
-   125
+   125.5,
+   125.5
   ],
   "pylon_height_ref": "total",
+  "deck_elevation_m": 28.5,
+  "deck_crest_m": 13.5,
+  "deck_depth_m": 2.5,
   "cable_planes": 2,
   "cable_pattern": "semi_fan",
+  "cables_per_side": 16,
+  "main_stay_deck_m": [
+   17,
+   167
+  ],
+  "back_stay_deck_m": [
+   17,
+   145
+  ],
   "deck_width_m": 28.0,
   "deck_type": "concrete",
+  "pylon_colour": "#d9d5cc",
+  "stay_colour": "#2f80c8",
+  "colour_mode": "vivid",
   "confidence": "estimated",
+  "notes": "r13: Spans 150 + 350 + 150 m (TEDI, Trung Nam, VnExpress; press '650 m' is the whole stayed unit), no auxiliary piers. Two A / inverted-Y pylons ('hình chữ A', Tiền Phong, Tecco1; 'hình kim cương', Dân trí): pylon top +125.5 m above datum (Tiền Phong, VnExpress), 119.5 m from the pile-cap top to the tip (Người Quan Sát), 33 pylon lifts. Drawn with the water at datum: tip 125.5 m, cap top 6 m above the water, deck 28.5 m at the unit ends, ≈38.1 m at the pylons and 42.0 m at mid-span (crest 13.5 m, rise pylon→mid-span ≈3.9 m measured on a Tecco1 drone elevation), so ≈87.4 m of pylon above the deck. Navigation clearance 37.5 m (TEDI). Legs: straight, ≈6.4 m wide across at the deck with inner faces just outside the 28 m deck (±14.6 m), leaning in to a flat-topped slot ≈5 m wide at ≈69.6 m (0.8 of the above-deck height), then a solid head ≈12 → 7.6 m wide to the tip; below the deck the legs converge to the cap (diamond foot, feet ≈±11.5 m) with a ≈5 m deep cross-beam under the girder. Pile cap an elongated hexagon pointed across the river (≈24 × 52 m, 26 bored piles D2.5 m, 110–116 m deep). 128 blue stays = 16 per side per plane, two inclined planes anchored over ≈50–84 m on the legs and head; deck anchors ≈17–167 m (main) and 17–145 m (side) from the pylon (closure 8 m at mid-span). Concrete Pi-section girder (two edge girders), 28 m (28.3 m) deck, 6 lanes. Geometry measured on TEDI and Tecco1 photos (brief-r13-my-thuan-2.md).",
   "pylon_custom": {
-   "description": "Inverted Y with a diamond foot: two legs rise from a single narrow pier, splay outward to their widest at deck level (outside the deck), then converge above the deck to merge ≈45 m up into a single head carrying the stays. Below the deck the legs converge again to the footing, giving a diamond.",
+   "description": "A / inverted-Y pylon (Mỹ Thuận 2): two straight legs straddle the deck (inner faces just outside it) and lean in to a narrow flat-topped slot at ≈0.8 of the above-deck height, above which they are joined in one solid head tapering to a flat top; below the deck the legs converge again to a hexagonal pile cap (diamond foot), with a deep cross-beam under the girder. Stays in two inclined planes anchored on the upper legs and the head.",
    "legs": [
     {
      "centerline": [
       [
        0,
-       -38,
-       -5
+       -24.0,
+       -11.5
       ],
       [
        0,
-       -15,
-       -12
+       -12.0,
+       -14.65
+      ],
+      [
+       0,
+       -3.0,
+       -17.01
       ],
       [
        0,
        0,
-       -15.5
+       -17.8
       ],
       [
        0,
-       25,
-       -9
+       3.0,
+       -17.22
       ],
       [
        0,
-       47,
-       -1.5
+       35.0,
+       -11.01
+      ],
+      [
+       0,
+       69.6,
+       -4.3
+      ],
+      [
+       0,
+       78.0,
+       -3.0
+      ],
+      [
+       0,
+       85.5,
+       -2.4
       ]
      ],
-     "width_base_m": 6.0,
-     "width_top_m": 4.5,
-     "depth_base_m": 7.0,
-     "depth_top_m": 5.5
+     "width_base_m": 7.4,
+     "width_top_m": 3.0,
+     "depth_base_m": 8.0,
+     "depth_top_m": 5.0
     },
     {
      "centerline": [
       [
        0,
-       -38,
-       5
+       -24.0,
+       11.5
       ],
       [
        0,
-       -15,
-       12
+       -12.0,
+       14.65
+      ],
+      [
+       0,
+       -3.0,
+       17.01
       ],
       [
        0,
        0,
-       15.5
+       17.8
       ],
       [
        0,
-       25,
-       9
+       3.0,
+       17.22
       ],
       [
        0,
-       47,
-       1.5
+       35.0,
+       11.01
+      ],
+      [
+       0,
+       69.6,
+       4.3
+      ],
+      [
+       0,
+       78.0,
+       3.0
+      ],
+      [
+       0,
+       85.5,
+       2.4
       ]
      ],
-     "width_base_m": 6.0,
-     "width_top_m": 4.5,
-     "depth_base_m": 7.0,
-     "depth_top_m": 5.5
+     "width_base_m": 7.4,
+     "width_top_m": 3.0,
+     "depth_base_m": 8.0,
+     "depth_top_m": 5.0
     },
     {
      "centerline": [
       [
        0,
-       47,
+       69.6,
        0
       ],
       [
        0,
-       70,
+       78.5,
        0
       ],
       [
        0,
-       87,
+       87.4,
        0
       ]
      ],
-     "width_base_m": 7.5,
-     "width_top_m": 4.0,
-     "depth_base_m": 6.5,
-     "depth_top_m": 4.5
+     "width_base_m": 12.4,
+     "width_top_m": 7.6,
+     "depth_base_m": 6.2,
+     "depth_top_m": 5.4
     }
    ],
-   "crossbeams_y_m": [
-    -3
+   "panels": [
+    {
+     "top": [
+      [
+       -15.0,
+       -2.5
+      ],
+      [
+       15.0,
+       -2.5
+      ]
+     ],
+     "bottom": [
+      [
+       -15.0,
+       -7.5
+      ],
+      [
+       15.0,
+       -7.5
+      ]
+     ],
+     "depth_m": 6.0
+    }
    ],
+   "pile_cap": {
+    "length_x_m": 24,
+    "width_z_m": 52,
+    "top_y_m": -24.0,
+    "thickness_m": 6.0,
+    "chamfer_m": 12
+   },
    "anchor_zone": [
     {
-     "y_from_m": 55,
-     "y_to_m": 85,
-     "leg": 2
+     "y_from_m": 50,
+     "y_to_m": 84,
+     "leg": 0
+    },
+    {
+     "y_from_m": 50,
+     "y_to_m": 84,
+     "leg": 1
     }
    ],
    "mirror_for_other_pylons": true,
    "reference_images": [
-    "https://commons.wikimedia.org/wiki/File:Cầu_Mỹ_Thuận_1_và_2.jpg",
-    "https://commons.wikimedia.org/wiki/File:Cao_tốc_mỹ_thuận_cần_thơ.jpg",
-    "https://image.sggp.org.vn/1200x630/Uploaded/2026/cdjwzdjwp/2023_10_14/cong-trinh-giao-thong-cau-my-thuan-2-sung-sung-noi-doi-bo-song-tien-9597.jpg.webp"
+    "https://tedi.vn/wp-content/uploads/2024/11/Mythuan2_1-1024x573.jpg",
+    "https://tecco1.vn/upload/source/cau-my-thuan-06.jpg",
+    "https://tecco1.vn/upload/source/cau-my-thuan-12.jpg",
+    "https://tedi.vn/wp-content/uploads/2023/12/mt2_2.png",
+    "https://commons.wikimedia.org/wiki/File:C%E1%BA%A7u_M%E1%BB%B9_Thu%E1%BA%ADn_1_v%C3%A0_2.jpg"
    ]
-  },
-  "notes": "Diamond foot clearly visible in the SGGP closure photo and the Commons aerial (legs narrow toward the pile cap). Height not published; ≈125 m total estimated (≈87 m above deck)."
+  }
  },
  "id": "cau-my-thuan-2",
  "review": [
   "Plain inverted-Y without the diamond foot",
   "Diamond lower legs converging to a narrow pier, merge ≈47 m above deck, single-head anchor zone",
-  "Good: aerial + pylon close-up + press closure photo"
+  "Good: aerial + pylon close-up + press closure photo",
+  "Round 13: A legs to a slot at 69.6 m + solid head to 87.4 m (tip 125.5 m above datum), diamond foot on a pointed-hexagon cap (G18), under-deck beam panel; deck 28.5 + crest 13.5 (38.1 at the pylons, 42 mid-span); 16 stays per side per plane at 17–167 / 17–145 m; vivid blue stays"
  ],
  "pass2": true,
- "compare": "research/compare/cau-my-thuan-2.png",
+ "compare": "TEDI low oblique + Tecco1 near-elevation and deck-axis views; renders brief-r13",
  "checklist": {
-  "foot below deck": "pass (diamond, footing ≈0.5× deck spread)",
-  "legs at deck": "pass (outside edges, under-deck beam)",
-  "merge height": "pass (≈47 m, ≈54%)",
-  "crossbeams": "pass (1, under deck)",
-  "head": "pass (≈45%)",
-  "proportions": "limited (pylon height unpublished, ≈87 m above deck estimated)",
-  "stays": "pass (semi-fan, 2 planes)",
-  "deck / aux piers": "pass (none visible)",
-  "colour": "pass (light grey)"
- }
+  "foot below deck": "pass (diamond, feet ±11.5 on a hexagonal cap)",
+  "legs at deck": "pass (inner faces just outside the deck, under-deck beam)",
+  "merge height": "pass (slot top 0.80 H, 69.6 m)",
+  "crossbeams": "pass (one under the deck; none above, the head is solid)",
+  "head": "pass (≈0.2 H, 12.4 → 7.6 m)",
+  "proportions": "pass (119.5 m cap-to-tip, 125.5 m tip, 87.4 m above deck)",
+  "stays": "pass (2 inclined planes, 16 per side, mid-span gap ≈15 m)",
+  "deck / aux piers": "pass (none; crest)",
+  "colour": "pass (vivid blue stays, light-grey concrete)"
+ },
+ "notes": "A / inverted-Y pylons (legs to a flat-topped slot at ≈0.8 of the above-deck height, short solid head) on hexagonal caps; 128 blue stays in two inclined planes; deck crest ≈4 m over the main span."
 }
