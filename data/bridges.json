@@ -253,15 +253,16 @@
     "opened": 2019,
     "main_span_m": 450,
     "total_length_m": 2970,
-    "width_m": 21.6,
+    "width_m": 24.5,
     "lanes": 6,
     "cable_stayed_spans": 1,
-    "pylons": "2 tháp chữ H, chân choãi rộng dưới mặt cầu, cao 150 m",
-    "pylons_en": "2 H-shaped pylons with splayed lower legs, 150 m",
+    "pylons": "2 tháp chữ H cải tiến: hai chân nghiêng vào trên mặt cầu, dầm ngang trên có vòm, hai cột đứng ở đỉnh; chân choãi dưới mặt cầu, dầm ngang đỡ dầm; cao 143,9 m từ đỉnh bệ móng (≈150 m)",
+    "pylons_en": "2 'improved H' pylons: legs lean inward above the deck to an arched upper crossbeam and two vertical posts; splayed feet with a deep under-deck beam; 143.9 m above the foundation top (≈150 m)",
     "cost": "5,700 tỷ VND",
     "nav_clearance": {
       "height_m": 37.5,
-      "source": "https://vov.vn/kinh-te/khanh-thanh-cau-vam-cong-bac-qua-song-hau-911038.vov"
+      "reference": "for 10,000 DWT ships",
+      "source": "https://tedi.vn/project/cau-vam-cong/"
     },
     "model3d": {
       "spans_m": [
@@ -271,8 +272,8 @@
       ],
       "pylon_shape": "H",
       "pylon_heights_m": [
-        150,
-        150
+        147,
+        147
       ],
       "pylon_height_ref": "total",
       "cable_planes": 2,
@@ -281,94 +282,237 @@
       "deck_type": "composite",
       "confidence": "estimated",
       "pylon_custom": {
-        "description": "H above the deck: two near-vertical legs with one cross-beam just below the top, anchors in the upper legs. Below the deck the legs splay strongly outward (portal 'A' foot) to two widely spaced footings, with a cross-beam under the deck.",
+        "description": "Improved H (Vàm Cống): below the deck two straight legs splay outward from a large pile cap to a knee just under the deck, joined by a deep under-deck crossbeam with a haunched, slightly arched soffit; above the deck the legs lean inward (≈7° from vertical) to a single upper crossbeam with a round-arched soffit at ≈0.75 of the above-deck height, then continue as two vertical posts ≈11.5 m apart to flat tops. Stays in two inclined planes from the legs/posts to the edge girders.",
         "legs": [
           {
             "centerline": [
               [
                 0,
-                -38,
-                -26
+                -30.5,
+                -23.5
               ],
               [
                 0,
-                -15,
-                -19
+                -18,
+                -20.35
               ],
               [
                 0,
-                0,
-                -14
+                -6,
+                -17.2
               ],
               [
                 0,
-                52.5,
-                -13
+                30,
+                -12.6
               ],
               [
                 0,
-                105.0,
-                -12
+                78,
+                -5.75
+              ],
+              [
+                0,
+                95,
+                -5.75
+              ],
+              [
+                0,
+                107.8,
+                -5.75
               ]
             ],
-            "width_base_m": 6.0,
-            "width_top_m": 3.5
+            "width_base_m": 6.5,
+            "width_top_m": 4.0,
+            "depth_base_m": 9.0,
+            "depth_top_m": 6.0
           },
           {
             "centerline": [
               [
                 0,
-                -38,
-                26
+                -30.5,
+                23.5
               ],
               [
                 0,
-                -15,
-                19
+                -18,
+                20.35
               ],
               [
                 0,
-                0,
-                14
+                -6,
+                17.2
               ],
               [
                 0,
-                52.5,
-                13
+                30,
+                12.6
               ],
               [
                 0,
-                105.0,
-                12
+                78,
+                5.75
+              ],
+              [
+                0,
+                95,
+                5.75
+              ],
+              [
+                0,
+                107.8,
+                5.75
               ]
             ],
-            "width_base_m": 6.0,
-            "width_top_m": 3.5
+            "width_base_m": 6.5,
+            "width_top_m": 4.0,
+            "depth_base_m": 9.0,
+            "depth_top_m": 6.0
           }
         ],
-        "crossbeams_y_m": [
-          -3,
-          96.6
+        "panels": [
+          {
+            "top": [
+              [
+                -4.5,
+                84
+              ],
+              [
+                4.5,
+                84
+              ]
+            ],
+            "bottom": [
+              [
+                -4.5,
+                75
+              ],
+              [
+                -4,
+                77.6
+              ],
+              [
+                -3,
+                79.2
+              ],
+              [
+                -1.5,
+                80.1
+              ],
+              [
+                0,
+                80.4
+              ],
+              [
+                1.5,
+                80.1
+              ],
+              [
+                3,
+                79.2
+              ],
+              [
+                4,
+                77.6
+              ],
+              [
+                4.5,
+                75
+              ]
+            ],
+            "depth_m": 5.5
+          },
+          {
+            "top": [
+              [
+                -16,
+                -2.5
+              ],
+              [
+                16,
+                -2.5
+              ]
+            ],
+            "bottom": [
+              [
+                -16,
+                -12
+              ],
+              [
+                -14,
+                -9
+              ],
+              [
+                -11,
+                -7.6
+              ],
+              [
+                -6,
+                -6.9
+              ],
+              [
+                0,
+                -6.7
+              ],
+              [
+                6,
+                -6.9
+              ],
+              [
+                11,
+                -7.6
+              ],
+              [
+                14,
+                -9
+              ],
+              [
+                16,
+                -12
+              ]
+            ],
+            "depth_m": 8.0
+          }
         ],
+        "pile_cap": {
+          "length_x_m": 32,
+          "width_z_m": 64,
+          "top_y_m": -30.5,
+          "thickness_m": 5,
+          "rounded_ends": false
+        },
         "anchor_zone": [
           {
-            "y_from_m": 57.75,
-            "y_to_m": 102.9,
+            "y_from_m": 48,
+            "y_to_m": 104,
             "leg": 0
           },
           {
-            "y_from_m": 57.75,
-            "y_to_m": 102.9,
+            "y_from_m": 48,
+            "y_to_m": 104,
             "leg": 1
           }
         ],
         "mirror_for_other_pylons": true,
         "reference_images": [
           "https://commons.wikimedia.org/wiki/File:Vam_Cong_Bridge.jpg",
-          "https://commons.wikimedia.org/wiki/File:Cầu_Vàm_Cống_trong_chiều.png"
+          "https://commons.wikimedia.org/wiki/File:C%E1%BA%A7u_V%C3%A0m_C%E1%BB%91ng.png",
+          "https://nqs.1cdn.vn/2024/12/02/dautu.kinhtechungkhoan.vn-stores-news_dataimages-2024-122024-02-15-_cau-co-tru-thap-cao-nhat-viet-nam320241202154835.jpg"
         ]
       },
-      "notes": "Splayed lower legs and top cross-beam visible in both Commons night photos. Height not published (≈140 m total estimated; ≈100 m above deck). Deck 24.5 m per VnBusiness (was 21.6 m from Wikipedia). Review r1: Pylon 150 m total (vi.wikipedia, CafeF)."
+      "notes": "r9: Spans 210 + 450 + 210, no auxiliary piers (design paper: intermediate pier eliminated). Pylon 143.9 m above the foundation top (Lee & Kang 2013 / TEDI); 147 m drawn from the water with the cap ≈3 m proud; press '150 m' is probably from the cap underside. 144 stays = 18 per side per plane. Composite girder (2.0 m edge girders, 12 m segments), 24.5 m deck, clearance 37.5 m. Deck level estimated from photos (≈39 m above water at the pylons, 41.5 m at mid-span). Review r1: r9: improved-H pylon, 143.9 m above foundation (design paper).",
+      "deck_elevation_m": 33,
+      "deck_crest_m": 8.5,
+      "deck_depth_m": 2.5,
+      "cables_per_side": 18,
+      "back_stay_deck_m": [
+        12,
+        204
+      ],
+      "pylon_colour": "#d8d5cc",
+      "stay_colour": "#3b7fd4",
+      "colour_mode": "vivid"
     },
     "lat": 10.317,
     "lng": 105.5043,
@@ -395,10 +539,13 @@
     "sources": [
       "https://en.wikipedia.org/wiki/Vàm_Cống_Bridge",
       "https://en.wikipedia.org/wiki/List_of_bridges_in_Vietnam",
-      "https://www.openstreetmap.org (Overpass query, bridge way centre, retrieved 2026-11-25)"
+      "https://www.openstreetmap.org (Overpass query, bridge way centre, retrieved 2026-11-25)",
+      "https://tedi.vn/project/cau-vam-cong/",
+      "https://cafef.vn/cau-5700-ty-co-tru-thap-cao-nhat-coc-khoan-sau-nhat-viet-nam-188230505101414572.chn",
+      "https://www.koreascience.kr/article/JAKO201334064308422.pdf"
     ],
     "confidence": "verified",
-    "notes": "Road code from OpenStreetMap (CT.02; also tagged as Đường Hồ Chí Minh). Opened 19/5/2019."
+    "notes": "Road code from OpenStreetMap (CT.02; also tagged as Đường Hồ Chí Minh). Opened 19/5/2019. Contractor GS E&C – Hanshin JV (Korea, EDCF)."
   },
   {
     "id": "cau-bai-chay",
