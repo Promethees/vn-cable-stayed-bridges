@@ -1,11 +1,15 @@
 {
- "pylons_vi": "2 tháp chữ Y ngược màu đỏ trắng, cao 187 m",
- "pylons_en": "2 red-and-white inverted-Y pylons, 187 m",
+ "pylons_vi": "2 tháp chữ Y ngược hình đỉnh núi, cao 187 m: hai chân nhập thành một thân thon nhọn mũi, dưới mặt cầu là thân trụ đơn có khấc",
+ "pylons_en": "2 inverted-Y 'mountain peak' pylons, 187 m: legs merge into a tapered mast with a pointed spire; a single grooved stem below the deck",
  "model3d": {
   "spans_m": [
-   220,
+   40,
+   40,
+   150,
    550,
-   220
+   150,
+   40,
+   40
   ],
   "pylon_shape": "inverted_Y",
   "pylon_heights_m": [
@@ -13,33 +17,267 @@
    187
   ],
   "pylon_height_ref": "total",
+  "deck_elevation_m": 55,
   "cable_planes": 2,
   "cable_pattern": "fan",
+  "cables_per_side": 22,
+  "back_stay_count": 22,
+  "back_stay_deck_m": [
+   14,
+   142
+  ],
   "deck_width_m": 21.0,
-  "confidence": "estimated",
-  "notes": "550 m main span, 187 m pylons, ≈1.2 km bridge (press). Side spans, deck width and inverted-Y shape read from official renders (Báo Lâm Đồng / Người Quan Sát).",
+  "deck_type": "composite",
+  "approach_length_m": 200,
   "pylon_colour": "white",
-  "stay_colour": "red"
+  "stay_colour": "#cfdbe6",
+  "confidence": "estimated",
+  "pylon_custom": {
+   "description": "Inverted Y ('mountain peak'): two legs straddle the deck just outside its edges and lean inward to merge ≈59 % of the above-deck height into one tall tapered mast that carries both stay planes on its faces and ends in a pointed obelisk spire. Just below the deck the legs turn inward through a solid 'cup' (chalice) under the girder and continue down as two closely spaced columns that read as a single grooved stem to the water.",
+   "legs": [
+    {
+     "centerline": [
+      [
+       0,
+       -57,
+       -5.5
+      ],
+      [
+       0,
+       -35,
+       -5.5
+      ],
+      [
+       0,
+       -18,
+       -6.0
+      ],
+      [
+       0,
+       -9,
+       -9.5
+      ],
+      [
+       0,
+       -2,
+       -14.5
+      ],
+      [
+       0,
+       30,
+       -9.5
+      ],
+      [
+       0,
+       60,
+       -4.5
+      ],
+      [
+       0,
+       78,
+       -1.5
+      ]
+     ],
+     "width_base_m": 8.0,
+     "width_top_m": 5.5,
+     "depth_base_m": 11.0,
+     "depth_top_m": 8.0
+    },
+    {
+     "centerline": [
+      [
+       0,
+       -57,
+       5.5
+      ],
+      [
+       0,
+       -35,
+       5.5
+      ],
+      [
+       0,
+       -18,
+       6.0
+      ],
+      [
+       0,
+       -9,
+       9.5
+      ],
+      [
+       0,
+       -2,
+       14.5
+      ],
+      [
+       0,
+       30,
+       9.5
+      ],
+      [
+       0,
+       60,
+       4.5
+      ],
+      [
+       0,
+       78,
+       1.5
+      ]
+     ],
+     "width_base_m": 8.0,
+     "width_top_m": 5.5,
+     "depth_base_m": 11.0,
+     "depth_top_m": 8.0
+    },
+    {
+     "centerline": [
+      [
+       0,
+       76,
+       0
+      ],
+      [
+       0,
+       100,
+       0
+      ],
+      [
+       0,
+       123,
+       0
+      ]
+     ],
+     "width_base_m": 9.0,
+     "width_top_m": 6.5,
+     "depth_base_m": 9.0,
+     "depth_top_m": 7.0
+    },
+    {
+     "centerline": [
+      [
+       0,
+       123,
+       0
+      ],
+      [
+       0,
+       127.5,
+       0
+      ],
+      [
+       0,
+       132,
+       0
+      ]
+     ],
+     "width_base_m": 6.5,
+     "width_top_m": 0.6,
+     "depth_base_m": 7.0,
+     "depth_top_m": 0.6
+    }
+   ],
+   "panels": [
+    {
+     "top": [
+      [
+       -14.5,
+       -2.0
+      ],
+      [
+       14.5,
+       -2.0
+      ]
+     ],
+     "bottom": [
+      [
+       -14.5,
+       -2.0
+      ],
+      [
+       -9.5,
+       -9.0
+      ],
+      [
+       -6.0,
+       -18.0
+      ],
+      [
+       -5.5,
+       -30.0
+      ],
+      [
+       -5.5,
+       -57.0
+      ],
+      [
+       5.5,
+       -57.0
+      ],
+      [
+       5.5,
+       -30.0
+      ],
+      [
+       6.0,
+       -18.0
+      ],
+      [
+       9.5,
+       -9.0
+      ],
+      [
+       14.5,
+       -2.0
+      ]
+     ],
+     "depth_m": 9.0
+    }
+   ],
+   "crown": "pointed",
+   "anchor_zone": [
+    {
+     "y_from_m": 84,
+     "y_to_m": 119,
+     "leg": 2
+    }
+   ],
+   "pile_cap": {
+    "length_x_m": 36,
+    "width_z_m": 60,
+    "top_y_m": -57,
+    "thickness_m": 7,
+    "rounded_ends": true
+   },
+   "mirror_for_other_pylons": true,
+   "reference_images": [
+    "https://tedi.vn/wp-content/uploads/2024/05/hoason.jpg",
+    "https://baoxaydung.mediacdn.vn/603483875699699712/2025/6/4/6-1749027348791887960772.jpg",
+    "https://baoxaydung.mediacdn.vn/603483875699699712/2025/6/4/5-174902734880962060185.jpg"
+   ]
+  },
+  "notes": "Main bridge (40 + 40 + 150 + 550 + 150 + 40 + 40) m, L = 1,010 m (TEDI technical design); 550 m main span and 187 m pylons (press). Deck 21.0 m incl. 2 × 1.75 m stay-anchor strips; hybrid girder: PC box near the pylons / side spans, steel–concrete composite box in the central main span. Inverted-Y 'mountain peak' pylons per the official render (TEDI): legs merge at ≈59 % of the above-deck height into a tapered mast with an obelisk spire; below the deck a solid cup and a single grooved stem. Proportions from the near-elevation render (deck ≈0.30 of the water-to-tip height): deck 55 m above full-pool water, tip 132 m above the deck. Two fan planes from the mast faces; 22 stays per side per plane (count estimated). White pylons, light stays (red-orange stays in some aerial renders are an alternative scheme). Pylon foundations: 45 bored piles D2.2 m, ≈85 m, in > 40 m of water."
  },
- "notes": "Official renders.",
- "colour": "red and white",
+ "notes": "Official render (TEDI, user-supplied) and the Báo Xây dựng near-elevation render; spans from the TEDI technical design.",
+ "colour": "white pylons, light stays",
  "id": "cau-hoa-son",
  "review": [
-  "—",
-  "Inverted-Y kept; red/white colour noted",
-  "Render only"
+  "Round 9: 'mountain peak' inverted Y (legs merge at 0.59 H, tapered mast, spire, cup + grooved stem, submerged pile cap)",
+  "Spans TEDI 40 + 40 + 150 + 550 + 150 + 40 + 40; light stays, 2 planes from the mast faces",
+  "Compared with the user's official render (camera --az -120 --el 2 --target pylon0)"
  ],
  "checklist": {
-  "foot below deck": "limited (render shows no foot)",
-  "legs at deck": "pass",
-  "merge height": "limited (render too small)",
-  "crossbeams": "limited",
-  "head": "pass",
-  "proportions": "pass",
-  "stays": "pass (red, fan)",
-  "deck / aux piers": "limited",
-  "colour": "pass (white pylon, red stays)"
+  "foot below deck": "pass (solid cup + single grooved stem; pile cap submerged)",
+  "legs at deck": "pass (just outside the deck edges, z ±14.5)",
+  "merge height": "pass (0.59 H, y 78 of 132)",
+  "crossbeams": "pass (none; cup panel under the deck)",
+  "head": "pass (tapered mast, pointed obelisk spire)",
+  "proportions": "pass (deck 55 of 187 ≈ 0.29, near-elevation render)",
+  "stays": "pass (light #cfdbe6, fan, 2 planes from the mast faces, 22 per side per plane)",
+  "deck / aux piers": "pass (TEDI 40 + 40 + 150 + 550 + 150 + 40 + 40; aux piers 40/80/930/970)",
+  "colour": "pass (white pylons, light stays)"
  },
  "pass2": true,
- "compare": "scratchpad only (press/render images, licence unknown)"
+ "compare": "user's official render (TEDI) + scratchpad press/render images (licence unknown); camera --az -120 --el 2 --target pylon0"
 }

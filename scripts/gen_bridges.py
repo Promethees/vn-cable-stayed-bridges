@@ -205,9 +205,15 @@ add(id="cau-thuan-an", name_vi="Cầu vượt cửa biển Thuận An", name_en=
 add(id="cau-hoa-son", name_vi="Cầu Hòa Sơn", name_en="Hòa Sơn Bridge", status="under_construction",
     province="Phú Thọ", province_former=["Hòa Bình"], crosses="Hồ thủy điện Hòa Bình (sông Đà)",
     roads=["Cao tốc Hòa Bình – Mộc Châu"], construction_start=2025, opened=2028, main_span_m=550, total_length_m=1200,
-    cable_stayed_spans=1, pylons="2 pylons, 187 m", investor="Ban QLDA khu vực Hòa Bình", lat=20.78, lng=105.21,
-    sources=["https://baolamdong.vn/cao-toc-10000-ty-hoa-binh-moc-chau-phan-dau-ve-dich-som-1-nam-va-ky-luc-cau-day-vang-424941.html", "https://nguoiquansat.vn/tay-bac-sap-co-cay-cau-moi-lap-ky-luc-viet-nam-quy-mo-3-100-ty-cam-hung-thiet-ke-tu-nui-rung-dia-phuong-298648.html", "https://baodauthau.vn/1-nha-thau-tham-du-goi-thau-xay-lap-cau-hoa-son-hon-5502-ty-post172897.html"], confidence="needs_check",
-    notes="COORDINATES APPROXIMATE (±10 km): placed on the Hòa Bình reservoir near the Mai Châu bank; exact site not found. Started 15/4/2025; completion target end-2028 (expressway target 2027). Would equal Cần Thơ (550 m) as the longest span in Vietnam.")
+    width_m=21, lanes=4, cable_stayed_spans=1, span_arrangement="40 + 40 + 150 + 550 + 150 + 40 + 40 m (main bridge 1,010 m)",
+    pylons="2 inverted-Y 'mountain peak' pylons, 187 m", investor="Ban QLDA khu vực Hòa Bình", lat=20.78, lng=105.21,
+    sources=["https://baolamdong.vn/cao-toc-10000-ty-hoa-binh-moc-chau-phan-dau-ve-dich-som-1-nam-va-ky-luc-cau-day-vang-424941.html", "https://nguoiquansat.vn/tay-bac-sap-co-cay-cau-moi-lap-ky-luc-viet-nam-quy-mo-3-100-ty-cam-hung-thiet-ke-tu-nui-rung-dia-phuong-298648.html", "https://baodauthau.vn/1-nha-thau-tham-du-goi-thau-xay-lap-cau-hoa-son-hon-5502-ty-post172897.html",
+             "https://tedi.vn/le-ky-ket-hop-dong-goi-thau-goi-thautu-van-khao-sat-lap-thiet-ke-ky-thuat-va-du-toan-xay-dung-cong-trinh-cau-hoa-son-thuoc-du-an-cao-toc-hoa-binh-moc-chau-doan-tu-km19000-km53000-tre/",   # designer: spans, deck, girder, pylon form
+             "https://tedi-gic.vn/cau-hoa-son-km40750-km41989-va-cao-toc-hoa-binh-moc-chau-doan-tu-km46000-km47500-tren-dia-ban-tinh-hoa-binh-tkkt/",   # chainage, spans, nav 50 × 7 m
+             "https://baoxaydung.vn/lap-dat-sa-lan-lon-thi-cong-cau-co-2-ky-luc-tren-cao-toc-hoa-binh-moc-chau-192250604161040171.htm",   # 550 m / 187 m, contractor, renders
+             "https://nguoiquansat.vn/huy-dong-thiet-bi-sieu-khong-lo-viet-nam-sap-hoan-thanh-cay-cau-day-vang-dai-nhat-ca-nuoc-nam-tren-tuyen-cao-toc-10-000-ty-o-khu-vuc-tay-bac-298966.html",   # progress 20/6/2026
+             "https://baolamdong.vn/cau-hoa-son-tren-cao-toc-hoa-binh-moc-chau-cau-day-vang-nhip-chinh-dai-nhat-viet-nam-449235.html"], confidence="needs_check",   # foundations 6/2026
+    notes="COORDINATES APPROXIMATE (±10 km): placed on the Hòa Bình reservoir near the Mai Châu bank; exact site (between Tiền Phong and Tân Thành communes) not mapped. Started 15/4/2025; completion target end-2028 (expressway target 2027). Would equal Cần Thơ (550 m) as the longest span in Vietnam. Total length 1,200 m is the press '≈1.2 km' (TEDI scope Km40+750 – Km41+989 ≈ 1,239 m; main cable-stayed bridge 1,010 m). Designer TEDI; contractor Trung Chính. Mid-6/2026: pylon foundations P8 42/45, P9 43/45 bored piles (D2.2 m, ≈85 m, in > 40 m of water). Stage 1: 4 lanes on a 21 m deck (final 6 lanes).")
 
 add(id="cau-tu-lien", name_vi="Cầu Tứ Liên", name_en="Tứ Liên Bridge", status="under_construction",
     province="Hà Nội", province_former=["Hà Nội"], crosses="Sông Hồng",
@@ -422,8 +428,9 @@ M3D = {
     notes="Extradosed 86+153+86 m (infra.global). Low red pylons; one central plane assumed from press aerials. Pylon height estimated."),
  "cau-thuan-an": m3d([120, 218, 120], "A", [32, 32], "above_deck", 1, "harp", 23.5, "concrete", extradosed=True,
     notes="Extradosed main span 218 m; A-topped red pylons 32 m above deck (72 m from water) per Người Quan Sát. Side spans and the single central cable plane estimated from photos. Number of extradosed spans unclear."),
- "cau-hoa-son": m3d([220, 550, 220], "inverted_Y", [187, 187], "total", 2, "fan", 21.0,
-    notes="550 m main span, 187 m pylons, ≈1.2 km bridge (press). Side spans, deck width and inverted-Y shape read from official renders (Báo Lâm Đồng / Người Quan Sát)."),
+ # fallback only: research/shapes/cau-hoa-son.json (pass 2) wins; kept in step with it (round 9)
+ "cau-hoa-son": m3d([40, 40, 150, 550, 150, 40, 40], "inverted_Y", [187, 187], "total", 2, "fan", 21.0, "composite", cps=22,
+    notes="Main bridge (40 + 40 + 150 + 550 + 150 + 40 + 40) m, L = 1,010 m (TEDI); 550 m main span, 187 m inverted-Y 'mountain peak' pylons (press). 21.0 m hybrid PC / steel-composite deck. 22 stays per side per plane (estimated)."),
  "cau-tu-lien": m3d([250, 500, 250], "other", [185, 185], "total", 2, "semi_fan", 43.0, "steel", cps=19,
     notes="1,000 m main bridge, 50 + 200 + 500 + 200 + 50 m with an auxiliary pier in each side span (VOV general elevation), 185 m pylons (top level +185.0), 43 m steel deck. Diamond-X pylons per the official render: legs cross above the deck and continue as two parallel posts with a short link near the top and staggered tops. 19 stays per side per plane at 12 m (152 total). Deck levels +24.5 (ends) / +25.6 (pylons) / +26.2 (mid-span); water modelled at datum 0 (dry season ≈ +1 to +3). Round 8: diamond-X pylon, spans/aux piers/stays from the VOV general elevation drawing; the earlier 'client feedback 11/2026' reading (legs merging into two twisted blades, 170/155 m tops) is superseded by the user's official render."),
  "cau-dai-ngai-1": m3d([210, 450, 210], "A", [110, 110], "above_deck", 2, "fan", 21.5, "composite",
@@ -456,6 +463,7 @@ def press(url, credit, src, what):
 
 PRESS = {
  "cau-hoa-son": [
+    press("https://tedi.vn/wp-content/uploads/2024/05/hoason.jpg", "TEDI", "https://tedi.vn/le-ky-ket-hop-dong-goi-thau-goi-thautu-van-khao-sat-lap-thiet-ke-ky-thuat-va-du-toan-xay-dung-cong-trinh-cau-hoa-son-thuoc-du-an-cao-toc-hoa-binh-moc-chau-doan-tu-km19000-km53000-tre/", "official render"),
     press("https://daknong.1cdn.vn/thumbs/1200x630/2026/02/16/img_6067e82a.jpeg", "Báo Lâm Đồng", "https://baolamdong.vn/cao-toc-10000-ty-hoa-binh-moc-chau-phan-dau-ve-dich-som-1-nam-va-ky-luc-cau-day-vang-424941.html", "render"),
     press("https://nqs.1cdn.vn/thumbs/1200x630/2026/06/18/16C5_cau-hoa-son-17817714084611872675758-0-6-563-907-crop-17817714775621826758988.jpg", "Người Quan Sát", "https://nguoiquansat.vn/tay-bac-sap-co-cay-cau-moi-lap-ky-luc-viet-nam-quy-mo-3-100-ty-cam-hung-thiet-ke-tu-nui-rung-dia-phuong-298648.html", "render")],
  "cau-tu-lien": [
@@ -629,6 +637,7 @@ NAV = {
  "cau-phuoc-an": nav(55, 135, "for 30,000 DWT ships (an earlier appraisal said 123 m × 55 m)", "https://nhandan.vn/can-canh-cau-phuoc-an-ket-noi-quan-trong-giua-thanh-pho-ho-chi-minh-va-dong-nai-dang-vuot-tien-do-post968305.html"),
  "cau-can-tho-2": nav(40, 110, "main channel, above H5%; total navigable width 300 m incl. two 95 m × 31 m side channels", "https://baodautu.vn/phan-dau-khoi-cong-xay-dung-cau-can-tho-2-von-28500-ty-dong-vao-nam-2027-d388354.html"),
  "cau-ba-son": nav(11, None, None, "https://en.wikipedia.org/wiki/Ba_Son_Bridge"),
+ "cau-hoa-son": nav(7, 50, "inland waterway class III, B × H = 50 × 7 m (TEDI-GIC technical-design summary; reference level not stated)", "https://tedi-gic.vn/cau-hoa-son-km40750-km41989-va-cao-toc-hoa-binh-moc-chau-doan-tu-km46000-km47500-tren-dia-ban-tinh-hoa-binh-tkkt/"),
  "cau-can-gio": nav(55, None, None, "https://plo.vn/cau-can-gio-mang-hinh-tuong-cay-duoc-post515884.html"),
  "cau-tu-lien": nav(10, 80, "BxH = 80 × 10 m above the 5% design flood level H5% = +9.55 m (general elevation drawing)", "https://vov.gov.vn/toan-canh-cau-tu-lien-bieu-tuong-moi-ben-song-hong-cua-ha-noi-dang-thanh-hinh-dtnew-1150575"),
 }
@@ -815,7 +824,7 @@ PHASE6 = {
     "cau-dai-ngai-1": {"stay_colour": "red"},
     "cau-cua-hoi": {"pylon_colour": "white", "stay_colour": "red"},
     "cau-ben-rung": {"pylon_colour": "white", "stay_colour": "red"},        # white blades, red inner face, red stays
-    "cau-hoa-son": {"pylon_colour": "white", "stay_colour": "red"},         # "red and white" render; split assumed
+    "cau-hoa-son": {"pylon_colour": "white", "stay_colour": "#cfdbe6"},     # white pylons, light stays per the official render (TEDI); red stays = alternative aerial scheme
     "cau-thuan-an": {"pylon_colour": "white", "stay_colour": "red"},
     "cau-can-tho": {"auxiliary_piers_m": [40, 80, 930, 970]},                # 2×40 m end spans each side
     "cau-ba-son": {"pylon_custom": {"crown": "rounded"}},
@@ -950,7 +959,9 @@ REVIEW_R1 = {
     "cau-thuan-an": {"set": {"deck_elevation_m": 40},
         "pylon_custom": None,   # filled below
         "note": "Deck ≈40 m above water: pylon 32 m above deck and 72 m above water (Tiền Phong). A-head on the pier head (legs from the deck edges), single central plane."},
-    "cau-hoa-son": {"set": {"deck_elevation_m": 40}, "note": "Deck elevation 40 m estimated (reservoir crossing)."},
+    # round 9 (research/model-review/brief-r9-hoa-son.md): deck 55 m above full-pool water (deck ≈0.30 of the 187 m
+    # water-to-tip height in the official elevation render); the note lives in the shape file, not as "Review r1:"
+    "cau-hoa-son": {"set": {"deck_elevation_m": 55}},
     # round 8 (research/model-review/brief-r8-tu-lien.md): scale_y 0.94 removed, the diamond-X pylon is at real scale
     "cau-tu-lien": {"set": {"deck_elevation_m": 24.5, "deck_crest_m": 1.7, "auxiliary_piers_m": [50, 950], "cables_per_side": 19,
                             "back_stay_deck_m": [28, 244], "pylon_colour": "#e8e0cc", "stay_colour": "white"}},  # note lives in M3D
@@ -1164,6 +1175,26 @@ for b in B:
         assert [(z["y_from_m"], z["y_to_m"]) for z in pc["anchor_zone"]] == [(31, 61), (31, 61)], pc
         assert pc["pile_cap"]["rounded_ends"] is False and b["span_arrangement"] == "120 + 270 + 120 m", b
         assert "No free image" not in b["notes"] and b["pylons"].startswith("2 tháp chữ H"), b
+    if b["id"] == "cau-hoa-son":  # round 9: 'mountain peak' inverted Y, TEDI spans, light stays, deck 55 (official render)
+        pc = m["pylon_custom"]
+        assert m["spans_m"] == [40, 40, 150, 550, 150, 40, 40] and sum(m["spans_m"]) == 1010, m
+        assert M3D["cau-hoa-son"]["spans_m"] == m["spans_m"] and M3D["cau-hoa-son"]["cables_per_side"] == 22, "fallback in step"
+        assert m["deck_elevation_m"] == 55 and m["deck_width_m"] == 21.0 and m["deck_type"] == "composite", m
+        assert m["cables_per_side"] == 22 and m["back_stay_count"] == 22 and m["back_stay_deck_m"] == [14, 142], m
+        assert m["pylon_colour"] == "white" and m["stay_colour"] == "#cfdbe6" and m["approach_length_m"] == 200, m
+        assert m["pylon_heights_m"] == [187, 187] and m["pylon_height_ref"] == "total", m
+        assert len(pc["legs"]) == 4 and "crossbeams_y_m" not in pc and pc["crown"] == "pointed", pc
+        assert [l["centerline"][-1][1] for l in pc["legs"]] == [78, 78, 123, 132], "merge 78, spire tip 132"
+        assert [l["centerline"][4][2] for l in pc["legs"][:2]] == [-14.5, 14.5], "legs pass outside the deck edges"
+        assert pc["legs"][3]["width_top_m"] <= 1.0 and pc["legs"][2]["centerline"][0][1] < 78, pc["legs"][2:]
+        assert [(z["leg"], z["y_from_m"], z["y_to_m"]) for z in pc["anchor_zone"]] == [(2, 84, 119)], "stays on the mast only"
+        assert len(pc["panels"]) == 1 and pc["panels"][0]["depth_m"] < pc["legs"][0]["depth_top_m"] + 3, "cup/stem panel"
+        assert pc["pile_cap"]["top_y_m"] == -57 and all(l["centerline"][0][1] == -57 for l in pc["legs"][:2]), pc
+        assert b["nav_clearance"]["height_m"] == 7 and b["nav_clearance"]["width_m"] == 50, b["nav_clearance"]
+        assert b["span_arrangement"].startswith("40 + 40 + 150 + 550") and b["width_m"] == 21 and b["lanes"] == 4, b
+        assert "đỉnh núi" in b["pylons"] and "mountain peak" in b["pylons_en"] and "red-and-white" not in b["pylons_en"], b
+        assert "Review r1" not in m["notes"] and "Trung Chính" in b["notes"], (m["notes"], b["notes"])
+        assert any("tedi-gic.vn" in s for s in b["sources"]) and b["images"][0]["credit"] == "TEDI", b
     if b["id"] == "cau-tu-lien":  # round 8: diamond-X pylon, aux piers, 19 stays per side per plane (VOV elevation drawing)
         pc = m["pylon_custom"]
         assert m["spans_m"] == [250, 500, 250] and m["auxiliary_piers_m"] == [50, 950], m

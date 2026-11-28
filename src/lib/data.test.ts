@@ -428,6 +428,64 @@ describe.each(files)('%s', (file) => {
     expect(g.colours.stay).toBe('white');
   });
 
+  it('Hòa Sơn (round 9): mountain-peak inverted Y, TEDI 7-span unit, light stays from the mast, deck 55, label 187', () => {
+    const b = bridges.find((x) => x.id === 'cau-hoa-son');
+    if (!b?.model3d?.pylon_custom || file.endsWith('.sample.json')) return;
+    const m = b.model3d;
+    const pc = m.pylon_custom!;
+    expect(m.spans_m).toEqual([40, 40, 150, 550, 150, 40, 40]);
+    expect(b.span_arrangement).toBe('40 + 40 + 150 + 550 + 150 + 40 + 40 m (main bridge 1,010 m)');
+    expect(b.width_m).toBe(21);
+    expect(b.lanes).toBe(4);
+    expect(b.nav_clearance?.height_m).toBe(7);
+    expect(b.nav_clearance?.width_m).toBe(50);
+    const g = buildBridgeGeometry(m, 'completed', { navClearance: b.nav_clearance })!;
+    expect(g.warnings).toEqual([]);
+    expect(g.deckElevation).toBe(55);
+    expect(g.auxiliaryPiers).toEqual([40, 80, 930, 970]);
+    expect(g.pylons.map((p) => p.x)).toEqual([230, 780]);
+    expect(g.colours.pylon).toBe('white');
+    expect(g.colours.stay).toBe('#cfdbe6');
+    // legs pass outside the 21 m deck at the deck (z ±14.5), merge at y 78 (≈0.59 of 132), mast 76–123, spire to 132
+    const [l0, l1, mast, spire] = pc.legs.map((l) => l.centerline);
+    expect(l0[4]).toEqual([0, -2, -14.5]);
+    expect(l1[4]).toEqual([0, -2, 14.5]);
+    expect(l0[l0.length - 1][1] / 132).toBeCloseTo(0.59, 2);
+    expect(mast[0][1]).toBeLessThan(78);
+    expect(spire[0]).toEqual(mast[mast.length - 1]);
+    expect(pc.legs[3].width_top_m).toBeLessThan(1);
+    for (const p of g.pylons) {
+      const deck = g.deckY(p.x);
+      expect(p.custom).toBe(true);
+      expect(p.labelRef).toBe('total');
+      expect(p.heightAboveDeck).toBeCloseTo(132, 0);
+      expect(Math.round(p.labelHeight)).toBe(187);
+      expect(deck / p.labelHeight).toBeCloseTo(0.29, 1);
+      expect(550 / p.heightAboveDeck).toBeCloseTo(4.2, 0);
+      // 4 legs + 1 cup/stem panel, no crossbeams; one submerged pile cap
+      expect(p.sweeps).toHaveLength(5);
+      expect(p.members).toHaveLength(0);
+      expect(p.caps).toHaveLength(1);
+      // 22 per side per plane, two planes, all anchored on the mast faces 84–119 m above the deck (none below the merge)
+      const cs = g.cables.filter((c) => c.pylon === p.index);
+      expect(cs).toHaveLength(22 * 2 * 2);
+      for (const c of cs) {
+        const y = c.top[1] - deck;
+        expect(y).toBeGreaterThan(83);
+        expect(y).toBeLessThan(120);
+        expect(Math.abs(c.top[2])).toBeLessThan(5);
+        expect(Math.sign(c.top[2])).toBe(Math.sign(c.deck[2]));
+        expect(Math.abs(c.deck[2])).toBeGreaterThan(8);
+      }
+      // the back fan lands 14–142 m behind the pylon, short of the anchor pier at 150 m
+      const back = cs.filter((c) => Math.sign(c.deck[0] - p.x) !== Math.sign(505 - p.x));
+      expect(back).toHaveLength(22 * 2);
+      const d = back.map((c) => Math.abs(c.deck[0] - p.x));
+      expect(Math.min(...d)).toBeCloseTo(14, 0);
+      expect(Math.max(...d)).toBeCloseTo(142, 0);
+    }
+  });
+
   it('Ngọc Hồi (round 8): Sun Gate pylons, red inner posts + gate panel (G12/G13), split concrete legs on a cap, golden stays', () => {
     const b = bridges.find((x) => x.id === 'cau-ngoc-hoi');
     if (!b?.model3d?.pylon_custom || file.endsWith('.sample.json')) return;
