@@ -1,160 +1,487 @@
 {
- "pylons_vi": "2 tháp hai chân khép vòm tròn ở đỉnh, cao ≈170 m",
- "pylons_en": "2 twin-leg pylons closing in a rounded arch at the top, ≈170 m",
+ "pylons_vi": "2 tháp hình giọt nước: hai chân ôm mặt cầu, khép thành vòng tròn dưới mặt cầu, thu lại trên cao thành hai lưỡi song song có khe, hai đỉnh tách; cao ≈175 m (ước tính)",
+ "pylons_en": "2 'water drop' pylons: legs straddle the deck, loop together below it on one footing, and narrow above into two slotted parallel blades with separate tips; ≈175 m (estimated)",
  "model3d": {
   "spans_m": [
    190,
    450,
    190
   ],
+  "auxiliary_piers_m": [
+   70,
+   760
+  ],
   "pylon_shape": "other",
   "pylon_heights_m": [
-   170,
-   170
+   175,
+   175
   ],
   "pylon_height_ref": "total",
+  "deck_elevation_m": 50,
+  "deck_crest_m": 11,
+  "deck_depth_m": 3.5,
   "cable_planes": 2,
-  "cable_pattern": "fan",
-  "deck_width_m": 38.0,
+  "cable_pattern": "semi_fan",
+  "cables_per_side": 22,
+  "back_stay_deck_m": [
+   22,
+   186
+  ],
+  "main_stay_deck_m": [
+   22,
+   218
+  ],
+  "deck_width_m": 33.5,
   "deck_type": "composite",
+  "pylon_colour": "white",
+  "stay_colour": "white",
   "confidence": "estimated",
-  "notes": "Spans 190–450–190 m and a ≥230 × 55 m navigation clearance (cafeland.vn). Two cable planes (press). Pylon height and deck width (8 lanes) estimated. Inverted-Y pylons read from the VnExpress render (1/2026).",
   "pylon_custom": {
-   "description": "Pylon stands in the MEDIAN (inside the deck): two legs rise ±9.5 m apart (central lanes pass between them) at deck level, close to touch ≈44 m up, open again into a tall 'eye' (≈7 m) and close in a rounded crown at ≈116 m. Two stay planes fan from the eye section out to the deck edges.",
+   "description": "'Water drop' (giọt nước) pylon, TEDI competition design SD01: two blade legs stand just outside the deck edges at deck level; below the deck they bow outward and sweep together into a round-bottomed loop on a single footing (the belly of the drop); a deep beam with an arched soffit carries the deck between the legs. Above the deck the legs converge to a waist at ≈0.6 of the above-deck height, joined by a web with an arched soffit, run up as two close parallel blades around a tall slot (eye), are tied by a short link with an arched soffit near the top and end in two separate tips flaring slightly apart. Two inclined stay planes from the slot section to the deck edges.",
    "legs": [
     {
      "centerline": [
       [
        0,
-       -40,
-       -7.0
+       -46,
+       -2.5
+      ],
+      [
+       0,
+       -43,
+       -7
+      ],
+      [
+       0,
+       -38,
+       -13
+      ],
+      [
+       0,
+       -30,
+       -19
+      ],
+      [
+       0,
+       -20,
+       -22
+      ],
+      [
+       0,
+       -10,
+       -21.5
       ],
       [
        0,
        0,
-       -9.5
+       -19.5
       ],
       [
        0,
-       25,
-       -5.5
+       20,
+       -15.5
       ],
       [
        0,
-       46,
-       -2.0
+       40,
+       -10.5
       ],
       [
        0,
-       62,
+       56,
+       -6.5
+      ],
+      [
+       0,
+       68,
+       -4.8
+      ],
+      [
+       0,
+       84,
        -4.6
       ],
       [
        0,
-       96,
-       -4.6
+       100,
+       -4.8
       ],
       [
        0,
-       110,
-       -2.6
+       108,
+       -5.8
       ],
       [
        0,
        117,
-       0
+       -7.2
       ]
      ],
-     "width_base_m": 4.0,
-     "width_top_m": 2.6
+     "width_base_m": 6.0,
+     "width_top_m": 4.0,
+     "depth_base_m": 9.0,
+     "depth_top_m": 6.0
     },
     {
      "centerline": [
       [
        0,
-       -40,
-       7.0
+       -46,
+       2.5
+      ],
+      [
+       0,
+       -43,
+       7
+      ],
+      [
+       0,
+       -38,
+       13
+      ],
+      [
+       0,
+       -30,
+       19
+      ],
+      [
+       0,
+       -20,
+       22
+      ],
+      [
+       0,
+       -10,
+       21.5
       ],
       [
        0,
        0,
-       9.5
+       19.5
       ],
       [
        0,
-       25,
-       5.5
+       20,
+       15.5
       ],
       [
        0,
-       46,
-       2.0
+       40,
+       10.5
       ],
       [
        0,
-       62,
+       56,
+       6.5
+      ],
+      [
+       0,
+       68,
+       4.8
+      ],
+      [
+       0,
+       84,
        4.6
       ],
       [
        0,
-       96,
-       4.6
+       100,
+       4.8
       ],
       [
        0,
-       110,
-       2.6
+       108,
+       5.8
       ],
       [
        0,
        117,
-       0
+       7.2
       ]
      ],
-     "width_base_m": 4.0,
-     "width_top_m": 2.6
+     "width_base_m": 6.0,
+     "width_top_m": 4.0,
+     "depth_base_m": 9.0,
+     "depth_top_m": 6.0
     }
    ],
-   "crossbeams_y_m": [
-    -3
+   "panels": [
+    {
+     "top": [
+      [
+       -19,
+       -3.5
+      ],
+      [
+       19,
+       -3.5
+      ]
+     ],
+     "bottom": [
+      [
+       -19,
+       -13
+      ],
+      [
+       -16,
+       -9
+      ],
+      [
+       -10,
+       -7.4
+      ],
+      [
+       0,
+       -7
+      ],
+      [
+       10,
+       -7.4
+      ],
+      [
+       16,
+       -9
+      ],
+      [
+       19,
+       -13
+      ]
+     ],
+     "depth_m": 7.0
+    },
+    {
+     "top": [
+      [
+       -5.5,
+       76
+      ],
+      [
+       -4.6,
+       73
+      ],
+      [
+       -3.5,
+       71.2
+      ],
+      [
+       -2,
+       70.3
+      ],
+      [
+       0,
+       70
+      ],
+      [
+       2,
+       70.3
+      ],
+      [
+       3.5,
+       71.2
+      ],
+      [
+       4.6,
+       73
+      ],
+      [
+       5.5,
+       76
+      ]
+     ],
+     "bottom": [
+      [
+       -5.5,
+       57
+      ],
+      [
+       -4.5,
+       61.5
+      ],
+      [
+       -3,
+       64.3
+      ],
+      [
+       0,
+       65.5
+      ],
+      [
+       3,
+       64.3
+      ],
+      [
+       4.5,
+       61.5
+      ],
+      [
+       5.5,
+       57
+      ]
+     ],
+     "depth_m": 6.0
+    },
+    {
+     "top": [
+      [
+       -5.5,
+       107
+      ],
+      [
+       -4.6,
+       105
+      ],
+      [
+       -2.5,
+       104
+      ],
+      [
+       0,
+       103.6
+      ],
+      [
+       2.5,
+       104
+      ],
+      [
+       4.6,
+       105
+      ],
+      [
+       5.5,
+       107
+      ]
+     ],
+     "bottom": [
+      [
+       -5.5,
+       94
+      ],
+      [
+       -4.6,
+       97
+      ],
+      [
+       -3.5,
+       98.6
+      ],
+      [
+       -2,
+       99.3
+      ],
+      [
+       0,
+       99.5
+      ],
+      [
+       2,
+       99.3
+      ],
+      [
+       3.5,
+       98.6
+      ],
+      [
+       4.6,
+       97
+      ],
+      [
+       5.5,
+       94
+      ]
+     ],
+     "depth_m": 5.5
+    },
+    {
+     "top": [
+      [
+       -9,
+       -44.5
+      ],
+      [
+       -6.5,
+       -42.2
+      ],
+      [
+       -3.5,
+       -41
+      ],
+      [
+       0,
+       -40.6
+      ],
+      [
+       3.5,
+       -41
+      ],
+      [
+       6.5,
+       -42.2
+      ],
+      [
+       9,
+       -44.5
+      ]
+     ],
+     "bottom": [
+      [
+       -9,
+       -48.3
+      ],
+      [
+       9,
+       -48.3
+      ]
+     ],
+     "depth_m": 9.0
+    }
    ],
+   "pile_cap": {
+    "length_x_m": 30,
+    "width_z_m": 36,
+    "top_y_m": -48.3,
+    "thickness_m": 4,
+    "rounded_ends": false
+   },
    "anchor_zone": [
     {
-     "y_from_m": 62,
-     "y_to_m": 110,
+     "y_from_m": 74,
+     "y_to_m": 103,
      "leg": 0
     },
     {
-     "y_from_m": 62,
-     "y_to_m": 110,
+     "y_from_m": 74,
+     "y_to_m": 103,
      "leg": 1
     }
    ],
    "mirror_for_other_pylons": true,
    "reference_images": [
-    "https://i1-vnexpress.vnecdn.net/2026/01/29/gen-h-z7480267955959-ba79feb88a7a279aae8ce8175156fea7-1769679191-1769686927-1769696745.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=AcNEih9NX7kBNJoD0LwqfQ"
-   ],
-   "crown": "rounded"
+    "https://i1-vnexpress.vnecdn.net/2026/01/29/gen-h-z7480267914791-aca5fbb4a84f33cf6c6299b10ddb3b1b-1769679190.jpg",
+    "https://cdn2.tuoitre.vn/471584752817336320/2026/1/29/cau-cat-lai-3-1769696367163316351776.jpg",
+    "https://cdn2.tuoitre.vn/471584752817336320/2026/9/29/phoi-canh-cau-cat-lai-1-17906548892801634837356.jpg",
+    "https://baoxaydung.mediacdn.vn/603483875699699712/2026/1/29/2-1769673843290160434896.png"
+   ]
   },
-  "pylon_colour": "white"
+  "notes": "TEDI design SD01 (competition 1st prize, approved 26/1/2026). Spans 190 + 450 + 190 m, ≥230 × 55 m clearance (Báo Đồng Nai / cafeland). Deck 33.5 m, 8 lanes, composite steel girder (Đồng Nai 6/2026 scale; 1thegioi / Dân Trí). 'Water drop' pylons read from the official renders. Pylon ≈175 m above water, deck ≈58 m at the pylons and ≈61 m at mid-span, auxiliary pier ≈120 m from each pylon and 22 stays per side per plane are measured or estimated from renders."
  },
- "notes": "VnExpress render (1/2026).",
+ "notes": "Official renders (VnExpress / Tuổi Trẻ / Báo Xây dựng, 2026).",
  "id": "cau-cat-lai",
  "review": [
-  "Inverted-Y — render shows parallel legs closing in a rounded arch",
-  "Custom arch-top pylon (Ba Son-like but vertical)",
-  "Render only"
+  "Round 10: the median twin-leg pylon with a rounded crown was topologically wrong",
+  "TEDI SD01 'giọt nước' (water drop): legs straddle the deck, loop below it on one plinth, waist web, slot, top link, two separate tips",
+  "Renders only (VnExpress / Tuổi Trẻ / Báo Xây dựng 2026); height and deck levels measured on the side elevation"
  ],
  "checklist": {
-  "foot below deck": "limited (render shows no foot)",
-  "legs at deck": "fixed (in the median, not outside the deck edges)",
-  "merge height": "fixed (legs touch ≈44 m, eye 60–108 m, crown ≈116 m)",
-  "crossbeams": "pass (under deck)",
-  "head": "fixed (slotted eye + rounded crown)",
-  "proportions": "pass",
-  "stays": "pass",
-  "deck / aux piers": "limited",
-  "colour": "pass (white)"
+  "foot below deck": "fixed (drop-shaped loop on a low plinth; under-deck beam with an arched soffit)",
+  "legs at deck": "fixed (outside the deck edges; deck between the legs)",
+  "merge height": "fixed (waist web at ≈0.6 of the above-deck height; the legs do not touch above it)",
+  "crossbeams": "fixed (panels only: under-deck arch beam, waist web, top link; no straight bar)",
+  "head": "fixed (slot + top link + two tips, no crown)",
+  "proportions": "pass (≈175 m above water, deck ≈58 m at the pylons)",
+  "stays": "fixed (white, 2 inclined planes, semi-fan, 22 per side per plane)",
+  "deck / aux piers": "fixed (33.5 m composite deck with a crest; aux pier ≈70 m from each unit end, low confidence)",
+  "colour": "pass (white pylons, white stays)"
  },
  "pass2": true,
  "compare": "scratchpad only (press/render images, licence unknown)"
