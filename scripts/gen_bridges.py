@@ -50,9 +50,12 @@ add(id="cau-bai-chay", name_vi="Cầu Bãi Cháy", name_en="Bãi Cháy Bridge", 
 add(id="cau-phu-my", name_vi="Cầu Phú Mỹ", name_en="Phú Mỹ Bridge", status="completed",
     province="TP. Hồ Chí Minh", province_former=["TP. Hồ Chí Minh"], crosses="Sông Sài Gòn",
     roads=["Vành đai 2 TP.HCM"], construction_start=2005, opened=2009, main_span_m=380, total_length_m=2100,
-    width_m=27, lanes=6, cable_stayed_spans=1, pylons="2 H-shaped pylons, 145 m", lat=10.7450, lng=106.7445,
+    width_m=27.5, lanes=6, cable_stayed_spans=1, lat=10.7450, lng=106.7445,
+    pylons="2 tháp chữ H cải tiến: chân choãi ra dưới mặt cầu xuống bệ móng, nghiêng nhẹ vào trên mặt cầu; dầm ngang trên có vút cong lớn, dầm hộp đỡ dầm cầu; cao 93 m trên mặt cầu, 134,5 m từ đỉnh bệ (≈145 m)",
     images=[img(U+"7/78/Phu_My_Bruecke2.jpg", "Hajotthu", "CC BY 3.0", C+"Phu_My_Bruecke2.jpg")],
-    sources=[W+"Phú_Mỹ_Bridge", LIST, "construction_start 2005: " + CC], confidence="verified",
+    sources=[W+"Phú_Mỹ_Bridge", LIST, "construction_start 2005: " + CC,
+             "https://structurae.net/en/structures/phu-my-bridge", "https://www.tandfonline.com/doi/abs/10.2749/101686610792016664",
+             "https://trid.trb.org/view/1099803"], confidence="verified",
     notes="Called 'Phú Mỹ 1' by the client. Construction start 2005 confirmed by the client (Wikipedia text also mentions 2007). Opened 2/9/2009.")
 
 add(id="cau-binh-khanh", name_vi="Cầu Bình Khánh", name_en="Bình Khánh Bridge", status="completed",
@@ -400,8 +403,8 @@ M3D = {
     notes="Spans 210 + 450 + 210, no auxiliary piers (design paper: intermediate pier eliminated). Improved-H pylons, 143.9 m above the foundation top (Lee & Kang 2013 / TEDI; 147 m drawn from the water). Composite steel–concrete girder (KoreaScience), 24.5 m deck. Geometry in research/shapes/cau-vam-cong.json (round 9)."),
  "cau-bai-chay": m3d([129, 435, 129], "single", [150, 150], "total", 1, "semi_fan", 25.0, "concrete",
     notes="Single-plane prestressed-concrete box girder (sources). Side spans 129 m from engineering literature memory, not a fetched source. Pylon height uses the Wikipedia infobox 'Height 150 m'."),
- "cau-phu-my": m3d([162.5, 380, 162.5], "H", [145, 145], "total", 2, "semi_fan", 27.0, "concrete",
-    notes="162.5+380+162.5 = 705 m (Wikipedia list / JPCI). H pylons per press. Height 145 m per Wikipedia (Người Quan Sát says 162.5 m, which is probably the side span confused with height)."),
+ "cau-phu-my": m3d([162.5, 380, 162.5], "H", [139, 139], "total", 2, "semi_fan", 27.5, "concrete",
+    notes="Fallback only: research/shapes/cau-phu-my.json (round 10) wins. 162.5+380+162.5 = 705 m. Modified-H pylons, 93 m above deck / 134.5 m above the cap top (Structurae), ≈140 m (SEI), 145 m (Wikipedia, from the cap underside). Press 162.5 m is the side span."),
  "cau-binh-khanh": m3d([187.25, 375, 187.25], "H", [155, 155], "total", 2, "fan", 30.35,
     notes="Placeholder; replaced by research/shapes/cau-binh-khanh.json (round 7)."),
  "cau-my-thuan": m3d([150, 350, 150], "H", [120, 120], "total", 2, "semi_fan", 23.66, "concrete", cps=16,
@@ -630,7 +633,7 @@ def nav(h=None, b=None, ref=None, src=None):
 NAV = {
  "cau-can-tho": nav(39, None, "for 10,000 DWT ships; reference level not stated", "https://nguoiquansat.vn/sieu-cau-noi-2-vung-dbscl-ket-thuc-su-menh-nhung-ben-pha-hon-100-nam-tuoi-thong-xe-15-nam-van-nam-giu-ky-luc-dong-nam-a-top-the-gioi-194312.html"),
  "cau-vam-cong": nav(37.5, None, "for 10,000 DWT ships", "https://tedi.vn/project/cau-vam-cong/"),
- "cau-phu-my": nav(45, 200, "width 200 m from a travel blog only (mytour.vn)", "https://24hmoney.vn/news/tp-hcm-de-xuat-mo-rong-cau-phu-my-len-it-nhat-8-lan-c27a2807656.html"),
+ "cau-phu-my": nav(45, 250, "45 m within a 250 m wide navigation zone", "https://www.tandfonline.com/doi/abs/10.2749/101686610792016664"),
  "cau-binh-khanh": nav(55, 242, "VECC: 55 m, L = 242 m; 20,000 DWT design vessel", "https://vecc.com.vn/project/duong-cao-toc-ben-luc-long-thanh/?lang=en"),
  "cau-my-thuan": nav(37.5, 110, None, "https://mytour.vn/vi/blog/bai-viet/cau-my-thuan.html"),
  "cau-cao-lanh": nav(37.5, None, None, "https://vtcnews.vn/thong-xe-cay-cau-lon-thu-2-o-mien-tay-d401815.html"),
@@ -919,7 +922,8 @@ REVIEW_R1 = {
         "nav": nav(50, None, "press (widely quoted)"),
         "bridge": {"pylons": "2 tháp một cột (một mặt phẳng dây), cao 91,5 m trên mặt cầu; dây văng bọc vàng", "pylons_en": "2 single-column pylons (one cable plane), 91.5 m above deck; yellow stay sheaths"},
         "note": "Pylon 91.5 m above deck (IABSE / ResearchGate); 28 stays per side per pylon (112 total, Freyssinet)."},
-    "cau-phu-my": {"scale_y": 0.96, "note": "Custom pylon scaled to 145 m total (Wikipedia)."},
+    # round 10 (brief-r10-phu-my.md): scale_y 0.96 removed; tip local 92.5 is the 139 m label
+    "cau-phu-my": {"set": {"pylon_heights_m": [139, 139]}},
     "cau-binh-khanh": {"set": {"spans_m": [187.25, 375, 187.25], "pylon_heights_m": [155, 155], "cables_per_side": 17, "deck_type": "concrete",
                                "deck_width_m": 30.35},
         "bridge": {"pylons": "2 tháp chữ H hai cột đứng, dầm ngang ở khoảng 2/3 chiều cao trên mặt cầu, giằng chân sát mặt nước; dây neo yên ngựa; cao 155 m tính từ móng",
@@ -1031,6 +1035,7 @@ EXPECT_R1 = {
     "cau-may-chai": {"cable_pattern": "harp", "pylon_colour": "yellow", "deck_colour": "red"},
     "cau-phu-my-2": {"spans_m": [210, 450, 210]},
     "cau-vam-cong": {"stay_colour": "#3b7fd4", "colour_mode": "vivid", "cables_per_side": 18, "pylon_heights_m": [147, 147]},
+    "cau-phu-my": {"cables_per_side": 18, "deck_crest_m": 8, "deck_elevation_m": 40.8, "pylon_heights_m": [139, 139]},
     # round 2 (research/model-review/brief-round2-thuong-cat.md)
     "cau-thuong-cat": {"spans_m": [120, 270, 270, 120], "pylon_heights_m": [70, 80, 70], "pylon_height_ref": "above_deck",
                        "deck_width_m": 35.0, "deck_type": "concrete", "deck_elevation_m": 25, "cables_per_side": 13},
@@ -1281,6 +1286,28 @@ for b in B:
         assert b["nav_clearance"] == {"height_m": 37.5, "reference": "for 10,000 DWT ships", "source": "https://tedi.vn/project/cau-vam-cong/"}, b["nav_clearance"]
         assert "cải tiến" in b["pylons"] and "improved H" in b["pylons_en"] and "143.9" in b["pylons_en"], b
         assert "≈140 m" not in m["notes"] and "143.9" in m["notes"], m["notes"]
+    if b["id"] == "cau-phu-my":   # round 10: modified-H pylon (brief-r10-phu-my.md)
+        pc = m["pylon_custom"]
+        assert m["spans_m"] == [162.5, 380, 162.5] and "auxiliary_piers_m" not in m, m
+        assert m["pylon_heights_m"] == [139, 139] and m["pylon_height_ref"] == "total", m
+        assert m["deck_elevation_m"] == 40.8 and m["deck_crest_m"] == 8 and m["deck_depth_m"] == 2.5 and m["deck_width_m"] == 27.5, m
+        assert m["cables_per_side"] == 18 and m["cable_planes"] == 2 and m["cable_pattern"] == "semi_fan", m
+        assert m["pylon_colour"] == "#dedbd3" and m["stay_colour"] == "#7a7f85" and "colour_mode" not in m, m
+        assert "crossbeams_y_m" not in pc and len(pc["panels"]) == 2 and len(pc["legs"]) == 2, "both beams are panels"
+        assert [l["centerline"][-1] for l in pc["legs"]] == [[0, 92.5, -13.6], [0, 92.5, 13.6]], "not rescaled (scale_y removed)"
+        assert [l["centerline"][0] for l in pc["legs"]] == [[0, -36.9, -22], [0, -36.9, 22]], pc
+        assert [l["centerline"][3] for l in pc["legs"]] == [[0, 0, -17], [0, 0, 17]], "kink at the deck"
+        assert all((l["depth_base_m"], l["depth_top_m"], l["width_base_m"], l["width_top_m"]) == (9.5, 5.5, 5.0, 3.5) for l in pc["legs"]), pc
+        up, lo = pc["panels"]
+        assert min(y for _, y in up["top"]) == 59.5 and max(y for _, y in up["top"]) == 63, up
+        assert max(y for _, y in up["bottom"]) == 51.2 and min(y for _, y in up["bottom"]) == 44, up
+        assert max(y for _, y in lo["top"]) == -2.2 and min(y for _, y in lo["bottom"]) == -9.5 and lo["depth_m"] == 7.0, lo
+        assert pc["pile_cap"] == {"length_x_m": 22, "width_z_m": 56, "top_y_m": -36.9, "thickness_m": 5.3, "rounded_ends": False}, pc["pile_cap"]
+        assert [(z["leg"], z["y_from_m"], z["y_to_m"]) for z in pc["anchor_zone"]] == [(0, 46, 90), (1, 46, 90)], pc
+        assert b["width_m"] == 27.5 and b["construction_start"] == 2005 and any("construction_start 2005" in s for s in b["sources"]), b
+        assert b["nav_clearance"]["height_m"] == 45 and b["nav_clearance"]["width_m"] == 250 and "tandfonline" in b["nav_clearance"]["source"], b["nav_clearance"]
+        assert "cải tiến" in b["pylons"] and "modified-H" in b["pylons_en"] and "134.5" in b["pylons_en"], b
+        assert "Review r1" not in m["notes"] and "134.5" in m["notes"], m["notes"]
     if "pylon_custom" in m and "pile_cap" in m["pylon_custom"]:
         c = m["pylon_custom"]["pile_cap"]
         assert min(c["length_x_m"], c["width_z_m"], c["thickness_m"]) > 0 and c["top_y_m"] <= 0, b["id"]
