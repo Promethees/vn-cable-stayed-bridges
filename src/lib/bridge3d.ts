@@ -6,7 +6,7 @@
  * stay-cabled span), y up (water surface at y = 0), z across (0 = centreline).
  */
 import type { CablePattern, Model3D, NavClearance, PylonShape, Status } from '../types';
-import { arcAtY, catmullRom, pointAt, polyline, sweepRect, type SweepMesh } from './sweep';
+import { arcAtY, catmullRom, panelMesh, pointAt, polyline, sweepRect, type SweepMesh } from './sweep';
 
 export type { SweepMesh };
 
@@ -19,7 +19,12 @@ export interface Member {
   size: number;
   /** vertical depth of the section, when it differs from size (crossbeam_depth_m) */
   depth?: number;
+  /** G12: per-member colour (pylon_custom strut colour); falls back to pylon_colour */
+  colour?: string;
 }
+
+/** A swept pylon mesh (custom leg or G13 panel) with its optional G12 colour (falls back to pylon_colour). */
+export type PylonSweep = SweepMesh & { colour?: string };
 
 export interface SpanSeg {
   x0: number;
@@ -39,8 +44,8 @@ export interface Pylon {
   labelHeight: number;
   labelRef: 'above_deck' | 'total';
   members: Member[];
-  /** swept meshes for custom (pylon_custom) pylons */
-  sweeps: SweepMesh[];
+  /** swept meshes for custom (pylon_custom) pylons: one per leg (in leg order), then one per G13 panel */
+  sweeps: PylonSweep[];
   custom: boolean;
   /** pile caps / footings (pylon_custom.pile_cap), drawn in plain concrete */
   caps: SweepMesh[];
@@ -124,7 +129,8 @@ export interface BridgeGeometry {
   auxiliaryPiers: number[];
   /** deck surface height at station x (includes the crest) */
   deckY: (x: number) => number;
-  colours: { pylon?: string; stay?: string; backStay?: string; deck?: string };
+  /** vivid: G14 colour_mode "vivid" (hex colours keep their sRGB saturation); absent = muted */
+  colours: { pylon?: string; stay?: string; backStay?: string; deck?: string; vivid?: true };
   /** world bounds of the stay-cabled unit (no approaches) */
   bounds: { min: Vec3; max: Vec3 };
   /** values derived because the data did not give them */
@@ -448,11 +454,26 @@ export function buildBridgeGeometry(
         leg.depth_top_m ?? leg.width_top_m,
         leg.twist_deg ?? 0,
       );
-      return { pl, mesh, w0: leg.width_base_m, w1: leg.width_top_m };
+      return { pl, mesh: (leg.colour ? { ...mesh, colour: leg.colour } : mesh) as PylonSweep, w0: leg.width_base_m, w1: leg.width_top_m };
     });
     for (let k = 0; k + 1 < flatCuts.length; k++)
       crownMembers.push({ a: flatCuts[k], b: flatCuts[k + 1], size: Math.max(1.5, legs[0].w1) });
-    const struts: Member[] = (custom.struts ?? []).map((st) => ({ a: toStation(st.a), b: toStation(st.b), size: st.width }));
+    const struts: Member[] = (custom.struts ?? []).map((st) =>
+      st.colour ? { a: toStation(st.a), b: toStation(st.b), size: st.width, colour: st.colour } : { a: toStation(st.a), b: toStation(st.b), size: st.width },
+    );
+    // G13: flat infill panels between a top and a bottom (z, y) curve, extruded along local x
+    const panels: PylonSweep[] = (custom.panels ?? []).map((pn) => {
+      const xm = pn.x_m ?? 0;
+      const mesh = panelMesh(pn.top, pn.bottom, xm - pn.depth_m / 2, xm + pn.depth_m / 2);
+      const pos = mesh.positions;
+      for (let k = 0; k < pos.length; k += 3) {
+        const v = toStation([pos[k], pos[k + 1], pos[k + 2]]);
+        pos[k] = v[0];
+        pos[k + 1] = v[1];
+        pos[k + 2] = v[2];
+      }
+      return pn.colour ? { ...mesh, colour: pn.colour } : mesh;
+    });
     const caps: SweepMesh[] = [];
     if (custom.pile_cap) {
       const pc = custom.pile_cap;
@@ -466,7 +487,7 @@ export function buildBridgeGeometry(
       }
       caps.push({ positions: pos, indices: mesh.indices });
     }
-    return Object.assign(legs, { extra: [...crownMembers, ...struts], caps });
+    return Object.assign(legs, { extra: [...crownMembers, ...struts], caps, panels });
   };
 
   const pylons: Pylon[] = supports.map((support, i) => {
@@ -496,7 +517,7 @@ export function buildBridgeGeometry(
         labelHeight: total ? tip + E + crestAt(x) : tip,
         labelRef: total ? ('total' as const) : ('above_deck' as const),
         members,
-        sweeps: legs.map((l) => l.mesh),
+        sweeps: [...legs.map((l) => l.mesh), ...legs.panels],
         custom: true,
         caps: legs.caps,
       };
@@ -814,7 +835,7 @@ export function buildBridgeGeometry(
         pos[i + 1] = v[1];
         pos[i + 2] = v[2];
       }
-      return { positions: pos, indices: sw.indices };
+      return { ...sw, positions: pos };
     };
     p.sweeps = p.sweeps.map(mapMesh);
     p.caps = p.caps.map(mapMesh);
@@ -870,6 +891,7 @@ export function buildBridgeGeometry(
       stay: m.stay_colour,
       backStay: m.back_stay_colour ?? m.stay_colour,
       deck: m.deck_colour,
+      ...(m.colour_mode === 'vivid' ? { vivid: true as const } : {}),
     },
     cables,
     cablesPerSide: perSide,
