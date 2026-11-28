@@ -243,10 +243,16 @@ add(id="cau-dai-ngai-1", name_vi="Cầu Đại Ngãi 1", name_en="Đại Ngãi 1
 add(id="cau-cat-lai", name_vi="Cầu Cát Lái", name_en="Cát Lái Bridge", status="under_construction",
     province="TP. Hồ Chí Minh – Đồng Nai", province_former=["TP. Hồ Chí Minh", "Đồng Nai"], crosses="Sông Đồng Nai",
     roads=["Đường Nguyễn Thị Định", "ĐT.769B"], construction_start=2026, opened=2029, main_span_m=450, total_length_m=11600,
-    lanes=8, cable_stayed_spans=1, pylons="2 pylons (two cable planes)", cost="≈20,600–24,000 tỷ VND", investor="Liên danh do CC1 dẫn đầu (PPP-BT)",
+    width_m=33.5, lanes=8, cable_stayed_spans=1, span_arrangement="190 + 450 + 190 m",
+    pylons="2 tháp hình giọt nước: hai chân ôm mặt cầu, khép thành vòng tròn dưới mặt cầu, thu lại trên cao thành hai lưỡi song song có khe, hai đỉnh tách; cao ≈175 m (ước tính)",
+    pylons_en="2 'water drop' pylons: legs straddle the deck, loop together below it on one footing, and narrow above into two slotted parallel blades with separate tips; ≈175 m (estimated)",
+    cost="≈24,000 tỷ VND (24,003 tỷ after the 6/2026 adjustment; bridge sub-project ≈14,920 tỷ, PPP-BT)", investor="Liên danh CC1 (doanh nghiệp dự án CC1 Cát Lái); thiết kế TEDI",
     lat=10.7547, lng=106.7900,
-    sources=["https://vietnamnet.vn/en/vietnam-breaks-ground-on-1-4-billion-bridges-linking-hcmc-dong-nai-2560272.html", "https://www.vietnamplus.vn/khoi-cong-2-cau-chien-luoc-ket-noi-thanh-pho-dong-nai-thanh-pho-ho-chi-minh-post1138956.vnp", "https://e.vnexpress.net/photo/traffic/vietnam-unveils-794m-cable-bridge-design-linking-ho-chi-minh-city-to-long-thanh-airport-corridor-5015145.html", "https://moc.gov.vn/vn/tin-tuc/1184/90985/cau-cat-lai-18-300-ti-dong-noi-dong-nai--tp-ho-chi-minh-dong-tho-vao-ngay-151.aspx", OSM], confidence="needs_check",
-    notes="Groundbreaking 15/1/2026; construction start 29/9/2026. VietnamPlus describes a 'composite steel girder', while VietnamNet and other sources say cable-stayed with a 450 m main span. Total length includes approaches. 55 m navigation clearance. Coordinates are the OSM proposed alignment.")
+    sources=["https://vietnamnet.vn/en/vietnam-breaks-ground-on-1-4-billion-bridges-linking-hcmc-dong-nai-2560272.html", "https://www.vietnamplus.vn/khoi-cong-2-cau-chien-luoc-ket-noi-thanh-pho-dong-nai-thanh-pho-ho-chi-minh-post1138956.vnp", "https://e.vnexpress.net/photo/traffic/vietnam-unveils-794m-cable-bridge-design-linking-ho-chi-minh-city-to-long-thanh-airport-corridor-5015145.html", "https://moc.gov.vn/vn/tin-tuc/1184/90985/cau-cat-lai-18-300-ti-dong-noi-dong-nai--tp-ho-chi-minh-dong-tho-vao-ngay-151.aspx",
+             "https://dantri.com.vn/thoi-su/dong-nai-khoi-cong-2-cau-noi-tphcm-gan-37000-ty-dong-20260929111134692.htm", "https://tuoitre.vn/khoi-cong-cau-cat-lai-va-cau-long-hung-noi-dong-nai-voi-tphcm-100260929111812275.htm",
+             "https://1thegioi.vn/cau-cat-lai-va-cau-long-hung-cong-nghe-gap-ngon-ngu-kien-truc-258897.html", "https://baodongnai.com.vn/kinh-te/ha-tang-du-an/202601/chum-anh-kien-truc-cau-cat-lai-voi-y-tuong-vuon-tam-cao-moi-e6509d9/",
+             "https://cafeland.vn/tin-tuc/quy-mo-moi-cua-cau-cat-lai-noi-tphcm-voi-dong-nai-vua-duoc-dieu-chinh-152342.html", "https://cafeland.vn/tin-tuc/toan-canh-noi-xay-cau-cat-lai-sau-dong-tho-khu-vuc-nay-dang-ra-sao-150238.html", OSM], confidence="needs_check",
+    notes="Groundbreaking (động thổ) 15/1/2026; construction of the bridge sub-project started 29/9/2026, completion 2029. TEDI design 'Vươn tầm cao mới' (SD01, competition 1st prize, approved 26/1/2026): two 'water drop' pylons. Main bridge 190 + 450 + 190 m, 33.5 m, 8 lanes, composite steel girder (an older pre-feasibility scheme had a PC box built by balanced cantilever). Total 11.6 km includes the approach roads (bridge + approaches ≈3.65 km). 55 m clearance. Pylon height not published (≈175 m from renders; 175 m / 37 m / 'twin swords' in some articles are Long Hưng's). Coordinates are the OSM proposed alignment.")
 
 add(id="cau-ngoc-hoi", name_vi="Cầu Ngọc Hồi", name_en="Ngọc Hồi Bridge", status="under_construction",
     province="Hà Nội – Hưng Yên", province_former=["Hà Nội", "Hưng Yên"], crosses="Sông Hồng",
@@ -441,8 +447,9 @@ M3D = {
     notes="1,000 m main bridge, 50 + 200 + 500 + 200 + 50 m with an auxiliary pier in each side span (VOV general elevation), 185 m pylons (top level +185.0), 43 m steel deck. Diamond-X pylons per the official render: legs cross above the deck and continue as two parallel posts with a short link near the top and staggered tops. 19 stays per side per plane at 12 m (152 total). Deck levels +24.5 (ends) / +25.6 (pylons) / +26.2 (mid-span); water modelled at datum 0 (dry season ≈ +1 to +3). Round 8: diamond-X pylon, spans/aux piers/stays from the VOV general elevation drawing; the earlier 'client feedback 11/2026' reading (legs merging into two twisted blades, 170/155 m tops) is superseded by the user's official render."),
  "cau-dai-ngai-1": m3d([210, 450, 210], "A", [110, 110], "above_deck", 2, "fan", 21.5, "composite",
     notes="210+450+210 m, A-shaped pylons 110 m above deck, composite steel girder (Báo Đầu tư). Fan pattern from the render. Another source gives 164 m total height."),
- "cau-cat-lai": m3d([190, 450, 190], "inverted_Y", [170, 170], "total", 2, "fan", 38.0, "composite",
-    notes="Spans 190–450–190 m and a ≥230 × 55 m navigation clearance (cafeland.vn). Two cable planes (press). Pylon height and deck width (8 lanes) estimated. Inverted-Y pylons read from the VnExpress render (1/2026)."),
+ # fallback only: research/shapes/cau-cat-lai.json (pass 2) wins; kept in step with it (round 10)
+ "cau-cat-lai": m3d([190, 450, 190], "other", [175, 175], "total", 2, "semi_fan", 33.5, "composite", cps=22,
+    notes="Spans 190 + 450 + 190 m and a ≥230 × 55 m navigation clearance (cafeland.vn). TEDI SD01 'water drop' pylons ≈175 m above water (measured on renders), 33.5 m composite deck, 22 stays per side per plane (estimated). Geometry in research/shapes/cau-cat-lai.json (round 10)."),
  "cau-duong-sat-can-gio": m3d([280, 360, 280], "other", [130, 130], "total", 2, "semi_fan", 14.0,
     notes="920 m cable-stayed bridge with a 360 m span (24hMoney). Side spans derived. Pylon shape/height and deck width (double-track) unknown; placeholder values."),
  "cau-ngoc-hoi": m3d([165, 350, 165], "H", [126, 126], "total", 2, "semi_fan", 33.0,
@@ -481,7 +488,9 @@ PRESS = {
     press("https://media.baodautu.vn/thumb_x470x250/Images/anhminh/2024/12/04/he-lo-nha-thau-thi-cong-sieu-cau-day-vang-dai-ngai-1-tri-gia-3900-ty-dong1733300762.jpg", "Báo Đầu tư", "https://baodautu.vn/he-lo-nha-thau-thi-cong-sieu-cau-day-vang-dai-ngai-1-tri-gia-3900-ty-dong-d231683.html", "render"),
     press("https://cdn.daidoanket.vn/1200x630/uploaded/images/2026/03/18/e3af5231-140e-4454-aa79-b6fdb4a3625f.jpg", "Báo Đại Đoàn Kết", "https://daidoanket.vn/can-canh-cong-trinh-cau-day-vang-co-nhip-chinh-dai-thu-2-viet-nam.html", "construction 3/2026")],
  "cau-cat-lai": [
-    press("https://i1-vnexpress.vnecdn.net/2026/01/29/gen-h-z7480267955959-ba79feb88a7a279aae8ce8175156fea7-1769679191-1769686927-1769696745.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=AcNEih9NX7kBNJoD0LwqfQ", "VnExpress (Đồng Nai Dept. of Construction render)", "https://e.vnexpress.net/photo/traffic/vietnam-unveils-794m-cable-bridge-design-linking-ho-chi-minh-city-to-long-thanh-airport-corridor-5015145.html", "render")],
+    press("https://i1-vnexpress.vnecdn.net/2026/01/29/gen-h-z7480267955959-ba79feb88a7a279aae8ce8175156fea7-1769679191-1769686927-1769696745.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=AcNEih9NX7kBNJoD0LwqfQ", "VnExpress (Đồng Nai Dept. of Construction render)", "https://e.vnexpress.net/photo/traffic/vietnam-unveils-794m-cable-bridge-design-linking-ho-chi-minh-city-to-long-thanh-airport-corridor-5015145.html", "render"),
+    press("https://i1-vnexpress.vnecdn.net/2026/01/29/gen-h-z7480267914791-aca5fbb4a84f33cf6c6299b10ddb3b1b-1769679190.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=5QSvcQadK4N2YWCVCd6nSw", "VnExpress (Đồng Nai Dept. of Construction render)", "https://e.vnexpress.net/photo/traffic/vietnam-unveils-794m-cable-bridge-design-linking-ho-chi-minh-city-to-long-thanh-airport-corridor-5015145.html", "render (pylon close-up)"),
+    press("https://cdn2.tuoitre.vn/thumb_w/730/471584752817336320/2026/9/29/phoi-canh-cau-cat-lai-1-17906548892801634837356.jpg", "Tuổi Trẻ", "https://tuoitre.vn/khoi-cong-cau-cat-lai-va-cau-long-hung-noi-dong-nai-voi-tphcm-100260929111812275.htm", "render (groundbreaking 9/2026)")],
  "cau-long-hung": [
     press("https://static-images.vnncdn.net/vps_images_publish/000001/00000Q/2026/9/30/vietnam-breaks-ground-on-14-billion-bridges-linking-hcmc-dong-nai-0357762bb0234c268c395c13c735948d-1011.jpg?width=0&s=-bm-9gfs17Ugs-fpazsM4A", "VietnamNet", "https://vietnamnet.vn/en/vietnam-breaks-ground-on-1-4-billion-bridges-linking-hcmc-dong-nai-2560272.html", "render"),
     press("https://media.thuonghieucongluan.vn/resize_1200x630/uploads/2026/06/12/lay-1-1781221565.jpg", "Thương hiệu & Công luận", "https://thuonghieucongluan.com.vn/dieu-chinh-von-dau-tu-cau-long-hung-len-hon-12-700-ty-dong-tang-toc-ket-noi-tp-hcm-dong-nai-a322300.html", "render (earlier design option)")],
@@ -827,7 +836,7 @@ PHASE6 = {
     "cau-thuan-an": {"pylon_colour": "white", "stay_colour": "red"},
     "cau-can-tho": {"auxiliary_piers_m": [40, 80, 930, 970]},                # 2×40 m end spans each side
     "cau-ba-son": {"pylon_custom": {"crown": "rounded"}},
-    "cau-cat-lai": {"pylon_custom": {"crown": "rounded"}},
+    # cau-cat-lai: the 'rounded' crown entry was wrong (round 10: 'giọt nước' pylon with two separate tips, research/shapes/cau-cat-lai.json)
     # cau-phuoc-an: the 'rounded' crown entry was wrong (round 9: pointed 'giọt nước' apex, research/shapes/cau-phuoc-an.json)
 }
 
@@ -1034,6 +1043,8 @@ EXPECT_R1 = {
     # round 2 (research/model-review/brief-round2-thuong-cat.md)
     "cau-thuong-cat": {"spans_m": [120, 270, 270, 120], "pylon_heights_m": [70, 80, 70], "pylon_height_ref": "above_deck",
                        "deck_width_m": 35.0, "deck_type": "concrete", "deck_elevation_m": 25, "cables_per_side": 13},
+    # round 10 (research/model-review/brief-r10-cat-lai.md)
+    "cau-cat-lai": {"deck_width_m": 33.5, "cables_per_side": 22, "deck_elevation_m": 50},
 }
 
 # ---------------- MERGE images + model3d into each bridge ----------------
@@ -1238,7 +1249,29 @@ for b in B:
         assert any("thanhtra.com.vn" in u for u in b["sources"]) and any("trungnamec" in u for u in b["sources"]), b["sources"]
         assert sum("Báo Xây dựng / CafeF" == im["credit"] for im in b["images"]) == 3, b["images"]
         assert "Placeholder" not in m["notes"] and "137.5 + 250 + 137.5" in b["notes"], (m["notes"], b["notes"])
-    assert b["id"] == "cau-phuoc-an" or not ({"deck_closed", "main_stay_deck_m"} & set(m)), (b["id"], "G15/G16 opt-in")
+    if b["id"] == "cau-cat-lai":   # round 10 (brief-r10-cat-lai.md): TEDI SD01 'giọt nước' pylon straddling the deck
+        pc = m["pylon_custom"]
+        assert m["spans_m"] == [190, 450, 190] and m["auxiliary_piers_m"] == [70, 760], m
+        assert m["pylon_heights_m"] == [175, 175] and m["pylon_height_ref"] == "total" and m["pylon_shape"] == "other", m
+        assert (m["deck_elevation_m"], m["deck_crest_m"], m["deck_depth_m"], m["deck_type"]) == (50, 11, 3.5, "composite"), m
+        assert m["cable_pattern"] == "semi_fan" and m["cable_planes"] == 2 and m["stay_colour"] == "white" and m["pylon_colour"] == "white", m
+        assert m["back_stay_deck_m"] == [22, 186] and m["main_stay_deck_m"] == [22, 218] and "deck_closed" not in m, m
+        assert "crown" not in pc and "crossbeams_y_m" not in pc, "no crown (two separate tips), panels instead of a straight bar"
+        assert len(pc["legs"]) == 2 and len(pc["panels"]) == 4 and pc["pile_cap"]["top_y_m"] == -48.3, pc
+        for leg in pc["legs"]:
+            at0 = [p for p in leg["centerline"] if p[1] == 0]
+            assert len(at0) == 1 and abs(at0[0][2]) >= 17, "legs stand outside the 33.5 m deck"
+            assert leg["centerline"][-1][1] == 117 and abs(leg["centerline"][-1][2]) == 7.2, "separate tips at 117"
+            assert max(abs(p[2]) for p in leg["centerline"] if p[1] < 0) == 22, "drop-shaped loop below the deck"
+        assert [(z["leg"], z["y_from_m"], z["y_to_m"]) for z in pc["anchor_zone"]] == [(0, 74, 103), (1, 74, 103)], pc
+        assert b["width_m"] == 33.5 and b["span_arrangement"] == "190 + 450 + 190 m", b
+        assert "giọt nước" in b["pylons"] and "water drop" in b["pylons_en"] and "175" in b["pylons_en"], b
+        assert "rounded" not in b["pylons_en"] and "twin swords" not in b["pylons_en"] and "song kiếm" not in b["pylons"], "no Long Hưng / old crown text"
+        assert "24,003" in b["cost"] and "TEDI" in b["investor"] and "37 m" not in m["notes"], (b["cost"], m["notes"])
+        assert any("dantri.com.vn" in u for u in b["sources"]) and any("152342" in u for u in b["sources"]), b["sources"]
+    G15_OK = {"cau-phuoc-an", "cau-cat-lai"}   # G15 main_stay_deck_m opt-in (r9 Phước An, r10 Cát Lái)
+    assert b["id"] in G15_OK or "main_stay_deck_m" not in m, (b["id"], "G15 opt-in")
+    assert b["id"] == "cau-phuoc-an" or "deck_closed" not in m, (b["id"], "G16 opt-in")
     if b["id"] == "cau-ben-rung":     # round 5: foundation (pile cap + columns), 22 m deck, 25° blades, 12 stays
         pc = m["pylon_custom"]
         assert m["deck_elevation_m"] == 22 and m["cables_per_side"] == 12 and m["cable_pattern"] == "semi_fan", m

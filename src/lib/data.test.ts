@@ -687,8 +687,63 @@ describe.each(files)('%s', (file) => {
     // the centre of the main span is unstayed: 250 − 2 × 105 = 40 m between the outermost main stays
     const mainXs = g.cables.filter((c) => !c.back).map((c) => c.deck[0]);
     expect(Math.min(...mainXs.filter((x) => x > 262.5)) - Math.max(...mainXs.filter((x) => x < 262.5))).toBeCloseTo(40, 6);
-    // G15/G16 are opt-in: no other bridge sets them (other under-construction bridges keep cantilevers)
-    expect(bridges.filter((x) => x.model3d?.deck_closed || x.model3d?.main_stay_deck_m).map((x) => x.id)).toEqual(['cau-phuoc-an']);
+    // G15/G16 are opt-in: G16 deck_closed only Phước An; G15 main_stay_deck_m Phước An and Cát Lái (r10)
+    expect(bridges.filter((x) => x.model3d?.deck_closed).map((x) => x.id)).toEqual(['cau-phuoc-an']);
+    expect(bridges.filter((x) => x.model3d?.main_stay_deck_m).map((x) => x.id).sort()).toEqual(['cau-cat-lai', 'cau-phuoc-an']);
+  });
+
+  it('Cát Lái (round 10): TEDI "giọt nước" pylon straddling the 33.5 m deck, loop below, two separate tips, 22 semi-fan stays', () => {
+    const b = bridges.find((x) => x.id === 'cau-cat-lai');
+    if (!b?.model3d?.pylon_custom || file.endsWith('.sample.json')) return;
+    const m = b.model3d;
+    const pc = m.pylon_custom!;
+    expect(b.status).toBe('under_construction');
+    expect(m.deck_closed).toBeUndefined();
+    expect(pc.crown).toBeUndefined();
+    expect(pc.crossbeams_y_m).toBeUndefined();
+    expect(b.width_m).toBe(33.5);
+    expect(b.span_arrangement).toBe('190 + 450 + 190 m');
+    expect(b.pylons_en).toContain('water drop');
+    expect(b.pylons_en).not.toMatch(/rounded|twin swords/);
+    // legs stand outside the deck edges (±16.75) at deck level, bow out to ±22 below it, end in separate tips at ±7.2
+    for (const leg of pc.legs) {
+      const at0 = leg.centerline.find((p) => p[1] === 0)!;
+      expect(Math.abs(at0[2])).toBeGreaterThanOrEqual(17);
+      expect(Math.max(...leg.centerline.filter((p) => p[1] < 0).map((p) => Math.abs(p[2])))).toBe(22);
+      expect(leg.centerline[leg.centerline.length - 1]).toEqual([0, 117, Math.sign(at0[2]) * 7.2]);
+    }
+    const g = buildBridgeGeometry(m, b.status, { navClearance: b.nav_clearance })!;
+    expect(g.warnings).toEqual([]);
+    const full = buildBridgeGeometry(m, 'completed', { navClearance: b.nav_clearance })!;
+    expect(full.warnings).toEqual([]);
+    expect(g.pylons.map((p) => p.x)).toEqual([190, 640]);
+    expect(g.auxiliaryPiers).toEqual([70, 760]);
+    expect(g.deckElevation).toBe(50);
+    expect(g.deckY(415)).toBeCloseTo(61, 6);
+    expect(g.colours.stay).toBe('white');
+    // under construction: balanced cantilevers, not a closed deck
+    expect(g.travellers.length).toBeGreaterThan(0);
+    for (const p of g.pylons) {
+      expect(g.deckY(p.x)).toBeCloseTo(57.77, 1);
+      expect(Math.round(p.labelHeight)).toBe(175);
+      // 2 legs + 4 panels (under-deck arch beam, waist web, top link, base knot); no straight crossbeam; one plinth
+      expect(p.sweeps).toHaveLength(6);
+      expect(p.members).toHaveLength(0);
+      expect(p.caps).toHaveLength(1);
+      // stays only on the built cantilevers; the completed bridge has 22 per side per plane, 2 planes,
+      // back stays 22–186 m and main stays 22–218 m from the pylon
+      const built = g.cables.filter((c) => c.pylon === p.index);
+      expect(built.length).toBeGreaterThan(0);
+      expect(built.length).toBeLessThan(22 * 2 * 2);
+      const cs = full.cables.filter((c) => c.pylon === p.index);
+      expect(cs).toHaveLength(22 * 2 * 2);
+      for (const c of cs) {
+        const d = Math.abs(c.deck[0] - p.x);
+        expect(d).toBeGreaterThan(22 - 1e-6);
+        expect(d).toBeLessThan((c.back ? 186 : 218) + 1e-6);
+        expect(Math.sign(c.top[2])).toBe(Math.sign(c.deck[2]));
+      }
+    }
   });
 
   it('pylon_custom has only schema keys (incl. G12 colours and G13 panels)', () => {

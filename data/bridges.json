@@ -4452,12 +4452,14 @@
     "opened": 2029,
     "main_span_m": 450,
     "total_length_m": 11600,
+    "width_m": 33.5,
     "lanes": 8,
     "cable_stayed_spans": 1,
-    "pylons": "2 tháp hai chân khép vòm tròn ở đỉnh, cao ≈170 m",
-    "pylons_en": "2 twin-leg pylons closing in a rounded arch at the top, ≈170 m",
-    "investor": "Liên danh do CC1 dẫn đầu (PPP-BT)",
-    "cost": "≈20,600–24,000 tỷ VND",
+    "span_arrangement": "190 + 450 + 190 m",
+    "pylons": "2 tháp hình giọt nước: hai chân ôm mặt cầu, khép thành vòng tròn dưới mặt cầu, thu lại trên cao thành hai lưỡi song song có khe, hai đỉnh tách; cao ≈175 m (ước tính)",
+    "pylons_en": "2 'water drop' pylons: legs straddle the deck, loop together below it on one footing, and narrow above into two slotted parallel blades with separate tips; ≈175 m (estimated)",
+    "investor": "Liên danh CC1 (doanh nghiệp dự án CC1 Cát Lái); thiết kế TEDI",
+    "cost": "≈24,000 tỷ VND (24,003 tỷ after the 6/2026 adjustment; bridge sub-project ≈14,920 tỷ, PPP-BT)",
     "nav_clearance": {
       "height_m": 55,
       "width_m": 230,
@@ -4470,136 +4472,463 @@
         450,
         190
       ],
+      "auxiliary_piers_m": [
+        70,
+        760
+      ],
       "pylon_shape": "other",
       "pylon_heights_m": [
-        170,
-        170
+        175,
+        175
       ],
       "pylon_height_ref": "total",
+      "deck_elevation_m": 50,
+      "deck_crest_m": 11,
+      "deck_depth_m": 3.5,
       "cable_planes": 2,
-      "cable_pattern": "fan",
-      "deck_width_m": 38.0,
+      "cable_pattern": "semi_fan",
+      "cables_per_side": 22,
+      "back_stay_deck_m": [
+        22,
+        186
+      ],
+      "main_stay_deck_m": [
+        22,
+        218
+      ],
+      "deck_width_m": 33.5,
       "deck_type": "composite",
+      "pylon_colour": "white",
+      "stay_colour": "white",
       "confidence": "estimated",
-      "notes": "Spans 190–450–190 m and a ≥230 × 55 m navigation clearance (cafeland.vn). Two cable planes (press). Pylon height and deck width (8 lanes) estimated. Inverted-Y pylons read from the VnExpress render (1/2026). VnExpress render (1/2026).",
       "pylon_custom": {
-        "description": "Pylon stands in the MEDIAN (inside the deck): two legs rise ±9.5 m apart (central lanes pass between them) at deck level, close to touch ≈44 m up, open again into a tall 'eye' (≈7 m) and close in a rounded crown at ≈116 m. Two stay planes fan from the eye section out to the deck edges.",
+        "description": "'Water drop' (giọt nước) pylon, TEDI competition design SD01: two blade legs stand just outside the deck edges at deck level; below the deck they bow outward and sweep together into a round-bottomed loop on a single footing (the belly of the drop); a deep beam with an arched soffit carries the deck between the legs. Above the deck the legs converge to a waist at ≈0.6 of the above-deck height, joined by a web with an arched soffit, run up as two close parallel blades around a tall slot (eye), are tied by a short link with an arched soffit near the top and end in two separate tips flaring slightly apart. Two inclined stay planes from the slot section to the deck edges.",
         "legs": [
           {
             "centerline": [
               [
                 0,
-                -40,
-                -7.0
+                -46,
+                -2.5
+              ],
+              [
+                0,
+                -43,
+                -7
+              ],
+              [
+                0,
+                -38,
+                -13
+              ],
+              [
+                0,
+                -30,
+                -19
+              ],
+              [
+                0,
+                -20,
+                -22
+              ],
+              [
+                0,
+                -10,
+                -21.5
               ],
               [
                 0,
                 0,
-                -9.5
+                -19.5
               ],
               [
                 0,
-                25,
-                -5.5
+                20,
+                -15.5
               ],
               [
                 0,
-                46,
-                -2.0
+                40,
+                -10.5
               ],
               [
                 0,
-                62,
+                56,
+                -6.5
+              ],
+              [
+                0,
+                68,
+                -4.8
+              ],
+              [
+                0,
+                84,
                 -4.6
               ],
               [
                 0,
-                96,
-                -4.6
+                100,
+                -4.8
               ],
               [
                 0,
-                110,
-                -2.6
+                108,
+                -5.8
               ],
               [
                 0,
                 117,
-                0
+                -7.2
               ]
             ],
-            "width_base_m": 4.0,
-            "width_top_m": 2.6
+            "width_base_m": 6.0,
+            "width_top_m": 4.0,
+            "depth_base_m": 9.0,
+            "depth_top_m": 6.0
           },
           {
             "centerline": [
               [
                 0,
-                -40,
-                7.0
+                -46,
+                2.5
+              ],
+              [
+                0,
+                -43,
+                7
+              ],
+              [
+                0,
+                -38,
+                13
+              ],
+              [
+                0,
+                -30,
+                19
+              ],
+              [
+                0,
+                -20,
+                22
+              ],
+              [
+                0,
+                -10,
+                21.5
               ],
               [
                 0,
                 0,
-                9.5
+                19.5
               ],
               [
                 0,
-                25,
-                5.5
+                20,
+                15.5
               ],
               [
                 0,
-                46,
-                2.0
+                40,
+                10.5
               ],
               [
                 0,
-                62,
+                56,
+                6.5
+              ],
+              [
+                0,
+                68,
+                4.8
+              ],
+              [
+                0,
+                84,
                 4.6
               ],
               [
                 0,
-                96,
-                4.6
+                100,
+                4.8
               ],
               [
                 0,
-                110,
-                2.6
+                108,
+                5.8
               ],
               [
                 0,
                 117,
-                0
+                7.2
               ]
             ],
-            "width_base_m": 4.0,
-            "width_top_m": 2.6
+            "width_base_m": 6.0,
+            "width_top_m": 4.0,
+            "depth_base_m": 9.0,
+            "depth_top_m": 6.0
           }
         ],
-        "crossbeams_y_m": [
-          -3
+        "panels": [
+          {
+            "top": [
+              [
+                -19,
+                -3.5
+              ],
+              [
+                19,
+                -3.5
+              ]
+            ],
+            "bottom": [
+              [
+                -19,
+                -13
+              ],
+              [
+                -16,
+                -9
+              ],
+              [
+                -10,
+                -7.4
+              ],
+              [
+                0,
+                -7
+              ],
+              [
+                10,
+                -7.4
+              ],
+              [
+                16,
+                -9
+              ],
+              [
+                19,
+                -13
+              ]
+            ],
+            "depth_m": 7.0
+          },
+          {
+            "top": [
+              [
+                -5.5,
+                76
+              ],
+              [
+                -4.6,
+                73
+              ],
+              [
+                -3.5,
+                71.2
+              ],
+              [
+                -2,
+                70.3
+              ],
+              [
+                0,
+                70
+              ],
+              [
+                2,
+                70.3
+              ],
+              [
+                3.5,
+                71.2
+              ],
+              [
+                4.6,
+                73
+              ],
+              [
+                5.5,
+                76
+              ]
+            ],
+            "bottom": [
+              [
+                -5.5,
+                57
+              ],
+              [
+                -4.5,
+                61.5
+              ],
+              [
+                -3,
+                64.3
+              ],
+              [
+                0,
+                65.5
+              ],
+              [
+                3,
+                64.3
+              ],
+              [
+                4.5,
+                61.5
+              ],
+              [
+                5.5,
+                57
+              ]
+            ],
+            "depth_m": 6.0
+          },
+          {
+            "top": [
+              [
+                -5.5,
+                107
+              ],
+              [
+                -4.6,
+                105
+              ],
+              [
+                -2.5,
+                104
+              ],
+              [
+                0,
+                103.6
+              ],
+              [
+                2.5,
+                104
+              ],
+              [
+                4.6,
+                105
+              ],
+              [
+                5.5,
+                107
+              ]
+            ],
+            "bottom": [
+              [
+                -5.5,
+                94
+              ],
+              [
+                -4.6,
+                97
+              ],
+              [
+                -3.5,
+                98.6
+              ],
+              [
+                -2,
+                99.3
+              ],
+              [
+                0,
+                99.5
+              ],
+              [
+                2,
+                99.3
+              ],
+              [
+                3.5,
+                98.6
+              ],
+              [
+                4.6,
+                97
+              ],
+              [
+                5.5,
+                94
+              ]
+            ],
+            "depth_m": 5.5
+          },
+          {
+            "top": [
+              [
+                -9,
+                -44.5
+              ],
+              [
+                -6.5,
+                -42.2
+              ],
+              [
+                -3.5,
+                -41
+              ],
+              [
+                0,
+                -40.6
+              ],
+              [
+                3.5,
+                -41
+              ],
+              [
+                6.5,
+                -42.2
+              ],
+              [
+                9,
+                -44.5
+              ]
+            ],
+            "bottom": [
+              [
+                -9,
+                -48.3
+              ],
+              [
+                9,
+                -48.3
+              ]
+            ],
+            "depth_m": 9.0
+          }
         ],
+        "pile_cap": {
+          "length_x_m": 30,
+          "width_z_m": 36,
+          "top_y_m": -48.3,
+          "thickness_m": 4,
+          "rounded_ends": false
+        },
         "anchor_zone": [
           {
-            "y_from_m": 62,
-            "y_to_m": 110,
+            "y_from_m": 74,
+            "y_to_m": 103,
             "leg": 0
           },
           {
-            "y_from_m": 62,
-            "y_to_m": 110,
+            "y_from_m": 74,
+            "y_to_m": 103,
             "leg": 1
           }
         ],
         "mirror_for_other_pylons": true,
         "reference_images": [
-          "https://i1-vnexpress.vnecdn.net/2026/01/29/gen-h-z7480267955959-ba79feb88a7a279aae8ce8175156fea7-1769679191-1769686927-1769696745.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=AcNEih9NX7kBNJoD0LwqfQ"
-        ],
-        "crown": "rounded"
+          "https://i1-vnexpress.vnecdn.net/2026/01/29/gen-h-z7480267914791-aca5fbb4a84f33cf6c6299b10ddb3b1b-1769679190.jpg",
+          "https://cdn2.tuoitre.vn/471584752817336320/2026/1/29/cau-cat-lai-3-1769696367163316351776.jpg",
+          "https://cdn2.tuoitre.vn/471584752817336320/2026/9/29/phoi-canh-cau-cat-lai-1-17906548892801634837356.jpg",
+          "https://baoxaydung.mediacdn.vn/603483875699699712/2026/1/29/2-1769673843290160434896.png"
+        ]
       },
-      "pylon_colour": "white"
+      "notes": "TEDI design SD01 (competition 1st prize, approved 26/1/2026). Spans 190 + 450 + 190 m, ≥230 × 55 m clearance (Báo Đồng Nai / cafeland). Deck 33.5 m, 8 lanes, composite steel girder (Đồng Nai 6/2026 scale; 1thegioi / Dân Trí). 'Water drop' pylons read from the official renders. Pylon ≈175 m above water, deck ≈58 m at the pylons and ≈61 m at mid-span, auxiliary pier ≈120 m from each pylon and 22 stays per side per plane are measured or estimated from renders. Official renders (VnExpress / Tuổi Trẻ / Báo Xây dựng, 2026)."
     },
     "lat": 10.7547,
     "lng": 106.79,
@@ -4609,6 +4938,18 @@
         "credit": "VnExpress (Đồng Nai Dept. of Construction render)",
         "license": "unknown",
         "source": "https://e.vnexpress.net/photo/traffic/vietnam-unveils-794m-cable-bridge-design-linking-ho-chi-minh-city-to-long-thanh-airport-corridor-5015145.html"
+      },
+      {
+        "url": "https://i1-vnexpress.vnecdn.net/2026/01/29/gen-h-z7480267914791-aca5fbb4a84f33cf6c6299b10ddb3b1b-1769679190.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=5QSvcQadK4N2YWCVCd6nSw",
+        "credit": "VnExpress (Đồng Nai Dept. of Construction render)",
+        "license": "unknown",
+        "source": "https://e.vnexpress.net/photo/traffic/vietnam-unveils-794m-cable-bridge-design-linking-ho-chi-minh-city-to-long-thanh-airport-corridor-5015145.html"
+      },
+      {
+        "url": "https://cdn2.tuoitre.vn/thumb_w/730/471584752817336320/2026/9/29/phoi-canh-cau-cat-lai-1-17906548892801634837356.jpg",
+        "credit": "Tuổi Trẻ",
+        "license": "unknown",
+        "source": "https://tuoitre.vn/khoi-cong-cau-cat-lai-va-cau-long-hung-noi-dong-nai-voi-tphcm-100260929111812275.htm"
       }
     ],
     "sources": [
@@ -4616,10 +4957,16 @@
       "https://www.vietnamplus.vn/khoi-cong-2-cau-chien-luoc-ket-noi-thanh-pho-dong-nai-thanh-pho-ho-chi-minh-post1138956.vnp",
       "https://e.vnexpress.net/photo/traffic/vietnam-unveils-794m-cable-bridge-design-linking-ho-chi-minh-city-to-long-thanh-airport-corridor-5015145.html",
       "https://moc.gov.vn/vn/tin-tuc/1184/90985/cau-cat-lai-18-300-ti-dong-noi-dong-nai--tp-ho-chi-minh-dong-tho-vao-ngay-151.aspx",
+      "https://dantri.com.vn/thoi-su/dong-nai-khoi-cong-2-cau-noi-tphcm-gan-37000-ty-dong-20260929111134692.htm",
+      "https://tuoitre.vn/khoi-cong-cau-cat-lai-va-cau-long-hung-noi-dong-nai-voi-tphcm-100260929111812275.htm",
+      "https://1thegioi.vn/cau-cat-lai-va-cau-long-hung-cong-nghe-gap-ngon-ngu-kien-truc-258897.html",
+      "https://baodongnai.com.vn/kinh-te/ha-tang-du-an/202601/chum-anh-kien-truc-cau-cat-lai-voi-y-tuong-vuon-tam-cao-moi-e6509d9/",
+      "https://cafeland.vn/tin-tuc/quy-mo-moi-cua-cau-cat-lai-noi-tphcm-voi-dong-nai-vua-duoc-dieu-chinh-152342.html",
+      "https://cafeland.vn/tin-tuc/toan-canh-noi-xay-cau-cat-lai-sau-dong-tho-khu-vuc-nay-dang-ra-sao-150238.html",
       "https://www.openstreetmap.org (Overpass query, bridge way centre, retrieved 2026-11-25)"
     ],
     "confidence": "needs_check",
-    "notes": "Groundbreaking 15/1/2026; construction start 29/9/2026. VietnamPlus describes a 'composite steel girder', while VietnamNet and other sources say cable-stayed with a 450 m main span. Total length includes approaches. 55 m navigation clearance. Coordinates are the OSM proposed alignment. Link-only images (press/official, license unknown): VnExpress (Đồng Nai Dept. of Construction render) – render."
+    "notes": "Groundbreaking (động thổ) 15/1/2026; construction of the bridge sub-project started 29/9/2026, completion 2029. TEDI design 'Vươn tầm cao mới' (SD01, competition 1st prize, approved 26/1/2026): two 'water drop' pylons. Main bridge 190 + 450 + 190 m, 33.5 m, 8 lanes, composite steel girder (an older pre-feasibility scheme had a PC box built by balanced cantilever). Total 11.6 km includes the approach roads (bridge + approaches ≈3.65 km). 55 m clearance. Pylon height not published (≈175 m from renders; 175 m / 37 m / 'twin swords' in some articles are Long Hưng's). Coordinates are the OSM proposed alignment. Link-only images (press/official, license unknown): VnExpress (Đồng Nai Dept. of Construction render) – render; VnExpress (Đồng Nai Dept. of Construction render) – render (pylon close-up); Tuổi Trẻ – render (groundbreaking 9/2026)."
   },
   {
     "id": "cau-ngoc-hoi",
