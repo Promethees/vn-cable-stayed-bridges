@@ -121,7 +121,7 @@ add(id="cau-rach-mieu", name_vi="Cầu Rạch Miễu", name_en="Rạch Miễu Br
 add(id="cau-rach-mieu-2", name_vi="Cầu Rạch Miễu 2", name_en="Rạch Miễu 2 Bridge", status="completed",
     province="Đồng Tháp – Vĩnh Long", province_former=["Tiền Giang", "Bến Tre"], crosses="Sông Tiền",
     roads=["QL60B"], construction_start=2022, opened=2025, main_span_m=270, total_length_m=1954,
-    width_m=17.5, lanes=4, cable_stayed_spans=1, span_arrangement="120 + 270 + 120 m",
+    width_m=21.5, lanes=4, cable_stayed_spans=1, span_arrangement="120 + 270 + 120 m",
     pylons="2 tháp chữ H (hai cột đứng, dầm ngang trên ở khoảng giữa chiều cao), cao 116,5 m", cost="6,810 tỷ VND (whole project)",
     lat=10.3368, lng=106.3074,
     sources=["https://vi.wikipedia.org/wiki/C%E1%BA%A7u_R%E1%BA%A1ch_Mi%E1%BB%85u_2", "https://vneconomy.vn/cau-rach-mieu-2-se-khanh-thanh-vao-ngay-19-8-2025.htm", "https://tienphong.vn/can-canh-cau-day-vang-6810-ty-dong-bac-qua-song-tien-post1764558.tpo",
@@ -130,7 +130,7 @@ add(id="cau-rach-mieu-2", name_vi="Cầu Rạch Miễu 2", name_en="Rạch Miễ
     notes="About 3.8 km upstream of Rạch Miễu 1. Opened 19/8/2025. Sources disagree on length (1,954 m vs 1,971.2 m). "
           "Spans 120 + 270 + 120 (Tạp chí GTVT; contractor scope Km5+913–Km6+423 = 510 m); Wikipedia's 117 + 270 + 117 is the original Rạch Miễu's arrangement. "
           "Pylon 116.5 m (contractor) / 113 m (press). 112 stays in 2 planes. "
-          "Width: 17.5 m (Wikipedia, ground-breaking; photo-measured) vs 21.5 m (VnExpress, Trung Nam closure note).")
+          "Width 21.5 m (VnExpress, Trung Nam closure note; client-confirmed 2026-11-28); 17.5 m (Wikipedia, ground-breaking) superseded.")
 
 add(id="cau-binh", name_vi="Cầu Bính", name_en="Bính Bridge", status="completed",
     province="Hải Phòng", province_former=["Hải Phòng"], crosses="Sông Cấm",
@@ -393,7 +393,7 @@ M3D = {
     notes="Spans 149.5+300+149.5 and pylon 135.8 m from the foundations (VEC); the press 155 m is Bình Khánh's. Geometry in research/shapes/cau-phuoc-khanh.json (round 7)."),
  "cau-rach-mieu": m3d([117, 270, 117], "inverted_Y", [110, 110], "total", 2, "fan", 12.0, "concrete",
     notes="Spans 117+270+117 (Wikipedia). Inverted-Y (A with single head) pylons and fan stays read from Commons photos. Pylon height estimated; the Wikipedia 'height 117 m' looks like the side span."),
- "cau-rach-mieu-2": m3d([120, 270, 120], "H", [113, 113], "total", 2, "semi_fan", 17.5, "concrete",
+ "cau-rach-mieu-2": m3d([120, 270, 120], "H", [113, 113], "total", 2, "semi_fan", 21.5, "concrete",
     notes="Spans 120 + 270 + 120 (Tạp chí GTVT). H pylons with one upper strut (VnExpress hợp long photos, 4/2025); no auxiliary piers."),
  "cau-binh": m3d([100, 260, 100], "inverted_Y", [101.6, 101.6], "total", 2, "fan", 22.5, "composite",
     notes="260 m main span; side spans estimated. Pylon height 101.6 m and composite steel–concrete girder per press. Pylon shape read from photos."),
@@ -1113,9 +1113,10 @@ for b in B:
         pc = m["pylon_custom"]
         assert m["spans_m"] == [120, 270, 120] and "auxiliary_piers_m" not in m, m
         assert m["cables_per_side"] == 14 and m["stay_colour"] == "white" and m["cable_pattern"] == "semi_fan", m
-        assert m["deck_elevation_m"] == 36 and m["deck_crest_m"] == 6 and m["deck_width_m"] == 17.5, m
+        assert m["deck_elevation_m"] == 36 and m["deck_crest_m"] == 6 and m["deck_width_m"] == 21.5 and b["width_m"] == 21.5, m
         assert len(pc["legs"]) == 2 and pc["crossbeams_y_m"] == [-3, 35] and pc["crossbeam_depth_m"] == 5, pc
         assert all(l["centerline"][-1][1] == 66 and l["centerline"][0][1] == pc["pile_cap"]["top_y_m"] for l in pc["legs"]), pc
+        assert sorted(l["centerline"][0][2] for l in pc["legs"]) == [-13, 13], "columns outside the 21.5 m deck"
         assert [(z["y_from_m"], z["y_to_m"]) for z in pc["anchor_zone"]] == [(31, 61), (31, 61)], pc
         assert pc["pile_cap"]["rounded_ends"] is False and b["span_arrangement"] == "120 + 270 + 120 m", b
         assert "No free image" not in b["notes"] and b["pylons"].startswith("2 tháp chữ H"), b
