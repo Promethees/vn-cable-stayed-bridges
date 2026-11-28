@@ -1,126 +1,251 @@
 {
- "pylons_vi": "2 tháp vòm đỉnh tròn (extradosed)",
- "pylons_en": "2 rounded-arch pylons (extradosed)",
+ "pylons_vi": "2 tháp hình giọt nước (vòm nhọn) bê tông, cao ≈119 m (60 m trên mặt cầu); chân tháp thu hẹp dưới mặt cầu, một dầm ngang",
+ "pylons_en": "2 'water-drop' pointed-arch concrete pylons, ≈119 m (60 m above deck); legs converge below the deck, one strut",
  "model3d": {
   "spans_m": [
-   145,
+   137.5,
    250,
-   145
+   137.5
   ],
   "pylon_shape": "other",
   "pylon_heights_m": [
-   35,
-   35
+   119,
+   119
   ],
-  "pylon_height_ref": "above_deck",
+  "pylon_height_ref": "total",
+  "deck_elevation_m": 54,
+  "deck_crest_m": 6.5,
   "cable_planes": 2,
-  "cable_pattern": "harp",
+  "cable_pattern": "semi_fan",
+  "cables_per_side": 12,
+  "back_stay_deck_m": [
+   24,
+   105
+  ],
+  "main_stay_deck_m": [
+   24,
+   105
+  ],
+  "deck_closed": true,
   "deck_width_m": 27.0,
   "deck_type": "concrete",
   "extradosed": true,
+  "pylon_colour": "#e9e7e1",
+  "stay_colour": "white",
   "confidence": "estimated",
-  "notes": "Extradosed 250 m main span, 27 m deck (press). Pylons are arch-shaped in the Người Quan Sát photo (8/2026). Side spans and pylon height estimated.",
+  "notes": "Main bridge 137.5 + 250 + 137.5 m (525 m, T37–T40), extradosed 5-web PSC box, 27 m deck. 'Giọt nước' pylons: pointed Gothic arch straddling the deck, 60 m above the deck, ≈119 m total; legs converge below the deck to a 48 × 26 m elliptical cap, one strut. Two planes of semi-fan stays through saddles, ≈12 per side per plane (count read from the 10/2026 aerial; press: 48 bó). Deck closed 24/7/2026. Water at 0; deck ≈54 m at T37/T40, 59 m at the pylons, 60.5 m at mid-span (55 m clearance).",
   "pylon_custom": {
-   "description": "Pointed-arch pylons (two legs straddling the deck, curving inward to a tip) at both main piers; extradosed stays fan from the upper arch to the deck. Shape per the Người Quan Sát image (8/2026); proportions from the 250 m span and 27 m deck.",
+   "description": "'Giọt nước' (water-drop / flame) pylon at T38 and T39: two hollow-box concrete legs in the transverse plane. From a stadium pile cap they rise and splay outward to just outside the deck edges (z ≈ ±16 at deck level), joined below the deck by one transverse strut, then curve inward above the deck to a POINTED apex 60 m above the deck (Gothic arch). Two near-vertical planes of semi-fan stays run through saddles in the upper legs to the deck edges.",
    "legs": [
     {
      "centerline": [
       [
        0,
-       -10,
-       -15
+       -52,
+       -9.5
       ],
       [
        0,
-       12,
-       -13.5
+       -30,
+       -13.0
       ],
       [
        0,
-       30,
-       -8
+       -12,
+       -15.3
       ],
       [
        0,
-       40,
-       -3
+       0,
+       -16.0
+      ],
+      [
+       0,
+       16,
+       -15.3
+      ],
+      [
+       0,
+       32,
+       -12.8
       ],
       [
        0,
        44,
+       -9.0
+      ],
+      [
+       0,
+       53,
+       -4.5
+      ],
+      [
+       0,
+       60,
        0
       ]
      ],
-     "width_base_m": 3.5,
-     "width_top_m": 2.0
+     "width_base_m": 6.0,
+     "width_top_m": 2.5,
+     "depth_base_m": 7.0,
+     "depth_top_m": 3.5
     },
     {
      "centerline": [
       [
        0,
-       -10,
-       15
+       -52,
+       9.5
       ],
       [
        0,
-       12,
-       13.5
+       -30,
+       13.0
       ],
       [
        0,
-       30,
-       8
+       -12,
+       15.3
       ],
       [
        0,
-       40,
-       3
+       0,
+       16.0
+      ],
+      [
+       0,
+       16,
+       15.3
+      ],
+      [
+       0,
+       32,
+       12.8
       ],
       [
        0,
        44,
+       9.0
+      ],
+      [
+       0,
+       53,
+       4.5
+      ],
+      [
+       0,
+       60,
        0
       ]
      ],
-     "width_base_m": 3.5,
-     "width_top_m": 2.0
+     "width_base_m": 6.0,
+     "width_top_m": 2.5,
+     "depth_base_m": 7.0,
+     "depth_top_m": 3.5
+    }
+   ],
+   "crown": "pointed",
+   "struts": [
+    {
+     "a": [
+      0,
+      -28,
+      -12.4
+     ],
+     "b": [
+      0,
+      -28,
+      12.4
+     ],
+     "width": 3.5
+    }
+   ],
+   "panels": [
+    {
+     "top": [
+      [
+       -5.2,
+       52
+      ],
+      [
+       -2.8,
+       57
+      ],
+      [
+       0,
+       60.3
+      ],
+      [
+       2.8,
+       57
+      ],
+      [
+       5.2,
+       52
+      ]
+     ],
+     "bottom": [
+      [
+       -5.2,
+       52
+      ],
+      [
+       0,
+       52.5
+      ],
+      [
+       5.2,
+       52
+      ]
+     ],
+     "depth_m": 3.6
     }
    ],
    "anchor_zone": [
     {
      "y_from_m": 18,
-     "y_to_m": 40,
+     "y_to_m": 42,
      "leg": 0
     },
     {
      "y_from_m": 18,
-     "y_to_m": 40,
+     "y_to_m": 42,
      "leg": 1
     }
    ],
+   "pile_cap": {
+    "length_x_m": 26,
+    "width_z_m": 48,
+    "top_y_m": -52,
+    "thickness_m": 5,
+    "rounded_ends": true
+   },
    "mirror_for_other_pylons": true,
    "reference_images": [
+    "https://cafefcdn.com/203337114487263232/2026/10/27/img4224-17921448362781663170439-1793076853415550427428.jpg",
+    "https://cafefcdn.com/203337114487263232/2026/10/27/img4207-17921448355181727615817-17930767736402027576764.jpg",
+    "https://cafefcdn.com/203337114487263232/2026/10/27/photo-1793077280357-1793077280757507249795.png",
     "https://nqs.1cdn.vn/thumbs/1200x630/2026/08/01/7031_cau-phuoc-an3.jpg"
    ]
   }
  },
- "notes": "Người Quan Sát image shows a rounded crown.",
+ "notes": "r9: pointed (Gothic) apex, solid tip ('giọt nước'); deck closed 24/7/2026 (G16), main-side stays 24–105 m (G15).",
  "id": "cau-phuoc-an",
  "review": [
-  "Apex pointed",
-  "Crown described as rounded",
-  "Render only"
+  "Apex pointed (Gothic 'giọt nước' arch), solid tip; the earlier 'rounded crown' note was wrong (round 9)",
+  "Round 9 (brief-r9-phuoc-an.md): legs run down to a 48 × 26 m elliptical cap with one strut below the deck; 60 m above the deck, ≈119 m total; spans 137.5 + 250 + 137.5",
+  "Good: CafeF / Báo Xây dựng aerials 10/2026 (closed deck), official renders, Hà Nội Mới construction photos 4/2025"
  ],
  "checklist": {
-  "foot below deck": "pass (arch legs onto one round pier)",
-  "legs at deck": "pass",
-  "merge height": "pass (rounded crown)",
-  "crossbeams": "n/a",
-  "head": "pass",
-  "proportions": "pass",
-  "stays": "pass",
-  "deck / aux piers": "limited",
-  "colour": "pass"
+  "foot below deck": "pass (legs converge to an elliptical cap, one strut)",
+  "legs at deck": "pass (z ±16, just outside the 27 m deck)",
+  "merge height": "pass (pointed apex 60 m above the deck, solid tip above ≈52 m)",
+  "crossbeams": "one strut below the deck",
+  "head": "pass (pointed (Gothic) apex, solid tip)",
+  "proportions": "pass (arch width / height ≈0.6; leg spacing cap / deck ≈0.6; label 119 m)",
+  "stays": "pass (2 near-vertical planes, semi-fan, 12 per side per plane, deck anchors 24–105 m on both sides; count medium confidence)",
+  "deck / aux piers": "pass (no aux piers; deck closed)",
+  "colour": "pass (off-white #e9e7e1 pylons, white stays)"
  },
  "pass2": true,
  "compare": "scratchpad only (press/render images, licence unknown)"

@@ -40,6 +40,9 @@ export function model3dProblems(v: unknown): string[] {
     p.push('back_stay_count');
   if (v.back_stay_deck_m !== undefined && !(Array.isArray(v.back_stay_deck_m) && v.back_stay_deck_m.length === 2 && v.back_stay_deck_m.every((x) => isNum(x) && x >= 0)))
     p.push('back_stay_deck_m');
+  if (v.main_stay_deck_m !== undefined && !(Array.isArray(v.main_stay_deck_m) && v.main_stay_deck_m.length === 2 && v.main_stay_deck_m.every((x) => isNum(x) && x >= 0)))
+    p.push('main_stay_deck_m');
+  if (v.deck_closed !== undefined && typeof v.deck_closed !== 'boolean') p.push('deck_closed');
   if (v.deck_section !== undefined && v.deck_section !== 'box' && v.deck_section !== 'truss') p.push('deck_section');
   if (v.deck_depth_m !== undefined && !(isNum(v.deck_depth_m) && v.deck_depth_m > 0)) p.push('deck_depth_m');
   if (v.auxiliary_piers_m !== undefined && !(Array.isArray(v.auxiliary_piers_m) && v.auxiliary_piers_m.every((x) => isNum(x) && x > 0)))

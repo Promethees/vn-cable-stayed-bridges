@@ -488,6 +488,61 @@ describe.each(files)('%s', (file) => {
     expect(g.bounds.max[1]).toBeGreaterThan(g.deckY(165) + 98);
   });
 
+  it('Phước An (round 9): closed deck while under construction (G16), giọt-nước arch on a cap, 12 semi-fan stays 24–105 m (G15)', () => {
+    const b = bridges.find((x) => x.id === 'cau-phuoc-an');
+    if (!b?.model3d?.pylon_custom || file.endsWith('.sample.json')) return;
+    const m = b.model3d;
+    expect(b.status).toBe('under_construction');
+    expect(m.deck_closed).toBe(true);
+    expect(m.pylon_custom!.crown).toBe('pointed');
+    expect(b.span_arrangement).toBe('137.5 + 250 + 137.5 m');
+    const g = buildBridgeGeometry(m, b.status, { navClearance: b.nav_clearance })!;
+    expect(g.warnings).toEqual([]);
+    // G16: one full-length deck, no travellers, status kept
+    expect(g.status).toBe('under_construction');
+    expect(g.deckSegments).toEqual([{ x0: 0, x1: 525 }]);
+    expect(g.travellers).toHaveLength(0);
+    expect(g.auxiliaryPiers).toEqual([]);
+    expect(g.pylons.map((p) => p.x)).toEqual([137.5, 387.5]);
+    // deck 54 at the ends, ≈59 at the pylons, 60.5 at mid-span (clears 55 m, no raise)
+    expect(g.deckElevation).toBe(54);
+    expect(g.deckY(262.5)).toBeCloseTo(60.5, 6);
+    expect(g.colours.pylon).toBe('#e9e7e1');
+    expect(g.colours.stay).toBe('white');
+    for (const p of g.pylons) {
+      const deck = g.deckY(p.x);
+      expect(deck).toBeCloseTo(59.03, 1);
+      expect(p.heightAboveDeck).toBeCloseTo(60, 0);
+      expect(Math.round(p.labelHeight)).toBe(119);
+      // 2 legs + the solid-tip panel; one strut below the deck; the legs stand on the cap ≈2 m above the water
+      expect(p.sweeps).toHaveLength(3);
+      expect(p.members).toHaveLength(1);
+      expect(p.members[0].a[1]).toBeLessThan(deck - 20);
+      expect(p.caps).toHaveLength(1);
+      let low = Infinity;
+      for (const sw of p.sweeps.slice(0, 2)) for (let i = 1; i < sw.positions.length; i += 3) low = Math.min(low, sw.positions[i]);
+      expect(low).toBeGreaterThan(0);
+      expect(low).toBeLessThan(4);
+      // 12 per side per plane, 2 planes, anchored 18–42 m above the deck, deck anchors 24–105 m from the pylon
+      const cs = g.cables.filter((c) => c.pylon === p.index);
+      expect(cs).toHaveLength(12 * 2 * 2);
+      for (const c of cs) {
+        const y = c.top[1] - g.deckY(c.top[0]);
+        expect(y).toBeGreaterThan(17);
+        expect(y).toBeLessThan(43);
+        const d = Math.abs(c.deck[0] - p.x);
+        expect(d).toBeGreaterThan(24 - 1e-6);
+        expect(d).toBeLessThan(105 + 1e-6);
+        expect(Math.sign(c.top[2])).toBe(Math.sign(c.deck[2]));
+      }
+    }
+    // the centre of the main span is unstayed: 250 − 2 × 105 = 40 m between the outermost main stays
+    const mainXs = g.cables.filter((c) => !c.back).map((c) => c.deck[0]);
+    expect(Math.min(...mainXs.filter((x) => x > 262.5)) - Math.max(...mainXs.filter((x) => x < 262.5))).toBeCloseTo(40, 6);
+    // G15/G16 are opt-in: no other bridge sets them (other under-construction bridges keep cantilevers)
+    expect(bridges.filter((x) => x.model3d?.deck_closed || x.model3d?.main_stay_deck_m).map((x) => x.id)).toEqual(['cau-phuoc-an']);
+  });
+
   it('pylon_custom has only schema keys (incl. G12 colours and G13 panels)', () => {
     const PC = new Set(['description', 'legs', 'crossbeams_y_m', 'crossbeam_depth_m', 'crown', 'struts', 'panels', 'pile_cap', 'anchor_zone', 'mirror_for_other_pylons', 'reference_images']);
     const LEG = new Set(['centerline', 'width_base_m', 'width_top_m', 'depth_base_m', 'depth_top_m', 'twist_deg', 'colour']);
@@ -507,7 +562,7 @@ describe.each(files)('%s', (file) => {
     const KEYS = new Set([
       'spans_m', 'pylon_shape', 'pylon_heights_m', 'pylon_height_ref', 'cable_planes', 'cable_pattern', 'cables_per_side',
       'deck_width_m', 'deck_type', 'approach_length_m', 'extradosed', 'deck_plan_radius_m', 'deck_crest_m', 'deck_elevation_m',
-      'auxiliary_piers_m', 'pylon_colour', 'stay_colour', 'back_stay_colour', 'deck_colour', 'back_stay_planes', 'back_stay_count', 'back_stay_deck_m', 'deck_section',
+      'auxiliary_piers_m', 'pylon_colour', 'stay_colour', 'back_stay_colour', 'deck_colour', 'back_stay_planes', 'back_stay_count', 'back_stay_deck_m', 'main_stay_deck_m', 'deck_closed', 'deck_section',
       'deck_depth_m', 'colour_mode', 'pylon_custom', 'confidence', 'notes',
     ]);
     for (const b of bridges) {
