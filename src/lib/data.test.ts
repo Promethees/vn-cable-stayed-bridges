@@ -636,6 +636,101 @@ describe.each(files)('%s', (file) => {
     }
   });
 
+  it('Mỹ Thuận (round 10): H legs leaning in to one arched upper beam, posts above, under-deck beam, stadium cap, crested deck, 121 m', () => {
+    const b = bridges.find((x) => x.id === 'cau-my-thuan');
+    if (!b?.model3d?.pylon_custom || file.endsWith('.sample.json')) return;
+    const m = b.model3d;
+    const pc = m.pylon_custom!;
+    expect(m.spans_m).toEqual([150, 350, 150]);
+    expect(m.auxiliary_piers_m).toBeUndefined();
+    expect(m.colour_mode).toBeUndefined();
+    expect(b.nav_clearance?.height_m).toBe(37.5);
+    expect(b.nav_clearance?.width_m).toBe(110);
+    expect(b.notes).toContain('Baulderstone');
+    expect(pc.crossbeams_y_m).toBeUndefined();
+    expect(pc.panels).toHaveLength(2);
+    const g = buildBridgeGeometry(m, 'completed', { navClearance: b.nav_clearance })!;
+    expect(g.warnings).toEqual([]);
+    expect(g.deckElevation).toBe(30);
+    expect(g.deckDepth).toBe(1.8);
+    expect(g.auxiliaryPiers).toEqual([]);
+    expect(g.pylons.map((p) => p.x)).toEqual([150, 500]);
+    // deck 30 at the unit ends, 40.5 at mid-span (≥ 37.5 + 1.8 + 1, so no raise)
+    expect(g.deckY(0)).toBeCloseTo(30, 5);
+    expect(g.deckY(650)).toBeCloseTo(30, 5);
+    expect(g.deckY(325)).toBeCloseTo(40.5, 5);
+    expect(g.colours.stay).toBe('#7aa6cc');
+    expect(g.colours.pylon).toBe('#dcd6c8');
+    expect(g.colours.vivid).toBeFalsy();
+    // legs lean in: c/c at the upper beam ≈ 0.70 × c/c at deck level, foot ≈ 1.2 ×, posts near-vertical at ±9.5–9.7
+    const [l0] = pc.legs.map((l) => l.centerline);
+    const zAt = (y: number) => {
+      for (let i = 1; i < l0.length; i++) {
+        const [, y0, z0] = l0[i - 1];
+        const [, y1, z1] = l0[i];
+        if (y >= y0 && y <= y1) return Math.abs(z0 + ((z1 - z0) * (y - y0)) / (y1 - y0));
+      }
+      throw new Error(`y ${y} outside the leg`);
+    };
+    expect(zAt(43) / zAt(0)).toBeGreaterThan(0.66);
+    expect(zAt(43) / zAt(0)).toBeLessThan(0.74);
+    expect(zAt(-26.4) / zAt(0)).toBeCloseTo(1.22, 1);
+    expect(zAt(46.5) - zAt(83.5)).toBeLessThan(0.3);
+    expect(zAt(83.5)).toBe(9.5);
+    for (const p of g.pylons) {
+      const deck = g.deckY(p.x);
+      // ≈37.46 m deck at the pylons, tips 83.5 m above it, label 121 m
+      expect(deck).toBeCloseTo(30 + 10.5 * (1 - (175 / 325) ** 2), 5);
+      expect(p.heightAboveDeck).toBeCloseTo(83.5, 1);
+      expect(Math.round(p.labelHeight)).toBe(121);
+      expect(p.custom).toBe(true);
+      // 2 legs + 2 panels, no straight crossbeams
+      expect(p.sweeps).toHaveLength(4);
+      expect(p.members).toHaveLength(0);
+      const ysOf = (sw: { positions: ArrayLike<number> }) => {
+        const ys: number[] = [];
+        const mid: number[] = [];
+        const pn = sw.positions;
+        for (let i = 0; i < pn.length; i += 3) {
+          expect(Number.isFinite(pn[i]) && Number.isFinite(pn[i + 1]) && Number.isFinite(pn[i + 2])).toBe(true);
+          ys.push(pn[i + 1] - deck);
+          if (Math.abs(pn[i + 2]) < 1e-9) mid.push(pn[i + 1] - deck);
+        }
+        return { ys, mid };
+      };
+      // upper beam: flat top 45.5, soffit 40.6 at the legs → 41.6 at the crown
+      const up = ysOf(p.sweeps[2]);
+      expect(Math.max(...up.ys)).toBeCloseTo(45.5, 0);
+      expect(Math.min(...up.ys)).toBeCloseTo(40.6, 0);
+      expect(Math.min(...up.mid)).toBeCloseTo(41.6, 0);
+      // under-deck beam: top −1.6, haunched soffit −6.8 → −5.8 (below-deck y stretched by 1 + crest/E)
+      const s = 1 + (deck - 30) / 30;
+      const lo = ysOf(p.sweeps[3]);
+      expect(Math.max(...lo.ys)).toBeCloseTo(-1.6 * s, 0);
+      expect(Math.min(...lo.ys)).toBeCloseTo(-6.8 * s, 0);
+      expect(Math.min(...lo.mid)).toBeCloseTo(-5.8 * s, 0);
+      // a stadium cap standing ≈4.5 m proud of the water
+      expect(p.caps).toHaveLength(1);
+      const cap = ysOf(p.caps[0]);
+      expect(Math.max(...cap.ys) + deck).toBeCloseTo(4.5, 0);
+      // 16 per side per plane (128 stays in all), anchored 47–79 m on the posts, inboard of the deck edges
+      const cs = g.cables.filter((c) => c.pylon === p.index);
+      expect(cs).toHaveLength(16 * 2 * 2);
+      for (const c of cs) {
+        expect(c.top[1] - deck).toBeGreaterThan(46.5);
+        expect(c.top[1] - deck).toBeLessThan(79.5);
+        expect(Math.sign(c.top[2])).toBe(Math.sign(c.deck[2]));
+        expect(Math.abs(c.top[2])).toBeLessThan(Math.abs(c.deck[2]));
+      }
+      // the back fan lands 10.5–149 m from the pylon (toward the unit end)
+      const back = cs.filter((c) => Math.sign(c.deck[0] - p.x) !== Math.sign(325 - p.x));
+      expect(back).toHaveLength(16 * 2);
+      const d = back.map((c) => Math.abs(c.deck[0] - p.x));
+      expect(Math.min(...d)).toBeCloseTo(10.5, 0);
+      expect(Math.max(...d)).toBeCloseTo(149, 0);
+    }
+  });
+
   it('Phước An (round 9): closed deck while under construction (G16), giọt-nước arch on a cap, 12 semi-fan stays 24–105 m (G15)', () => {
     const b = bridges.find((x) => x.id === 'cau-phuoc-an');
     if (!b?.model3d?.pylon_custom || file.endsWith('.sample.json')) return;

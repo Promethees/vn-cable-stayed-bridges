@@ -68,11 +68,12 @@ add(id="cau-binh-khanh", name_vi="Cầu Bình Khánh", name_en="Bình Khánh Bri
 add(id="cau-my-thuan", name_vi="Cầu Mỹ Thuận", name_en="Mỹ Thuận Bridge", status="completed",
     province="Đồng Tháp – Vĩnh Long", province_former=["Tiền Giang", "Vĩnh Long"], crosses="Sông Tiền",
     roads=["QL1A"], construction_start=1997, opened=2000, main_span_m=350, total_length_m=1535,
-    width_m=23.66, lanes=4, cable_stayed_spans=1, span_arrangement="150 + 350 + 150 m", pylons="2 H-shaped pylons, 120 m above high water",
+    width_m=23.66, lanes=4, cable_stayed_spans=1, span_arrangement="150 + 350 + 150 m", pylons="2 H pylons: straight legs leaning inward from the pile cap to one upper crossbeam (≈half the above-deck height), then two vertical posts carrying the stays; deep under-deck crossbeam; 123.5 m above the pile cap, 84.43 m above the deck (≈120 m above high water)",
     cost="≈A$91 million", lat=10.2775, lng=105.9100,
     images=[img(U+"5/58/C%E1%BA%A7u_M%E1%BB%B9_Thu%E1%BA%ADn_%286297673871%29.jpg", "Quang Vũ Trương", "CC BY 2.0", C+"C%E1%BA%A7u_M%E1%BB%B9_Thu%E1%BA%ADn_(6297673871).jpg")],
-    sources=[W+"My_Thuan_Bridge", LIST, OSM], confidence="verified",
-    notes="Vietnam's first large cable-stayed bridge. Opened 21/5/2000. Wikipedia gives total length as both 1,535 m and 1,560 m. Span arrangement from general knowledge of the 150+350+150 layout; the article lists only the 350 m main span.")
+    sources=[W+"My_Thuan_Bridge", LIST, OSM, "https://tedi.vn/project/cau-my-thuan/",
+             "https://vi.wikipedia.org/wiki/C%E1%BA%A7u_M%E1%BB%B9_Thu%E1%BA%ADn", "https://aecom.com/projects/thuan-bridge/"], confidence="verified",
+    notes="Vietnam's first large cable-stayed bridge. Opened 21/5/2000. Spans 150 + 350 + 150 m (cable-stayed section 660 m incl. 5 m past each anchor pier; approaches 875.2 m, 22 Super-T spans) per TEDI. Design Maunsell McIntyre (AECOM); built by Baulderstone Hornibrook with Cienco 6. Wikipedia gives total length as both 1,535 m and 1,560 m; TEDI 1,535.2 m.")
 
 add(id="cau-my-thuan-2", name_vi="Cầu Mỹ Thuận 2", name_en="Mỹ Thuận 2 Bridge", status="completed",
     province="Đồng Tháp – Vĩnh Long", province_former=["Tiền Giang", "Vĩnh Long"], crosses="Sông Tiền",
@@ -404,8 +405,8 @@ M3D = {
     notes="162.5+380+162.5 = 705 m (Wikipedia list / JPCI). H pylons per press. Height 145 m per Wikipedia (Người Quan Sát says 162.5 m, which is probably the side span confused with height)."),
  "cau-binh-khanh": m3d([187.25, 375, 187.25], "H", [155, 155], "total", 2, "fan", 30.35,
     notes="Placeholder; replaced by research/shapes/cau-binh-khanh.json (round 7)."),
- "cau-my-thuan": m3d([150, 350, 150], "H", [120, 120], "total", 2, "semi_fan", 23.66, "concrete", cps=16,
-    notes="150+350+150 m; H pylons ≈120 m above high water (Wikipedia; counted here as total). 128 stays in total, so 16 per pylon side per plane. Concrete deck."),
+ "cau-my-thuan": m3d([150, 350, 150], "H", [121, 121], "total", 2, "semi_fan", 23.66, "concrete", cps=16,
+    notes="Spans 150 + 350 + 150 (TEDI), no auxiliary piers. H pylons 123.5 m above the pile-cap top and 84.43 m above the deck (TEDI); ≈120 m above high water (press), drawn ≈121 m above the water. 128 stays = 16 per side per plane. Concrete girder, 23.66 m deck. Geometry in research/shapes/cau-my-thuan.json (round 10)."),
  "cau-my-thuan-2": m3d([150, 350, 150], "inverted_Y", [125, 125], "total", 2, "semi_fan", 28.0, "concrete",
     notes="Spans 150+350+150 (Wikipedia list; press '650 m' = whole unit). Inverted-Y pylons read from press photos (SGGP 2023). Pylon height not published (estimated). Deck 25–28 m by source."),
  "cau-cao-lanh": m3d([150, 350, 150], "H", [120, 120], "total", 2, "semi_fan", 24.5, "concrete", conf="verified",
@@ -632,7 +633,7 @@ NAV = {
  "cau-vam-cong": nav(37.5, None, "for 10,000 DWT ships", "https://tedi.vn/project/cau-vam-cong/"),
  "cau-phu-my": nav(45, 200, "width 200 m from a travel blog only (mytour.vn)", "https://24hmoney.vn/news/tp-hcm-de-xuat-mo-rong-cau-phu-my-len-it-nhat-8-lan-c27a2807656.html"),
  "cau-binh-khanh": nav(55, 242, "VECC: 55 m, L = 242 m; 20,000 DWT design vessel", "https://vecc.com.vn/project/duong-cao-toc-ben-luc-long-thanh/?lang=en"),
- "cau-my-thuan": nav(37.5, 110, None, "https://mytour.vn/vi/blog/bai-viet/cau-my-thuan.html"),
+ "cau-my-thuan": nav(37.5, 110, None, "https://tedi.vn/project/cau-my-thuan/"),
  "cau-cao-lanh": nav(37.5, None, None, "https://vtcnews.vn/thong-xe-cay-cau-lon-thu-2-o-mien-tay-d401815.html"),
  "cau-phuoc-khanh": nav(55, 242, None, "https://vecc.com.vn/project/duong-cao-toc-ben-luc-long-thanh/?lang=en"),
  "cau-rach-mieu": nav(37.5, 70, None, "https://nguoiquansat.vn/cay-cau-day-vang-dau-tien-do-viet-nam-xay-dung-se-cam-o-to-trong-3-ngay-150152.html"),
@@ -803,7 +804,7 @@ DROP_IMAGES = {
 # Colours are rendered muted in 3D. Sources: research/shapes/<id>.json "colour" and model3d.notes.
 PHASE6 = {
     "cau-bai-chay": {"stay_colour": "yellow", "deck_crest_m": 8.0},          # crest estimated from side photos
-    "cau-my-thuan": {"deck_crest_m": 6.0},                                   # vertical crest noted in the review; rise estimated
+    "cau-my-thuan": {"deck_crest_m": 10.5},                                  # round 10: E 30 + crest 10.5 → 30 / 37.5 / 40.5 (shape file sets it too)
     "cau-bach-dang": {"stay_colour": "orange"},
     "cau-rach-mieu": {"stay_colour": "orange"},
     "cau-tran-thi-ly": {"pylon_colour": "white", "stay_colour": "white", "back_stay_colour": "red"},
@@ -1019,7 +1020,7 @@ del REVIEW_R1["cau-long-hung"]["pylon_custom"]
 scale_custom(REVIEW_R1["cau-long-hung"]["set"]["pylon_custom"], 135.5 / 140)
 # keys that must reach data/bridges.json (a regression fails the build)
 EXPECT_R1 = {
-    "cau-bai-chay": {"stay_colour": "yellow", "deck_crest_m": 8.0}, "cau-my-thuan": {"deck_crest_m": 6.0},
+    "cau-bai-chay": {"stay_colour": "yellow", "deck_crest_m": 8.0}, "cau-my-thuan": {"deck_crest_m": 10.5, "cables_per_side": 16, "stay_colour": "#7aa6cc"},
     "cau-bach-dang": {"stay_colour": "orange"}, "cau-rach-mieu": {"stay_colour": "orange"},
     "cau-tran-thi-ly": {"pylon_colour": "white", "stay_colour": "white", "back_stay_colour": "red", "back_stay_planes": 2,
                         "spans_m": [200, 230], "auxiliary_piers_m": [50, 100, 150], "deck_elevation_m": 11, "deck_width_m": 34.5,
@@ -1262,6 +1263,31 @@ for b in B:
         assert b["width_m"] == 38.3 and b["span_arrangement"] == "165 + 350 + 165 m" and b["lanes"] == 8, b
         assert "Cổng Mặt Trời" in b["pylons"] and "Sun Gate" in b["pylons_en"] and b["confidence"] == "needs_check", b
         assert "derived" not in m["notes"] and "Width 32.3–38.3" not in b["notes"], (m["notes"], b["notes"])
+    if b["id"] == "cau-my-thuan":   # round 10: H legs leaning in to one arched upper beam, posts above (brief-r10-my-thuan.md)
+        pc = m["pylon_custom"]
+        assert m["spans_m"] == [150, 350, 150] and "auxiliary_piers_m" not in m, m
+        assert m["pylon_heights_m"] == [121, 121] and m["pylon_height_ref"] == "total", m
+        assert M3D["cau-my-thuan"]["pylon_heights_m"] == [121, 121], "fallback in step"
+        assert m["deck_elevation_m"] == 30 and m["deck_crest_m"] == 10.5 and m["deck_depth_m"] == 1.8 and m["deck_width_m"] == 23.66, m
+        assert m["cables_per_side"] == 16 and m["cable_planes"] == 2 and m["cable_pattern"] == "semi_fan", m
+        assert m["back_stay_deck_m"] == [10.5, 149] and "colour_mode" not in m, m
+        assert m["pylon_colour"] == "#dcd6c8" and m["stay_colour"] == "#7aa6cc", m
+        assert "crossbeams_y_m" not in pc and len(pc["panels"]) == 2 and len(pc["legs"]) == 2, "both beams are panels"
+        assert [l["centerline"][-1] for l in pc["legs"]] == [[0, 83.5, -9.5], [0, 83.5, 9.5]], "posts end at local 83.5"
+        assert [l["centerline"][0][2] for l in pc["legs"]] == [-18.0, 18.0] and [l["centerline"][2][2] for l in pc["legs"]] == [-14.75, 14.75], pc
+        assert [l["centerline"][4] for l in pc["legs"]] == [[0, 43, -10.4], [0, 43, 10.4]], "legs lean in to the upper beam"
+        assert all((l["width_base_m"], l["width_top_m"], l["depth_base_m"], l["depth_top_m"]) == (5.0, 2.6, 6.0, 4.0) for l in pc["legs"]), pc
+        up, lo = pc["panels"]
+        assert max(y for _, y in up["top"]) == 45.5 and min(y for _, y in up["bottom"]) == 40.6 and max(y for _, y in up["bottom"]) == 41.6, up
+        assert max(y for _, y in lo["top"]) == -1.6 and min(y for _, y in lo["bottom"]) == -6.8 and max(y for _, y in lo["bottom"]) == -5.8, lo
+        assert pc["pile_cap"] == {"length_x_m": 20, "width_z_m": 52, "top_y_m": -26.4, "thickness_m": 5.6, "rounded_ends": True}, pc["pile_cap"]
+        assert all(l["centerline"][0][1] == -26.4 for l in pc["legs"]), "legs stand on the cap"
+        assert [(z["leg"], z["y_from_m"], z["y_to_m"]) for z in pc["anchor_zone"]] == [(0, 47, 79), (1, 47, 79)], pc
+        assert b["nav_clearance"] == {"height_m": 37.5, "width_m": 110, "source": "https://tedi.vn/project/cau-my-thuan/"}, b["nav_clearance"]
+        assert "123,5" in b["pylons"] and "84.43" in b["pylons_en"] and "2 dầm ngang" not in b["pylons"], b
+        assert "general knowledge" not in b["notes"] and "Baulderstone" in b["notes"] and "1,535.2" in b["notes"], b["notes"]
+        assert any("tedi.vn/project/cau-my-thuan" in s for s in b["sources"]) and any("aecom.com" in s for s in b["sources"]), b["sources"]
+        assert "r10:" in m["notes"] and "≈55%" not in m["notes"], m["notes"]
     if b["id"] == "cau-vam-cong":   # round 9: improved-H pylon (brief-r9-vam-cong.md)
         pc = m["pylon_custom"]
         assert m["spans_m"] == [210, 450, 210] and "auxiliary_piers_m" not in m, m

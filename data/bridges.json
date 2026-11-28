@@ -1066,13 +1066,13 @@
     "lanes": 4,
     "cable_stayed_spans": 1,
     "span_arrangement": "150 + 350 + 150 m",
-    "pylons": "2 tháp chữ H, 2 dầm ngang, cao ≈120 m trên mực nước",
-    "pylons_en": "2 H-shaped pylons with 2 cross-beams, ≈120 m above water",
+    "pylons": "2 tháp chữ H: hai chân thẳng nghiêng vào từ bệ móng đến dầm ngang trên (≈½ chiều cao trên mặt cầu), phía trên là hai cột đứng neo dây; dầm ngang lớn dưới mặt cầu; cao 123,5 m từ đỉnh bệ, 84,43 m trên mặt cầu (≈120 m trên mực nước cao)",
+    "pylons_en": "2 H pylons: straight legs leaning inward from the pile cap to one upper crossbeam (≈half the above-deck height), then two vertical posts carrying the stays; deep under-deck crossbeam; 123.5 m above the pile cap, 84.43 m above the deck (≈120 m above high water)",
     "cost": "≈A$91 million",
     "nav_clearance": {
       "height_m": 37.5,
       "width_m": 110,
-      "source": "https://mytour.vn/vi/blog/bai-viet/cau-my-thuan.html"
+      "source": "https://tedi.vn/project/cau-my-thuan/"
     },
     "model3d": {
       "spans_m": [
@@ -1082,44 +1082,73 @@
       ],
       "pylon_shape": "H",
       "pylon_heights_m": [
-        120,
-        120
+        121,
+        121
       ],
       "pylon_height_ref": "total",
+      "deck_elevation_m": 30,
+      "deck_crest_m": 10.5,
+      "deck_depth_m": 1.8,
       "cable_planes": 2,
       "cable_pattern": "semi_fan",
       "cables_per_side": 16,
+      "back_stay_deck_m": [
+        10.5,
+        149
+      ],
       "deck_width_m": 23.66,
       "deck_type": "concrete",
+      "pylon_colour": "#dcd6c8",
+      "stay_colour": "#7aa6cc",
       "confidence": "estimated",
       "pylon_custom": {
-        "description": "H pylon: two slender, slightly tapered, near-vertical legs standing just outside the deck edges, straight down to the pile cap (no diamond). One cross-beam under the deck and one upper cross-beam about mid-height above the deck; the stays anchor in the leg tops above the upper beam. Deck has a strong vertical crest curve.",
+        "description": "H pylon (Mỹ Thuận): two straight legs lean inward (≈6° from vertical) all the way from a long stadium pile cap, past the deck, to a single upper crossbeam with a gently arched soffit at ≈0.5 of the above-deck height; above it the legs continue as two near-vertical posts ≈19 m apart with chamfered tops, carrying the stay anchorages. A deep under-deck crossbeam with a haunched soffit carries the girder between the legs. Stays in two near-vertical planes 18.6 m apart, semi-fan.",
         "legs": [
           {
             "centerline": [
               [
                 0,
-                -40,
-                -14
+                -26.4,
+                -18.0
+              ],
+              [
+                0,
+                -12.8,
+                -16.35
               ],
               [
                 0,
                 0,
-                -13.5
+                -14.75
               ],
               [
                 0,
-                45,
-                -12.8
+                20,
+                -12.75
               ],
               [
                 0,
-                82,
-                -12.3
+                43,
+                -10.4
+              ],
+              [
+                0,
+                46.5,
+                -9.7
+              ],
+              [
+                0,
+                60,
+                -9.6
+              ],
+              [
+                0,
+                83.5,
+                -9.5
               ]
             ],
-            "width_base_m": 4.5,
-            "width_top_m": 3.0,
+            "width_base_m": 5.0,
+            "width_top_m": 2.6,
             "depth_base_m": 6.0,
             "depth_top_m": 4.0
           },
@@ -1127,56 +1156,167 @@
             "centerline": [
               [
                 0,
-                -40,
-                14
+                -26.4,
+                18.0
+              ],
+              [
+                0,
+                -12.8,
+                16.35
               ],
               [
                 0,
                 0,
-                13.5
+                14.75
               ],
               [
                 0,
-                45,
-                12.8
+                20,
+                12.75
               ],
               [
                 0,
-                82,
-                12.3
+                43,
+                10.4
+              ],
+              [
+                0,
+                46.5,
+                9.7
+              ],
+              [
+                0,
+                60,
+                9.6
+              ],
+              [
+                0,
+                83.5,
+                9.5
               ]
             ],
-            "width_base_m": 4.5,
-            "width_top_m": 3.0,
+            "width_base_m": 5.0,
+            "width_top_m": 2.6,
             "depth_base_m": 6.0,
             "depth_top_m": 4.0
           }
         ],
-        "crossbeams_y_m": [
-          -3,
-          42
+        "panels": [
+          {
+            "top": [
+              [
+                -10.5,
+                45.5
+              ],
+              [
+                10.5,
+                45.5
+              ]
+            ],
+            "bottom": [
+              [
+                -10.5,
+                40.6
+              ],
+              [
+                -7,
+                41.2
+              ],
+              [
+                -3.5,
+                41.5
+              ],
+              [
+                0,
+                41.6
+              ],
+              [
+                3.5,
+                41.5
+              ],
+              [
+                7,
+                41.2
+              ],
+              [
+                10.5,
+                40.6
+              ]
+            ],
+            "depth_m": 3.5
+          },
+          {
+            "top": [
+              [
+                -14.5,
+                -1.6
+              ],
+              [
+                14.5,
+                -1.6
+              ]
+            ],
+            "bottom": [
+              [
+                -14.5,
+                -6.8
+              ],
+              [
+                -12,
+                -6.2
+              ],
+              [
+                -8,
+                -5.9
+              ],
+              [
+                0,
+                -5.8
+              ],
+              [
+                8,
+                -5.9
+              ],
+              [
+                12,
+                -6.2
+              ],
+              [
+                14.5,
+                -6.8
+              ]
+            ],
+            "depth_m": 6.0
+          }
         ],
+        "pile_cap": {
+          "length_x_m": 20,
+          "width_z_m": 52,
+          "top_y_m": -26.4,
+          "thickness_m": 5.6,
+          "rounded_ends": true
+        },
         "anchor_zone": [
           {
-            "y_from_m": 48,
-            "y_to_m": 80,
+            "y_from_m": 47,
+            "y_to_m": 79,
             "leg": 0
           },
           {
-            "y_from_m": 48,
-            "y_to_m": 80,
+            "y_from_m": 47,
+            "y_to_m": 79,
             "leg": 1
           }
         ],
         "mirror_for_other_pylons": true,
         "reference_images": [
-          "https://commons.wikimedia.org/wiki/File:Cầu_Mỹ_Thuận,_Vĩnh_Long,_2013.JPG",
+          "https://commons.wikimedia.org/wiki/File:C%E1%BA%A7u_M%E1%BB%B9_Thu%E1%BA%ADn_(6297673871).jpg",
           "https://commons.wikimedia.org/wiki/File:My_Thuan_Bridge_cables.jpg",
-          "https://commons.wikimedia.org/wiki/File:Cầu_Mỹ_Thuận_1_và_2.jpg"
+          "https://commons.wikimedia.org/wiki/File:C%E1%BA%A7u_M%E1%BB%B9_Thu%E1%BA%ADn,_V%C4%A9nh_Long,_2013.JPG",
+          "https://commons.wikimedia.org/wiki/File:C%E1%BA%A7u_M%E1%BB%B9_Thu%E1%BA%ADn_1_v%C3%A0_2.jpg"
         ]
       },
-      "notes": "From Commons side and deck-level photos: H legs, under-deck beam plus one upper beam at ≈55% of the above-deck height; ≈120 m total above high water (deck ≈38 m up, so ≈82 m above deck). 128 stays = 16 per side per plane.",
-      "deck_crest_m": 6.0
+      "notes": "r10: Spans 150 + 350 + 150 (TEDI), no auxiliary piers; anchor piers at the unit ends, outer stays land 5 m beyond them. H pylons 123.5 m above the pile-cap top and 84.43 m above the deck (TEDI); ≈120 m above high water (press). Drawn: deck 30 m at the unit ends, 37.5 m at the pylons, 40.5 m at mid-span (clearance 37.5 × 110 m), tip ≈121 m above the water. Legs lean inward from the cap to one upper beam at ≈0.5 of the above-deck height, then vertical posts; deep under-deck beam. 128 stays = 16 per side per plane, semi-fan, two planes 18.6 m apart (drawn at the deck edges), blue HDPE sheaths. Concrete girder: two 1.76 m edge girders, 23.66 m deck. Leg and beam geometry measured on Commons photos."
     },
     "lat": 10.2775,
     "lng": 105.91,
@@ -1209,10 +1349,13 @@
     "sources": [
       "https://en.wikipedia.org/wiki/My_Thuan_Bridge",
       "https://en.wikipedia.org/wiki/List_of_bridges_in_Vietnam",
-      "https://www.openstreetmap.org (Overpass query, bridge way centre, retrieved 2026-11-25)"
+      "https://www.openstreetmap.org (Overpass query, bridge way centre, retrieved 2026-11-25)",
+      "https://tedi.vn/project/cau-my-thuan/",
+      "https://vi.wikipedia.org/wiki/C%E1%BA%A7u_M%E1%BB%B9_Thu%E1%BA%ADn",
+      "https://aecom.com/projects/thuan-bridge/"
     ],
     "confidence": "verified",
-    "notes": "Vietnam's first large cable-stayed bridge. Opened 21/5/2000. Wikipedia gives total length as both 1,535 m and 1,560 m. Span arrangement from general knowledge of the 150+350+150 layout; the article lists only the 350 m main span."
+    "notes": "Vietnam's first large cable-stayed bridge. Opened 21/5/2000. Spans 150 + 350 + 150 m (cable-stayed section 660 m incl. 5 m past each anchor pier; approaches 875.2 m, 22 Super-T spans) per TEDI. Design Maunsell McIntyre (AECOM); built by Baulderstone Hornibrook with Cienco 6. Wikipedia gives total length as both 1,535 m and 1,560 m; TEDI 1,535.2 m."
   },
   {
     "id": "cau-my-thuan-2",
