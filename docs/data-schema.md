@@ -81,6 +81,11 @@ interface Model3D {
   back_stay_deck_m?: [number, number]; // G11: back-side deck anchors spread linearly from..to metres from the pylon station
                                  //   toward the unit end (lowest pylon anchor ↔ from), clamped to [1, distance to end − 1],
                                  //   no snapping to auxiliary piers; ignored for harp (warning). Trần Thị Lý: [181, 195]
+  main_stay_deck_m?: [number, number]; // G15: the same for the main sides (main span, or toward the next pylon): deck anchors
+                                 //   from..to metres from the pylon station, clamped to [1, stay reach − 1] (half-way to the
+                                 //   next pylon; warning); swapped if from > to; ignored for harp (warning). Phước An: [24, 105]
+  deck_closed?: boolean;         // G16: deck is continuous (all closures done) although the bridge is not open. With status
+                                 //   under_construction the full deck is drawn with no form travellers; the status is unchanged
   auxiliary_piers_m?: number[];  // auxiliary piers, distances from the unit start (back-stays may anchor over them)
   pylon_colour?: string;         // "#rrggbb" or a named colour: white grey red orange yellow green blue purple brown black
   stay_colour?: string;          //   (all colours are rendered muted, study-model style)

@@ -142,6 +142,19 @@ describe('buildBridgeGeometry', () => {
     expect(g.cables.length).toBeLessThan(80);
   });
 
+  it('G16 deck_closed: an under-construction bridge draws the full deck, no travellers, all stays', () => {
+    const g = build({ deck_closed: true }, 'under_construction');
+    expect(g.deckSegments).toEqual([{ x0: 0, x1: 850 }]);
+    expect(g.travellers).toHaveLength(0);
+    expect(g.status).toBe('under_construction');
+    expect(g.cables).toHaveLength(build({}).cables.length);
+    // false or absent keeps the cantilevers
+    expect(build({ deck_closed: false }, 'under_construction').travellers).toHaveLength(4);
+    expect(build({ deck_closed: true }).travellers).toHaveLength(0);
+    expect(model3dProblems({ ...base, deck_closed: 'yes' as unknown as boolean })).toContain('deck_closed');
+    expect(model3dProblems({ ...base, deck_closed: true })).toEqual([]);
+  });
+
   it('every pylon shape reaches the top; unusable data returns null', () => {
     for (const shape of ['H', 'A', 'inverted_Y', 'diamond', 'single', 'inverted_V', 'other'] as const) {
       const g = build({ pylon_shape: shape });
@@ -1049,5 +1062,59 @@ describe('validation of G12 colours and G13 panels', () => {
     for (const [z, y] of u) expect(panelSmoothAt(u, z)).toBeCloseTo(y, 9);
     expect(panelSmoothAt(u, 0.5)).toBeGreaterThanOrEqual(20);
     expect(panelSmoothAt(u, 0.5)).toBeLessThan(panelYAt(u, 0.5));
+  });
+});
+
+describe('main-side stay deck range (G15)', () => {
+  const pa: Partial<Model3D> = {
+    spans_m: [137.5, 250, 137.5],
+    pylon_heights_m: [60, 60],
+    cable_pattern: 'semi_fan',
+    cables_per_side: 12,
+    main_stay_deck_m: [24, 105],
+  };
+  const mainOf = (g: ReturnType<typeof build>, pi: number) => g.cables.filter((c) => c.pylon === pi && !c.back);
+
+  it('main-side anchors of pylon 0 run from station 161.5 to 242.5, lowest pylon anchor nearest', () => {
+    const g = build(pa);
+    const m0 = mainOf(g, 0);
+    expect(m0).toHaveLength(24);
+    const xs = m0.map((c) => c.deck[0]);
+    expect(Math.min(...xs)).toBeCloseTo(161.5, 6);
+    expect(Math.max(...xs)).toBeCloseTo(242.5, 6);
+    const p0 = m0.filter((c) => c.plane === 0).sort((a, b) => a.j - b.j);
+    expect(p0[0].deck[0]).toBeCloseTo(161.5, 6);
+    for (let i = 1; i < p0.length; i++) {
+      expect(p0[i].deck[0]).toBeGreaterThan(p0[i - 1].deck[0]);
+      expect(p0[i].top[1]).toBeGreaterThan(p0[i - 1].top[1]);
+    }
+    // pylon 1 mirrors it
+    const x1 = mainOf(g, 1).map((c) => c.deck[0]);
+    expect(Math.min(...x1)).toBeCloseTo(525 - 242.5, 6);
+    expect(Math.max(...x1)).toBeCloseTo(525 - 161.5, 6);
+    expect(g.warnings.some((w) => w.includes('main_stay_deck_m'))).toBe(false);
+    // back sides are untouched
+    const plain = build({ ...pa, main_stay_deck_m: undefined });
+    expect(g.cables.filter((c) => c.back).map((c) => c.deck[0])).toEqual(plain.cables.filter((c) => c.back).map((c) => c.deck[0]));
+  });
+
+  it('clamps to the reach with a warning, swaps a reversed range, ignores harp, validates', () => {
+    const far = build({ ...pa, main_stay_deck_m: [24, 200] });
+    expect(Math.max(...mainOf(far, 0).map((c) => c.deck[0]))).toBeCloseTo(137.5 + 124, 6);
+    expect(far.warnings.some((w) => w.includes('main_stay_deck_m clamped'))).toBe(true);
+    const rev = build({ ...pa, main_stay_deck_m: [105, 24] });
+    expect(rev.warnings.some((w) => w.includes('main_stay_deck_m: from > to, swapped'))).toBe(true);
+    expect(Math.min(...mainOf(rev, 0).map((c) => c.deck[0]))).toBeCloseTo(161.5, 6);
+    const harp = build({ ...pa, cable_pattern: 'harp' });
+    expect(harp.warnings.some((w) => w.includes('main_stay_deck_m ignored for harp'))).toBe(true);
+    expect(model3dProblems({ ...base, main_stay_deck_m: [24] as unknown as [number, number] })).toContain('main_stay_deck_m');
+    expect(model3dProblems({ ...base, main_stay_deck_m: [24, 105] })).toEqual([]);
+  });
+
+  it('without the field the main side uses the reach spread (unchanged)', () => {
+    const g = build({ ...pa, main_stay_deck_m: undefined });
+    const xs = mainOf(g, 0).map((c) => c.deck[0]);
+    expect(Math.min(...xs)).toBeCloseTo(137.5 + 125 * 0.08, 6);
+    expect(Math.max(...xs)).toBeCloseTo(137.5 + 125, 6);
   });
 });

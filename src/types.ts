@@ -103,6 +103,12 @@ export interface Model3D {
   /** G11: back-side deck anchors spread linearly [from, to] metres from the pylon station toward the unit end
    *  (t = 0 lowest pylon anchor ↔ from); no snapping to auxiliary piers; ignored for harp */
   back_stay_deck_m?: [number, number];
+  /** G15: main-side deck anchors (main span, or toward the next pylon) spread linearly [from, to] metres from the
+   *  pylon station (t = 0 lowest pylon anchor ↔ from), clamped to the stay reach − 1; ignored for harp */
+  main_stay_deck_m?: [number, number];
+  /** G16: the deck is continuous (all closures done) although the bridge is not open: an under-construction bridge
+   *  draws the full deck with no form travellers (the status is unchanged) */
+  deck_closed?: boolean;
   /** girder section: box (default) or a double-deck / truss girder drawn as two chords with a Warren web */
   deck_section?: 'box' | 'truss';
   /** girder depth in metres (truss: distance between the chords, default 12) */

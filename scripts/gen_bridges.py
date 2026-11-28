@@ -291,10 +291,14 @@ add(id="cau-duong-sat-can-gio", name_vi="Cầu đường sắt vượt sông So�
 add(id="cau-phuoc-an", name_vi="Cầu Phước An", name_en="Phước An Bridge", status="under_construction", structure_type="extradosed",
     province="TP. Hồ Chí Minh – Đồng Nai", province_former=["Bà Rịa – Vũng Tàu", "Đồng Nai"], crosses="Sông Thị Vải",
     roads=[], construction_start=2023, main_span_m=250, total_length_m=3514, width_m=27, lanes=6,
-    cable_stayed_spans=1, cost="≈4,900 tỷ VND",
+    cable_stayed_spans=1, span_arrangement="137.5 + 250 + 137.5 m", cost="≈4,900 tỷ VND",
     lat=10.6285, lng=106.9989,
-    sources=["https://nguoiquansat.vn/cau-day-vang-gan-5-000-ty-co-tinh-khong-cao-nhat-viet-nam-nhip-chinh-dai-nhat-dong-nam-a-noi-nhip-2-tp-truc-thuoc-trung-uong-la-hanh-lang-van-tai-chien-luoc-307915.html", "https://nhandan.vn/can-canh-cau-phuoc-an-ket-noi-quan-trong-giua-thanh-pho-ho-chi-minh-va-dong-nai-dang-vuot-tien-do-post968305.html", "https://thuviennhadat.vn/bat-dong-san/cau-phuoc-an-du-kien-hoan-thanh-vao-nam-2027-16917.html", OSM], confidence="needs_check",
-    notes="EXTRADOSED (press calls it 'dây văng'), described as the longest extradosed span in SE Asia. Main span closed 24/7/2026; technical opening targeted end-2026 (no confirmation found by 25/11/2026), final completion 2027. Links Phú Mỹ (formerly BR-VT, now HCMC) and Nhơn Trạch (Đồng Nai).")
+    sources=["https://nguoiquansat.vn/cau-day-vang-gan-5-000-ty-co-tinh-khong-cao-nhat-viet-nam-nhip-chinh-dai-nhat-dong-nam-a-noi-nhip-2-tp-truc-thuoc-trung-uong-la-hanh-lang-van-tai-chien-luoc-307915.html", "https://nhandan.vn/can-canh-cau-phuoc-an-ket-noi-quan-trong-giua-thanh-pho-ho-chi-minh-va-dong-nai-dang-vuot-tien-do-post968305.html", "https://thuviennhadat.vn/bat-dong-san/cau-phuoc-an-du-kien-hoan-thanh-vao-nam-2027-16917.html",
+             "https://cafef.vn/viet-nam-dang-xay-cay-cau-gan-5000-ty-dong-co-nhip-chinh-dai-250m-tru-thap-cao-tuong-duong-toa-nha-40-tang-nam-tren-truc-giao-thong-ket-noi-toi-sieu-do-thi-lan-bien-rong-2870-ha-cua-ty-phu-pham-nhat-vuong-188261027120348509.chn",   # spans 137.5 + 250 + 137.5, pylon ≈119 m, ≈70 % on 16/10/2026
+             "https://thanhtra.com.vn/dau-tu-72A9E3223/cau-phuoc-an-sieu-du-an-1803-ty-dong-lap-ky-luc-nhip-dai-nhat-dong-nam-a-fd59ce4a6.html",   # 525 m, 60 m above deck, 5-web box, 48 stays, cap 48 × 26
+             "https://trungnamec.com.vn/hop-long-nhip-chinh-cau-phuoc-an",   # main-span closure 24/7/2026
+             OSM], confidence="needs_check",
+    notes="EXTRADOSED (press calls it 'dây văng'), described as the longest extradosed span in SE Asia. Main span closed 24/7/2026; technical opening targeted end-2026 (no confirmation found by 28/11/2026), final completion 2027. Links Phú Mỹ (formerly BR-VT, now HCMC) and Nhơn Trạch (Đồng Nai). Main bridge 137.5 + 250 + 137.5 m (T37–T40); 'giọt nước' pointed-arch pylons ≈119 m (60 m above the deck); ≈70 % complete on 16/10/2026.")
 
 
 add(id="cau-thuong-cat", name_vi="Cầu Thượng Cát", name_en="Thượng Cát Bridge", status="under_construction",
@@ -447,8 +451,8 @@ M3D = {
     notes="350 m span, single cable plane, 175 m pylons (VietnamNet EN). Side spans and deck width (8 lanes) estimated. Single-mast pylons from renders."),
  "cau-nguyen-trai": m3d([125, 300, 125], "H", [111, 111], "total", 2, "semi_fan", 26.5,
     notes="125+300+125 m, pylons 111 m, deck 26.5 m (press). Pylon shape and cable pattern not published (placeholder 'H')."),
- "cau-phuoc-an": m3d([145, 250, 145], "other", [35, 35], "above_deck", 2, "harp", 27.0, "concrete", extradosed=True,
-    notes="Extradosed 250 m main span, 27 m deck (press). Pylons are arch-shaped in the Người Quan Sát photo (8/2026). Side spans and pylon height estimated."),
+ "cau-phuoc-an": m3d([137.5, 250, 137.5], "other", [119, 119], "total", 2, "semi_fan", 27.0, "concrete", extradosed=True, cps=12,
+    notes="Placeholder; replaced by research/shapes/cau-phuoc-an.json (round 9)."),
  "cau-thuong-cat": m3d([120, 270, 270, 120], "other", [70, 80, 70], "above_deck", 2, "semi_fan", 35.0, "concrete",
     notes="Placeholder; replaced by research/shapes/cau-thuong-cat.json (round 2)."),
  "cau-can-tho-2": m3d([210, 450, 210], "H", [160, 160], "total", 2, "semi_fan", 30.5, "steel",
@@ -489,7 +493,10 @@ PRESS = {
  "cau-nguyen-trai": [
     press("https://dbnd.1cdn.vn/thumbs/1200x630/2026/08/02/cau-nguyen-trai-7-.jpg", "Báo Đại biểu Nhân dân", "https://daibieunhandan.vn/hai-phong-toan-canh-du-an-cau-nguyen-trai-va-vung-phu-can-hon-6-300-ty-dong-10425773.html", "construction 8/2026 (aerial)")],
  "cau-phuoc-an": [
-    press("https://nqs.1cdn.vn/thumbs/1200x630/2026/08/01/7031_cau-phuoc-an3.jpg", "Người Quan Sát", "https://nguoiquansat.vn/cau-day-vang-gan-5-000-ty-co-tinh-khong-cao-nhat-viet-nam-nhip-chinh-dai-nhat-dong-nam-a-noi-nhip-2-tp-truc-thuoc-trung-uong-la-hanh-lang-van-tai-chien-luoc-307915.html", "render / near-complete")],
+    press("https://nqs.1cdn.vn/thumbs/1200x630/2026/08/01/7031_cau-phuoc-an3.jpg", "Người Quan Sát", "https://nguoiquansat.vn/cau-day-vang-gan-5-000-ty-co-tinh-khong-cao-nhat-viet-nam-nhip-chinh-dai-nhat-dong-nam-a-noi-nhip-2-tp-truc-thuoc-trung-uong-la-hanh-lang-van-tai-chien-luoc-307915.html", "render / near-complete"),
+    press("https://cafefcdn.com/203337114487263232/2026/10/27/img4224-17921448362781663170439-1793076853415550427428.jpg", "Báo Xây dựng / CafeF", "https://cafef.vn/viet-nam-dang-xay-cay-cau-gan-5000-ty-dong-co-nhip-chinh-dai-250m-tru-thap-cao-tuong-duong-toa-nha-40-tang-nam-tren-truc-giao-thong-ket-noi-toi-sieu-do-thi-lan-bien-rong-2870-ha-cua-ty-phu-pham-nhat-vuong-188261027120348509.chn", "aerial 10/2026, both pylons, closed deck"),
+    press("https://cafefcdn.com/203337114487263232/2026/10/27/img4207-17921448355181727615817-17930767736402027576764.jpg", "Báo Xây dựng / CafeF", "https://cafef.vn/viet-nam-dang-xay-cay-cau-gan-5000-ty-dong-co-nhip-chinh-dai-250m-tru-thap-cao-tuong-duong-toa-nha-40-tang-nam-tren-truc-giao-thong-ket-noi-toi-sieu-do-thi-lan-bien-rong-2870-ha-cua-ty-phu-pham-nhat-vuong-188261027120348509.chn", "aerial 10/2026 along the axis"),
+    press("https://cafefcdn.com/203337114487263232/2026/10/27/photo-1793077280357-1793077280757507249795.png", "Báo Xây dựng / CafeF", "https://cafef.vn/viet-nam-dang-xay-cay-cau-gan-5000-ty-dong-co-nhip-chinh-dai-250m-tru-thap-cao-tuong-duong-toa-nha-40-tang-nam-tren-truc-giao-thong-ket-noi-toi-sieu-do-thi-lan-bien-rong-2870-ha-cua-ty-phu-pham-nhat-vuong-188261027120348509.chn", "render, deck level")],
  "cau-thuong-cat": [
     press("https://daknong.1cdn.vn/thumbs/1200x630/2026/06/17/img_98909ae3.jpg", "Báo Lâm Đồng", "https://baolamdong.vn/du-an-cau-thuong-cat-hon-7300-ty-dong-day-nhanh-thi-cong-ba-tru-thap-chinh-qua-song-hong-448557.html", "construction 6/2026 (aerial)"),
     press("https://cafefcdn.com/thumb_w/1200/203337114487263232/2026/10/21/avatar1792571886935-17925718873211627305556.webp", "CafeF / Tiền Phong", "https://cafef.vn/hinh-hai-cau-thuong-cat-sau-mot-nam-khoi-cong-188261021153843485.chn", "construction 10/2026 (pylon)")],
@@ -740,16 +747,6 @@ PYLON = {
     "mirror_for_other_pylons": True,
     "reference_images": ["https://cdn2.tuoitre.vn/zoom/1200_630/471584752817336320/2026/1/14/anh-9-17683527812281318384555-89-20-838-1451-crop-176842964739965225266.jpg"],
  },
- "cau-phuoc-an": {
-    "description": "Pointed-arch pylons (two legs straddling the deck, curving inward to a tip) at both main piers; extradosed stays fan from the upper arch to the deck. Shape per the Người Quan Sát image (8/2026); proportions from the 250 m span and 27 m deck.",
-    "legs": [
-        {"centerline": [[0, -10, -15], [0, 12, -13.5], [0, 30, -8], [0, 40, -3], [0, 44, 0]], "width_base_m": 3.5, "width_top_m": 2.0},
-        {"centerline": [[0, -10, 15], [0, 12, 13.5], [0, 30, 8], [0, 40, 3], [0, 44, 0]], "width_base_m": 3.5, "width_top_m": 2.0},
-    ],
-    "anchor_zone": [{"y_from_m": 18, "y_to_m": 40, "leg": 0}, {"y_from_m": 18, "y_to_m": 40, "leg": 1}],
-    "mirror_for_other_pylons": True,
-    "reference_images": ["https://nqs.1cdn.vn/thumbs/1200x630/2026/08/01/7031_cau-phuoc-an3.jpg"],
- },
  "cau-ben-rung": {
     "description": "At each of the 3 pylon piers, two separate flat 'blade' posts stand at the deck edges and lean OUTWARD, forming a V in cross-section (the 'V – Victory' motif), white with a red inner face. Short extradosed stays (red) in two planes run from each blade to the deck edge.",
     "legs": [
@@ -831,7 +828,7 @@ PHASE6 = {
     "cau-can-tho": {"auxiliary_piers_m": [40, 80, 930, 970]},                # 2×40 m end spans each side
     "cau-ba-son": {"pylon_custom": {"crown": "rounded"}},
     "cau-cat-lai": {"pylon_custom": {"crown": "rounded"}},
-    "cau-phuoc-an": {"pylon_custom": {"crown": "rounded"}},
+    # cau-phuoc-an: the 'rounded' crown entry was wrong (round 9: pointed 'giọt nước' apex, research/shapes/cau-phuoc-an.json)
 }
 
 
@@ -1218,6 +1215,30 @@ for b in B:
         assert b["nav_clearance"]["height_m"] == 10 and b["nav_clearance"]["width_m"] == 80, b["nav_clearance"]
         assert b["span_arrangement"] == "50 + 200 + 500 + 200 + 50 m" and "+185" in b["pylons_en"] and "đan chéo" in b["pylons"], b
         assert "twisted blades" not in b["pylons_en"] and "superseded" in m["notes"] and "Review r1" not in m["notes"], m["notes"]
+    if b["id"] == "cau-phuoc-an":   # round 9 (brief-r9-phuoc-an.md): 'giọt nước' pointed arch, legs to the cap, closed deck
+        pc = m["pylon_custom"]
+        assert m["spans_m"] == [137.5, 250, 137.5] and "auxiliary_piers_m" not in m, m
+        assert m["pylon_heights_m"] == [119, 119] and m["pylon_height_ref"] == "total", m
+        assert m["deck_elevation_m"] == 54 and m["deck_crest_m"] == 6.5 and m["deck_width_m"] == 27.0 and "deck_depth_m" not in m, m
+        assert m["cable_pattern"] == "semi_fan" and m["cable_planes"] == 2 and m["cables_per_side"] == 12, m
+        assert m["back_stay_deck_m"] == [24, 105] and m["main_stay_deck_m"] == [24, 105], m
+        assert m["deck_closed"] is True and b["status"] == "under_construction", "G16: closed deck, still under construction"
+        assert m["pylon_colour"] == "#e9e7e1" and m["stay_colour"] == "white" and m["extradosed"] is True, m
+        assert pc["crown"] == "pointed", "PHASE6 'rounded' entry must stay deleted"
+        assert len(pc["legs"]) == 2 and all(l["centerline"][-1] == [0, 60, 0] for l in pc["legs"]), "apex 60 m above the deck"
+        assert [l["centerline"][0] for l in pc["legs"]] == [[0, -52, -9.5], [0, -52, 9.5]], "legs stand on the cap"
+        assert [l["centerline"][3][2] for l in pc["legs"]] == [-16.0, 16.0], "legs just outside the 27 m deck"
+        assert len(pc["struts"]) == 1 and pc["struts"][0]["a"][1] == -28 and "crossbeams_y_m" not in pc, pc
+        assert len(pc["panels"]) == 1 and max(y for _, y in pc["panels"][0]["top"]) == 60.3, pc["panels"]
+        assert [(z["leg"], z["y_from_m"], z["y_to_m"]) for z in pc["anchor_zone"]] == [(0, 18, 42), (1, 18, 42)], pc
+        cap = pc["pile_cap"]
+        assert (cap["length_x_m"], cap["width_z_m"], cap["top_y_m"], cap["thickness_m"], cap["rounded_ends"]) == (26, 48, -52, 5, True), cap
+        assert b["span_arrangement"] == "137.5 + 250 + 137.5 m" and "119" in b["pylons"] and "pointed-arch" in b["pylons_en"], b
+        assert "rounded" not in b["pylons_en"] and "rounded crown" not in json.dumps(m) + b["notes"], "no rounded crown left"
+        assert any("thanhtra.com.vn" in u for u in b["sources"]) and any("trungnamec" in u for u in b["sources"]), b["sources"]
+        assert sum("Báo Xây dựng / CafeF" == im["credit"] for im in b["images"]) == 3, b["images"]
+        assert "Placeholder" not in m["notes"] and "137.5 + 250 + 137.5" in b["notes"], (m["notes"], b["notes"])
+    assert b["id"] == "cau-phuoc-an" or not ({"deck_closed", "main_stay_deck_m"} & set(m)), (b["id"], "G15/G16 opt-in")
     if b["id"] == "cau-ben-rung":     # round 5: foundation (pile cap + columns), 22 m deck, 25° blades, 12 stays
         pc = m["pylon_custom"]
         assert m["deck_elevation_m"] == 22 and m["cables_per_side"] == 12 and m["cable_pattern"] == "semi_fan", m

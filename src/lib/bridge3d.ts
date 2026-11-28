@@ -551,10 +551,11 @@ export function buildBridgeGeometry(
   const pierT = clamp(mainSpan / 100, 2, 5);
   const pierXs = [0, ...auxiliaryPiers, totalLength];
 
-  // deck: complete, or balanced cantilevers to 60% of each reach (under construction)
+  // deck: complete, or balanced cantilevers to 60% of each reach (under construction). G16: deck_closed keeps the
+  // full deck (all closures done) on a bridge that is not yet open; only the geometry changes, not the status.
   let deckSegments: { x0: number; x1: number }[] = [{ x0: 0, x1: totalLength }];
   const travellerBoxes: Box[] = [];
-  if (status === 'under_construction') {
+  if (status === 'under_construction' && m.deck_closed !== true) {
     deckSegments = pylons.map((p) => ({
       x0: p.x - 0.6 * reach(p.support, -1),
       x1: p.x + 0.6 * reach(p.support, 1),
@@ -586,6 +587,16 @@ export function buildBridgeGeometry(
     warnings.push('back_stay_deck_m: from > to, swapped');
     backDeck = [backDeck[1], backDeck[0]];
   }
+  // G15: the same fixed deck range for the main sides (main span, or toward the next pylon). Without it nothing changes.
+  let mainDeck: [number, number] | undefined = m.main_stay_deck_m ? [m.main_stay_deck_m[0], m.main_stay_deck_m[1]] : undefined;
+  if (mainDeck && pattern === 'harp') {
+    warnings.push('main_stay_deck_m ignored for harp stays');
+    mainDeck = undefined;
+  } else if (mainDeck && mainDeck[0] > mainDeck[1]) {
+    warnings.push('main_stay_deck_m: from > to, swapped');
+    mainDeck = [mainDeck[1], mainDeck[0]];
+  }
+  let mainDeckClamped = false;
 
   /** anchor zone, leg curve and face offset serving a cable plane of a custom pylon */
   // per-side anchor zones (G8): when any zone names a side, stays on the main / back side use only the zones for
@@ -686,6 +697,16 @@ export function buildBridgeGeometry(
             const d0 = lim(backDeck[0]);
             x = p.x + side * (d0 + (lim(backDeck[1]) - d0) * t);
             top = p.custom ? customAnchor(pi, anchorPlane, t, back, zN) : atY(H * (lo + (hi - lo) * t));
+          } else if (!back && mainDeck) {
+            // G15: fixed main-side deck range, measured from the pylon station toward the main span (≤ reach − 1)
+            const lim = (d: number) => {
+              const c = clamp(d, 1, Math.max(1, r - 1));
+              if (c !== d) mainDeckClamped = true;
+              return c;
+            };
+            const d0 = lim(mainDeck[0]);
+            x = p.x + side * (d0 + (lim(mainDeck[1]) - d0) * t);
+            top = p.custom ? customAnchor(pi, anchorPlane, t, back, zN) : atY(H * (lo + (hi - lo) * t));
           } else {
             x = p.x + side * r * (f0 + (f1 - f0) * t);
             // back-span anchors close to an auxiliary pier sit on it (the pier takes the back-stay force)
@@ -707,6 +728,8 @@ export function buildBridgeGeometry(
       }
     }
   });
+
+  if (mainDeckClamped) warnings.push('main_stay_deck_m clamped to the stay reach (half-way to the next pylon)');
 
   // approaches + banks: shortened for context (the stayed unit is the subject)
   const A = Math.min(m.approach_length_m ?? 0.15 * totalLength, 0.2 * totalLength);
