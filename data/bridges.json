@@ -3774,12 +3774,19 @@
     "roads": [
       "Đường bộ ven biển"
     ],
+    "construction_start": 2022,
     "opened": 2026,
     "main_span_m": 218,
     "total_length_m": 2360,
     "width_m": 20,
-    "pylons": "2 tháp thấp chữ A giữa cầu (extradosed), dây văng đỏ, cao 32 m trên mặt cầu",
-    "pylons_en": "2 low A-topped central pylons (extradosed), red stays, 32 m above deck",
+    "span_arrangement": "120 + 218 + 120 m",
+    "pylons": "2 tháp bê tông trắng hình chữ A theo phương dọc cầu (một thân thon giữa dải phân cách, chân tách trước – sau), cao ≈27,5 m trên mặt cầu, 72 m từ mặt nước; dây văng đỏ một mặt phẳng",
+    "pylons_en": "2 white concrete pylons, an A along the bridge axis (one tapered median shaft with fore-and-aft legs), ≈27.5 m above the deck, 72 m above the water; one central plane of red stays",
+    "nav_clearance": {
+      "height_m": 40,
+      "reference": "5,000 DWT; 218 m navigation span",
+      "source": "https://datphuong.com.vn/tin-tuc/cau-thuan-an-thong-xe-ky-thuat-dau-an-nguoi-dat-phuong-tren-cong-trinh-vuot-bien-dai-nhat-mien-trung"
+    },
     "model3d": {
       "spans_m": [
         120,
@@ -3788,137 +3795,181 @@
       ],
       "pylon_shape": "A",
       "pylon_heights_m": [
-        32,
-        32
+        27.5,
+        27.5
       ],
       "pylon_height_ref": "above_deck",
+      "deck_elevation_m": 40.5,
+      "deck_crest_m": 5.0,
+      "deck_depth_m": 4.0,
+      "deck_haunch": {
+        "depth_at_pylon_m": 9.5,
+        "length_m": 85
+      },
       "cable_planes": 1,
-      "cable_pattern": "harp",
+      "cable_pattern": "semi_fan",
+      "cables_per_side": 17,
+      "main_stay_deck_m": [
+        26,
+        89
+      ],
+      "back_stay_deck_m": [
+        26,
+        89
+      ],
       "deck_width_m": 23.5,
       "deck_type": "concrete",
       "extradosed": true,
-      "confidence": "estimated",
-      "notes": "Extradosed main span 218 m; A-topped red pylons 32 m above deck (72 m from water) per Người Quan Sát. Side spans and the single central cable plane estimated from photos. Number of extradosed spans unclear. Colour: white pylon; red stays. Báo Lâm Đồng photo (7/2026). Review r1: Deck ≈40 m above water: pylon 32 m above deck and 72 m above water (Tiền Phong). A-head on the pier head (legs from the deck edges), single central plane.",
       "pylon_colour": "white",
       "stay_colour": "red",
-      "deck_elevation_m": 40,
+      "confidence": "estimated",
+      "notes": "Main unit 120 + 218 + 120 m (T25–T28; pylons on T26/T27), extradosed PSC box girder, haunched (≈9.5 m deep at the pylons, ≈4 m at mid-span; drawn with deck_haunch, G17), deck 23.5 m on the main unit (20 m elsewhere), 4 lanes. Navigation clearance 40 m (5,000 DWT). Pylons: 'A along the bridge axis' — a single tapered concrete shaft in the median, splitting into two legs fore-and-aft with a ≈3 × 4.6 m opening at deck level (≈5 m to the chamfered top), ≈27.5 m above the deck to the concrete tip (+≈3 m lightning mast); 72 m from the water to the tip (press). Press quotes 32 m (Tiền Phong / Đạt Phương) and 34 m (Người Quan Sát) for the pylon; two side photos give pylon : deck-above-water ≈ 0.6, which with the 72 m total puts the deck at ≈44.4 m at the pylons and the pylon at ≈27.5 m. One central plane of 17 red stays per side (34 per pylon, Người Quan Sát), anchored in the pylon over 6.9–20.1 m and on the median from 26 to 89 m from the pylon (≈40 m of the main span unstayed). Below the deck twin wall piers (longitudinal pair) on an octagonal cap of 34 Ø2 m bored piles (83.7 m). Deck ≈40.5 m above water at the unit ends, ≈44.4 m at the pylons, ≈45.5 m at mid-span. Colour: white pylons and deck; red stays. r10 (brief-r10-thuan-an.md): longitudinal A median shaft, twin wall piers on a pile cap, 17 semi-fan stays per side 26–89 m (G15), haunched girder (G17). Photos: Tiền Phong, VnExpress, Dân Việt / Người Quan Sát, Báo Lâm Đồng (7/2026).",
       "pylon_custom": {
-        "description": "Low A-head on each pier: two legs rise from the pier head at the deck edges and lean in to an apex 32 m above the deck, with a central king-post from the upper third through the apex to a short head that carries the single central plane of red extradosed stays. A single pier column carries the pier head below the deck.",
+        "description": "'Chữ A theo phương dọc cầu': each pylon is one tapered concrete shaft on the bridge centreline (median). Seen from the side it is an A: two legs fore and aft (x ≈ ±3.1 m at the deck, 3.0 m thick along the bridge, 3.4 m wide across) lean in to a narrow tip 27.5 m above the deck, with a 3 × 4.6 m opening at deck level; above the opening the shaft is solid. Seen along the bridge it is a narrow 3.4 → 2.6 m column. One central plane of red semi-fan stays anchors in the main-side and back-side faces. Below the deck, twin longitudinal wall piers (5 m along the bridge × 8 m across, 1.5 m apart) stand on an octagonal pile cap ≈30 × 22 m whose top is ≈4.2 m above the water.",
         "legs": [
           {
             "centerline": [
               [
-                0,
-                -3,
-                -10.5
+                -3.1,
+                -0.5,
+                0
+              ],
+              [
+                -2.05,
+                9.0,
+                0
+              ],
+              [
+                -1.03,
+                18.25,
+                0
               ],
               [
                 0,
-                0,
-                -10
-              ],
-              [
-                0,
-                16,
-                -5
-              ],
-              [
-                0,
-                32,
+                27.5,
                 0
               ]
             ],
-            "width_base_m": 2.5,
-            "width_top_m": 2.0
-          },
-          {
-            "centerline": [
-              [
-                0,
-                -3,
-                10.5
-              ],
-              [
-                0,
-                0,
-                10
-              ],
-              [
-                0,
-                16,
-                5
-              ],
-              [
-                0,
-                32,
-                0
-              ]
-            ],
-            "width_base_m": 2.5,
-            "width_top_m": 2.0
-          },
-          {
-            "centerline": [
-              [
-                0,
-                16,
-                0
-              ],
-              [
-                0,
-                26,
-                0
-              ],
-              [
-                0,
-                36,
-                0
-              ]
-            ],
-            "width_base_m": 2.4,
-            "width_top_m": 1.6,
+            "width_base_m": 3.4,
+            "width_top_m": 2.6,
             "depth_base_m": 3.0,
-            "depth_top_m": 2.2
+            "depth_top_m": 2.6
+          },
+          {
+            "centerline": [
+              [
+                3.1,
+                -0.5,
+                0
+              ],
+              [
+                2.05,
+                9.0,
+                0
+              ],
+              [
+                1.03,
+                18.25,
+                0
+              ],
+              [
+                0,
+                27.5,
+                0
+              ]
+            ],
+            "width_base_m": 3.4,
+            "width_top_m": 2.6,
+            "depth_base_m": 3.0,
+            "depth_top_m": 2.6
+          },
+          {
+            "centerline": [
+              [
+                -3.25,
+                -36.7,
+                0
+              ],
+              [
+                -3.25,
+                -20.0,
+                0
+              ],
+              [
+                -3.25,
+                -2.0,
+                0
+              ]
+            ],
+            "width_base_m": 8.0,
+            "width_top_m": 8.0,
+            "depth_base_m": 5.0,
+            "depth_top_m": 5.0
+          },
+          {
+            "centerline": [
+              [
+                3.25,
+                -36.7,
+                0
+              ],
+              [
+                3.25,
+                -20.0,
+                0
+              ],
+              [
+                3.25,
+                -2.0,
+                0
+              ]
+            ],
+            "width_base_m": 8.0,
+            "width_top_m": 8.0,
+            "depth_base_m": 5.0,
+            "depth_top_m": 5.0
           }
         ],
         "struts": [
           {
             "a": [
               0,
-              -40,
+              4.6,
               0
             ],
             "b": [
               0,
-              -3,
+              27.5,
               0
             ],
-            "width": 8.0
-          },
-          {
-            "a": [
-              0,
-              -3,
-              -10.5
-            ],
-            "b": [
-              0,
-              -3,
-              10.5
-            ],
-            "width": 3.0
+            "width": 2.6
           }
         ],
+        "pile_cap": {
+          "length_x_m": 30,
+          "width_z_m": 22,
+          "top_y_m": -36.7,
+          "thickness_m": 5.5
+        },
         "anchor_zone": [
           {
-            "y_from_m": 18,
-            "y_to_m": 33,
-            "leg": 2
+            "y_from_m": 6.9,
+            "y_to_m": 20.1,
+            "leg": 1,
+            "side": "main"
+          },
+          {
+            "y_from_m": 6.9,
+            "y_to_m": 20.1,
+            "leg": 0,
+            "side": "back"
           }
         ],
         "mirror_for_other_pylons": true,
         "reference_images": [
-          "https://tienphong.vn/chiem-nguong-cau-day-do-vuot-cua-bien-dai-nhat-mien-trung-post1810259.tpo"
+          "https://tienphong.vn/chiem-nguong-cau-day-do-vuot-cua-bien-dai-nhat-mien-trung-post1810259.tpo",
+          "https://vnexpress.net/thong-xe-cau-vuot-cua-bien-dai-nhat-mien-trung-5068581.html",
+          "https://nguoiquansat.vn/ngay-mai-cau-vuot-cua-bien-dai-nhat-mien-trung-chinh-thuc-thong-xe-240880.html"
         ]
       }
     },
@@ -3935,10 +3986,15 @@
     "sources": [
       "https://baolamdong.vn/chinh-thuc-thong-xe-cau-vuot-cua-bien-dai-nhat-mien-trung-tai-tp-hue-truoc-ngay-307-456100.html",
       "https://baodautu.vn/hue-hop-long-cau-vuot-cua-bien-thuan-an-d275266.html",
+      "https://tienphong.vn/chiem-nguong-cau-day-do-vuot-cua-bien-dai-nhat-mien-trung-post1810259.tpo",
+      "https://baoxaydung.com.vn/thua-thien-hue-quyet-tam-thong-tuyen-cau-vuot-cua-bien-thuan-an-trong-nam-2024-370939.html",
+      "https://datphuong.com.vn/tin-tuc/cau-thuan-an-thong-xe-ky-thuat-dau-an-nguoi-dat-phuong-tren-cong-trinh-vuot-bien-dai-nhat-mien-trung",
+      "https://vnexpress.net/thong-xe-cau-vuot-cua-bien-dai-nhat-mien-trung-5068581.html",
+      "https://nguoiquansat.vn/ngay-mai-cau-vuot-cua-bien-dai-nhat-mien-trung-chinh-thuc-thong-xe-240880.html",
       "https://www.openstreetmap.org (Overpass query, bridge way centre, retrieved 2026-11-25)"
     ],
     "confidence": "needs_check",
-    "notes": "EXTRADOSED. Technical opening 30/4/2026, official operation 30/7/2026. Construction start year not confirmed. Link-only images (press/official, license unknown): Báo Lâm Đồng – photo 7/2026 (extradosed span)."
+    "notes": "EXTRADOSED. Main unit 120 + 218 + 120 m on piers T26/T27 (Báo Xây dựng); 2.36 km, 50 piers + 2 abutments. Started 26/3/2022; closure 30/4/2025; technical opening of the bridge 2/9/2025 (Báo Đầu tư); route opened to traffic 30/4/2026 (VnExpress); official operation 30/7/2026 (Báo Lâm Đồng). Press gives the pylon as 32 m (Tiền Phong, Đạt Phương) or 34 m (Người Quan Sát) and 72 m from the water to the tip; side photos put it at ≈27.5 m above the deck (see the model notes). Link-only images (press/official, license unknown): Báo Lâm Đồng – photo 7/2026 (extradosed span)."
   },
   {
     "id": "cau-hoa-son",

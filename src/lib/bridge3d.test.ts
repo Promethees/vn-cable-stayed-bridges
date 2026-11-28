@@ -1118,3 +1118,79 @@ describe('main-side stay deck range (G15)', () => {
     expect(Math.max(...xs)).toBeCloseTo(137.5 + 125, 6);
   });
 });
+
+describe('G17 deck_haunch (Thuận An)', () => {
+  const ta: Partial<Model3D> = {
+    spans_m: [120, 218, 120],
+    pylon_shape: 'A',
+    pylon_heights_m: [27.5, 27.5],
+    cable_planes: 1,
+    cable_pattern: 'semi_fan',
+    deck_depth_m: 4,
+    deck_elevation_m: 40.5,
+    deck_crest_m: 5,
+    extradosed: true,
+    deck_haunch: { depth_at_pylon_m: 9.5, length_m: 85 },
+  };
+  const soffitAt = (g: ReturnType<typeof build>, x: number) => {
+    // lowest mesh vertex at station x (meshes are not plan-curved here, so x is the station)
+    const ys: number[] = [];
+    for (const dm of g.deckMeshes)
+      for (let i = 0; i < dm.positions.length; i += 3) if (Math.abs(dm.positions[i] - x) < 1e-6) ys.push(dm.positions[i + 1]);
+    return Math.min(...ys);
+  };
+  const maxTop = (g: ReturnType<typeof build>) => Math.max(...g.deckMeshes[0].positions.filter((_, i) => i % 3 === 1));
+
+  it('deepens the soffit toward each pylon on a parabola; the deck top is unchanged', () => {
+    const g = build(ta);
+    const plain = build({ ...ta, deck_haunch: undefined });
+    expect(g.warnings.some((w) => w.includes('deck_haunch'))).toBe(false);
+    for (const px of [120, 338]) {
+      expect(g.deckDepthAt(px)).toBeCloseTo(9.5, 9);
+      expect(soffitAt(g, px)).toBeCloseTo(g.deckY(px) - 9.5, 6);
+      // parabola: half-way out, a quarter of the extra depth
+      expect(g.deckDepthAt(px + 42.5)).toBeCloseTo(4 + 5.5 * 0.25, 9);
+      expect(g.deckDepthAt(px - 42.5)).toBeCloseTo(4 + 5.5 * 0.25, 9);
+      expect(g.deckDepthAt(px - 85)).toBeCloseTo(4, 9);
+    }
+    expect(g.deckDepthAt(229)).toBe(4); // mid-span: normal depth
+    expect(g.deckDepthAt(10)).toBe(4);
+    expect(g.deckDepth).toBe(4);
+    // deck top, cables and E untouched
+    expect(g.deckElevation).toBe(plain.deckElevation);
+    expect(g.cables).toEqual(plain.cables);
+    expect(maxTop(g)).toBeCloseTo(maxTop(plain), 6);
+    for (const dm of g.deckMeshes) expect(dm.positions.every(Number.isFinite)).toBe(true);
+  });
+
+  it('draws a continuous mesh even on a flat straight deck, and leaves bridges without it unchanged', () => {
+    const flat = build({ ...ta, deck_crest_m: undefined });
+    expect(flat.deckMeshes).toHaveLength(1);
+    expect(soffitAt(flat, 120)).toBeCloseTo(40.5 - 9.5, 6);
+    const none = build({ ...ta, deck_crest_m: undefined, deck_haunch: undefined });
+    expect(none.deckMeshes).toHaveLength(0);
+    expect(none.deckDepthAt(120)).toBe(4);
+  });
+
+  it('clamps at mid-span / unit end with a warning, ignores truss and too-shallow values, validates', () => {
+    const long = build({ ...ta, deck_haunch: { depth_at_pylon_m: 9.5, length_m: 200 } });
+    expect(long.warnings).toContain('deck_haunch clamped: it reaches mid-span or the unit end');
+    expect(long.deckDepthAt(229)).toBeCloseTo(4, 9); // half-way between the pylons
+    expect(long.deckDepthAt(0)).toBeCloseTo(4, 9); // unit end
+    const truss = build({ ...ta, deck_section: 'truss', deck_depth_m: 10 });
+    expect(truss.warnings).toContain('deck_haunch ignored for a truss deck');
+    expect(truss.deckDepthAt(120)).toBe(10);
+    const shallow = build({ ...ta, deck_haunch: { depth_at_pylon_m: 3, length_m: 85 } });
+    expect(shallow.warnings.some((w) => w.includes('not deeper'))).toBe(true);
+    expect(model3dProblems({ ...base, deck_haunch: { depth_at_pylon_m: 9.5, length_m: 85 } })).toEqual([]);
+    expect(model3dProblems({ ...base, deck_haunch: { depth_at_pylon_m: 9.5 } as never })).toContain('deck_haunch');
+    expect(model3dProblems({ ...base, deck_haunch: { depth_at_pylon_m: -1, length_m: 85 } })).toContain('deck_haunch');
+    expect(model3dProblems({ ...base, deck_haunch: { depth_at_pylon_m: 9.5, length_m: 85, x: 1 } as never })).toContain('deck_haunch');
+  });
+
+  it('under construction the cantilever meshes are haunched too', () => {
+    const g = build(ta, 'under_construction');
+    expect(g.deckMeshes).toHaveLength(2);
+    expect(soffitAt(g, 120)).toBeCloseTo(g.deckY(120) - 9.5, 6);
+  });
+});

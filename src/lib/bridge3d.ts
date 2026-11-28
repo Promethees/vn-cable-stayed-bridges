@@ -129,6 +129,8 @@ export interface BridgeGeometry {
   auxiliaryPiers: number[];
   /** deck surface height at station x (includes the crest) */
   deckY: (x: number) => number;
+  /** G17: girder depth at station x (deckDepth unless deck_haunch deepens it toward a pylon) */
+  deckDepthAt: (x: number) => number;
   /** vivid: G14 colour_mode "vivid" (hex colours keep their sRGB saturation); absent = muted */
   colours: { pylon?: string; stay?: string; backStay?: string; deck?: string; vivid?: true };
   /** world bounds of the stay-cabled unit (no approaches) */
@@ -764,6 +766,38 @@ export function buildBridgeGeometry(
   const mapV = (v: Vec3) => plan(v[0], v[1], v[2]);
   const mapBox = (b: Box): Box => ({ ...b, c: mapV(b.c), yaw: (b.yaw ?? 0) + yawAt(b.c[0]) });
 
+  // G17: haunched box girder. The deck top is unchanged; the soffit deepens toward each pylon on a parabola,
+  // deckDepth at length_m from the pylon → depth_at_pylon_m at the pylon. The length is clamped per side to half-way to
+  // the next pylon or to the unit end (warning). Truss decks ignore it; approaches are not haunched.
+  const haunch = m.deck_haunch;
+  let haunchOn = !!haunch && haunch.depth_at_pylon_m > 0 && haunch.length_m > 0;
+  if (haunchOn && truss) {
+    warnings.push('deck_haunch ignored for a truss deck');
+    haunchOn = false;
+  }
+  if (haunchOn && haunch!.depth_at_pylon_m <= deckDepth) {
+    warnings.push('deck_haunch: depth_at_pylon_m is not deeper than the deck, ignored');
+    haunchOn = false;
+  }
+  const pylonXs = pylons.map((p) => p.x).sort((a, b) => a - b);
+  const haunchLen = pylonXs.map((x, i) => {
+    const back = i > 0 ? (x - pylonXs[i - 1]) / 2 : x;
+    const fwd = i < pylonXs.length - 1 ? (pylonXs[i + 1] - x) / 2 : totalLength - x;
+    return [Math.min(haunch?.length_m ?? 0, back), Math.min(haunch?.length_m ?? 0, fwd)] as const;
+  });
+  if (haunchOn && haunchLen.some(([b, f]) => b < haunch!.length_m || f < haunch!.length_m))
+    warnings.push('deck_haunch clamped: it reaches mid-span or the unit end');
+  const deckDepthAt = (x: number) => {
+    if (!haunchOn) return deckDepth;
+    let f = 0;
+    pylonXs.forEach((px, i) => {
+      const s = Math.abs(x - px);
+      const L = x < px ? haunchLen[i][0] : haunchLen[i][1];
+      if (s < L) f = Math.max(f, (1 - s / L) ** 2);
+    });
+    return deckDepth + (haunch!.depth_at_pylon_m - deckDepth) * f;
+  };
+
   const deckPieces: Box[] = [];
   const deckMembers: Member[] = [];
   const pieceLen = R || crest ? 20 : Infinity;
@@ -802,26 +836,52 @@ export function buildBridgeGeometry(
         }
     }
   }
-  // continuous deck meshes for curved / cambered decks (box pieces would show an outline every 20 m)
+  // continuous deck meshes for curved / cambered / haunched decks (box pieces would show an outline every 20 m)
   const deckMeshes: SweepMesh[] = [];
-  if ((R || crest) && !truss)
+  if ((R || crest || haunchOn) && !truss)
     for (const seg of deckSegments) {
-      const n = Math.max(2, Math.ceil((seg.x1 - seg.x0) / 10));
+      let n = Math.max(2, Math.ceil((seg.x1 - seg.x0) / 10));
+      let xs = Array.from({ length: n + 1 }, (_, k) => seg.x0 + ((seg.x1 - seg.x0) * k) / n);
+      if (haunchOn) {
+        // G17: 2.5 m rings plus a ring at every pylon station so the haunch peaks exactly at the pier
+        const m2 = Math.max(2, Math.ceil((seg.x1 - seg.x0) / 2.5));
+        xs = Array.from({ length: m2 + 1 }, (_, k) => seg.x0 + ((seg.x1 - seg.x0) * k) / m2);
+        for (const px of pylonXs) if (px > seg.x0 && px < seg.x1 && !xs.some((x) => Math.abs(x - px) < 1e-6)) xs.push(px);
+        xs.sort((a, b) => a - b);
+        n = xs.length - 1;
+      }
       const positions: number[] = [];
       const indices: number[] = [];
-      for (let k = 0; k <= n; k++) {
-        const x = seg.x0 + ((seg.x1 - seg.x0) * k) / n;
+      for (const x of xs) {
         const yTop = deckY(x);
+        const d = deckDepthAt(x);
         // ring: bottom-left, bottom-right, top-right, top-left (z from -hw to +hw)
         for (const [y, z] of [
-          [yTop - deckDepth, -hw],
-          [yTop - deckDepth, hw],
+          [yTop - d, -hw],
+          [yTop - d, hw],
           [yTop, hw],
           [yTop, -hw],
         ] as const) {
           const p = plan(x, E, z);
           positions.push(p[0], y, p[2]);
         }
+      }
+      if (haunchOn) {
+        // G17: one vertex strip per face (8 vertices per ring), so the smooth normals of the deck top and sides do
+        // not blend with the deepening soffit (shared corners would band the top near each pylon)
+        const split: number[] = [];
+        const corner = (ring: number, k: number) => positions.slice((ring * 4 + k) * 3, (ring * 4 + k) * 3 + 3);
+        for (let i = 0; i <= n; i++) for (let k = 0; k < 4; k++) split.push(...corner(i, k), ...corner(i, (k + 1) % 4));
+        for (let i = 0; i < n; i++)
+          for (let k = 0; k < 4; k++) {
+            const a0 = i * 8 + 2 * k;
+            const a1 = (i + 1) * 8 + 2 * k;
+            indices.push(a0, a0 + 1, a1 + 1, a0, a1 + 1, a1);
+          }
+        const last = n * 8;
+        indices.push(0, 4, 2, 0, 6, 4, last, last + 2, last + 4, last, last + 4, last + 6);
+        deckMeshes.push({ positions: split, indices });
+        continue;
       }
       for (let i = 0; i < n; i++)
         for (let k = 0; k < 4; k++) {
@@ -840,7 +900,7 @@ export function buildBridgeGeometry(
     mapBox({ c: [totalLength + A / 2, (E + bankH) / 2 - apD / 2, 0], s: [Math.hypot(A, E - bankH), apD, W], pitch: -pitch }),
   ];
   const piers: Box[] = pierXs.map((px) => {
-    const h = deckY(px) - deckDepth;
+    const h = deckY(px) - deckDepthAt(px);
     const c = plan(px, 0, 0);
     return { c: [c[0], h / 2, c[2]], s: [pierT, h, 0.6 * W], yaw: yawAt(px) };
   });
@@ -909,6 +969,7 @@ export function buildBridgeGeometry(
     piers,
     auxiliaryPiers,
     deckY,
+    deckDepthAt,
     colours: {
       pylon: m.pylon_colour,
       stay: m.stay_colour,
