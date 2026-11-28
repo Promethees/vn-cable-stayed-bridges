@@ -841,6 +841,98 @@ describe.each(files)('%s', (file) => {
     }
   });
 
+  it('Phú Mỹ (round 10): modified-H pylons splayed to a cap, haunched upper beam + box under-deck beam (G13), crest, 139 m, grey stays', () => {
+    const b = bridges.find((x) => x.id === 'cau-phu-my');
+    if (!b?.model3d?.pylon_custom || file.endsWith('.sample.json')) return;
+    const m = b.model3d;
+    const pc = m.pylon_custom!;
+    expect(m.spans_m).toEqual([162.5, 380, 162.5]);
+    expect(m.auxiliary_piers_m).toBeUndefined();
+    expect(b.width_m).toBe(27.5);
+    expect(m.deck_width_m).toBe(27.5);
+    expect(b.construction_start).toBe(2005);
+    expect(b.nav_clearance?.height_m).toBe(45);
+    expect(b.nav_clearance?.width_m).toBe(250);
+    expect(pc.crossbeams_y_m).toBeUndefined();
+    expect(pc.panels).toHaveLength(2);
+    const g = buildBridgeGeometry(m, 'completed', { navClearance: b.nav_clearance })!;
+    expect(g.warnings).toEqual([]);
+    expect(g.deckElevation).toBe(40.8);
+    expect(g.deckDepth).toBe(2.5);
+    expect(g.auxiliaryPiers).toEqual([]);
+    expect(g.pylons.map((p) => p.x)).toEqual([162.5, 542.5]);
+    expect(g.deckY(352.5)).toBeCloseTo(48.8, 5);
+    expect(g.colours.stay).toBe('#7a7f85');
+    expect(g.colours.vivid).toBeFalsy();
+    // modified H: feet ≈ 1.3 × the deck c/c, tips ≈ 0.8 × it, with a kink at the deck
+    const [l0] = pc.legs.map((l) => l.centerline);
+    const zAt = (y: number) => {
+      for (let i = 1; i < l0.length; i++) {
+        const [, y0, z0] = l0[i - 1];
+        const [, y1, z1] = l0[i];
+        if (y >= y0 && y <= y1) return Math.abs(z0 + ((z1 - z0) * (y - y0)) / (y1 - y0));
+      }
+      throw new Error(`y ${y} outside the leg`);
+    };
+    expect(zAt(-36.9) / zAt(0)).toBeGreaterThan(1.25);
+    expect(zAt(-36.9) / zAt(0)).toBeLessThan(1.35);
+    expect(zAt(92.5) / zAt(0)).toBeGreaterThan(0.76);
+    expect(zAt(92.5) / zAt(0)).toBeLessThan(0.84);
+    const slopeBelow = (zAt(-3) - zAt(-36.9)) / 33.9;
+    const slopeAbove = (zAt(92.5) - zAt(3)) / 89.5;
+    expect(slopeBelow).toBeLessThan(-0.1); // splays outward going down
+    expect(slopeAbove).toBeLessThan(0); // leans gently inward going up
+    expect(Math.abs(slopeAbove)).toBeLessThan(Math.abs(slopeBelow) / 3); // kink at the deck
+    for (const p of g.pylons) {
+      const deck = g.deckY(p.x);
+      // ≈46.5 m deck at the pylons, tips 92.5 m above it, label 139 m (no scale_y)
+      expect(deck).toBeCloseTo(40.8 + 8 * (1 - (190 / 352.5) ** 2), 5);
+      expect(deck).toBeCloseTo(46.5, 0);
+      expect(p.heightAboveDeck).toBeCloseTo(92.5, 0);
+      expect(Math.round(p.labelHeight)).toBe(139);
+      expect(p.custom).toBe(true);
+      // 2 legs + 2 panels, no straight crossbeams
+      expect(p.sweeps).toHaveLength(4);
+      expect(p.members).toHaveLength(0);
+      const ysOf = (sw: { positions: ArrayLike<number> }) => {
+        const ys: number[] = [];
+        const mid: number[] = [];
+        const pn = sw.positions;
+        for (let i = 0; i < pn.length; i += 3) {
+          expect(Number.isFinite(pn[i]) && Number.isFinite(pn[i + 1]) && Number.isFinite(pn[i + 2])).toBe(true);
+          ys.push(pn[i + 1] - deck);
+          if (Math.abs(pn[i + 2]) < 1e-9) mid.push(pn[i + 1] - deck);
+        }
+        return { ys, mid };
+      };
+      // upper beam: top 59.5 (fillets to 63 at the legs), haunched soffit 44 at the legs → 51.2 at the crown
+      const up = ysOf(p.sweeps[2]);
+      expect(Math.max(...up.ys)).toBeCloseTo(63, 0);
+      expect(Math.min(...up.ys)).toBeCloseTo(44, 0);
+      expect(Math.min(...up.mid)).toBeCloseTo(51.2, 0);
+      expect(Math.max(...up.mid)).toBeCloseTo(59.5, 0);
+      // under-deck box beam: top just under the girder, bottom ≈9.4 m below the deck (below-deck y stretched by 1 + crest/E)
+      const s = 1 + (deck - 40.8) / 40.8;
+      const lo = ysOf(p.sweeps[3]);
+      expect(Math.max(...lo.ys)).toBeCloseTo(-2.2 * s, 0);
+      expect(Math.min(...lo.ys)).toBeCloseTo(-9.5 * s, 0);
+      expect(Math.min(...lo.mid)).toBeCloseTo(-8.2 * s, 0);
+      // a rectangular cap standing ≈4.5 m proud of the water
+      expect(p.caps).toHaveLength(1);
+      const cap = ysOf(p.caps[0]);
+      expect(Math.max(...cap.ys) + deck).toBeCloseTo(4.5, 0);
+      // 18 per side per plane (144 stays in all), anchored 46–90 m on the legs, in near-vertical planes on the deck edges
+      const cs = g.cables.filter((c) => c.pylon === p.index);
+      expect(cs).toHaveLength(18 * 2 * 2);
+      for (const c of cs) {
+        expect(c.top[1] - deck).toBeGreaterThan(45);
+        expect(c.top[1] - deck).toBeLessThan(91);
+        expect(Math.sign(c.top[2])).toBe(Math.sign(c.deck[2]));
+        expect(Math.abs(Math.abs(c.top[2]) - Math.abs(c.deck[2]))).toBeLessThan(2.5);
+      }
+    }
+  });
+
   it('pylon_custom has only schema keys (incl. G12 colours and G13 panels)', () => {
     const PC = new Set(['description', 'legs', 'crossbeams_y_m', 'crossbeam_depth_m', 'crown', 'struts', 'panels', 'pile_cap', 'anchor_zone', 'mirror_for_other_pylons', 'reference_images']);
     const LEG = new Set(['centerline', 'width_base_m', 'width_top_m', 'depth_base_m', 'depth_top_m', 'twist_deg', 'colour']);
