@@ -68,7 +68,10 @@ let server = null;
 let base = opts.url;
 if (!base) {
   const { createServer } = await import('vite');
-  server = await createServer({ root: ROOT, logLevel: 'error', server: { port: 5199, strictPort: false } });
+  // bind one explicit IPv4 address: with the default 'localhost', two concurrent runs (e.g. in
+  // separate git worktrees) can both claim port 5199, one on ::1 and one on 127.0.0.1, and the
+  // browser may then load the other run's server. Pinning the host makes the second run move on.
+  server = await createServer({ root: ROOT, logLevel: 'error', server: { host: '127.0.0.1', port: 5199, strictPort: false } });
   await server.listen();
   base = server.resolvedUrls.local[0];
 }
